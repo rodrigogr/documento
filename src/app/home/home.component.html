@@ -1,0 +1,31 @@
+<div class="row container-fluid ba__header-page">
+  <a routerLink='/'><div class="col-xs-3 bg-primary">
+    <div class="ba__bioacesso-header-logo"></div>
+  </div></a>
+  <div class="col-xs-4 bg-success" style="display: none">
+    <div class="ba__logo-condominio"></div>
+  </div>
+  <div class="col-xs-12 bg-success uppercase " style="margin-left: 2%;">
+    <h3 class="text-info Roboto-Thin" style="margin-top: 23px"><i class="icon-ba-house"></i>
+       Comunicação / <span class="text-primary">{{routeModuleName}}</span>
+    </h3>
+  </div>
+  <div class="col-xs-4 ba__lateral-feed" style="height: 100%; right: 0;">
+    <div class="ba__user-settings">
+      <img class="col-xs-6 photo" />
+      <div class="col-xs-16 ba__margin-left-15">
+        <h5 class="ba__font-size-15">
+          Administrador
+        </h5>
+      </div>
+      <div class="col-xs-2" style="margin-top: 10px">
+        <a style="text-decoration: none"><i class="icon-ba-logoff text-info ba__font-size-17 text-center ba__margin-horizontal-5"></i></a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row container-fluid ba__body-content ba__full-width">
+  <app-side-bar></app-side-bar>
+  <router-outlet></router-outlet>
+</div>

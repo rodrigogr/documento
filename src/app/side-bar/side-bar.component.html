@@ -1,0 +1,134 @@
+<div class="col-xs-3 ba__menuAdmin">
+  <div id='cssmenu' class="ba__admin-table-scroll">
+    <ul>
+      <!-- ENQUETES -->
+      <li class='has-sub'>
+        <a (click)="$('#enquetes').fadeToggle('fast', 'linear');">
+            <span style="text-transform: uppercase">
+            <i class="fa fa-check-square text-center text-primary" style="margin-right: 10px;"></i>
+            Assembleia
+            </span>
+            </a>
+        <ul id="enquetes" class="_menu_">
+          <li><a routerLink='/enquetes'><span>Cadastro</span></a></li>
+        </ul>
+      </li>
+      <!-- EMAIL -->
+      <li class='has-sub'>
+        <a>
+            <span style="text-transform: uppercase">
+              <i class="fa fa-envelope text-center text-primary" style="margin-right: 10px;"></i>
+              E-mail
+            </span>
+        </a>
+        <ul id="email" class="_menu_">
+          <li><a ><span>lançamentos estimados</span></a></li>
+          <li><a ><span>Simulação e cálculo</span></a></li>
+          <li><a ><span>lançamentos</span></a></li>
+        </ul>
+      </li>
+      <!-- MENSAGENS-->
+      <li class='has-sub'>
+        <a >
+            <span style="text-transform: uppercase;">
+            <i class="fa fa-commenting text-center text-primary" style="margin-right: 10px;"></i>
+            Mensagens
+            </span>
+        </a>
+        <ul id="mensagens" class="_menu_">
+          <li><a ><span>Lançamentos avulsos</span></a></li>
+          <li><a ><span>Pré-lançamentos</span></a></li>
+          <li><a ><span>Lançamentos recorrentes</span></a></li>
+          <li><a ><span>Simulação e cálculo</span></a></li>
+          <li><a ><span>Recebimento manual</span></a></li>
+          <li><a ><span>Recebimento automático</span></a></li>
+          <li><a ><span>Consulta de arquivo retorno</span></a></li>
+        </ul>
+      </li>
+      <!-- ENQUETES -->
+      <li class='has-sub'>
+        <a (click)="$('#enquetes').fadeToggle('fast', 'linear');">
+            <span style="text-transform: uppercase">
+            <i class="fa fa-check-square text-center text-primary" style="margin-right: 10px;"></i>
+            Enquetes
+            </span>
+            </a>
+        <ul id="enquetes" class="_menu_">
+          <li><a routerLink='/enquetes'><span>Enquetes</span></a></li>
+        </ul>
+      </li>
+      <!-- AGENDA -->
+      <li class='has-sub'>
+        <a (click)="$('#agenda').fadeToggle('fast', 'linear');">
+          <span style="text-transform: uppercase">
+            <i class="fa fa-calendar text-center text-primary" style="margin-right: 10px;"></i>
+            Agenda
+          </span>
+        </a>
+        <ul id="agenda" class="_menu_">
+          <li><a routerLink='/agenda'><span>Agenda</span></a></li>
+        </ul>
+      </li>
+      <!-- DOCUMENTOS -->
+      <li class='has-sub'>
+        <a (click)="$('#documentos').fadeToggle('fast', 'linear');">
+          <span style="text-transform: uppercase">
+            <i class="fa fa-file-text text-center text-primary" style="margin-right: 10px;"></i>
+            Documentos
+          </span>
+        </a>
+        <ul id="documentos" class="_menu_">
+          <li><a routerLink='/documentos'><span>Documentos</span></a></li>
+        </ul>
+      </li>
+      <!-- RESERVAS -->
+      <li class='has-sub'>
+        <a >
+            <span style="text-transform: uppercase">
+            <i class="fa fa-calendar-check-o text-center text-primary" style="margin-right: 10px;"></i>
+            Reservas
+            </span>
+            </a>
+        <ul id="reservas" class="_menu_">
+          <li><a ><span>Classificar</span></a></li>
+          <li>
+            <a><span>Acordo</span></a>
+            <p class="subMenus_"><a ><span>Simular </span></a></p>
+            <p class="subMenus_"><a ><span>Efetuados</span></a></p>
+          </li>
+          <li>
+            <a><span>Modelos</span></a>
+            <p class="subMenus_"><a ><span>Cobrança</span></a></p>
+            <p class="subMenus_"><a ><span>Quitação</span></a></p>
+          </li>
+          <li>
+            <a><span>Envios</span></a>
+            <p class="subMenus_"><a ><span>Cobrança </span></a></p>
+            <p class="subMenus_"><a ><span>Quitação</span></a></p>
+          </li>
+        </ul>
+      </li>
+      <!-- CHAMADOS -->
+      <li class='has-sub'>
+        <a >
+          <span style="text-transform: uppercase">
+            <i class="fa fa-exclamation-triangle text-center text-primary" style="margin-right: 10px;"></i>
+            Chamados
+          </span>
+        </a>
+      </li>
+      <!-- PRE CADASTROS -->
+      <li class='has-sub'>
+        <a >
+            <span style="text-transform: uppercase">
+            <i class="fa fa-pencil-square-o text-center text-primary" style="margin-right: 10px;"></i>
+            Pré-cadastros
+            </span>
+            </a>
+        <ul id="precadastros" class="_menu_">
+          <li><a ><span>Enviar E-mail</span></a></li>
+        </ul>
+      </li>
+    </ul>
+  </div>
+</div>

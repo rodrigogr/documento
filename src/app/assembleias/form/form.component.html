@@ -1,0 +1,99 @@
+<div class="modal-dialog ba__modal-contas-pagar" role="document">
+  <div class="modal-content modal-nova-assembleia" style="height: 800px;overflow: hidden;padding-top: 20px;">
+    <div class="modal-header ba__no-padding-top">
+      <h4 class="col-xs-21 modal-title Roboto-Thin ba__font-size-25">
+        <i class="icon-ba-attention text-center text-primary ba__margin-horizontal-5"></i>
+        <span>Nova Assembleia</span>
+      </h4>
+    </div>
+    <div class="row" style="border-bottom: 1px solid #ccc; padding: 10px 0; margin-bottom: 15px">
+      <div class="col-md-1 step-lancamento" ng-class="{'ok': data.stepStatus > 1}" style="margin-left: 10px">
+          <h2>1</h2>
+      </div>
+      <h5 class="col-md-3 uppercase off" style="margin-left: 15px; margin-right: 10px;">
+          <b>Informações</b>
+      </h5>
+      <div class="col-md-1 step-lancamento" ng-class="{'off': data.stepStatus < 2, 'ok': data.stepStatus > 2}" style="margin-left: 20px">
+          <h2>2</h2>
+      </div>
+      <h5 class="col-md-3 uppercase" style="margin-left: 15px; margin-right: 10px;">
+          <b>Anexos Gerais</b>
+      </h5>
+      <div class="col-md-1 step-lancamento " ng-class="{'off': data.stepStatus < 3, 'ok': data.stepStatus > 3}" style="margin-left: 20px">
+          <h2>3</h2>
+      </div>
+      <h5 class="col-md-3 uppercase" style="margin-left: 15px; margin-right: 10px">
+          <b>Perguntas</b>
+      </h5>
+      <div class="col-md-1 step-lancamento" ng-class="{'off': data.stepStatus < 4, 'ok': data.stepStatus > 4}" style="margin-left: 20px">
+          <h2>4</h2>
+      </div>
+      <h5 class="col-md-3 uppercase" style="margin-left: 15px; margin-right: 10px">
+          <b>Participantes</b>
+      </h5>
+      <div class="col-md-1 step-lancamento" ng-class="{'off': data.stepStatus < 5}" style="margin-left: 20px">
+          <h2>5</h2>
+      </div>
+      <h5 class="col-md-3 uppercase" style="margin-left: 15px">
+          <b>Confirmação</b>
+      </h5>
+    </div>    
+    <div class="modal-body ba__margin-top-15">
+      <form>
+        <div class="row">
+          <div class="form-group col-xs-24">
+            <div class="row ba__margin-bottom-30 ">
+              <div class="col-md-3">
+                <h5 class="text-right text-gray">Título</h5>
+              </div>
+              <div class="col-md-15 col-md-offset-1">
+                <input type="text" class="ba__input-modal" maxlength="80" style="text-transform:uppercase">
+              </div>
+            </div>
+            <div class="row ba__margin-bottom-30 ba__margin-top-20">
+              <div class="col-md-3">
+                <h5 class="text-right text-gray">Data da assembleia</h5>
+              </div>
+              <div class="col-md-10 col-md-offset-1">
+                <input type="date" class="ba__input-modal"/>
+              </div>
+            </div>
+            <div class="row ba__margin-bottom-30 ba__margin-top-20">
+              <div class="col-md-3">
+                <h5 class="text-right text-gray">Período de votação diferente</h5>
+              </div>
+              <div class="col-md-10 col-md-offset-1">
+                <input type="checkbox" class="ba__input-modal"/>
+              </div>
+            </div>
+            <div class="row ba__margin-bottom-30 ba__margin-top-20">
+              <div class="col-md-3">
+                <h5 class="text-right text-gray">Local</h5>
+              </div>
+              <div class="col-md-10 col-md-offset-1">
+                <input type="checkbox" class="ba__input-modal"/>
+              </div>
+            </div>
+            <div class="row ba__margin-bottom-30 ba__margin-top-20">
+              <div class="col-md-3">
+                <h5 class="text-right text-gray">Transmissão online</h5>
+              </div>
+              <div class="col-md-10 col-md-offset-1">
+                <input type="checkbox" class="ba__input-modal"/>
+                <input type="text" class="ba__input-modal" maxlength="80" style="text-transform:uppercase">
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-default btn-clear col-xs-8 col-xs-offset-6 btnVeiculo" data-dismiss="modal">
+					Cancelar
+				</button>
+      <button type="button" (click)="save()" class="btn btn-success col-xs-9 col-xs-push-1 btnFocus btnVeicul">
+					Salvar
+				</button>
+    </div>
+  </div>
+</div>

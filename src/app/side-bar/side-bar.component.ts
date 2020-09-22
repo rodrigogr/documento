@@ -10,7 +10,10 @@ export class SideBarComponent implements OnInit {
 
   constructor(private route: Router) { }
   $ = $;
+
+ 
   ngOnInit() {
-    $(`#${this.route.url.split('/')[1]}`).fadeToggle("fast", "linear");
+   // $(`#${this.route.url.split('/')[1]}`).fadeToggle("fast", "linear");
   }
+  
 }

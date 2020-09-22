@@ -3,18 +3,15 @@
     <ul>
       <!-- ENQUETES -->
       <li class='has-sub'>
-        <a (click)="$('#enquetes').fadeToggle('fast', 'linear');">
+        <a routerLink='/assembleias'>
             <span style="text-transform: uppercase">
-            <i class="fa fa-check-square text-center text-primary" style="margin-right: 10px;"></i>
-            Assembleia
+            <i class="fa fa-pencil-square-o text-center text-primary" style="margin-right: 10px;"></i>
+            Assembleias
             </span>
-            </a>
-        <ul id="enquetes" class="_menu_">
-          <li><a routerLink='/enquetes'><span>Cadastro</span></a></li>
-        </ul>
+        </a>
       </li>
       <!-- EMAIL -->
-      <li class='has-sub'>
+      <li class='has-sub' *ngIf="false">
         <a>
             <span style="text-transform: uppercase">
               <i class="fa fa-envelope text-center text-primary" style="margin-right: 10px;"></i>
@@ -28,7 +25,7 @@
         </ul>
       </li>
       <!-- MENSAGENS-->
-      <li class='has-sub'>
+      <li class='has-sub' *ngIf="false">
         <a >
             <span style="text-transform: uppercase;">
             <i class="fa fa-commenting text-center text-primary" style="margin-right: 10px;"></i>
@@ -46,7 +43,7 @@
         </ul>
       </li>
       <!-- ENQUETES -->
-      <li class='has-sub'>
+      <li class='has-sub' *ngIf="false">
         <a (click)="$('#enquetes').fadeToggle('fast', 'linear');">
             <span style="text-transform: uppercase">
             <i class="fa fa-check-square text-center text-primary" style="margin-right: 10px;"></i>
@@ -58,7 +55,7 @@
         </ul>
       </li>
       <!-- AGENDA -->
-      <li class='has-sub'>
+      <li class='has-sub' *ngIf="false">
         <a (click)="$('#agenda').fadeToggle('fast', 'linear');">
           <span style="text-transform: uppercase">
             <i class="fa fa-calendar text-center text-primary" style="margin-right: 10px;"></i>
@@ -70,7 +67,7 @@
         </ul>
       </li>
       <!-- DOCUMENTOS -->
-      <li class='has-sub'>
+      <li class='has-sub' *ngIf="false">
         <a (click)="$('#documentos').fadeToggle('fast', 'linear');">
           <span style="text-transform: uppercase">
             <i class="fa fa-file-text text-center text-primary" style="margin-right: 10px;"></i>
@@ -82,7 +79,7 @@
         </ul>
       </li>
       <!-- RESERVAS -->
-      <li class='has-sub'>
+      <li class='has-sub' *ngIf="false">
         <a >
             <span style="text-transform: uppercase">
             <i class="fa fa-calendar-check-o text-center text-primary" style="margin-right: 10px;"></i>
@@ -109,7 +106,7 @@
         </ul>
       </li>
       <!-- CHAMADOS -->
-      <li class='has-sub'>
+      <li class='has-sub' *ngIf="false">
         <a >
           <span style="text-transform: uppercase">
             <i class="fa fa-exclamation-triangle text-center text-primary" style="margin-right: 10px;"></i>
@@ -118,7 +115,7 @@
         </a>
       </li>
       <!-- PRE CADASTROS -->
-      <li class='has-sub'>
+      <li class='has-sub' *ngIf="false">
         <a >
             <span style="text-transform: uppercase">
             <i class="fa fa-pencil-square-o text-center text-primary" style="margin-right: 10px;"></i>

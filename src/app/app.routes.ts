@@ -20,6 +20,9 @@ const appRoutes: Routes = [
 			}, {
 				path: 'documentos',
 				loadChildren: './documentos/documentos.module#DocumentosModule'
+			}, {
+				path: 'assembleias',
+				loadChildren: './assembleias/assembleias.module#AssembleiasModule'
 			}
 		]
 	},

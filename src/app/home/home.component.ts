@@ -14,7 +14,14 @@ export class HomeComponent implements OnInit {
   routeModuleName;
 
   ngOnInit() {
-    this.routeModuleName = this.route.url.split('/')[1];
+    var routes = this.route.url.split('/');
+    console.log(routes);
+    if (routes.length > 2 ) {
+      this.routeModuleName = routes[1] + ' - ' + routes[2]
+    } else {
+      this.routeModuleName = this.route.url.split('/')[1];
+    }
+    
     this.route.events
       .filter(event => event instanceof NavigationStart)
       .subscribe((x: any) => this.routeModuleName = x.url.split('/')[1]);

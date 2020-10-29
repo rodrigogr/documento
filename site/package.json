@@ -1,0 +1,24 @@
+{
+  "name": "quick-setup",
+  "description": "Basic Gulp niceties for rapidly building stuff",
+  "version": "0.0.2",
+  "author": "Ben Frain",
+  "private": true,
+  "devDependencies": {
+    "gulp": "*",
+    "gulp-autoprefixer": "*",
+    "gulp-cache": "*",
+    "gulp-concat": "*",
+    "gulp-connect": "*",
+    "gulp-imagemin": "*",
+    "gulp-jshint": "^2.0.4",
+    "gulp-livereload": "*",
+    "gulp-notify": "*",
+    "gulp-rename": "*",
+    "gulp-sass": "*",
+    "gulp-uglify": "*",
+    "jshint": "^2.9.5",
+    "tiny-lr": "*"
+  },
+  "dependencies": {}
+}

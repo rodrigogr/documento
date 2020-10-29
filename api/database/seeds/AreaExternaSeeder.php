@@ -1,0 +1,20 @@
+<?php
+
+use Illuminate\Database\Seeder;
+
+class AreaExternaSeeder extends Seeder
+{
+    /**
+     * Run the database seeds.
+     *
+     * @return void
+     */
+    public function run()
+    {
+        //php artisan db:seed --class=EmailSeeder
+//        $start = microtime(true);
+//        echo "*** Iniciando os Seeders EmailSeeder ***";
+////        factory(\App\Models\AreaExterna::class, 20)->create();
+//        echo "\n*** Completo em " . round((microtime(true) - $start), 3) . "s ***";
+    }
+}

@@ -1,0 +1,40 @@
+#demonstrativo h5{
+	height: 20px;
+}
+
+.receber-titulo {
+	margin-left: 10%;
+}
+
+.fieldset-custom {
+	border-bottom: 1px solid #e2e2e2;
+	margin-bottom: 5%;
+}
+
+
+.ba__modal-demontrativo-baixa {
+	width: 80%;
+	margin: 5% auto;
+}
+
+.ba__modal-titulos-processados {
+	width: 90%;
+	/*margin: 6% auto;*/
+}
+
+.ba__modal-arquivo-retorno-receber-titulo {
+	width: 70%;
+	/*margin: 4% auto;*/
+}
+
+.ba__modal-body-arquivo-retorno-receber-titulo {
+	/*min-height: 90vh;*/
+	height: 60rem;
+	/*max-height: 500px;*/
+	overflow-y: auto;
+}
+
+.content-receber-titulo-consultar-arquivo {
+	height: 90vh;
+	margin: 5vh auto;
+}

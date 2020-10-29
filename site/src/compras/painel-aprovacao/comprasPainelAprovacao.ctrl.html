@@ -1,0 +1,1433 @@
+<link rel="stylesheet" href="src/compras/painel-aprovacao/comprasPainelAprovacao.ctrl.css">
+
+<div class="header">
+	<div header></div>
+</div>
+
+<div ng-init="ngOnInit()" class="row container-fluid ba__body-content ba__full-width">
+	<!--CONTAINER MENU-->
+	<div sidebar></div>
+	<!--CONTAINER SISTEMA-->
+
+	<div class="col-xs-21 ba__admin-container">
+		<!-- INICIO Tela Compra-->
+
+		<div class="col-xs-24 ba__admin-container-list">
+			<div class="row ba__admin-busca">
+				<div class="col-xs-24 input-group ba__admin-busca-input">
+					<div class="col-xs-10 compras">
+						<label>Descrição: </label>
+						<input ng-model="data.descricaoSelecionado" type="text" style="padding-left: 10px; height: 50px; border-bottom: 1px solid #cccccc; width: 80%; margin-left: 2px" ng-keydown="pesquisar()" ng-keypress="pesquisar()">
+					</div>
+					<div class="col-xs-2 col-md-offset-1 compras">
+						<label style="margin-top: 15px">Filtrar situações: </label>
+					</div>
+					<div class="col-xs-6">
+						<div class="input-group">
+							<select class="ba__input-select" enter ng-model="data.filtro" ng-change="filtrarSolicitacao()">
+								<option value='aguardando'>Aguardando aprovação</option>
+								<option value='aprovado'>Aprovadas/Em Andamento</option>
+								<option value='cancelado'>Canceladas</option>
+								<option value='todos'>Todas solicitações</option>
+							</select>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="row ba__admin-list">
+				<div class="row ba__margin-top-20">
+					<h3 class="col-md-15 Roboto-Light"><strong>{{data.pedidos.length}}</strong> pedidos encontrados</h3>
+				</div>
+				<div class="list-group ba__admin-table ba__margin-top-40" >
+					<a class="list-group-item disabled">
+						<div class="row uppercase">
+							<div class="col-xs-4">Situação.
+								<i class="ba__margin-horizontal-5"></i>
+							</div>
+							<div class="col-xs-4">Requerente
+								<i class="ba__margin-horizontal-5"></i>
+							</div>
+							<div class="col-xs-7">Descrição
+								<i class="ba__margin-horizontal-5"></i>
+							</div>
+							<div class="col-xs-3">Itens
+								<i class="ba__margin-horizontal-5"></i>
+							</div>
+							<div class="col-xs-3">Entrega Estimada
+								<i class="ba__margin-horizontal-5"></i>
+							</div>
+							<div class="col-xs-2 col-xs-offset-1 text-center">Ações
+								<i class="ba__margin-horizontal-5"></i>
+							</div>
+						</div>
+					</a>
+					<div class="ba__admin-table-scroll" style="height: 65%">
+						<a class="list-group-item ba__font-size-12 ba__pointer" ng-repeat="compra in data.pedidos" ng-click="editPedido(compra)">
+							<div class="row" style="overflow: visible">
+								<div class="col-xs-4">
+									<button type="button" ng-class="['col-xs-17','btn btn-primary','uppercase',
+									{'status-pendente': compra.pedido.status === 'Pendente'},
+									{'status-em-aberto': compra.pedido.status === 'Em Aberto'},
+									{'status-solicitado': compra.pedido.status === 'Solicitado'},
+									{'status-em-cotacao': compra.pedido.status === 'Em cotação'},
+									{'status-aprovacao-da-compra': compra.pedido.status === 'Aprovação da compra'},
+									{'status-compra-aprovada': compra.pedido.status === 'Compra aprovada'},
+									{'status-compra-aprovada': compra.pedido.status === 'Compra Provisionada'},
+									{'status-compra-encerrada': compra.pedido.status === 'Compra Encerrada'},
+									{'status-cancelado': compra.pedido.status === 'Cancelado'}]" style="font-size: 14px; margin-top: -5px; background: transparent; font-weight: bold; ">
+										<span class="">{{compra.pedido.status}}</span>
+									</button>
+								</div>
+								<div class="col-xs-4" style="overflow: hidden !important;">{{compra.pedido.requerente}}</div>
+								<div class="col-xs-7" style="overflow: hidden !important;">{{compra.pedido.descricao}}</div>
+								<div class="col-xs-3">{{compra.resumo}}</div>
+								<div class="col-xs-3">{{compra.pedido.expectativa_entrega | date:'dd/MM/y'}}</div>
+								<div class="col-xs-2  col-xs-offset-1 text-center">
+									<i class="icon-ba-view text-gray-medium ba__margin-left-35"></i>
+								</div>
+							</div>
+						</a>
+					</div>
+					<div class="col-md-10 col-md-offset-9" ng-if="pageCount">
+						<nav class="">
+							<ul class="pagination text-center">
+								<li>
+									<a aria-label="Previous" ng-click="updateList(current_page - 1)" class="ba__margin-right-15">
+										<span aria-hidden="true">&laquo; ANTERIOR</span>
+									</a>
+								</li>
+								<li ng-click="updateList(page)" ng-repeat="page in pages">
+									<a ng-class="page == current_page ? 'selected' : ''">{{page}}</a>
+								</li>
+								<li ng-if="pageCount > 5">
+									<a>...</a>
+								</li>
+								<li ng-if="pageCount > 5" ng-click="updateList(pageCount)">
+									<a ng-class="pageCount == current_page ? 'selected' : ''">{{pageCount}}</a>
+								</li>
+								<li>
+									<a aria-label="Next" ng-click="updateList(current_page + 1)" style="margin-left: 15px">
+										<span aria-hidden="true">PRÓXIMA &raquo;</span>
+									</a>
+								</li>
+							</ul>
+						</nav>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!--MODALS-->
+<div class="modal fade" id="errorPedido" tabindex="-999" role="dialog" style="z-index: 299000 !important;">
+	<div class="modal-dialog ba__modal-novo-equipamento" role="document">
+		<div class="modal-content">
+			<div class="modal-header ba__no-padding-top">
+				<h4 class="col-xs-21 modal-title Roboto-Thin ba__font-size-25">
+					<i class="icon-ba-attention text-center text-primary ba__margin-horizontal-5"></i>
+					<span>Problemas no cadastro</span>
+				</h4>
+			</div>
+			<div class="modal-body ba__modal-body-novo-equipamento ba__margin-top-15">
+				<div class="row" ng-repeat="(key, value) in data.errors">
+					<div class="form-group col-xs-24">
+						<h4 class="text-gray">{{key}} : {{value}}</h4>
+					</div>
+				</div>
+			</div>
+
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default btn-focus col-xs-12 col-xs-offset-12 btnFocus" ng-click="closeModalError()">
+					OK
+				</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="modal fade" id="deleteAlert" tabindex="-1" role="dialog" style="z-index: 299000 !important;">
+	<div class="modal-dialog ba__modal-loading" role="document">
+		<div class="modal-content">
+			<div class="modal-header ba__no-padding-top">
+				<h4 class="col-xs-21 modal-title Roboto-Thin ba__font-size-25">
+					<i class="icon-ba-attention text-center text-warning ba__margin-horizontal-5"></i>
+					<span>Confirmação</span>
+				</h4>
+			</div>
+			<div class="modal-body ba__modal-body-loading">
+				<form>
+					<div class="row ba__margin-top-30">
+						<h5 class="col-md-24 text-gray ba__margin-top-20">
+							<b>Deseja realmente concluir esta ação?</b>
+						</h5>
+					</div>
+				</form>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default btn-clear col-md-8 col-md-offset-7" ng-click="closeDeleteModal()">
+					cancelar
+				</button>
+				<button type="button" class="btn btn-danger-full col-md-8 col-md-offset-1 pull-right" ng-click="deletePedidos()">
+					DELETAR
+				</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="modal fade  s-p" id="novoPedido" tabindex="-1" role="dialog">
+	<div class="modal-dialog ba__modal-lancamento-avulso" role="document">
+		<div class="modal-content" style="height: 700px">
+			<div class="modal-header ba__no-padding-top">
+				<h4 class="col-xs-21 modal-title Roboto-Thin ba__font-size-25">
+					<i class="icon-ba-attention text-center text-primary ba__margin-horizontal-5"></i>
+					<span ng-show="!data.pedidoSelecionado.id">Novo pedido de solicitação</span>
+					<span ng-show="data.pedidoSelecionado.id">Solicitação de compra</span>
+				</h4>
+			</div>
+			<div class="modal-body ba__modal-body-tipo-lancamento ba__margin-top-7">
+				<form>
+					<div class="row">
+						<div class="form-group col-xs-24" id="lancamentos">
+							<div class="row ba__margin-bottom-30" ng-hide="!data.pedidoSelecionado.id" >
+								<div class="col-md-6">
+									<h5 class="text-right text-gray">Status</h5>
+								</div>
+								<div class="col-md-10 col-md-offset-1">
+									<span class="status {{data.pedidoSelecionado.status}}">{{data.pedidoSelecionado.status}}</span>
+								</div>
+							</div>
+							<div class="row ba__margin-bottom-30">
+								<div class="col-md-6">
+									<h5 class="text-right text-gray">Solicitado por</h5>
+								</div>
+								<div class="col-md-10 col-md-offset-1">
+									<input type="text" id="requerente" class="ba__input-modal" ng-model="data.pedidoSelecionado.requerente" ng-disabled="data.pedidoSelecionado.id">
+								</div>
+							</div>
+							<div class="row ba__margin-bottom-30" ng-hide="!data.pedidoSelecionado.id">
+								<div class="col-md-6">
+									<h5 class="text-right text-gray">Usuário solicitante</h5>
+								</div>
+								<div class="col-md-10 col-md-offset-1">
+									<input type="text" class="ba__input-modal" ng-model="data.pedidoSelecionado.solicitado.nome" ng-disabled="data.pedidoSelecionado.id">
+								</div>
+							</div>
+							<div class="row ba__margin-bottom-30">
+								<div class="col-md-6">
+									<h5 class="text-right text-gray">Departamento</h5>
+								</div>
+								<div class="col-md-10 col-md-offset-1">
+									<div class="input-group">
+										<select class="ba__input-select" enter ng-model="data.pedidoSelecionado.departamento" ng-disabled="data.pedidoSelecionado.id">
+											<option value=''>Selecione ...</option>
+											<option ng-repeat="dpto in data.departamentos" value="{{dpto.id}}">{{dpto.descricao}}</option>
+										</select>
+									</div>
+								</div>
+							</div>
+							<div class="row ba__margin-bottom-30">
+								<div class="col-md-6">
+									<h5 class="text-right text-gray">Descrição</h5>
+								</div>
+								<div class="col-md-10 col-md-offset-1">
+									<input type="text" class="ba__input-modal" ng-model="data.pedidoSelecionado.descricao" ng-disabled="data.pedidoSelecionado.id">
+								</div>
+							</div>
+							<div class="row ba__margin-bottom-50">
+								<div class="col-md-6">
+									<h5 class="text-right text-gray">Dt. Solicitação</h5>
+								</div>
+								<div class="col-md-10 col-md-offset-1">
+									<input type="date" class="ba__input-modal" ng-model="data.pedidoSelecionado.data_solicitacao" style="text-transform:uppercase"
+										   ng-disabled="data.pedidoSelecionado.id">
+								</div>
+							</div>
+							<div class="row ba__margin-bottom-50">
+								<div class="col-md-6">
+									<h5 class="text-right text-gray">Expectativa de entrega</h5>
+								</div>
+								<div class="col-md-10 col-md-offset-1">
+									<input type="date" class="ba__input-modal" ng-model="data.pedidoSelecionado.expectativa_entrega" style="text-transform:uppercase"
+										   ng-disabled="data.pedidoSelecionado.id">
+								</div>
+							</div>
+							<hr width=60% style="border-top: 1px solid #ca4a4a !important;">
+							<div class="row ba__margin-bottom-30" ng-hide="data.pedidoSelecionado.id">
+								<div class="col-md-6">
+									<h5 class="text-right text-gray">Tipo</h5>
+								</div>
+								<div class="col-md-10 col-md-offset-1">
+									<div class="input-group">
+										<select class="ba__input-select" enter ng-model="data.itemSelecionado.tipo_lancamento" ng-disabled="data.pedidoSelecionado.id" ng-change="tipoProduto()">
+											<option value=''>Selecione ...</option>
+											<option ng-repeat="option in data.grupoProdutos" value="{{option.id}}">{{option.descricao}}</option>
+										</select>
+									</div>
+								</div>
+							</div>
+							<div class="row ba__margin-bottom-30" ng-hide="data.pedidoSelecionado.id">
+								<div class="col-md-6">
+									<h5 class="text-right text-gray">Produto</h5>
+								</div>
+								<div class="col-md-10 col-md-offset-1">
+									<div class="input-group">
+										<select class="ba__input-select" enter ng-model="data.itemSelecionado.idproduto" ng-disabled="data.pedidoSelecionado.id || !data.itemSelecionado.tipo_lancamento">
+											<option value=''>Selecione ...</option>
+											<option ng-repeat="option in data.listaFilterProdutos" value="{{option.produto.id}}">{{option.produto.descricao}}</option>
+										</select>
+									</div>
+								</div>
+							</div>
+							<div class="row ba__margin-bottom-15" ng-hide="data.pedidoSelecionado.id">
+								<div class="col-md-6">
+									<h5 class="text-right text-gray">Quantidade</h5>
+								</div>
+								<div class="col-md-3 col-md-offset-1">
+									<input type="number" min="1" class="ba__input-modal" ng-model="data.itemSelecionado.quantidade" style="text-transform:uppercase"
+										   ng-disabled="data.pedidoSelecionado.id" ng-change="verificaValor()">
+								</div>
+							</div>
+						</div>
+						<button type="button" ng-click="adicionarItem()" class="btn btn-primary col-md-6 col-xs-offset-6 uppercase" ng-hide="data.pedidoSelecionado.id">
+							Adicionar item
+						</button>
+						<div class="row ba__admin-list">
+							<div class="list-group ba__admin-table ba__margin-top-20 col-md-24" style="height: auto; overflow: hidden">
+								<div class="list-group-item disabled col-md-24" style="height: 40px">
+									<div class="row uppercase">
+										<div class="col-xs-9">Tipo.
+											<i class="ba__margin-horizontal-5"></i>
+										</div>
+										<div class="col-xs-10">Produto
+											<i class="ba__margin-horizontal-5"></i>
+										</div>
+										<div class="col-xs-2">Quantidade
+											<i class="ba__margin-horizontal-5"></i>
+										</div>
+									</div>
+								</div>
+								<div class="ba__admin-table-scroll col-md-24" style="overflow: auto">
+									<div href class="list-group-item ba__font-size-12" style="height: 55px" ng-repeat="itemPedido in data.pedidoSelecionado.listaItens">
+										<div class="row">
+											<div class="col-xs-9" style="padding-top: 5px">
+												<b>{{itemPedido.tipo_lancamento}}</b>
+											</div>
+											<div class="col-xs-10" style="padding-top: 5px">
+												<b>{{itemPedido.nome}}</b>
+											</div>
+											<div class="col-xs-2 text-center" style="padding-top: 5px">
+												<b>{{itemPedido.quantidade}} {{itemPedido.tipo}} </b>
+											</div>
+											<div style="text-overflow: inherit;" class="col-xs-3 ba__padding-10" ng-hide="data.pedidoSelecionado.id">
+												<i class="icon-ba-trash text-gray-medium ba__margin-left-20 ba__font-size-15" ng-click="removerItem($index,itemPedido)"></i>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</form>
+			</div>
+			<div class="modal-footer">
+				<button type="button" ng-click="aprovarSolicitacao()" ng-if="accessPagina.inserir && (data.pedidoSelecionado.status !== 'Cancelado')" class="btn btn-success pull-right col-md-offset-1 col-md-8">
+					Aprovar solicitação
+				</button>
+				<button type="button" ng-click="confirmaNegarSolicitacao('SOLICITAÇÃO')" ng-if="accessPagina.inserir && (data.pedidoSelecionado.status !== 'Cancelado')" class="btn btn-danger-full col-md-6 pull-right">
+					Negar solicitação
+				</button>
+				<button type="button" data-dismiss="modal" class="btn btn-default btn-clear col-md-6 col-xs-pull-1 pull-right">
+					Fechar
+				</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="modal fade" id="negarAlert" tabindex="-1" role="dialog" style="z-index: 20099 !important;">
+	<div class="modal-dialog ba__modal-loading" role="document">
+		<div class="modal-content" style="width: 700px;height: 400px;">
+			<div class="modal-header ba__no-padding-top">
+				<h4 class="col-xs-21 modal-title Roboto-Thin ba__font-size-25">
+					<i class="icon-ba-attention text-center text-warning ba__margin-horizontal-5"></i>
+					<span>Confirmação</span>
+				</h4>
+			</div>
+			<div class="modal-body" style="height: 215px">
+				<form>
+					<div class="row ba__margin-top-5">
+						<h5 class="col-md-24 text-gray ba__margin-top-20">
+							<b>Deseja realmente concluir esta ação?</b>
+						</h5>
+					</div>
+                    <div class='form-group'>
+                        <div class='col-md-24'>
+                            <span class="ba__margin-bottom-7 pull-left">Descreva o motivo abaixo:</span>
+                            <textarea class='form-control'  style="height: 100px" ng-model='data.pedidoSelecionado.motivo_negado'></textarea>
+                        </div>
+                    </div>
+				</form>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default btn-clear col-md-8 col-md-offset-7"  data-dismiss="modal">
+					cancelar
+				</button>
+				<button type="button" class="btn btn-danger-full col-md-8 col-md-offset-1 pull-right" ng-click="negarPedido()">
+					NEGAR {{data.btnNome}}
+				</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="modal fade" id="emAberto" tabindex="-1" role="dialog">
+	<div class="modal-dialog modal-detalhe_pedido" role="document">
+		<div class="modal-content " style="height: 70%">
+			<div class="modal-header ba__no-padding-top">
+				<h4 class="col-xs-21 modal-title Roboto-Thin ba__font-size-25">
+					<i class="icon-ba-attention text-center text-primary ba__margin-horizontal-5"></i>
+					<span>Detalhes do pedido</span>
+				</h4>
+
+				<div class="row">
+					<div class="col-md-24 ba__margin-top-20">
+                        <div class="col-md-10">
+                            <div class="col-md-7">
+                                <h5 class="text-gray text-right">
+                                    <b>Departamento</b>
+                                </h5>
+                            </div>
+                            <div class="col-md-16 col-md-offset-1">
+                                <h5 class="text-left">{{data.pedidoSelecionado.departamento_desc.descricao}}</h5>
+                            </div>
+                            <div class="col-md-7">
+                                <h5 class="text-gray text-right">
+                                    <b>Requerente</b>
+                                </h5>
+                            </div>
+                            <div class="col-md-16 col-md-offset-1">
+                                <h5 class="text-left">{{data.pedidoSelecionado.requerente}}</h5>
+                            </div>
+                            <div class="col-md-7">
+                                <h5 class="text-gray text-right">
+                                    <b>Usuário solicitação</b>
+                                </h5>
+                            </div>
+                            <div class="col-md-16 col-md-offset-1">
+                                <h5 class="text-left">{{data.pedidoSelecionado.solicitado.nome}}</h5>
+                            </div>
+
+                            <div class="col-md-7">
+                                <h5 class="text-gray text-right">
+                                    <b>Situação</b>
+                                </h5>
+                            </div>
+                            <div class="col-md-9 col-md-offset-1">
+                                <button type="button" class="col-xs-17 btn btn-primary uppercase status-em-aberto" style="font-size: 14px; margin-top: 2px; background: transparent">
+                                    <span>{{data.pedidoSelecionado.status}}</span>
+                                </button>
+                            </div>
+
+                        </div>
+                        <div class="col-md-12 col-md-offset-2">
+                            <div class="col-md-7">
+                                <h5 class="text-gray">
+                                    <b>Dt. Solicitação</b>
+                                </h5>
+                            </div>
+                            <div class="col-md-17">
+                                <h5>{{data.pedidoSelecionado.data_solicitacao | date : 'dd/MM/y'}}</h5>
+                            </div>
+                            <div class="col-md-7">
+                                <h5 class="text-gray">
+                                    <b>Expec. de entrega</b>
+                                </h5>
+                            </div>
+                            <div class="col-md-17">
+                                <h5>{{data.pedidoSelecionado.expectativa_entrega | date : 'dd/MM/y'}}</h5>
+                            </div>
+                            <div class="col-md-3">
+                                <h5 class="text-gray text-right">
+                                    <b>Descrição</b>
+                                </h5>
+                            </div>
+                            <div class="col-md-16 col-md-offset-1">
+                                <h5 class="text-left">{{data.pedidoSelecionado.descricao}}</h5>
+                            </div>
+                        </div>
+					</div>
+                    <div class="col-md-24 ba__margin-top-20" style="border:1px solid red" ng-if="data.pedidoSelecionado.motivo_negado !== ''" >
+                        <div class="col-md-4">
+                            <h5 class="text-gray text-right">
+                                <b>Motivo Pedido Negado</b>
+                            </h5>
+                        </div>
+                        <div class="col-md-17 col-md-offset-1" title="Clique para ver o texto" style="overflow: auto; padding-top: 9px;">
+                            {{data.pedidoSelecionado.motivo_negado}}
+                        </div>
+                    </div>
+				</div>
+			</div>
+			<div class="modal-body ba__modal-body-contas-a-pagar ba__margin-top-7" style="overflow: auto;" id="answer">
+
+				<div class="row">
+					<h4>Itens</h4>
+					<div class="list-group ba__admin-table ba__margin-top-20 col-md-24" style="height: auto; overflow: auto">
+						<a href="javascript:" class="list-group-item disabled col-md-24">
+							<div class="row uppercase">
+								<div class="col-xs-4">Tipo
+									<i class="ba__margin-horizontal-5"></i>
+								</div>
+								<div class="col-xs-12">Produto
+									<i class="ba__margin-horizontal-5"></i>
+								</div>
+								<div class="col-xs-6">Quantidade
+									<i class="ba__margin-horizontal-5"></i>
+								</div>
+							</div>
+						</a>
+						<div class="ba__admin-table-scroll col-md-24" style="overflow: auto">
+							<a href="javascript:" class="list-group-item ba__font-size-12" ng-repeat="pedido in data.pedidoSelecionado.listaItens">
+								<div class="row">
+									<div class="col-xs-4">
+										<b>{{pedido.tipo_lancamento}}</b>
+									</div>
+									<div class="col-xs-12">
+										<b>{{pedido.nome}}</b>
+									</div>
+									<div class="col-xs-6">
+										<b>{{pedido.quantidade}} unidades</b>
+									</div>
+								</div>
+							</a>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="modal-footer" style="padding: 0; padding-top: 25px">
+				<button type="button" data-dismiss="modal" class="btn btn-default col-md-4 pull-right">
+					Fechar
+				</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="modal fade s-p" id="novoFornecedor" tabindex="-1" role="dialog" style="z-index: 298999 !important;">
+	<div class="modal-dialog ba__modal-loading" role="document" style="width: 900px">
+		<div class="modal-content">
+			<div class="modal-header ba__no-padding-top">
+				<h4 class="col-xs-21 modal-title Roboto-Thin ba__font-size-25">
+					<i class="icon-ba-attention text-center text-danger ba__margin-horizontal-5"></i>
+					<span>Novo fornecedor</span>
+				</h4>
+			</div>
+			<div class="modal-body ba__modal-body-contas-a-pagar ba__margin-top-7" style="height: 600px;overflow: auto;">
+				<form>
+					<div class="row ba__margin-top-55">
+						<div class="col-md-4">
+							<h4 class="text-right text-gray">Fornecedores</h4>
+						</div>
+						<div class="col-md-6 col-md-offset-1">
+							<select class="ba__input-select" enter ng-model="data.empresaSelecionadaNova">
+								<option value=''>Selecione ...</option>
+								<option ng-repeat="option in data.empresas track by $index" value="{{option.id}}">{{option.nome_fantasia}}</option>
+							</select>
+						</div>
+						<div class="col-md-12">
+							<button type="button" ng-click="adicionarEmpresaNova()" class="btn btn-primary col-md-8 col-xs-offset-6 uppercase">
+								Adicionar
+							</button>
+						</div>
+					</div>
+					<div class="row ba__margin-top-40">
+						<div ng-repeat="fornecedores in data.listaEmpresasNovas track by fornecedores.id ">
+							<span class="modal-tag">{{fornecedores.nome_fantasia}}
+								<a href ng-click="excluirEmpresaNova($index)">
+									<i class="icon-ba-trash"></i>
+								</a>
+							</span>
+						</div>
+					</div>
+				</form>
+			</div>
+			<div class="modal-footer">
+				<button type="button" data-dismiss="modal" class="btn btn-default btn-clear col-md-3">
+					Cancelar
+				</button>
+				<button type="button" type="submit" class="btn btn-success col-md-8 col-md-offset-1 pull-right" ng-click="adicionarEmpresaCotacao()">
+					Inserir somente
+				</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="modal fade" id="emCotacao" tabindex="-1" role="dialog">
+	<div class="modal-dialog modal-detalhe_pedido" role="document">
+		<div class="modal-content" style="height: 800px">
+			<div class="modal-header ba__no-padding-top">
+				<h4 class="col-xs-21 modal-title Roboto-Thin ba__font-size-25">
+					<i class="icon-ba-attention text-center text-primary ba__margin-horizontal-5"></i>
+					<span>Detalhes do pedido</span>
+				</h4>
+
+				<div class="row">
+					<div class="col-md-24 ba__margin-top-20">
+                        <div class="col-md-10">
+                            <div class="col-md-7">
+                                <h5 class="text-gray text-right">
+                                    <b>Departamento</b>
+                                </h5>
+                            </div>
+                            <div class="col-md-16 col-md-offset-1">
+                                <h5 class="text-left">{{data.pedidoSelecionado.departamento_desc.descricao}}</h5>
+                            </div>
+                            <div class="col-md-7">
+                                <h5 class="text-gray text-right">
+                                    <b>Requerente</b>
+                                </h5>
+                            </div>
+                            <div class="col-md-16 col-md-offset-1">
+                                <h5 class="text-left">{{data.pedidoSelecionado.requerente}}</h5>
+                            </div>
+                            <div class="col-md-7">
+                                <h5 class="text-gray text-right">
+                                    <b>Usuário solicitação</b>
+                                </h5>
+                            </div>
+                            <div class="col-md-16 col-md-offset-1">
+                                <h5 class="text-left">{{data.pedidoSelecionado.solicitado.nome}}</h5>
+                            </div>
+
+                            <div class="col-md-7">
+                                <h5 class="text-gray text-right">
+                                    <b>Situação</b>
+                                </h5>
+                            </div>
+                            <div class="col-md-9 col-md-offset-1">
+                                <button type="button" class="col-xs-17 btn btn-primary uppercase status-em-cotacao" style="font-size: 14px; margin-top: 2px; background: transparent">
+                                    <span class="">Em cotação</span>
+                                </button>
+                            </div>
+
+                        </div>
+                        <div class="col-md-12 col-md-offset-2">
+                            <div class="col-md-7">
+                                <h5 class="text-gray">
+                                    <b>Dt. Solicitação</b>
+                                </h5>
+                            </div>
+                            <div class="col-md-17">
+                                <h5>{{data.pedidoSelecionado.data_solicitacao | date : 'dd/MM/y'}}</h5>
+                            </div>
+                            <div class="col-md-7">
+                                <h5 class="text-gray">
+                                    <b>Expec. de entrega</b>
+                                </h5>
+                            </div>
+                            <div class="col-md-17">
+                                <h5>{{data.pedidoSelecionado.expectativa_entrega | date : 'dd/MM/y'}}</h5>
+                            </div>
+                            <div class="col-md-3">
+                                <h5 class="text-gray text-right">
+                                    <b>Descrição</b>
+                                </h5>
+                            </div>
+                            <div class="col-md-16 col-md-offset-1">
+                                <h5 class="text-left">{{data.pedidoSelecionado.descricao}}</h5>
+                            </div>
+                        </div>
+					</div>
+				</div>
+			</div>
+			<div class="modal-body ba__modal-body-contas-a-pagar ba__margin-top-7" style="overflow: auto;">
+
+				<div ng-repeat="fornecedor in data.pedidoSelecionado.listaFornecedores track by $index">
+					<div class="row">
+						<div class="row ba__margin-top-20">
+							<div class="col-xs-23">
+								<h4>#{{($index+1)+' '+fornecedor.nome_fantasia}}</h4>
+							</div>
+						</div>
+						<div class="list-group ba__admin-table ba__margin-top-20 col-md-24" style="height: auto; overflow: auto">
+							<a href="javascript:" class="list-group-item disabled col-md-24">
+								<div class="row uppercase">
+									<div class="col-xs-10">Item
+										<i class="ba__margin-horizontal-5"></i>
+									</div>
+									<div class="col-xs-3">QNT.
+										<i class="ba__margin-horizontal-5"></i>
+									</div>
+									<div class="col-xs-3">QNT.
+										<i class="ba__margin-horizontal-5"></i>
+									</div>
+									<div class="col-xs-4">Valor Unit.
+										<i class="ba__margin-horizontal-5"></i>
+									</div>
+									<div class="col-xs-4">Valor Total
+										<i class="ba__margin-horizontal-5"></i>
+									</div>
+								</div>
+							</a>
+							<div class="ba__admin-table-scroll col-md-24" style="overflow: auto">
+								<a href="javascript:" class="list-group-item ba__font-size-12" ng-repeat="item in fornecedor.listaItens">
+									<div class="row">
+										<div class="col-xs-10">
+											<b>{{item.nome}}</b>
+										</div>
+										<div class="col-xs-3">
+											<b>{{item.quantidade}}</b>
+										</div>
+										<div class="col-xs-3">
+                                            <span>{{item.quantidadeFornecedor}}</span>
+										</div>
+										<div class="col-xs-4">
+                                            <span>{{item.valorUnitarioFornecedor | currency:'R$ '}}</span>
+										</div>
+										<div class="col-xs-4">{{item.valorTotal | currency:'R$ '}}</div>
+									</div>
+								</a>
+							</div>
+						</div>
+					</div>
+
+					<div class="row ba__font-size-12 ba__margin-top-10">
+						<div class="col-xs-1">
+							<b>Total:</b>
+						</div>
+						<div class="col-xs-3">{{fornecedor.valorTotal | currency:'R$ '}}</div>
+						<div class="col-xs-2">
+							<b>Acréscimos:</b>
+						</div>
+						<div class="col-xs-3">{{fornecedor.acrescimo | currency: 'R$ '}}</div>
+						<div class="col-xs-2">
+							<b>Descontos:</b>
+						</div>
+						<div class="col-xs-3">{{fornecedor.desconto | currency: 'R$ '}}</div>
+						<div class="col-xs-2">
+							<b>Total geral:</b>
+						</div>
+						<div class="col-xs-3">{{fornecedor.valorTotalCalculado | currency:'R$ '}}</div>
+					</div>
+					<div class="row ba__font-size-12 ba__margin-top-30">
+						<div class="col-xs-2">
+							<b>Observação:</b>
+						</div>
+						<div class="col-xs-17">
+							<input type="text" class="ba__input-modal" ng-model="fornecedor.observacao" style="text-transform:uppercase;width: 90%;padding: 0;margin-top: -10px;">
+						</div>
+					</div>
+
+					<hr class="ba__margin-top-55" style="border-top: 1px solid #e2e2e2;">
+				</div>
+			</div>
+			<div class="modal-footer" style="padding: 0; padding-top: 25px">
+                <button type="button" data-dismiss="modal" class="btn btn-default btn-clear col-md-4 col-xs-pull-1 pull-right">
+                    Fechar
+                </button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="modal fade" id="compraAprovada" tabindex="-1" role="dialog">
+	<div class="modal-dialog modal-detalhe_pedido" role="document">
+		<div class="modal-content" style="height: 700px">
+			<div class="modal-header ba__no-padding-top">
+				<h4 class="col-xs-21 modal-title Roboto-Thin ba__font-size-25">
+					<i class="icon-ba-attention text-center text-primary ba__margin-horizontal-5"></i>
+					<span>Detalhes do pedido</span>
+				</h4>
+
+				<div class="row">
+					<div class="col-md-24 ba__margin-top-20">
+						<div class="col-md-12">
+							<div class="col-md-4">
+								<h5 class="text-gray text-right">
+									<b>Descrição</b>
+								</h5>
+							</div>
+							<div class="col-md-19 col-md-offset-1">
+								<h5 class="text-left">{{data.pedidoSelecionado.descricao}}</h5>
+							</div>
+
+							<div class="col-md-4">
+								<h5 class="text-gray text-right">
+									<b>Situação</b>
+								</h5>
+							</div>
+							<div class="col-md-9 col-md-offset-1">
+								<button type="button" class="col-xs-17 btn btn-primary uppercase status-compra-aprovada" style="cursor:default;font-size: 14px; margin-top: 2px; background: transparent;width: 200px!important;">
+									<span class="">Compra aprovada</span>
+								</button>
+							</div>
+
+						</div>
+						<div class="col-md-10 col-md-offset-2">
+							<div class="col-md-9">
+								<h5 class="text-gray">
+									<b>Expec. de entrega</b>
+								</h5>
+							</div>
+							<div class="col-md-12">
+								<h5>{{data.pedidoSelecionado.expectativa_entrega | date : 'dd/MM/y'}}</h5>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="modal-body ba__modal-body-contas-a-pagar ba__margin-top-7" style="overflow: auto;">
+				<div ng-repeat="fornecedor in data.pedidoSelecionado.listaFornecedores track by $index">
+					<div class="row" ng-show="fornecedor.status === 'Aprovado'">
+						<div class="row">
+							<div class="col-xs-24">
+								<h4>{{fornecedor.nome_fantasia}}</h4>
+							</div>
+						</div>
+						<div class="list-group ba__admin-table ba__margin-top-20 col-md-24" style="height: auto; overflow: auto">
+							<a href="javascript:" class="list-group-item disabled col-md-24">
+								<div class="row uppercase">
+									<div class="col-xs-10">Item
+										<i class="ba__margin-horizontal-5"></i>
+									</div>
+									<div class="col-xs-3">QNT.
+										<i class="ba__margin-horizontal-5"></i>
+									</div>
+									<div class="col-xs-3">QNT.
+										<i class="ba__margin-horizontal-5"></i>
+									</div>
+									<div class="col-xs-4">Valor Unit.
+										<i class="ba__margin-horizontal-5"></i>
+									</div>
+									<div class="col-xs-4">Valor Total
+										<i class="ba__margin-horizontal-5"></i>
+									</div>
+								</div>
+							</a>
+							<div class="ba__admin-table-scroll col-md-24" style="overflow: auto">
+								<a href="javascript:" class="list-group-item ba__font-size-12" ng-repeat="item in fornecedor.listaItens">
+									<div class="row">
+										<div class="col-xs-10">
+											<b>{{item.nome}}</b>
+										</div>
+										<div class="col-xs-3">
+											<b>{{item.quantidade}}</b>
+										</div>
+										<div class="col-xs-3">{{item.quantidadeFornecedor | currency:'R$ '}}</div>
+										<div class="col-xs-4">{{item.valorUnitarioFornecedor | currency:'R$ '}}</div>
+										<div class="col-xs-4">{{item.valorTotal | currency:'R$ '}}</div>
+									</div>
+								</a>
+							</div>
+						</div>
+
+
+						<div class="row ba__font-size-12 ba__margin-top-10" ng-show="fornecedor.status === 'Aprovado'">
+							<div class="col-xs-1">
+								<b>Total:</b>
+							</div>
+							<div class="col-xs-3">{{fornecedor.valorTotal | currency:'R$ '}}</div>
+							<div class="col-xs-2">
+								<b>Acréscimos:</b>
+							</div>
+							<div class="col-xs-3">
+								<input type="number" ng-disabled="true" min="0.00" max="10000.00" step="0.01" class="ba__input-modal" style="text-transform:uppercase;width: 90%;padding: 0;margin-top: -10px;"
+								  ng-change="alterarValorCalculado(fornecedor)" ng-model="fornecedor.acrescimo">
+							</div>
+							<div class="col-xs-2">
+								<b>Descontos:</b>
+							</div>
+							<div class="col-xs-3">
+								<input type="number" ng-disabled="true" min="0.00" max="10000.00" step="0.01" class="ba__input-modal" ng-change="alterarValorCalculado(fornecedor)"
+								  ng-model="fornecedor.desconto" style="text-transform:uppercase;width: 90%;padding: 0;margin-top: -10px;">
+							</div>
+							<div class="col-xs-2">
+								<b>Total geral:</b>
+							</div>
+							<div class="col-xs-3">{{fornecedor.valorTotalCalculado | currency:'R$ '}}</div>
+						</div>
+						<div class="row ba__font-size-12 ba__margin-top-30">
+							<div class="col-xs-2">
+								<b>Observação:</b>
+							</div>
+							<div class="col-xs-17">
+								<input type="text" class="ba__input-modal" ng-model="fornecedor.observacao" ng-disabled="true" style="text-transform:uppercase;width: 90%;padding: 0;margin-top: -10px;">
+							</div>
+						</div>
+
+					</div>
+				</div>
+			</div>
+			<div class="modal-footer" style="padding: 0; padding-top: 25px">
+				<button type="button" data-dismiss="modal" class="btn btn-default btn-clear col-md-4 col-xs-pull-1 pull-right">
+					Fechar
+				</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="modal fade" id="aprovacaoCompra" tabindex="-1" role="dialog">
+	<div class="modal-dialog modal-detalhe_pedido" role="document">
+		<div class="modal-content" style="height: 850px;padding-top: 22px;">
+			<div class="modal-header ba__no-padding-top" style="padding-bottom: 18px;">
+				<h4 class="col-xs-21 modal-title Roboto-Thin ba__font-size-25">
+					<i class="icon-ba-attention text-center text-primary ba__margin-horizontal-5"></i>
+					<span>Aprovação do pedido</span>
+				</h4>
+
+				<div class="row">
+					<div class="col-md-24 ba__margin-top-20">
+						<div class="col-md-12">
+							<div class="col-md-4">
+								<h5 class="text-gray text-right">
+									<b>Departamento</b>
+								</h5>
+							</div>
+							<div class="col-md-19 col-md-offset-1">
+								<h5 class="text-left">{{data.pedidoSelecionado.departamento_desc.descricao}}</h5>
+							</div>
+							<div class="col-md-4">
+								<h5 class="text-gray text-right">
+									<b>Descrição</b>
+								</h5>
+							</div>
+							<div class="col-md-19 col-md-offset-1">
+								<h5 class="text-left">{{data.pedidoSelecionado.descricao}}</h5>
+							</div>
+
+							<div class="col-md-4">
+								<h5 class="text-gray text-right">
+									<b>Situação</b>
+								</h5>
+							</div>
+							<div class="col-md-9 col-md-offset-1">
+                                <button type="button" ng-class="['col-xs-17','btn btn-primary','uppercase',
+									{'status-aprovacao-da-compra': data.pedidoSelecionado.status === 'Aprovação da compra'},
+									{'status-cancelado': data.pedidoSelecionado.status === 'Cancelado'}]" style="cursor:default;font-size: 14px; margin-top: 2px; background: transparent;width: 200px!important;">
+                                    <span class="">{{data.pedidoSelecionado.status}}</span>
+                                </button>
+							</div>
+
+						</div>
+						<div class="col-md-10 col-md-offset-2">
+							<div class="col-md-9">
+								<h5 class="text-gray">
+									<b>Expec. de entrega</b>
+								</h5>
+							</div>
+							<div class="col-md-12">
+								<h5>{{data.pedidoSelecionado.expectativa_entrega | date : 'dd/MM/y'}}</h5>
+							</div>
+                            <div class="col-md-9">
+                                <h5 class="text-gray">
+                                    <b>Dt. Solicitação</b>
+                                </h5>
+                            </div>
+                            <div class="col-md-12">
+                                <h5>{{data.pedidoSelecionado.data_solicitacao | date : 'dd/MM/y'}}</h5>
+                            </div>
+                            <div class="col-md-9">
+                                <h5 class="text-gray">
+                                    <b>Requerente</b>
+                                </h5>
+                            </div>
+                            <div class="col-md-12">
+                                <h5>{{data.pedidoSelecionado.requerente}}</h5>
+                            </div>
+                            <div class="col-md-9">
+                                <h5 class="text-gray">
+                                    <b>Solicitação Usuário</b>
+                                </h5>
+                            </div>
+                            <div class="col-md-12">
+                                <h5>{{data.pedidoSelecionado.solicitado.nome}}</h5>
+                            </div>
+						</div>
+					</div>
+                    <div class="col-md-24 ba__margin-top-20" style="border:1px solid red" ng-if="data.pedidoSelecionado.motivo_negado !== ''" >
+                        <div class="col-md-4">
+                            <h5 class="text-gray text-right">
+                                <b>Motivo Pedido Negado</b>
+                            </h5>
+                        </div>
+                        <div class="col-md-17 col-md-offset-1" title="Clique para ver o texto" style="overflow: auto; padding-top: 9px;">
+                            {{data.pedidoSelecionado.motivo_negado}}
+                        </div>
+                    </div>
+				</div>
+			</div>
+			<div class="modal-body ba__margin-top-7" style="overflow: auto;{{data.pedidoSelecionado.motivo_negado ? 'height: 464px' : 'height: 495px'; }}">
+
+				<div class="row fornecedores-cotacao" ng-repeat="fornecedor in data.pedidoSelecionado.listaFornecedores track by $index">
+					<div class="row ba__margin-top-20">
+						<div class="col-xs-7">
+							<h4>#{{($index + 1)+' '+fornecedor.nome_fantasia}}</h4>
+						</div>
+						<div class="col-xs-4"  ng-if="data.pedidoSelecionado.status !== 'Cancelado'">
+							<button type="button" class="btn btn-success" ng-click="aprovarPedidoValor(fornecedor)">
+								APROVAR COMPRA
+							</button>
+						</div>
+						<div class="col-xs-4 col-xs-offset-1">
+							<button type="button" class="btn uppercase status-compra-aprovada uppercase" ng-show="fornecedor.melhorPreco === true"
+							  style="font-size: 14px; margin-top: 2px">
+								<span class="">Melhor Cotação</span>
+							</button>
+						</div>
+					</div>
+					<div class="list-group ba__admin-table ba__margin-top-20 col-md-24" style="height: auto; overflow: auto">
+						<a href="javascript:" class="list-group-item disabled col-md-24">
+							<div class="row uppercase">
+								<div class="col-xs-8">Item
+									<i class="ba__margin-horizontal-5"></i>
+								</div>
+								<div class="col-xs-3">QNT.
+									<i class="ba__margin-horizontal-5"></i>
+								</div>
+								<div class="col-xs-3">QNT.
+									<i class="ba__margin-horizontal-5"></i>
+								</div>
+								<div class="col-xs-3">Valor Unit.
+									<i class="ba__margin-horizontal-5"></i>
+								</div>
+								<div class="col-xs-3">Valor Total
+									<i class="ba__margin-horizontal-5"></i>
+								</div>
+								<div class="col-xs-2">&nbsp;</div>
+							</div>
+						</a>
+						<div class="ba__admin-table-scroll col-md-24" style="overflow: auto">
+							<a href="javascript:" class="list-group-item ba__font-size-12" ng-repeat="item in fornecedor.listaItens">
+								<div class="row">
+									<div class="col-xs-8">
+										<b>{{item.nome}}</b>
+									</div>
+									<div class="col-xs-3">
+										<b>{{item.quantidade}}</b>
+									</div>
+									<div class="col-xs-3">{{item.quantidadeFornecedor}}</div>
+									<div class="col-xs-3">{{item.valorUnitarioFornecedor}}</div>
+									<div class="col-xs-3">{{item.valorTotal | currency:'R$ '}}</div>
+									<div class="col-xs-2">
+										<button type="button" class="btn uppercase status-compra-aprovada uppercase" style="font-size: 14px; margin-top: -5px"
+										  ng-show="item.melhorPreco === true">
+											<span class="">Melhor Preço</span>
+										</button>
+									</div>
+								</div>
+							</a>
+						</div>
+					</div>
+					<div class="row ba__font-size-12 ba__margin-top-10">
+						<div class="col-xs-1">
+							<b>Total:</b>
+						</div>
+						<div class="col-xs-3">{{fornecedor.valorTotal | currency:'R$ '}}</div>
+						<div class="col-xs-2">
+							<b>Acréscimos:</b>
+						</div>
+						<div class="col-xs-3">{{fornecedor.acrescimo | currency:'R$ '}}</div>
+						<div class="col-xs-2">
+							<b>Descontos:</b>
+						</div>
+						<div class="col-xs-3">{{fornecedor.desconto | currency:'R$ '}}</div>
+						<div class="col-xs-2">
+							<b>Total geral:</b>
+						</div>
+						<div class="col-xs-3">{{fornecedor.valorTotalCalculado | currency:'R$ '}}</div>
+					</div>
+					<div class="row ba__font-size-12 ba__margin-top-30">
+						<div class="col-xs-2">
+							<b>Observação:</b>
+						</div>
+						<div class="col-xs-17">{{fornecedor.observacao}}</div>
+					</div>
+
+				</div>
+			</div>
+			<div class="modal-footer" style="padding: 0; padding-top: 19px !important;">
+				<button type="button" class="btn btn-primary col-md-4 pull-right" ng-click="confirmaNegarSolicitacao('PEDIDO')" ng-if="data.pedidoSelecionado.status !== 'Cancelado'">
+					Negar cotação
+				</button>
+				<button type="button" data-dismiss="modal" class="btn btn-default btn-clear col-md-4 col-xs-pull-1 pull-right">
+					Fechar
+				</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="modal fade" id="provisaoCompra" tabindex="-1" role="dialog">
+	<div class="modal-dialog modal-detalhe_pedido" role="document">
+		<div class="modal-content" style="height: 700px">
+			<div class="modal-header ba__no-padding-top">
+				<h4 class="col-xs-21 modal-title Roboto-Thin ba__font-size-25">
+					<i class="icon-ba-attention text-center text-primary ba__margin-horizontal-5"></i>
+					<span>Detalhes do pedido</span>
+					<!--<span>Editando tipo de lançamento</span>-->
+				</h4>
+
+				<div class="row">
+					<div class="col-md-24 ba__margin-top-20">
+						<div class="col-md-12">
+							<div class="col-md-4">
+								<h5 class="text-gray text-right">
+									<b>Descrição</b>
+								</h5>
+							</div>
+							<div class="col-md-19 col-md-offset-1">
+								<h5 class="text-left">{{data.pedidoSelecionado.descricao}}</h5>
+							</div>
+
+							<div class="col-md-4">
+								<h5 class="text-gray text-right">
+									<b>Situação</b>
+								</h5>
+							</div>
+							<div class="col-md-9 col-md-offset-1">
+								<button type="button" class="col-xs-17 btn btn-primary uppercase status-compra-aprovada" style="cursor:default;font-size: 14px; margin-top: 2px; background: transparent;width: 200px!important;">
+									<span class="">Compra Provisionada</span>
+								</button>
+							</div>
+
+						</div>
+						<div class="col-md-10 col-md-offset-2">
+							<div class="col-md-9">
+								<h5 class="text-gray">
+									<b>Expec. de entrega</b>
+								</h5>
+							</div>
+							<div class="col-md-12">
+								<h5>{{data.pedidoSelecionado.expectativa_entrega | date : 'dd/MM/y'}}</h5>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="modal-body ba__modal-body-contas-a-pagar ba__margin-top-7" style="overflow: auto;">
+				<div ng-repeat="fornecedor in data.pedidoSelecionado.listaFornecedores track by $index">
+					<div class="row" ng-show="fornecedor.status === 'Aprovado'">
+						<div class="row">
+							<div class="col-xs-24">
+								<h4>{{fornecedor.nome_fantasia}}</h4>
+							</div>
+						</div>
+						<div class="list-group ba__admin-table ba__margin-top-20 col-md-24" style="height: auto; overflow: auto">
+							<a href="javascript:" class="list-group-item disabled col-md-24">
+								<div class="row uppercase">
+									<div class="col-xs-10">Item
+										<i class="ba__margin-horizontal-5"></i>
+									</div>
+									<div class="col-xs-3">QNT.
+										<i class="ba__margin-horizontal-5"></i>
+									</div>
+									<div class="col-xs-3">QNT.
+										<i class="ba__margin-horizontal-5"></i>
+									</div>
+									<div class="col-xs-4">Valor Unit.
+										<i class="ba__margin-horizontal-5"></i>
+									</div>
+									<div class="col-xs-4">Valor Total
+										<i class="ba__margin-horizontal-5"></i>
+									</div>
+								</div>
+							</a>
+							<div class="ba__admin-table-scroll col-md-24" style="overflow: auto">
+								<a href="javascript:" class="list-group-item ba__font-size-12" ng-repeat="item in fornecedor.listaItens">
+									<div class="row">
+										<div class="col-xs-10">
+											<b>{{item.nome}}</b>
+										</div>
+										<div class="col-xs-3">
+											<b>{{item.quantidade}}</b>
+										</div>
+										<div class="col-xs-3">{{item.quantidadeFornecedor | currency:'R$ '}}</div>
+										<div class="col-xs-4">{{item.valorUnitarioFornecedor | currency:'R$ '}}</div>
+										<div class="col-xs-4">{{item.valorTotal | currency:'R$ '}}</div>
+									</div>
+								</a>
+							</div>
+						</div>
+
+
+						<div class="row ba__font-size-12 ba__margin-top-10" ng-show="fornecedor.status === 'Aprovado'">
+							<div class="col-xs-1">
+								<b>Total:</b>
+							</div>
+							<div class="col-xs-3">{{fornecedor.valorTotal | currency:'R$ '}}</div>
+							<div class="col-xs-2">
+								<b>Acréscimos:</b>
+							</div>
+							<div class="col-xs-3">
+								<input type="number" ng-disabled="true" min="0.00" max="10000.00" step="0.01" class="ba__input-modal" style="text-transform:uppercase;width: 90%;padding: 0;margin-top: -10px;"
+								  ng-change="alterarValorCalculado(fornecedor)" ng-model="fornecedor.acrescimo">
+							</div>
+							<div class="col-xs-2">
+								<b>Descontos:</b>
+							</div>
+							<div class="col-xs-3">
+								<input type="number" ng-disabled="true" min="0.00" max="10000.00" step="0.01" class="ba__input-modal" ng-change="alterarValorCalculado(fornecedor)"
+								  ng-model="fornecedor.desconto" style="text-transform:uppercase;width: 90%;padding: 0;margin-top: -10px;">
+							</div>
+							<div class="col-xs-2">
+								<b>Total geral:</b>
+							</div>
+							<div class="col-xs-3">{{fornecedor.valorTotalCalculado | currency:'R$ '}}</div>
+						</div>
+						<div class="row ba__font-size-12 ba__margin-top-30">
+							<div class="col-xs-2">
+								<b>Observação:</b>
+							</div>
+							<div class="col-xs-17">
+								<input type="text" class="ba__input-modal" ng-model="fornecedor.observacao" ng-disabled="true" style="text-transform:uppercase;width: 90%;padding: 0;margin-top: -10px;">
+							</div>
+						</div>
+
+					</div>
+				</div>
+			</div>
+			<div class="modal-footer" style="padding: 0; padding-top: 25px">
+				<button type="button" class="btn btn-success col-md-4 pull-right" ng-click="lancarEstqPatm(data.pedidoSelecionado.id)" >
+					Encerrar compra
+				</button>
+				<button type="button" data-dismiss="modal" class="btn btn-default btn-clear col-md-4 col-xs-pull-1 pull-right">
+					Cancelar
+				</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="modal fade" id="encerradaCompra" tabindex="-1" role="dialog">
+	<div class="modal-dialog modal-detalhe_pedido" role="document">
+		<div class="modal-content" style="height: 700px">
+			<div class="modal-header ba__no-padding-top">
+				<h4 class="col-xs-21 modal-title Roboto-Thin ba__font-size-25">
+					<i class="icon-ba-attention text-center text-primary ba__margin-horizontal-5"></i>
+					<span>Detalhes do pedido</span>
+					<!--<span>Editando tipo de lançamento</span>-->
+				</h4>
+
+				<div class="row">
+					<div class="col-md-24 ba__margin-top-20">
+						<div class="col-md-12">
+							<div class="col-md-4">
+								<h5 class="text-gray text-right">
+									<b>Descrição</b>
+								</h5>
+							</div>
+							<div class="col-md-19 col-md-offset-1">
+								<h5 class="text-left">{{data.pedidoSelecionado.descricao}}</h5>
+							</div>
+
+							<div class="col-md-4">
+								<h5 class="text-gray text-right">
+									<b>Situação</b>
+								</h5>
+							</div>
+							<div class="col-md-9 col-md-offset-1">
+								<button type="button" class="col-xs-17 btn btn-primary uppercase status-compra-aprovada" style="cursor:default;font-size: 14px; margin-top: 2px; background: transparent;width: 200px!important;">
+									<span class="">Compra Encerrada</span>
+								</button>
+							</div>
+
+						</div>
+						<div class="col-md-10 col-md-offset-2">
+							<div class="col-md-9">
+								<h5 class="text-gray">
+									<b>Expec. de entrega</b>
+								</h5>
+							</div>
+							<div class="col-md-12">
+								<h5>{{data.pedidoSelecionado.expectativa_entrega | date : 'dd/MM/y'}}</h5>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="modal-body ba__modal-body-contas-a-pagar ba__margin-top-7" style="overflow: auto;">
+				<div ng-repeat="fornecedor in data.pedidoSelecionado.listaFornecedores track by $index">
+					<div class="row" ng-show="fornecedor.status === 'Aprovado'">
+						<div class="row">
+							<div class="col-xs-24">
+								<h4>{{fornecedor.nome_fantasia}}</h4>
+							</div>
+						</div>
+						<div class="list-group ba__admin-table ba__margin-top-20 col-md-24" style="height: auto; overflow: auto">
+							<a href="javascript:" class="list-group-item disabled col-md-24">
+								<div class="row uppercase">
+									<div class="col-xs-10">Item
+										<i class="ba__margin-horizontal-5"></i>
+									</div>
+									<div class="col-xs-3">QNT.
+										<i class="ba__margin-horizontal-5"></i>
+									</div>
+									<div class="col-xs-3">QNT.
+										<i class="ba__margin-horizontal-5"></i>
+									</div>
+									<div class="col-xs-4">Valor Unit.
+										<i class="ba__margin-horizontal-5"></i>
+									</div>
+									<div class="col-xs-4">Valor Total
+										<i class="ba__margin-horizontal-5"></i>
+									</div>
+								</div>
+							</a>
+							<div class="ba__admin-table-scroll col-md-24" style="overflow: auto">
+								<a href="javascript:" class="list-group-item ba__font-size-12" ng-repeat="item in fornecedor.listaItens">
+									<div class="row">
+										<div class="col-xs-10">
+											<b>{{item.nome}}</b>
+										</div>
+										<div class="col-xs-3">
+											<b>{{item.quantidade}}</b>
+										</div>
+										<div class="col-xs-3">{{item.quantidadeFornecedor | currency:'R$ '}}</div>
+										<div class="col-xs-4">{{item.valorUnitarioFornecedor | currency:'R$ '}}</div>
+										<div class="col-xs-4">{{item.valorTotal | currency:'R$ '}}</div>
+									</div>
+								</a>
+							</div>
+						</div>
+
+
+						<div class="row ba__font-size-12 ba__margin-top-10" ng-show="fornecedor.status === 'Aprovado'">
+							<div class="col-xs-1">
+								<b>Total:</b>
+							</div>
+							<div class="col-xs-3">{{fornecedor.valorTotal | currency:'R$ '}}</div>
+							<div class="col-xs-2">
+								<b>Acréscimos:</b>
+							</div>
+							<div class="col-xs-3">
+								<input type="number" ng-disabled="true" min="0.00" max="10000.00" step="0.01" class="ba__input-modal" style="text-transform:uppercase;width: 90%;padding: 0;margin-top: -10px;"
+								  ng-change="alterarValorCalculado(fornecedor)" ng-model="fornecedor.acrescimo">
+							</div>
+							<div class="col-xs-2">
+								<b>Descontos:</b>
+							</div>
+							<div class="col-xs-3">
+								<input type="number" ng-disabled="true" min="0.00" max="10000.00" step="0.01" class="ba__input-modal" ng-change="alterarValorCalculado(fornecedor)"
+								  ng-model="fornecedor.desconto" style="text-transform:uppercase;width: 90%;padding: 0;margin-top: -10px;">
+							</div>
+							<div class="col-xs-2">
+								<b>Total geral:</b>
+							</div>
+							<div class="col-xs-3">{{fornecedor.valorTotalCalculado | currency:'R$ '}}</div>
+						</div>
+						<div class="row ba__font-size-12 ba__margin-top-30">
+							<div class="col-xs-2">
+								<b>Observação:</b>
+							</div>
+							<div class="col-xs-17">
+								<input type="text" class="ba__input-modal" ng-model="fornecedor.observacao" ng-disabled="true" style="text-transform:uppercase;width: 90%;padding: 0;margin-top: -10px;">
+							</div>
+						</div>
+
+					</div>
+				</div>
+			</div>
+			<div class="modal-footer" style="padding: 0; padding-top: 25px">
+				<button type="button" class="btn btn-success col-md-4 pull-right" ng-click="fecharEncerrar()">
+					Fechar
+				</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="modal fade" id="infoEstPatrModal" tabindex="-1" role="dialog">
+	<div class="modal-dialog ba__modal-novo-equipamento" role="document">
+		<div class="modal-content">
+			<div class="modal-header ba__no-padding-top">
+				<h4 class="col-xs-21 modal-title Roboto-Thin ba__font-size-25">
+					<i class="icon-ba-attention text-center text-primary ba__margin-horizontal-5"></i>
+					<span>Os seguintes produtos serão movimentados/criados</span>
+				</h4>
+			</div>
+			<div class="modal-body ba__modal-body-tipo-lancamento">
+				<!-- <ng-bind-html ng-bind-html="infoEstPatrModal"></ng-bind-html> -->
+				<div ng-if="infoEstPatrModal.patrimonio">
+					<h2>Patrimônio</h2>
+					<div class="list-group ba__admin-table ba__margin-top-40" style="height: 25%">
+						<a class="list-group-item disabled">
+							<div class="row uppercase">
+								<div class="col-xs-4 text-center">Código
+									<i class="ba__margin-horizontal-5"></i>
+								</div>
+								<div class="col-xs-8 text-center">Descrição
+									<i class="ba__margin-horizontal-5"></i>
+								</div>
+								<div class="col-xs-4 text-center">Qnt. atual
+									<i class="ba__margin-horizontal-5"></i>
+								</div>
+								<div class="col-xs-6 text-center">Qnt. adicionada</div>
+							</div>
+						</a>
+						<div class="ba__admin-table-scroll">
+							<a class="list-group-item ba__font-size-" ng-repeat="prod in infoEstPatrModal.patrimonio">
+								<div class="row">
+									<div class="col-xs-4 text-center">{{prod.produto.id}}</div>
+									<div class="col-xs-8 text-center">{{prod.produto.descricao}}</div>
+									<div class="col-xs-4 text-center">{{prod.produto.quantidade_atual||0}}</div>
+									<div class="col-xs-6 text-center">{{prod.quantidade}}</div>
+								</div>
+							</a>
+						</div>
+					</div>
+				</div>
+				<div ng-if="infoEstPatrModal.estoque">
+					<h2>Estoque</h2>
+					<div class="list-group ba__admin-table ba__margin-top-40" style="height: 25%">
+						<a class="list-group-item disabled">
+							<div class="row uppercase">
+								<div class="col-xs-4 text-center">Código
+									<i class="ba__margin-horizontal-5"></i>
+								</div>
+								<div class="col-xs-8 text-center">Descrição
+									<i class="ba__margin-horizontal-5"></i>
+								</div>
+								<div class="col-xs-4 text-center">Qnt. atual
+									<i class="ba__margin-horizontal-5"></i>
+								</div>
+								<div class="col-xs-6 text-center">Qnt. adicionada</div>
+							</div>
+						</a>
+						<div class="ba__admin-table-scroll">
+							<a class="list-group-item ba__font-size-" ng-repeat="prod in infoEstPatrModal.estoque">
+								<div class="row">
+									<div class="col-xs-4 text-center">{{prod.produto.id}}</div>
+									<div class="col-xs-8 text-center">{{prod.produto.descricao}}</div>
+									<div class="col-xs-4 text-center">{{prod.produto.quantidade_atual||0}}</div>
+									<div class="col-xs-6 text-center">{{prod.quantidade}}</div>
+								</div>
+							</a>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="modal-footer" style="padding: 0; padding-top: 25px">
+				<button ng-click="movProducts(data.pedidoSelecionado.id)" ng-disabled="btnSimuEna" type="button" type="submit" class="btn btn-success col-md-6 col-md-push-2">
+					Ok
+				</button>
+			</div>
+		</div>
+	</div>
+</div>
+<!--MODAL LOADING-->
+<div class="modal" id="loading" role="dialog" data-backdrop="static" style="background: rgba(0, 0, 0, 0.1)!important">
+	<div class="modal-dialog" role="document">
+		<div style="padding: 20px;background:#FFF;width:14%;margin: 15% auto;position: relative;background-clip: padding-box;text-align: center;">
+			<div class="row">
+				<i class="col-md-5 fa fa-spinner fa-spin ba__font-size-50 text-center"></i>
+				<h5 class="col-md-13 col-md-offset-1 text-gray ba__margin-top-20">
+					<b>aguarde...</b>
+				</h5>
+			</div>
+		</div>
+	</div>
+</div>

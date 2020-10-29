@@ -1,0 +1,200 @@
+<link rel="stylesheet" href="src/app/home/home.ctrl.css">
+<div class="header">
+	<div header></div>
+</div>
+
+<!--<div class="row container-fluid ba__header-page">-->
+	<!--<div class="col-xs-3 bg-primary">-->
+		<!--<div class="ba__bioacesso-header-logo"></div>-->
+	<!--</div>-->
+	<!--<div class="col-xs-4 bg-success" style="display: none">-->
+		<!--<div class="ba__logo-condominio"></div>-->
+	<!--</div>-->
+
+
+	<!--&lt;!&ndash;    CASO ESTEJA EM ADMIN DENTRO DE ALGUMA LISTA&ndash;&gt;-->
+	<!--<div class="col-xs-12 bg-success uppercase " style="margin-left: 2%;">-->
+
+		<!--&lt;!&ndash;        CADASTROS DE MORADORES&ndash;&gt;-->
+		<!--<h3 class="text-info Roboto-Thin" style="margin-top: 23px"><i class="icon-ba-house"></i> Início / <span class="text-primary">Bioacesso - Financeiro</span>-->
+		<!--</h3>-->
+		<!--&lt;!&ndash;        CADASTROS DE MORADORES&ndash;&gt;-->
+
+	<!--</div>-->
+
+	<!--&lt;!&ndash;    CASO ESTEJA EM ADMIN DENTRO DE ALGUMA LISTA&ndash;&gt;-->
+
+	<!--&lt;!&ndash;   CASO ESTEJA NA PARTE ADMIN&ndash;&gt;-->
+	<!--<div class="col-xs-4 ba__lateral-feed" style="height: 100%; right: 0;">-->
+		<!--<div class="ba__user-settings">-->
+			<!--<img class="col-xs-6 photo" ng-src="{{usuarioLogado.url_foto && usuarioLogado.url_foto || 'img/avatar.png'}}" />-->
+			<!--<div class="col-xs-12 ba__margin-left-15">-->
+				<!--<h5 class="ba__font-size-15">-->
+					<!--Administrador-->
+				<!--</h5>-->
+
+			<!--</div>-->
+			<!--<div class="opcoes" >-->
+				<!--<a  style="text-decoration: none" data-toggle="dropdown" ><i class="fa fa-th text-info ba__font-size-17 text-center ba__margin-horizontal-5"></i></a>-->
+				<!--<ul class="dropdown-menu">-->
+					<!--<li>-->
+						<!--<div class="row">-->
+							<!--<a class="col" href="#">-->
+								<!--<div class="col-xs-3 ba__mainView-menu" >-->
+									<!--<h2 class="text-center ba__no-padding">-->
+										<!--<i class="icon-ba-flux text-center"></i>-->
+									<!--</h2>-->
+									<!--<h5 class="text-center">PORTARIA</h5>-->
+								<!--</div>-->
+							<!--</a>-->
+							<!--<a class="col" href="#">-->
+								<!--<div class="col-xs-3 ba__mainView-menu">-->
+									<!--<h2 class="text-center ba__no-padding">-->
+										<!--<i class="icon-ba-insert text-center"></i>-->
+									<!--</h2>-->
+									<!--<h5 class="text-center">ADMIN</h5>-->
+								<!--</div>-->
+							<!--</a>-->
+						<!--</div>-->
+					<!--</li>-->
+
+					<!--<li>-->
+						<!--<div class="row">-->
+							<!--<a class="col" href="#">-->
+								<!--<div class="col-xs-3 ba__mainView-menu">-->
+									<!--<h2 class="text-center ba__no-padding">-->
+										<!--<i class="fa fa-laptop text-center"></i>-->
+									<!--</h2>-->
+									<!--<h5 class="text-center">PORTAL</h5>-->
+								<!--</div>-->
+							<!--</a>-->
+							<!--<a class="col" href="#">-->
+								<!--<div class="col-xs-3 ba__mainView-menu" >-->
+									<!--<h2 class="text-center ba__no-padding">-->
+										<!--<i class="icon-ba-system text-center"></i>-->
+									<!--</h2>-->
+									<!--<h5 class="text-center">SISTEMA</h5>-->
+								<!--</div>-->
+							<!--</a>-->
+						<!--</div>-->
+					<!--</li>-->
+					<!--<li>-->
+						<!--<div class="row">-->
+							<!--<div class="col-xs-4 col-xs-offset-3">-->
+							<!--<a class="col-xs-3">-->
+								<!--<span>v1.0.0</span>-->
+							<!--</a>-->
+							<!--</div>-->
+							<!--<div class="col-xs-8 col-xs-offset-7">-->
+								<!--<a href="#">-->
+									<!--<button type="button" class="btn btn-primary ba__bg-red uppercase Roboto-Regular">-->
+										<!--<i class="icon-ba-logoff ba__font-red-dark"></i>-->
+										<!--Sair-->
+									<!--</button>-->
+								<!--</a>-->
+							<!--</div>-->
+						<!--</div>-->
+					<!--</li>-->
+				<!--</ul>-->
+			<!--</div>-->
+		<!--</div>-->
+	<!--</div>-->
+	<!--&lt;!&ndash;   CASO ESTEJA NA PARTE ADMIN&ndash;&gt;-->
+
+<!--</div>-->
+
+<div class="home">
+	<section class='main'>
+		<div class='container-fluid'>
+			<div ng-init='init()' class='row'>
+				<nav sidebar></nav>
+				<div class='col-xs-21 content '>
+					<div class="boas-vindas">
+						<div class="boas-vindas-text">
+							<!--<h1>Olá,</h1>-->
+							<!--<h2>Rafael Gonzaga Gonçalves</h2>-->
+						</div>
+					</div>
+					<!--<div class="cards-home">-->
+						<!--<div class="col-xl-3 col-sm-6 mb-3">-->
+							<!--<div class="card" >-->
+								<!--<div class="card-body">-->
+									<!--<div class="card-body-icon">-->
+										<!--<i class="fa fa-fw fa-mobile-phone"></i>-->
+									<!--</div>-->
+									<!--<div class="card-body-text">-->
+										<!--<h5>SMS ENVIADO</h5>-->
+										<!--<p>Nenhum SMS enviado</p>-->
+									<!--</div>-->
+								<!--</div>-->
+							<!--</div>-->
+						<!--</div>-->
+						<!--<div class="col-xl-3 col-sm-6 mb-3">-->
+							<!--<div class="card" >-->
+								<!--<div class="card-body">-->
+									<!--<div class="card-body-icon">-->
+										<!--<i class="fa fa-fw fa-envelope"></i>-->
+									<!--</div>-->
+									<!--<div class="card-body-text">-->
+										<!--<h5>E-MAIL ENVIADO</h5>-->
+										<!--<p>Nenhum e-mail enviado</p>-->
+									<!--</div>-->
+								<!--</div>-->
+							<!--</div>-->
+						<!--</div>-->
+						<!--<div class="col-xl-3 col-sm-6 mb-3">-->
+							<!--<div class="card" >-->
+								<!--<div class="card-body">-->
+									<!--<div class="card-body-icon">-->
+										<!--<i class="fa fa-fw fa-newspaper-o"></i>-->
+									<!--</div>-->
+									<!--<div class="card-body-text">-->
+										<!--<h5>NOTIFICAÇÕES</h5>-->
+										<!--<p>Nenhuma notificação</p>-->
+									<!--</div>-->
+								<!--</div>-->
+							<!--</div>-->
+						<!--</div>-->
+						<!--<div class="col-xl-3 col-sm-6 mb-3">-->
+							<!--<div class="card" >-->
+								<!--<div class="card-body">-->
+									<!--<div class="card-body-icon">-->
+										<!--<i class="fa fa-fw fa-money"></i>-->
+									<!--</div>-->
+									<!--<div class="card-body-text">-->
+										<!--<h5>TITULOS VENCIDOS</h5>-->
+										<!--<p>99 títulos vencido</p>-->
+									<!--</div>-->
+								<!--</div>-->
+							<!--</div>-->
+						<!--</div>-->
+					<!--</div>-->
+
+					<!--<div class="charts">-->
+						<!--<div class="col-sm-12">-->
+							<!--<div class="panel panel-default">-->
+								<!--<div class="panel-heading">Panel Heading</div>-->
+								<!--<div class="panel-body">-->
+									<!--<canvas id="line" class="chart chart-line" chart-data="data"-->
+											<!--chart-labels="labels" chart-series="series" chart-options="options"-->
+											<!--chart-dataset-override="datasetOverride" chart-click="onClick">-->
+									<!--</canvas>-->
+								<!--</div>-->
+							<!--</div>-->
+						<!--</div>-->
+						<!--<div class="col-sm-12">-->
+							<!--<div class="panel panel-default">-->
+								<!--<div class="panel-heading">Panel Heading</div>-->
+								<!--<div class="panel-body">-->
+									<!--<canvas id="bar" class="chart chart-bar"-->
+											 <!--chart-data="data" chart-labels="labels"> chart-series="series"-->
+									<!--</canvas>-->
+								<!--</div>-->
+							<!--</div>-->
+						<!--</div>-->
+					<!--</div>-->
+				</div>
+			</div>
+		</div>
+	</section>
+</div>

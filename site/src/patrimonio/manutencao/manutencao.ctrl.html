@@ -1,0 +1,217 @@
+<link rel='stylesheet' href='src/patrimonio/patrimonio.css'>
+<div class="header">
+    <div header></div>
+</div>
+<div class='patrimonio'>
+
+    <section class='main'>
+        <div class='container-fluid'>
+            <div ng-init='init()' class='row'>
+                <nav sidebar></nav>
+
+                <div class='col-xs-21 content'>
+                    <form action='' method='post' class='form-horizontal filter'>
+                        <div class='row'>
+                            <label class='control-label col-xs-2' for='filter'>Pesquisar</label>
+                            <div class='col-xs-22'>
+                                <input class='form-control' ng-model='data.filter.value'>
+                            </div>
+                        </div>
+                    </form>
+
+                    <div class='result-action'>
+                        <h3 ng-if='(data.rows | filter:data.filter.value).length == 1'><strong>1</strong> manutenção encontrada</h3>
+                        <h3 ng-if='(data.rows | filter:data.filter.value).length != 1'><strong>{{(data.rows | filter:data.filter.value).length}}</strong> manutenções encontradas</h3>
+                        <button data-toggle='modal' ng-click='newRow()' ng-if="accessPagina.inserir" type='submit' class='btn btn-success'>Nova manutenção</button>
+                    </div>
+
+                    <div class='list-group'>
+                        <a class='list-group-item disabled'>
+                            <div class='row uppercase'>
+                                <div class='col-xs-4'>Nº do patrimônio</div>
+                                <div class='col-xs-8'>Produto</div>
+                                <div class='col-xs-2'>Dt. saída</div>
+                                <div class='col-xs-6'>Fornecedor</div>
+                                <div class='col-xs-2'>Dt. retorno</div>
+                                <div class='col-xs-2 acoes'>Ações</div>
+                            </div>
+                        </a>
+
+                        <a href='#' class='list-group-item' ng-repeat='row in (data.rows | filter:data.filter.value)' ng-click='editRow($event, row)'>
+                            <div class='row'>
+                                <div class='col-xs-4'>{{row.patrimonio.numero}}</div>
+                                <div class='col-xs-8'>{{row.patrimonio.produto.descricao}}</div>
+                                <div class='col-xs-2'>{{mDateSrv.isoToDateObj(row.data_saida).toLocaleString('pt-BR', {'timeZone':'America/Sao_Paulo'}).substr(0, 10)}}</div>
+                                <div class='col-xs-6'>{{row.fornecedor.nome_fantasia}}</div>
+                                <div class='col-xs-2'>{{mDateSrv.isoToDateObj(row.data_retorno).toLocaleString('pt-BR', {'timeZone':'America/Sao_Paulo'}).substr(0, 10)}}</div>
+                                <div class='col-xs-2 acoes'>
+                                    <i class='fa fa-eye'></i>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Modal registrar manutenção. -->
+    <div class='modal fade' id='registro'>
+        <div class='modal-dialog'>
+            <form class='form-horizontal modal-content' ng-submit='submit()'>
+                <div class='modal-header'>
+                    <h4 class='modal-title'>Patrimônio - registro de manutenção</h4>
+                </div>
+                <div class='modal-body'>
+                    <fieldset>
+                        <div class='row'>
+                            <legend class='col-md-6'>Produto</legend>
+                        </div>
+
+                        <!-- TODO: inverter as classes onde estão col-xs, deixar as classes mais importantes primeiro. -->
+                        <div class='form-group'>
+                            <label class='control-label col-md-6' for='numero'>Número do patrimônio</label>
+                            <div class='col-md-18'>
+                                <select class='form-control' id='numero' name='numero' required
+
+                                    ng-model='data.patrimonioSelecionado'
+                                    ng-options='option as option.numero for option in data.list.patrimonios'
+
+                                    >
+                                    <option value=''>selecione...</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <!-- TODO: em todos os elementos, estabelecer padrão de ordem para as propriedades. -->
+                        <div class='form-group'>
+                            <label class='control-label col-md-6' for='produto'>Produto</label>
+                            <div class='col-md-18'>
+                                <input class='form-control' type='text' id='produto' name='produto' ng-model='data.patrimonioSelecionado.produto.descricao' readonly>
+                            </div>
+                        </div>
+                    </fieldset>
+
+                    <fieldset>
+                        <div class='row'>
+                            <legend class='col-md-6'>Saída</legend>
+                        </div>
+
+                        <div class='form-group'>
+                            <label class='control-label col-md-6' for='autorizante_id'>Autorizante</label>
+                            <div class='col-md-18'>
+                                <select class='form-control' name='autorizante_id' id='autorizante_id' required
+
+                                    ng-model='data.model.id_usuario'
+                                    ng-options='option.id as option.pessoa.nome for option in data.list.usuarios'
+
+                                    >
+                                    <option value=''>Selecione...</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class='form-group'>
+                            <label class='control-label col-md-6' for='motivo'>Motivo</label>
+                            <div class='col-md-18'>
+                                <textarea id='motivo' name='motivo' class='form-control' ng-model='data.model.motivo' required></textarea>
+                            </div>
+                        </div>
+
+                        <div class='form-group'>
+                            <label class='control-label col-md-6' for='fornecedor'>Fornecedor</label>
+                            <div class='col-md-18'>
+                                <select class='form-control' name='fornecedor' id='fornecedor'
+
+                                    ng-model='data.model.id_empresa'
+                                    ng-options='option.id as option.nome_fantasia for option in data.list.fornecedores'
+
+                                    >
+                                    <option value=''>Selecione...</option>
+                                </select>
+                                <span>(Opcional)</span>
+                            </div>
+                        </div>
+
+                        <div class='form-group'>
+                            <label class='control-label col-md-6' for='data_saida'>Data de saída</label>
+                            <div class='col-md-18'>
+                                <input type='date' id='data_saida' name='data_saida' class='form-control' ng-model='data.model.data_saida' required>
+                            </div>
+                        </div>
+
+                        <div class='form-group'>
+                            <label class='control-label col-md-6' for='previsao_retorno'>Previsão de retorno</label>
+                            <div class='col-md-18'>
+                                <input type='date' id='previsao_retorno' name='previsao_retorno' class='form-control' ng-model='data.model.previsao_retorno'>
+                            </div>
+                        </div>
+
+                        <div class='form-group'>
+                            <label class='control-label col-md-6' for='valor_orcamento'>Valor do orçamento</label>
+                            <div class='col-md-18'>
+                                <input id='valor_orcamento' name='valor_orcamento' class='form-control' ng-model='data.model.valor_orcamento' placeholder='R$ 0,00' ui-money-mask>
+                            </div>
+                        </div>
+                    </fieldset>
+
+                    <fieldset>
+                        <div class='row'>
+                            <legend class='col-md-6'>Retorno</legend>
+                        </div>
+
+                        <div class='form-group'>
+                            <label class='control-label col-md-6'>Retornou?</label>
+                            <div class='col-md-18 switch-retorno'>
+                                <div class='onoffswitch'>
+                                    <input type='checkbox' name='onoffswitch' class='onoffswitch-checkbox' id='retorno' ng-model='data.model.retorno'>
+
+                                    <label class='onoffswitch-label' for='retorno'>
+                                        <span class='onoffswitch-inner'></span>
+                                        <span class='onoffswitch-switch'></span>
+                                    </label>
+                                </div>
+
+                                <span class='retorno success' ng-show='data.model.retorno'>SIM</span>
+                                <span class='retorno' ng-show='!data.model.retorno'>NÃO</span>
+                            </div>
+                        </div>
+
+                        <div class='form-group' ng-show='data.model.retorno'>
+                            <label class='control-label col-md-6' for='data_retorno'>Data de retorno</label>
+                            <div class='col-md-18'>
+                                <input type='date' id='data_retorno' name='data_retorno' class='form-control' ng-model='data.model.data_retorno'>
+                            </div>
+                        </div>
+
+                        <div class='form-group' ng-show='data.model.retorno'>
+                            <label class='control-label col-md-6' for='valor_pago'>Valor pago</label>
+                            <div class='col-md-18'>
+                                <input id='valor_pago' name='valor_pago' class='form-control' ng-model='data.model.valor_pago' placeholder='R$ 0,00' ui-money-mask>
+                            </div>
+                        </div>
+
+                        <div class='form-group' ng-show='data.model.retorno'>
+                            <label class='control-label col-md-6' for='fim_garantia'>Fim da garantia</label>
+                            <div class='col-md-18'>
+                                <input type='date' id='fim_garantia' name='fim_garantia' class='form-control' ng-model='data.model.fim_garantia'>
+                            </div>
+                        </div>
+                    </fieldset>
+                </div>
+
+                <div class='modal-footer'>
+                    <button type='button' class='btn btn-default' ng-click='closeModal()'>Fechar</button>
+
+                    <button class='btn btn-success' ng-show='data.editavel && data.model.id' ng-if="accessPagina.editar">
+                        <span>Salvar</span>
+                    </button>
+                    <button class='btn btn-success' ng-show='data.editavel && !data.model.id' ng-if="accessPagina.inserir">
+                        <span>Registrar</span>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <!-- Modal registrar manutenção. -->
+</div>

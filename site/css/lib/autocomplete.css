@@ -1,0 +1,11 @@
+md-virtual-repeat-container{
+    z-index: 30000 !important;
+}
+
+md-autocomplete input:not(.md-input){
+    font-size: 20px !important;
+}
+
+.md-autocomplete-suggestions li{
+    font-size: 20px !important;
+}

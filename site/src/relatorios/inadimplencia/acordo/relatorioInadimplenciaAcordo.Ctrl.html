@@ -1,0 +1,113 @@
+<link rel="stylesheet" href="src/relatorios/inadimplencia/acordo/relatorioInadimplenciaAcordo.Ctrl.css">
+
+<div class="header">
+	<div header></div>
+</div>
+
+<div class="row container-fluid ba__body-content ba__full-width">
+	<!--CONTAINER MENU-->
+	<div sidebar></div>
+	<!--CONTAINER MENU-->
+
+	<!--CONTAINER SISTEMA-->
+	<div ng-init="InadimplenciaService.ngOnInit()" class="col-xs-21 ba__admin-container">
+
+		<!-- INICIO Tela CATEGORIA DE USUÁRIOS-->
+		<div class="col-xs-24 ba__admin-container-list">
+
+			<div class="row ba__admin-list" style="overflow-y: auto;">
+
+				<div class="modal-dialog" style="width: 100%; float: left; margin-bottom: 0">
+					<div class="modal-content card-2" style="padding-top: 20px">
+						<div class="modal-header ba__no-padding-top ba__margin-bottom-15">
+							<h4 class="col-xs-21 modal-title Roboto-Thin ba__font-size-25">
+								<i class="icon-ba-attention text-center text-primary ba__margin-horizontal-5"></i>
+								<span>Relatório acordos</span>
+							</h4>
+						</div>
+						<div class="modal-body">
+							<form>
+								<div class="row">
+									<div class="form-group col-xs-23 col-xs-offset-1">
+										<div class="row ba__margin-bottom-30">
+											<div class="col-md-3">
+												<h5 class="text-left text-gray">Data do acordo</h5>
+											</div>
+											<div class="col-md-4 col-md-offset-1">
+												<input type="date" style="text-transform:uppercase;" class="ba__input-modal" ng-model="data.data_inicial">
+											</div>
+											<div class="col-md-4 col-md-offset-1">
+												<input type="date" style="text-transform:uppercase;" class="ba__input-modal" ng-model="data.data_final">
+											</div>
+										</div>
+										<!-- <div class="row ba__margin-bottom-30">
+											<div class="col-md-3">
+												<h5 class="text-right text-gray">Quadra</h5>
+											</div>
+											<div class="col-md-3 col-md-offset-1">
+												<input type="text" class="ba__input-modal" style="text-transform:uppercase; " ng-model="data.quadra">
+											</div>
+											<div class="col-md-2">
+												<h5 class="text-right text-gray">Lote</h5>
+											</div>
+											<div class="col-md-3 col-md-offset-1">
+												<input type="text" class="ba__input-modal" style="text-transform:uppercase;" ng-model="data.lote">
+											</div>
+										</div> -->
+										<div class="row ba__margin-bottom-30">
+											<div class="col-md-3">
+												<h5 class="text-right text-gray">Consolidados</h5>
+											</div>
+											<div class="col-md-10 col-md-offset-1">
+												<label class="switch">
+															<input ng-init="data.consolidados=false" ng-model="data.consolidados" type="checkbox">
+															<span class="slider round"></span>
+														</label>
+												<!-- <input type="checkbox" class="ba__input-modal" ng-model="data.Consolidados"> -->
+											</div>
+										</div>
+										<div class="row ba__margin-bottom-30">
+											<div class="row ba__admin-busca">
+												<button type="button" class="btn btn-success col-xs-4" style="margin-top: 12px; margin-left: 40px" ng-click="btnGerarRel(data)">
+												Gerar Relatório
+											</button>
+											</div>
+										</div>
+									</div>
+								</div>
+							</form>
+
+						</div>
+					</div>
+
+				</div>
+
+			</div>
+
+		</div>
+
+	</div>
+
+</div>
+
+<!--MODAL PDF-->
+<div class="modal fade relatorio-modal" id="showPdf" tabindex="-1" role="dialog" data-backdrop="static"
+  data-keyboard="false">
+	<h1 data-dismiss="modal">X</h1>
+	<object data="{{content}}" type="application/pdf"></object>
+</div>
+<!--MODAL PDF-->
+
+<!--MODAL LOADING-->
+<div class="modal" id="loading" role="dialog" data-backdrop="static" style="background: rgba(0, 0, 0, 0.1)!important">
+	<div class="modal-dialog" role="document">
+		<div style="padding: 20px;background:#FFF;width:14%;margin: 15% auto;position: relative;background-clip: padding-box;text-align: center;">
+			<div class="row">
+				<i class="col-md-5 fa fa-spinner fa-spin ba__font-size-50 text-center"></i>
+				<h5 class="col-md-13 col-md-offset-1 text-gray ba__margin-top-20">
+					<b>aguarde...</b>
+				</h5>
+			</div>
+		</div>
+	</div>
+</div>

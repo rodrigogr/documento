@@ -1,0 +1,177 @@
+<link rel="stylesheet" href="src/cadastros/grupo-calculo/grupoCalculo.ctrl.css">
+
+<div class="header">
+	<div header></div>
+</div>
+
+<div ng-init="ngOnInit()" class="row container-fluid ba__body-content ba__full-width">
+	<div sidebar></div>
+	<div class="col-xs-21 ba__admin-container">
+		<div class="col-xs-24 ba__admin-container-list">
+			<!-- <div class="row ba__admin-busca">
+				<div class="col-xs-24 input-group ba__admin-busca-input" style="float: left; border: none!important; height: 30px; margin-left: 20px">
+					<span class="input-group-addon" style="height: 60px"></span>
+					<select class="form-group col-xs-4 ba__adminSelectBusca" style="height: 50px; border-bottom: 1px solid #cccccc;">
+						<option value="logradouro">Código</option>
+						<option value="proprietario">exemplo1</option>
+					</select>
+					<input type="text" class="form-group col-xs-3 col-xs-offset-1" placeholder="" style="height: 50px; border-bottom: 1px solid #cccccc;">
+					<span class="col-xs-1" style="width: 100px">
+						<h3 class="text-center">ao</h3>
+					</span>
+					<input type="text" class="form-group col-xs-3" placeholder="" style="height: 50px; border-bottom: 1px solid #cccccc;">
+					<button type="button" class="btn btn-primary col-xs-4 col-xs-offset-1 uppercase" style="margin-top: 12px">
+						Pesquisar
+						<i class="icon-ba-search"></i>
+					</button>
+				</div>
+			</div> -->
+			<div class="row ba__admin-list">
+				<!--<div class="row ba__margin-top-20">-->
+					<!--<h3 class="col-md-15 Roboto-Light"><strong>3</strong> grupos encontrados</h3>-->
+					<!--<button ng-click="createGrupoLancamento()" ng-if="accessPagina.inserir" class="btn btn-success col-xs-offset-18 col-xs-6 uppercase" style="margin-top: 12px">-->
+							<!--Novo-->
+						<!--</button>-->
+				<!--</div>-->
+				<div class="list-group ba__admin-table ba__margin-top-40" style="height: 70%">
+					<a class="list-group-item disabled col-md-24">
+						<div class="row uppercase">
+							<div class="col-xs-2">ID.
+								<i class="ba__margin-horizontal-5"></i>
+							</div>
+							<div class="col-xs-7">Descrição
+								<i class="ba__margin-horizontal-5"></i>
+							</div>
+							<div class="col-xs-13">Fórmula
+								<i class="ba__margin-horizontal-5"></i>
+							</div>
+							<div class="col-xs-1 ">Ações</div>
+						</div>
+					</a>
+					<div class="ba__admin-table-scroll col-md-24">
+						<a class="list-group-item ba__font-size-12" ng-repeat="grupoCalculo in Itens">
+							<div class="row">
+								<div class="col-xs-2">{{grupoCalculo.id}}</div>
+								<div class="col-xs-7">{{grupoCalculo.descricao}}</div>
+								<div class="col-xs-13">{{grupoCalculo.id_formula}}</div>
+								<div class="col-xs-1">
+									<i class="icon-ba-edit ba__margin-left-30" title="Editar" ng-click="editGrupoCalculo(grupoCalculo)" ng-if="accessPagina.editar"></i>
+									<i class="icon-ba-trash ba__margin-left-20" title="Excluir" ng-click="deleteGrupoCalculo(grupoCalculo.id)" ng-if="accessPagina.excluir"></i>
+								</div>
+							</div>
+						</a>
+					</div>
+					<!--<div class="col-md-10 col-md-offset-9" ng-if="pageCount">-->
+						<!--<nav class="">-->
+							<!--<ul class="pagination text-center" style="margin:inherit">-->
+								<!--<li>-->
+									<!--<a aria-label="Previous" ng-click="updateList(current_page - 1)" class="ba__margin-right-15">-->
+										<!--<span aria-hidden="true">&laquo; ANTERIOR</span>-->
+									<!--</a>-->
+								<!--</li>-->
+								<!--<li ng-click="updateList(page)" ng-repeat="page in pages">-->
+									<!--<a ng-class="page == current_page ? 'selected' : ''">{{page}}</a>-->
+								<!--</li>-->
+								<!--<li ng-if="pageCount > 5">-->
+									<!--<a>...</a>-->
+								<!--</li>-->
+								<!--<li ng-if="pageCount > 5" ng-click="updateList(pageCount)">-->
+									<!--<a ng-class="pageCount == current_page ? 'selected' : ''">{{pageCount}}</a>-->
+								<!--</li>-->
+								<!--<li>-->
+									<!--<a aria-label="Next" ng-click="updateList(current_page + 1)" style="margin-left: 15px">-->
+										<!--<span aria-hidden="true">PRÓXIMA &raquo;</span>-->
+									<!--</a>-->
+								<!--</li>-->
+							<!--</ul>-->
+						<!--</nav>-->
+					<!--</div>-->
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!--MODAL CADASTRAR NOVO GRUPO DE CALCULO-->
+<div class="modal fade" id="novoGrupoCalculo" tabindex="-1" role="dialog">
+	<div class="modal-dialog ba__modal-lancamento-avulso" role="document">
+		<div class="modal-content" style="height: 700px">
+			<div class="modal-header ba__no-padding-top">
+				<h4 class="col-xs-21 modal-title Roboto-Thin ba__font-size-25">
+					<i class="icon-ba-attention text-center text-primary ba__margin-horizontal-5"></i>
+					<span>Cadastrar</span>
+				</h4>
+			</div>
+			<div class="modal-body ba__modal-body-tipo-lancamento ba__margin-top-7">
+				<form>
+					<div class="row">
+						<div class="form-group">
+							<div class="row ba__margin-bottom-30" ng-if='item.id'>
+								<div class="col-md-6">
+									<h4 class="text-right text-gray">Código</h4>
+								</div>
+								<div class="col-md-4 col-md-offset-1">
+									<input ng-model="item.id" type="text" class="ba__input-modal" disabled>
+								</div>
+							</div>
+
+							<div class="row ba__margin-bottom-30">
+								<div class="col-md-6">
+									<h4 class="text-right text-gray">Descrição</h4>
+								</div>
+								<div class="col-md-16 col-md-offset-1">
+									<input type="text" class="ba__input-modal" ng-model="item.descricao">
+								</div>
+							</div>
+
+							<div class="row ba__margin-bottom-30">
+								<div class="col-md-6">
+									<h4 class="text-right text-gray input-label-double">Fórmula</h4>
+								</div>
+								<div class="col-md-16 col-md-offset-1">
+									<select class="ba__input-select" ng-model="item.id_formula" ng-options="opt.id as opt.formula for opt in formulas">
+									</select>
+									<strong>Atenção!</strong> Para novas fórmulas entrar em contato com a administração do sistema.</br>
+								</div>
+							</div>
+							<div class="row ba__margin-bottom-30">
+								<div class="col-md-6">
+									<h4 class="text-right text-gray input-label-double">Percentual do fundo de reserva</h4>
+								</div>
+								<div class="col-md-16 col-md-offset-1">
+									<input type="text" class="ba__input-modal" ng-model="item.percentualfundoreserva" ui-percentage-mask ui-percentage-value>
+								</div>
+							</div>
+							<div class="row ba__margin-bottom-30">
+								<div class="col-md-6">
+									<h4 class="text-right text-gray input-label-double">Lançamento taxa associativa</h4>
+								</div>
+								<div class="col-md-16 col-md-offset-1">
+									<select class="ba__input-select" ng-model="item.id_tipolancamento_taxaassociativa" ng-options="opt.id as opt.descricao for opt in lancamentos">
+									</select>
+								</div>
+							</div>
+							<div class="row ba__margin-bottom-30">
+								<div class="col-md-6">
+									<h4 class="text-right text-gray input-label-double">Lançamento fundo de reserva</h4>
+								</div>
+								<div class="col-md-16 col-md-offset-1">
+									<select class="ba__input-select" ng-model="item.id_tipolancamento_fundoreserva" ng-options="opt.id as opt.descricao for opt in lancamentos">
+									</select>
+								</div>
+							</div>
+						</div>
+					</div>
+				</form>
+			</div>
+			<div class="modal-footer" style="padding: 0; padding-top: 25px">
+				<button data-dismiss="modal" class="btn btn-default btn-clear col-xs-8 col-xs-offset-6 btnVeiculo">
+					Cancelar
+				</button>
+				<button class="btn btn-success col-xs-9 col-xs-push-1 btnFocus btnVeicul" ng-click="saveGrupoCalculo(item)">
+					Salvar
+				</button>
+			</div>
+		</div>
+	</div>
+</div>

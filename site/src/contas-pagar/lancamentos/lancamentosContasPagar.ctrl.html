@@ -1,0 +1,1029 @@
+<link rel="stylesheet" href="src/contas-pagar/lancamentos/lancamentosContasPagar.ctrl.css">
+
+<div class="header">
+	<div header></div>
+</div>
+
+<div ng-init="ngOnInit()" class="row container-fluid ba__body-content ba__full-width">
+	<!--CONTAINER MENU-->
+	<div sidebar></div>
+	<!--CONTAINER SISTEMA-->
+	<div class="col-xs-21 ba__admin-container">
+		<!-- INICIO Tela CATEGORIA DE USUÁRIOS-->
+		<div class="col-xs-24 ba__admin-container-list">
+			<div class="row ba__admin-busca">
+				<div class="col-xs-24 input-group ba__admin-busca-input" style="float: left; border: none!important; height: 30px; margin-left: 20px">
+					<span class="input-group-addon" style="height: 60px"></span>
+					<select class="form-group col-xs-3 ba__adminSelectBusca" ng-change="pesquisaChange()" ng-init="search.type = 'dt_base'" ng-model="search.type"
+					 style="height: 50px; border-bottom: 1px solid #cccccc;padding-left: 20px;">
+						<option value="dt_base">Data Base</option>
+						<option value="vencidas">Vencidas</option>
+					</select>
+					<div ng-show="data.showPesquisa">
+						<div>
+							<input type="date" class="form-group col-xs-2 col-xs-offset-1" ng-model="search.data_inicio" style="height: 50px; border-bottom: 1px solid #cccccc;">
+							<span class="col-xs-1" style="width: 100px">
+								<h4 class="text-center">até</h4>
+							</span>
+							<input type="date" class="form-group col-xs-2" ng-model="search.data_fim" style="height: 50px; border-bottom: 1px solid #cccccc;">
+						</div>
+					</div>
+					<button type="button" class="btn btn-primary col-xs-3 col-xs-offset-1 uppercase" style="margin-top: 7px" ng-click="checkData(search) && pesquisar(search)">
+						Pesquisar
+						<i class="icon-ba-search"></i>
+					</button>
+				</div>
+			</div>
+			<div class="row ba__admin-list">
+				<div class="row ba__margin-top-20">
+					<h3 class="col-md-15 Roboto-Light">
+						<strong>{{contasPagar.length || 0}} de {{total}}</strong> Registros encontrados</h3>
+					<button ng-disabled="!create" type="button" class="btn btn-success col-xs-offset-3 col-xs-6 uppercase" style="margin-top: 12px"
+					 data-toggle="modal" ng-click="createContasPagar()" ng-if="accessPagina.inserir">
+						Novo
+					</button>
+				</div>
+				<div class="list-group ba__admin-table ba__margin-top-40">
+					<a class="list-group-item disabled">
+						<div class="row uppercase">
+							<div class="col-xs-1" style="cursor: pointer;" ng-click="sort('id')">Id {{prop=='id'&&(reverse?'⬆':'⬇')||''}}
+								<i class="ba__margin-horizontal-5"></i>
+							</div>
+							<div class="col-xs-5" style="cursor: pointer;" ng-click="sort('descricao')">Descrição {{prop == 'descricao'&&(reverse?'⬆':'⬇')||''}}
+								<i class="ba__margin-horizontal-5"></i>
+							</div>
+							<div class="col-xs-5" style="cursor: pointer;" ng-click="sort('l_fornecedor')">Fornecedor {{prop=='l_fornecedor'&&(reverse?'⬆':'⬇')||''}}
+								<i class="ba__margin-horizontal-5"></i>
+							</div>
+							<div class="col-xs-7" style="cursor: pointer;" ng-click="sort('l_planoConta')">Plano de conta {{prop=='l_planoConta'&&(reverse?'⬆':'⬇')||''}}
+								<i class="ba__margin-horizontal-5"></i>
+							</div>
+							<div class="col-xs-2" style="cursor: pointer;" ng-click="sort('data_base')">Data Origem {{prop=='data_base'&&(reverse?'⬆':'⬇')||''}}
+								<i class="ba__margin-horizontal-5"></i>
+							</div>
+							<!--<div class="col-xs-4 text-center">Localização<i class="ba__margin-horizontal-5"></i></div>-->
+							<div class="col-xs-2" style="cursor: pointer;" ng-click="sort('l_valorTotal')">Valor {{prop == 'l_valorTotal'&&(reverse?'⬆':'⬇')||''}}
+								<i class="ba__margin-horizontal-5"></i>
+							</div>
+							<div class="col-xs-2 text-center">
+								<i class="ba__margin-horizontal-5"></i>
+							</div>
+						</div>
+					</a>
+					<div class="ba__admin-table-scroll" style="height: 65%;">
+						<a class="list-group-item ba__font-size-12" ng-repeat="contaPagar in contasPagar | orderBy:prop:reverse" style="height: auto">
+							<div class="row">
+								<div class="col-xs-1">{{contaPagar.id}}</div>
+								<div class="col-xs-5" style="text-transform: capitalize;">{{contaPagar.descricao}}</div>
+								<div class="col-xs-5">{{contaPagar.l_fornecedor}}</div>
+								<div class="col-xs-7">{{contaPagar.l_planoConta}}</div>
+								<div class="col-xs-2">{{contaPagar.data_base | date:'dd/MM/yyyy'}}</div>
+								<!--<div class="col-xs-4">{{getNameLocalidade(contaPagar)}}</div>-->
+								<div class="col-xs-2">{{contaPagar.l_valorTotal| currency:'R$ '}}</div>
+								<div class="col-xs-2 text-center">
+									<i class="fa fa-print" title="Demonstrativo" ng-click="getDemonstrativo(contaPagar)"></i>
+									<i class="icon-ba-edit ba__margin-left-15" title="Editar" ng-click="editarContaPagar(contaPagar.id)" ng-if="accessPagina.editar"></i>
+									<i class="icon-ba-trash ba__margin-left-15" title="Excluir" ng-click="showDeleteAlert(contaPagar)" ng-if="accessPagina.excluir"></i>
+								</div>
+							</div>
+						</a>
+					</div>
+					<div class="col-md-10 col-md-offset-9" ng-if="pageCount">
+						<nav class="">
+							<ul class="pagination text-center">
+								<li>
+									<a aria-label="Previous" ng-click="updateList(current_page - 1)" class="ba__margin-right-15">
+										<span aria-hidden="true">&laquo; ANTERIOR</span>
+									</a>
+								</li>
+								<li ng-click="updateList(page)" ng-repeat="page in pages">
+									<a ng-class="page == current_page ? 'selected' : ''">{{page}}</a>
+								</li>
+								<li ng-if="pageCount > 5">
+									<a>...</a>
+								</li>
+								<li ng-if="pageCount > 5" ng-click="updateList(pageCount)">
+									<a ng-class="pageCount == current_page ? 'selected' : ''">{{pageCount}}</a>
+								</li>
+								<li>
+									<a aria-label="Next" ng-click="updateList(current_page + 1)" style="margin-left: 15px">
+										<span aria-hidden="true">PRÓXIMA &raquo;</span>
+									</a>
+								</li>
+							</ul>
+						</nav>
+					</div>
+				</div>
+
+			</div>
+		</div>
+	</div>
+</div>
+
+<!--MODAL NOVA CONTA A PAGAR-->
+<div class="modal fade" id="novasContasParaPagar" tabindex="-1" role="dialog">
+	<div class="modal-dialog ba__modal-contas-pagar" role="document">
+		<div class="modal-content" style="height: 900px;overflow: hidden;padding-top: 20px;">
+			<div class="modal-header ba__no-padding-top" style="height: 200px">
+				<h4 class="col-xs-21 modal-title Roboto-Thin ba__font-size-25">
+					<i class="icon-ba-attention text-center text-primary ba__margin-horizontal-5"></i>
+					<span>{{ data.contaPagarSelecionado.id ? 'Editar conta a pagar' : 'Nova conta a pagar'}}</span>
+					<!--<span>Editando tipo de lançamento</span>-->
+				</h4>
+				<div class="row" style="margin: 80px 60px 30px 60px">
+					<div class="col-md-20">
+						<div class="col-md-12">
+							<div class="col-md-12">
+								<h5 class="text-gray">
+									<b>Saldo a pagar</b>
+								</h5>
+							</div>
+							<div class="col-md-12">
+								<h5>{{data.saldos.saldoPagar | currency}}</h5>
+							</div>
+							<div class="col-md-12">
+								<h5 class="text-gray">
+									<b>Valor provisionado</b>
+								</h5>
+							</div>
+							<div class="col-md-12">
+								<h5>{{data.saldos.valorProvisionado | currency}}</h5>
+							</div>
+						</div>
+						<div class="col-md-12">
+							<div class="col-md-12">
+								<h5 class="text-gray">
+									<b>Valor pago</b>
+								</h5>
+							</div>
+							<div class="col-md-12">
+								<h5>{{data.saldos.valorPago | currency}}</h5>
+							</div>
+							<div class="col-md-12">
+								<h5 class="text-gray">
+									<b>Valor total</b>
+								</h5>
+							</div>
+							<div class="col-md-12">
+								<h5>{{data.saldos.valorTotal | currency}}</h5>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+            <div class="row" style="border-bottom: 1px solid #ccc; padding: 10px 0; margin-bottom: 15px">
+                <div class="col-md-1 step-lancamento" ng-class="{'ok': data.stepStatus > 1}" style="margin-left: 10px">
+                    <h2>1</h2>
+                </div>
+                <h5 class="col-md-2 uppercase" style="margin-left: 15px; margin-right: 10px; margin-top: 0px;">
+                    <b>Conta a
+                        <br>pagar</b>
+                </h5>
+                <div class="col-md-1 step-lancamento" ng-class="{'off': data.stepStatus < 2, 'ok': data.stepStatus > 2}" style="margin-left: 20px">
+                    <h2>2</h2>
+                </div>
+                <h5 class="col-md-4 uppercase" style="margin-left: 15px; margin-right: 10px; margin-top: 0px;">
+                    <b>Dados
+                        <br/>complementares</b>
+                </h5>
+                <div class="col-md-1 step-lancamento off" ng-class="{'off': data.stepStatus < 3, 'ok': data.stepStatus > 3}" style="margin-left: 20px">
+                    <h2>3</h2>
+                </div>
+                <h5 class="col-md-3 uppercase" style="margin-left: 15px; margin-right: 10px">
+                    <b>Acréscimos</b>
+                </h5>
+                <div class="col-md-1 step-lancamento" ng-class="{'off': data.stepStatus < 4, 'ok': data.stepStatus > 4}" style="margin-left: 20px">
+                    <h2>4</h2>
+                </div>
+                <h5 class="col-md-3 uppercase" style="margin-left: 15px; margin-right: 10px">
+                    <b>Pagamentos</b>
+                </h5>
+                <div class="col-md-1 step-lancamento" ng-class="{'off': data.stepStatus < 5}" style="margin-left: 20px">
+                    <h2>5</h2>
+                </div>
+                <h5 class="col-md-3 uppercase" style="margin-left: 15px">
+                    <b>Confirmação</b>
+                </h5>
+            </div>
+			<div class="modal-body ba__modal-body-tipo-lancamento">
+				<form>
+					<div class="row">
+						<!--CONTA A PAGAR-->
+						<div class="form-group col-xs-24" id="lancamentos" ng-show="data.stepStatus === 1">
+							<div class="row ba__margin-bottom-30" ng-show="data.contaPagarSelecionado.id">
+								<div class="col-md-6">
+									<h5 class="text-right text-gray">Código</h5>
+								</div>
+								<div class="col-md-10 col-md-offset-1">
+									<input type="text" class="ba__input-modal" disabled ng-model="data.contaPagarSelecionado.id">
+								</div>
+							</div>
+							<div class="row ba__margin-bottom-30">
+								<div class="col-md-6">
+									<h5 class="text-right text-gray">Descrição *</h5>
+								</div>
+								<div class="col-md-10 col-md-offset-1">
+									<input type="text" class="ba__input-modal" maxlength="90" style="text-transform:uppercase" ng-model="data.contaPagarSelecionado.descricao"
+									 placeholder="Descrição" required>
+								</div>
+							</div>
+							<div class="row ba__margin-bottom-30">
+								<div class="col-md-6">
+									<h5 class="text-right text-gray">Grupo de conta</h5>
+								</div>
+								<div class="col-md-12 col-md-offset-1">
+									<div class="input-group">
+										<select class="ba__input-select" ng-model="data.grupoCPSelecionado.id" ng-change="filterPC(data.grupoCPSelecionado.id)" ng-options="grp.id as grp.descricao for grp in grupoLancamentos">
+										</select>
+									</div>
+								</div>
+							</div>
+							<div class="row ba__margin-bottom-30">
+								<div class="col-md-6">
+									<h5 class="text-right text-gray">Plano de conta *</h5>
+								</div>
+								<div class="col-md-12 col-md-offset-1">
+									<div class="input-group">
+										<select class="ba__input-select" ng-model="data.contaPagarSelecionado.id_tipo_lancamento" enter ng-options="planoConta.id as planoConta.descricao for planoConta in planoContas">
+										</select>
+									</div>
+								</div>
+							</div>
+							<div class="row ba__margin-bottom-30">
+								<div class="col-md-6">
+									<h5 class="text-right text-gray">Fornecedor *</h5>
+								</div>
+								<div class="col-md-12 col-md-offset-1">
+									<div class="input-group">
+										<select class="ba__input-select" ng-model="data.contaPagarSelecionado.id_fornecedor" enter ng-options="fornecedor.id as fornecedor.nome_fantasia for fornecedor in fornecedores">
+										</select>
+									</div>
+								</div>
+							</div>
+							<div class="row ba__margin-bottom-30">
+								<div class="col-md-6">
+									<h5 class="text-right text-gray">Mês de competência</h5>
+								</div>
+								<div class="col-md-10 col-md-offset-1">
+									<div class="input-group">
+										<select class="ba__input-select" ng-model="data.contaPagarSelecionado.mes_competencia" enter
+                                                ng-options="mes.codigo as mes.nome for mes in data.meses">
+											<!--<option value="0">Selecione...</option>
+											<option value="1">Janeiro</option>
+											<option value="2">Fevereiro</option>
+											<option value="3">Março</option>
+											<option value="4">Abril</option>
+											<option value="5">Maio</option>
+											<option value="6">Junho</option>
+											<option value="7">Julho</option>
+											<option value="8">Agosto</option>
+											<option value="9">Setembro</option>
+											<option value="10">Outubro</option>
+											<option value="11">Novembro</option>
+											<option value="12">Dezembro</option>-->
+										</select>
+									</div>
+								</div>
+							</div>
+							<div class="row ba__margin-bottom-30">
+								<div class="col-md-6">
+									<h5 class="text-right text-gray">Ano de competência</h5>
+								</div>
+								<div class="col-md-10 col-md-offset-1">
+									<input type="text" class="ba__input-modal" mask="2999" style="text-transform:uppercase" ng-model="data.contaPagarSelecionado.ano_competencia"
+									 placeholder="2017">
+								</div>
+							</div>
+
+							<div class="row ba__margin-bottom-30">
+								<div class="col-md-6">
+									<h5 class="text-right text-gray">Data Origem</h5>
+								</div>
+								<div class="col-md-10 col-md-offset-1">
+									<input type="date" class="ba__input-modal" ng-model="data.contaPagarSelecionado.data_base" />
+								</div>
+							</div>
+							<div class="row ba__margin-bottom-30">
+								<div class="col-md-6">
+									<h5 class="text-right text-gray">Valor</h5>
+								</div>
+								<div class="col-md-10 col-md-offset-1">
+									<input type="text" class="ba__input-modal" ui-money-mask style="text-transform:uppercase" ng-model="data.contaPagarSelecionado.valor"
+									 ng-disabled="editTotal(data.contaPagarSelecionado.id)" placeholder="R$ 0,00">
+								</div>
+							</div>
+						</div>
+						<!--DADOS COMPLEMENTARES-->
+						<div class="form-group col-xs-24" id="step2" ng-show="data.stepStatus === 2">
+							<div class="row ba__margin-bottom-30">
+								<div class="col-md-6">
+									<h5 class="text-right text-gray">Tipo do documento</h5>
+								</div>
+								<div class="col-md-10 col-md-offset-1">
+									<select class="ba__input-select" ng-model="data.contaPagarSelecionado.id_tipo_documento" enter ng-options="td.id as td.nome for td in tipoDocumento">
+									</select>
+								</div>
+							</div>
+							<div class="row ba__margin-bottom-30">
+								<div class="col-md-6">
+									<h5 class="text-right text-gray">Número do documento</h5>
+								</div>
+								<div class="col-md-10 col-md-offset-1">
+									<input type="text" class="ba__input-modal" style="text-transform:uppercase" ng-model="data.contaPagarSelecionado.numero_nf"
+									 placeholder="">
+								</div>
+							</div>
+							<div class="row ba__margin-bottom-30">
+								<div class="col-md-6">
+									<h5 class="text-right text-gray">Data de emissão do documento</h5>
+								</div>
+								<div class="col-md-10 col-md-offset-1">
+									<input type="date" class="ba__input-modal" ng-model="data.contaPagarSelecionado.data_emissao_nf" />
+								</div>
+							</div>
+							<div class="row ba__margin-bottom-30">
+								<div class="col-md-6">
+									<h5 class="text-right text-gray">Localização*</h5>
+								</div>
+								<div class="col-md-10 col-md-offset-1">
+									<div class="input-group">
+										<select class="ba__input-select" ng-model="data.contaPagarSelecionado.id_localizacao" enter ng-options="localidade.id as localidade.descricao for localidade in localidades">
+										</select>
+									</div>
+								</div>
+							</div>
+							<div class="row ba__margin-bottom-30">
+								<div class="col-md-6">
+									<h5 class="text-right text-gray">Departamento*</h5>
+								</div>
+								<div class="col-md-10 col-md-offset-1">
+									<div class="input-group">
+										<select class="ba__input-select" ng-model="data.contaPagarSelecionado.id_departamento" enter ng-options="departamento.id as departamento.descricao for departamento in departamentos">
+										</select>
+									</div>
+								</div>
+							</div>
+							<div class="row ba__margin-bottom-30">
+								<div class="col-md-6">
+									<h5 class="text-right text-gray">Observação</h5>
+								</div>
+								<div class="col-md-10 col-md-offset-1">
+									<input type="text" class="ba__input-modal" style="text-transform:uppercase" ng-model="data.contaPagarSelecionado.observacao"
+									 placeholder="">
+								</div>
+							</div>
+						</div>
+						<!--ACRESCIMOS-->
+						<div class="form-group col-xs-24" id="step3" ng-show="data.stepStatus === 3">
+							<div class="row ba__margin-bottom-30">
+								<div class="col-md-6">
+									<h5 class="text-right text-gray">Grupo de conta</h5>
+								</div>
+								<div class="col-md-12 col-md-offset-1">
+									<div class="input-group">
+										<select class="ba__input-select" ng-model="data.acrescimoObj.id_grupo_lancamento" ng-change="filterPC2(data.acrescimoObj.id_grupo_lancamento)"
+										 ng-options="grp.id as grp.descricao for grp in grupoLancamentos">
+										</select>
+									</div>
+								</div>
+							</div>
+							<div class="row ba__margin-bottom-30">
+								<div class="col-md-6">
+									<h5 class="text-right text-gray">Tipo de lançamento</h5>
+								</div>
+								<div class="col-md-7 col-md-offset-1">
+									<div class="input-group">
+										<select class="ba__input-select" ng-model="data.acrescimoObj.id_tipo_lancamento" enter ng-options="planoConta2.id as planoConta2.descricao for planoConta2 in planoContas2">
+										</select>
+									</div>
+								</div>
+							</div>
+							<div class="row ba__margin-bottom-30">
+								<div class="col-md-6">
+									<h5 class="text-right text-gray">Valor</h5>
+								</div>
+								<div class="col-md-7 col-md-offset-1">
+									<input type="text" class="ba__input-modal" ui-money-mask style="text-transform:uppercase" ng-model="data.acrescimoObj.valor"
+									 placeholder="R$ 34,34">
+								</div>
+							</div>
+							<div class="row ba__margin-bottom-30">
+								<div class="col-md-6">
+									<h5 class="text-right text-gray">Incluir soma</h5>
+								</div>
+								<div class="col-md-2 col-md-offset-1 ba__margin-top-5">
+									<div class="col-xs-7 ba__margin-left-5">
+										<div class="onoffswitch">
+											<input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" enter ng-model="data.acrescimoObj.incluir_soma" id="incluirSoma">
+											<label class="onoffswitch-label" for="incluirSoma">
+												<span class="onoffswitch-inner" ng-show="data.acrescimoObj.incluir_soma"></span>
+												<span class="onoffswitch-switch" ng-show="!data.acrescimoObj.incluir_soma"></span>
+											</label>
+										</div>
+									</div>
+								</div>
+								<h5 class="col-xs-3" style="margin-left: -40px">
+									<span class="pull-left">
+										<span ng-show="data.acrescimoObj.incluir_soma" class="text-positive">SIM</span>
+										<span ng-show="!data.acrescimoObj.incluir_soma">NÃO</span>
+									</span>
+								</h5>
+							</div>
+							<button type="button" ng-click="adicionarTaxa()" ng-disabled="(data.acrescimoObj.valor == '')||(data.acrescimoObj.valor == 0)||(!data.acrescimoObj.id_tipo_lancamento)"
+							 class="btn btn-success col-md-4 col-md-offset-7" style="margin-top: -15px; margin-bottom: 20px">
+								Adicionar débito
+							</button>
+
+							<div class="row ba__admin-list">
+								<div class="list-group ba__admin-table ba__margin-top-20 col-md-24" style="height: 65%; overflow: hidden">
+									<a class="list-group-item disabled col-md-24">
+										<div class="row uppercase">
+											<div class="col-xs-12">Tipo de lançamento
+												<i class="ba__margin-horizontal-5"></i>
+											</div>
+											<div class="col-xs-6">Valor
+												<i class="ba__margin-horizontal-5"></i>
+											</div>
+											<div class="col-xs-3">Incluir soma
+												<i class="ba__margin-horizontal-5"></i>
+											</div>
+											<div class="col-xs-2">
+												<i class="ba__margin-horizontal-5"></i>
+											</div>
+										</div>
+									</a>
+									<div class="ba__admin-table-scroll col-md-24" style="overflow: auto">
+										<a class="list-group-item ba__font-size-12" style="height: auto" ng-repeat="acrescimoSelecionado in data.acrescimosSelecionado"
+										 ng-show="acrescimoSelecionado.deleted == 0">
+											<div class="row">
+												<div class="col-xs-12">
+													<div class="col-xs-20">
+														<span>{{getNamePlanoConta(acrescimoSelecionado)}}</span>
+													</div>
+												</div>
+												<div class="col-xs-6">
+													<div class="col-xs-20">
+														<span>{{acrescimoSelecionado.valor | currency}}</span>
+													</div>
+												</div>
+												<div class="col-xs-3">
+													<div class="col-xs-20">
+														<span class="pull-left">
+															<span ng-show="acrescimoSelecionado.incluir_soma" class="text-positive">SIM</span>
+															<span ng-show="!acrescimoSelecionado.incluir_soma">NÃO</span>
+														</span>
+													</div>
+												</div>
+												<div class="col-xs-2">
+													<i class="icon-ba-trash text-gray-medium ba__margin-left-15" ng-click="excluirTaxa($index)"></i>
+													<input type="hidden" ng-model="acrescimoSelecionado.deleted" ng-init="acrescimoSelecionado.deleted=0" />
+												</div>
+											</div>
+										</a>
+									</div>
+								</div>
+							</div>
+						</div>
+						<!--PAGAMENTOS-->
+						<div class="form-group col-xs-24" id="step4" ng-show="data.stepStatus === 4">
+                            <div ng-if="!data.contaPagarSelecionado.id">
+                                <div class="row ba__margin-bottom-30">
+                                    <div class="col-md-4">
+                                        <h5 class="text-left text-gray">Forma de pagamento *</h5>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="input-group">
+                                            <select class="ba__input-select" ng-model="data.forma_pagamento" ng-change="mudaFormaPgto()" ng-options="tipoPagamento for tipoPagamento in data.tiposPagamentosIni">
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row ba__margin-bottom-30">
+                                    <div class="col-md-4">
+                                        <h5 class="text-gray" ng-show="data.valorEntrada < data.saldos.valorTotal">Entrada</h5>
+                                        <h5 class="text-gray" ng-show="data.valorEntrada >= data.saldos.valorTotal">Parcela Única</h5>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <input type="text" id="entrada" class="ba__input-modal" ui-money-mask style="text-transform:uppercase" ng-model="data.valorEntrada" placeholder="R$ 0,00">
+                                    </div>
+
+                                    <div class="col-md-1" style="text-align: center" ng-show="data.valorEntrada < data.saldos.valorTotal">
+                                        <h5 class="text-gray">+</h5>
+                                    </div>
+                                    <div class="col-md-3" ng-show="data.valorEntrada < data.saldos.valorTotal">
+                                        <input type="number" class="ba__input-modal" min="0" style="text-transform:uppercase" ng-model="data.numeroParcelas" placeholder="">
+                                    </div>
+                                    <div class="col-md-2" ng-show="data.valorEntrada < data.saldos.valorTotal">
+                                        <h5 class="text-gray">Parcelas *</h5>
+                                    </div>
+
+                                    <div class="col-md-4 col-md-offset-1">
+                                        <h5 class="text-gray" ng-show="data.valorEntrada < data.saldos.valorTotal">Data da 1º parcela *</h5>
+                                    </div>
+                                    <div class="col-md-3" ng-show="data.valorEntrada < data.saldos.valorTotal">
+                                        <input type="date" class="ba__input-modal" ng-model="data.dataPrimeiraParcela" />
+                                    </div>
+                                </div>
+                                <button type="button" ng-click="gerarParcelas()" ng-disabled="(data.valorEntrada < data.saldos.valorTotal) && (!data.dataPrimeiraParcela)||
+                                                     (data.valorEntrada < data.saldos.valorTotal) && ((data.numeroParcelas == '')||(data.numeroParcelas <= 0))||
+                                                     (data.valorEntrada > data.saldos.valorTotal) || (!data.forma_pagamento)" class="btn btn-success col-md-5 col-md-offset-1 pull-right ba__margin-bottom-30">
+                                    Gerar
+                                </button>
+                                <!--<div class="form-group col-xs-24" style="border-bottom: 1px solid #ccc; padding: 10px 0 20px 0; margin-bottom: 55px" ng-if="parcela.data_pagamento" ng-repeat="parcela in data.parcelasSelecionado">
+                                    <div class="row pago">
+                                        <div class="col-md-7">
+                                            <div class="col-md-10">
+                                                <h5 class="text-left text-gray">Data Pagamento</h5>
+                                            </div>
+                                            <div class="col-md-10">
+                                                <input type="date" class="ba__input-modal pago" ng-model="parcela.data_pagamento" disabled style="text-transform:uppercase;width: 202px !important;height: 44px;">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-7">
+                                            <div class="col-md-10">
+                                                <h5 class="text-left text-gray">Tipo de operação</h5>
+                                            </div>
+                                            <div class="col-md-10 col-md-offset-1">
+                                                <input type="text" class="ba__input-modal pago" ng-model="parcela.tipo_operacao" disabled style="text-transform:uppercase">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-7">
+                                            <div class="col-md-7">
+                                                <h5 class="text-left text-gray">Valor Pago</h5>
+                                            </div>
+                                            <div class="col-md-13 col-md-offset-1">
+                                                <input type="text" class="ba__input-modal pago" ui-money-mask ng-model="parcela.valor_pago" disabled style="text-transform:uppercase">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>-->
+                                <div class="form-group col-xs-24" style="border-bottom: 1px solid #ccc; padding: 10px 0 20px 0; margin-bottom: 55px" ng-repeat="parcela in data.parcelasSelecionado">
+                                    <div class="col-md-7">
+                                        <div class="row ba__margin-bottom-30">
+                                            <div class="col-md-10">
+                                                <h5 class="text-left text-gray">Data de vencimento</h5>
+                                            </div>
+                                            <div class="col-md-13 col-md-offset-1">
+                                                <input type="date" class="ba__input-modal" ng-model="parcela.data_base">
+                                            </div>
+                                        </div>
+                                        <div class="row ba__margin-bottom-30">
+                                            <div class="col-md-10">
+                                                <h5 class="text-left text-gray">Tipo de operação</h5>
+                                            </div>
+                                            <div class="col-md-13 col-md-offset-1">
+                                                <input type="text" class="ba__input-modal" ng-model="parcela.tipo_operacao" ng-disabled="true" style="text-transform:uppercase"
+                                                 placeholder="">
+                                            </div>
+                                        </div>
+                                        <div class="row ba__margin-bottom-30" ng-show="parcela.tipo_operacao == 'Cheque'">
+                                            <div class="col-md-10">
+                                                <h5 class="text-left text-gray">Dt. de compensação</h5>
+                                            </div>
+                                            <div class="col-md-13 col-md-offset-1">
+                                                <input type="date" class="ba__input-select" ng-model="parcela.data_compensacao">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-8 col-md-offset-1">
+                                        <div class="row ba__margin-bottom-30">
+                                            <div class="col-md-10">
+                                                <h5 class="text-left text-gray" ng-if="parcela.tipo_operacao === 'Débito'">Valor pago</h5>
+                                                <h5 class="text-left text-gray" ng-if="parcela.tipo_operacao === 'Provisão'">Valor a pagar</h5>
+                                            </div>
+                                            <div class="col-md-13 col-md-offset-1">
+                                                <input type="text" class="ba__input-modal" ng-blur="atualizaSaldos()" ng-model="parcela.valor_pago" style="text-transform:uppercase"
+                                                 ui-money-mask placeholder="R$ 00,00" ng-disabled="canEditInput(parcela.tipo_operacao)">
+                                            </div>
+                                        </div>
+                                        <div class="row ba__margin-bottom-30">
+                                            <div class="col-md-10">
+                                                <h5 class="text-left text-gray">Conta bancária</h5>
+                                            </div>
+                                            <div class="col-md-13 col-md-offset-1">
+                                                <div class="input-group">
+                                                    <select class="ba__input-select" ng-model="parcela.id_conta_bancaria" enter ng-options="contaBancaria.id_conta_bancaria as contaBancaria.descricao for contaBancaria in contasBancarias">
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-7 col-md-offset-1">
+                                        <div class="row ba__margin-bottom-30">
+                                            <div class="col-md-10">
+                                                <h5 class="text-left text-gray">Forma de pagamento</h5>
+                                            </div>
+                                            <div class="col-md-13 col-md-offset-1">
+                                                <div class="input-group">
+                                                    <select class="ba__input-select" enter ng-model="parcela.forma_pagamento" ng-change="changeTipoOperacao($index)" ng-options="tipoPagamento for tipoPagamento in data.tiposPagamentos">
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div ng-if="parcela.forma_pagamento != 'Dinheiro'" class="row ba__margin-bottom-30">
+                                            <div class="col-md-10">
+                                                <h5 class="text-left text-gray">Nº do {{parcela.forma_pagamento}}</h5>
+                                            </div>
+                                            <div class="col-md-13 col-md-offset-1">
+                                                <input type="text" class="ba__input-modal" style="text-transform:uppercase" ng-model="parcela.numero_comprovante">
+                                                <input type="hidden" ng-model="parcela.deleted" ng-init="parcela.deleted=0" />
+                                            </div>
+                                        </div>
+                                        <div class="row ba__margin-bottom-30" ng-show="parcela.tipo_operacao === 'Débito'">
+                                            <div class="col-md-10">
+                                                <h5 class="text-left text-gray">Data de pagamento</h5>
+                                            </div>
+                                            <div class="col-md-13 col-md-offset-1">
+                                                <input type="date" class="ba__input-modal" ng-model="parcela.data_pagamento" ng-disabled="!canEditInput(parcela.tipo_operacao)"
+                                                />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--EDITAR-->
+                            <div ng-if="data.contaPagarSelecionado.id">
+                                <div class="row pull-right col-md-3">
+                                    <button type="button" class="btn btn-success col-md-24" ng-click="addParcela()">
+                                        Nova Parcela
+                                    </button>
+                                </div>
+                                <div class="row" style="margin-bottom: 35px">
+                                    <div class="form-group col-xs-24" style="padding-top: 10px; " ng-if="!parcela.edit" ng-repeat="parcela in data.parcelasSelecionado">
+                                        <div class="row pago">
+                                            <div class="col-md-1">
+                                                <i class="fa fa-usd icon_pago" aria-hidden="true"></i>
+                                            </div>
+                                            <div class="col-md-7">
+                                                <div class="col-md-10">
+                                                    <h5 class="text-left text-gray">Data Pagamento</h5>
+                                                </div>
+                                                <div class="col-md-10">
+                                                    <input type="date" class="ba__input-modal pago" ng-model="parcela.data_pagamento" disabled style="text-transform:uppercase;width: 202px !important;height: 44px;">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-7">
+                                                <div class="col-md-10">
+                                                    <h5 class="text-left text-gray">Tipo de operação</h5>
+                                                </div>
+                                                <div class="col-md-10 col-md-offset-1">
+                                                    <input type="text" class="ba__input-modal pago" ng-model="parcela.tipo_operacao" disabled style="text-transform:uppercase">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-7">
+                                                <div class="col-md-7">
+                                                    <h5 class="text-left text-gray">Valor Pago</h5>
+                                                </div>
+                                                <div class="col-md-13 col-md-offset-1">
+                                                    <input type="text" class="ba__input-modal pago" ui-money-mask ng-model="parcela.valor_pago" disabled style="text-transform:uppercase">
+                                                    <input type="hidden" ng-model="parcela.deleted" ng-init="parcela.deleted=0" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group col-xs-24 parcelas" style="padding: 10px 0 20px 0; margin-bottom: 55px" ng-if="parcela.edit"
+                                     ng-show="parcela.deleted === 0" ng-repeat="parcela in data.parcelasSelecionado">
+                                    <div class="col-md-7" style="margin-left: 18px">
+                                        <div class="row">
+                                            <div class="col-md-10">
+                                                <h5 class="text-left text-gray">Data de vencimento</h5>
+                                            </div>
+                                            <div class="col-md-13 col-md-offset-1">
+                                                <input type="date" class="ba__input-modal" ng-model="parcela.data_base">
+                                            </div>
+                                        </div>
+                                        <div class="row ba__margin-bottom-30">
+                                            <div class="col-md-10">
+                                                <h5 class="text-left text-gray">Tipo de operação</h5>
+                                            </div>
+                                            <div class="col-md-13 col-md-offset-1">
+                                                <input type="text" class="ba__input-modal" ng-model="parcela.tipo_operacao" ng-disabled="true" style="text-transform:uppercase"
+                                                       placeholder="">
+                                            </div>
+                                        </div>
+                                        <div class="row ba__margin-bottom-30" ng-show="parcela.tipo_operacao == 'Cheque'">
+                                            <div class="col-md-10">
+                                                <h5 class="text-left text-gray">Dt. de compensação</h5>
+                                            </div>
+                                            <div class="col-md-13 col-md-offset-1">
+                                                <input type="date" class="ba__input-select" ng-model="parcela.data_compensacao">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-8 col-md-offset-1">
+                                        <div class="row">
+                                            <div class="col-md-8" style="height: 62px;">
+                                                <h5 class="text-left text-gray" ng-if="parcela.tipo_operacao === 'Débito'">Valor pago</h5>
+                                                <h5 class="text-left text-gray" ng-if="parcela.tipo_operacao === 'Provisão'">Valor a pagar</h5>
+                                            </div>
+                                            <div class="col-md-13 col-md-offset-1">
+                                                <input type="text" class="ba__input-modal" ng-blur="atualizaSaldos()" ng-model="parcela.valor_pago" style="text-transform:uppercase"
+                                                       ui-money-mask placeholder="R$ 0,00" >
+                                            </div>
+                                        </div>
+                                        <div class="row ba__margin-bottom-30">
+                                            <div class="col-md-8">
+                                                <h5 class="text-left text-gray">Conta bancária</h5>
+                                            </div>
+                                            <div class="col-md-13 col-md-offset-1">
+                                                <div class="input-group">
+                                                    <select class="ba__input-select" ng-model="parcela.id_conta_bancaria" enter ng-options="contaBancaria.id_conta_bancaria as contaBancaria.descricao for contaBancaria in contasBancarias">
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-7">
+                                        <div class="row">
+                                            <div class="col-md-10">
+                                                <h5 class="text-left text-gray">Forma de pagamento</h5>
+                                            </div>
+                                            <div class="col-md-13 col-md-offset-1">
+                                                <div class="input-group">
+                                                    <select class="ba__input-select" enter ng-model="parcela.forma_pagamento" ng-change="changeTipoOperacao($index)" ng-options="tipoPagamento for tipoPagamento in data.tiposPagamentos">
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div ng-if="parcela.forma_pagamento != 'Dinheiro'" class="row ba__margin-bottom-30">
+                                            <div class="col-md-10">
+                                                <h5 class="text-left text-gray">Nº do {{parcela.forma_pagamento}}</h5>
+                                            </div>
+                                            <div class="col-md-13 col-md-offset-1">
+                                                <input type="text" class="ba__input-modal" style="text-transform:uppercase" ng-model="parcela.numero_comprovante">
+                                            </div>
+                                        </div>
+                                        <div class="row ba__margin-bottom-30" ng-show="parcela.tipo_operacao === 'Débito'">
+                                            <div class="col-md-10">
+                                                <h5 class="text-left text-gray">Data de pagamento</h5>
+                                            </div>
+                                            <div class="col-md-13 col-md-offset-1">
+                                                <input type="date" class="ba__input-modal" ng-model="parcela.data_pagamento"/>
+                                                <input type="hidden" ng-model="parcela.deleted" ng-init="parcela.deleted=0" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <i class="icon-ba-trash ba__margin-right-15 pull-right" title="Excluir parcela" ng-click="removeParcela($index)">remover</i>
+                                </div>
+                            </div>
+						</div>
+						<!--CONFIRMAÇÃO-->
+						<div class="form-group col-xs-24" id="step5" ng-show="data.stepStatus === 5">
+							<div class="row ba__margin-bottom-30">
+								<div class="col-md-6">
+									<h5 class="text-right text-gray">Descrição:</h5>
+								</div>
+								<div class="col-md-10 col-md-offset-1">
+									<h5>{{data.contaPagarSelecionado.descricao}}</h5>
+								</div>
+							</div>
+							<div class="row ba__margin-bottom-30">
+								<div class="col-md-6">
+									<h5 class="text-right text-gray">Tipo de lançamento:</h5>
+								</div>
+								<div class="col-md-10 col-md-offset-1">
+									<h5 class="uppercase" style="margin-top: 0">{{getNamePlanoConta(data.contaPagarSelecionado)}}</h5>
+								</div>
+							</div>
+							<div class="row ba__margin-bottom-30">
+								<div class="col-md-6">
+									<h5 class="text-right text-gray">Fornecedor:</h5>
+								</div>
+								<div class="col-md-10 col-md-offset-1">
+									<h5>{{getNameFornecedor(data.contaPagarSelecionado)}}</h5>
+								</div>
+							</div>
+							<div class="row ba__margin-bottom-30">
+								<div class="col-md-6">
+									<h5 class="text-right text-gray">Mês de competência:</h5>
+								</div>
+								<div class="col-md-10 col-md-offset-1">
+									<h5>{{data.contaPagarSelecionado.mes_competencia}}</h5>
+								</div>
+							</div>
+							<div class="row ba__margin-bottom-30">
+								<div class="col-md-6">
+									<h5 class="text-right text-gray">Ano de competência:</h5>
+								</div>
+								<div class="col-md-10 col-md-offset-1">
+									<h5>{{data.contaPagarSelecionado.ano_competencia}}</h5>
+								</div>
+							</div>
+							<div class="row ba__margin-bottom-30">
+								<div class="col-md-6">
+									<h5 class="text-right text-gray">Número da nota fiscal:</h5>
+								</div>
+								<div class="col-md-10 col-md-offset-1">
+									<h5>{{data.contaPagarSelecionado.numero_nf}}</h5>
+								</div>
+							</div>
+							<div class="row ba__margin-bottom-30">
+								<div class="col-md-6">
+									<h5 class="text-right text-gray">Data de emissão da nota:</h5>
+								</div>
+								<div class="col-md-10 col-md-offset-1">
+									<h5>{{data.contaPagarSelecionado.data_emissao_nf | date:'dd/MM/yyyy'}}</h5>
+								</div>
+							</div>
+							<div class="row ba__margin-bottom-30">
+								<div class="col-md-6">
+									<h5 class="text-right text-gray">Acréscimos:</h5>
+								</div>
+								<div class="col-md-10 col-md-offset-1">
+									<h5>{{getTotalAcrescimosConta(data.acrescimosSelecionado)| currency}}</h5>
+								</div>
+							</div>
+							<div class="row ba__margin-bottom-30">
+								<div class="col-md-6">
+									<h5 class="text-right text-gray">Valor Líquido:</h5>
+								</div>
+								<div class="col-md-10 col-md-offset-1">
+									<h5>{{data.contaPagarSelecionado.valor| currency}}</h5>
+								</div>
+							</div>
+							<div class="row ba__margin-bottom-30">
+								<div class="col-md-6">
+									<h5 class="text-right text-gray">Valor Total:</h5>
+								</div>
+								<div class="col-md-10 col-md-offset-1">
+									<h5>{{(data.contaPagarSelecionado.valor + getTotalAcrescimosConta(data.acrescimosSelecionado))| currency}}</h5>
+								</div>
+							</div>
+
+							<div class="row ba__admin-list" style="background-color: #eaeaea" ng-show="data.acrescimosSelecionado.length > 0">
+								<h4>Acréscimos:</h4>
+								<div class="list-group ba__admin-table ba__margin-top-20 col-md-24" style="height: 65%; overflow: hidden">
+									<a class="list-group-item disabled col-md-24">
+										<div class="row uppercase">
+											<div class="col-xs-12">Tipo de lançamento
+												<i class="ba__margin-horizontal-5"></i>
+											</div>
+											<div class="col-xs-6">Valor
+												<i class="ba__margin-horizontal-5"></i>
+											</div>
+											<div class="col-xs-3">Incluir soma
+												<i class="ba__margin-horizontal-5"></i>
+											</div>
+											<div class="col-xs-2">
+												<i class="ba__margin-horizontal-5"></i>
+											</div>
+										</div>
+									</a>
+									<div class="ba__admin-table-scroll col-md-24" style="overflow: auto">
+										<a class="list-group-item ba__font-size-12" style="height: auto" ng-repeat="acrescimoSelecionado in data.acrescimosSelecionado"
+										 ng-show="acrescimoSelecionado.deleted == 0">
+											<div class="row">
+												<div class="col-xs-12">
+													<div class="col-xs-20">
+														<span>{{getNamePlanoConta(acrescimoSelecionado)}}</span>
+													</div>
+												</div>
+												<div class="col-xs-6">
+													<div class="col-xs-20">
+														<span>{{acrescimoSelecionado.valor | currency}}</span>
+													</div>
+												</div>
+												<div class="col-xs-3">
+													<div class="col-xs-20">
+														<span class="pull-left">
+															<span ng-show="acrescimoSelecionado.incluir_soma" class="text-positive">SIM</span>
+															<span ng-show="!acrescimoSelecionado.incluir_soma">NÃO</span>
+														</span>
+													</div>
+												</div>
+												<div class="col-xs-2">
+												</div>
+											</div>
+										</a>
+									</div>
+								</div>
+							</div>
+							<div class="form-group col-xs-24" style="border-top: 1px solid #ccc; padding: 10px 0 20px 0; margin-bottom: 55px" ng-repeat="parcela in data.parcelasSelecionado" ng-show="parcela.deleted === 0">
+								<div class="col-md-7">
+									<div class="row ba__margin-bottom-30">
+										<div class="col-md-10">
+											<h5 class="text-left text-gray">Data de Vencimento:</h5>
+										</div>
+										<div class="col-md-13 col-md-offset-1">
+											<h5>{{parcela.data_base | date:'dd/MM/yyyy'}}</h5>
+										</div>
+									</div>
+									<div class="row ba__margin-bottom-30">
+										<div class="col-md-10">
+											<h5 class="text-left text-gray">Tipo de operação:</h5>
+										</div>
+										<div class="col-md-13 col-md-offset-1">
+											<h5>{{parcela.tipo_operacao}}</h5>
+										</div>
+									</div>
+									<div class="row ba__margin-bottom-30" ng-show="parcela.tipo_operacao == 'Cheque'">
+										<div class="col-md-10">
+											<h5 class="text-left text-gray">Dt. de compensação:</h5>
+										</div>
+										<div class="col-md-13 col-md-offset-1">
+											<h5>{{parcela.data_compensacao}}</h5>
+										</div>
+									</div>
+								</div>
+								<div class="col-md-8 col-md-offset-1">
+									<div class="row ba__margin-bottom-30">
+										<div class="col-md-10">
+											<h5 class="text-left text-gray">Valor {{parcela.tipo_operacao == 'Débito'?'pago':'pagar'}}:</h5>
+										</div>
+										<div class="col-md-13 col-md-offset-1">
+											<h5>{{parcela.valor_pago | currency}}</h5>
+										</div>
+									</div>
+									<div class="row ba__margin-bottom-30">
+										<div class="col-md-10">
+											<h5 class="text-left text-gray">Conta bancária:</h5>
+										</div>
+										<div class="col-md-13 col-md-offset-1">
+											<h5>{{getNameContaBancaria(parcela)}}</h5>
+										</div>
+									</div>
+								</div>
+								<div class="col-md-7 col-md-offset-1">
+									<div class="row ba__margin-bottom-30">
+										<div class="col-md-10">
+											<h5 class="text-left text-gray">Forma de pagamento:</h5>
+										</div>
+										<div class="col-md-13 col-md-offset-1">
+											<h5>{{parcela.forma_pagamento}}</h5>
+										</div>
+									</div>
+									<div class="row ba__margin-bottom-30" ng-show="parcela.tipo_operacao === 'Débito'">
+										<div class="col-md-10">
+											<h5 class="text-left text-gray">Data de pagamento:</h5>
+										</div>
+										<div class="col-md-13 col-md-offset-1">
+											<h5>{{parcela.data_pagamento | date:'dd/MM/yyyy'}}</h5>
+										</div>
+									</div>
+									<div class="row ba__margin-bottom-30" ng-if="parcela.forma_pagamento != 'Dinheiro'">
+										<div class="col-md-10">
+											<h5 class="text-left text-gray">Nº do {{parcela.forma_pagamento}}:</h5>
+										</div>
+										<div class="col-md-13 col-md-offset-1">
+											<h5>{{parcela.numero_comprovante}}</h5>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</form>
+			</div>
+			<div class="modal-footer" style="margin-top: 20px">
+				<button type="button" class="btn btn-success col-md-5 col-md-offset-1 pull-right" ng-show="data.stepStatus === 5"
+				 ng-click="saveContasPagar()">
+					Concluir
+				</button>
+				<button type="button" ng-click="nextStep()" class="btn btn-success col-md-5 col-md-offset-1 pull-right" ng-disabled="validateField()"
+				 ng-show="data.stepStatus < 5">
+					Próximo passo
+				</button>
+				<button type="button" class="btn btn-default btn-clear col-md-5 pull-right" ng-click="closeContasPagarModal()">
+					cancelar
+				</button>
+				<button type="button" ng-click="previousStep()" class="btn btn-default col-md-5 pull-right" ng-show="data.stepStatus > 1">
+					Voltar
+				</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!--MODAL EXCLUSAO-->
+<div ng-keypress="$event.keyCode == 13 && deleteLancamentoContasPagar()" class="modal fade" id="deleteAlert" tabindex="-1"
+ role="dialog">
+	<div class="modal-dialog ba__modal-loading" role="document">
+		<div class="modal-content">
+			<div class="modal-header ba__no-padding-top">
+				<h4 class="col-xs-21 modal-title Roboto-Thin ba__font-size-25">
+					<i class="icon-ba-attention text-center text-warning ba__margin-horizontal-5"></i>
+					<span>Confirmação</span>
+					<!--<span>Editando tipo de lançamento</span>-->
+				</h4>
+			</div>
+			<div class="modal-body ba__modal-body-loading">
+				<form>
+					<div class="row ba__margin-top-30">
+						<h5 class="col-md-24 text-gray ba__margin-top-20">
+							<b>Deseja realmente concluir esta ação?</b>
+						</h5>
+					</div>
+				</form>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default btn-clear col-md-8 col-md-offset-7" ng-click="closeDeleteModal()">
+					cancelar
+				</button>
+				<button type="button" class="btn btn-danger-full col-md-8 col-md-offset-1 pull-right" ng-click="deleteLancamentoContasPagar()">
+					DELETAR
+				</button>
+			</div>
+		</div>
+	</div>
+</div>

@@ -1,0 +1,132 @@
+<link rel="stylesheet" href="src/contas-receber/consulta-arq-retorno/consultaArqRetorno.ctrl.css">
+
+<div class="header">
+	<div header></div>
+</div>
+
+<div class="row container-fluid ba__body-content ba__full-width">
+	<!--CONTAINER MENU-->
+	<div sidebar></div>
+	<!--CONTAINER MENU-->
+
+	<!--CONTAINER SISTEMA-->
+	<div class="col-xs-21 ba__admin-container">
+
+		<!-- INICIO Tela CATEGORIA DE USUÁRIOS-->
+		<div class="col-xs-24 ba__admin-container-list">
+
+			<div class="row ba__admin-list" style="overflow-y: auto;">
+
+				<div class="modal-dialog" style="width: 100%; float: left; margin-bottom: 0">
+					<div class="modal-content card-2" style="padding-top: 20px">
+						<div class="modal-header ba__no-padding-top ba__margin-bottom-15">
+							<h4 class="col-xs-21 modal-title Roboto-Thin ba__font-size-25">
+								<i class="icon-ba-attention text-center text-primary ba__margin-horizontal-5"></i>
+								<span>Enviar E-mail</span>
+							</h4>
+						</div>
+						<div class="modal-body">
+							<form>
+								<div class="row">
+									<div class="form-group col-xs-23 col-xs-offset-1">
+										<div class="row ba__margin-bottom-30">
+											<div class="col-md-3">
+												<h5 class="text-left text-gray">Titulo*</h5>
+											</div>
+											<div class="col-md-12 col-md-offset-1">
+												<input type="text" class="ba__input-modal" ng-model="data.assunto">
+											</div>
+										</div>
+										<div class="row ba__margin-bottom-30" style="margin-bottom: 5px">
+											<div class="col-md-3">
+												<h5 class="text-left text-gray">Mensagem*</h5>
+											</div>
+										</div>
+										<div class="row ba__margin-bottom-30" style="margin-bottom: 5px">
+											<textarea ui-tinymce="tinymceOptions" ng-model="data.mensagem"></textarea>
+										</div>
+										<div class="row"><i>Tamanho máximo 25MB</i></div>
+										<div class="row ba__margin-bottom-30" id="addAnexo">
+											<h5 class="text-left text-gray col-md-3">Anexo: <button class="btn btn-primary" ng-click="addFile()" style="padding: 3px 10px !important">+ adicionar</button></h5>
+											<i id="tamanho" class="col-md-3" style="float: left;margin-top: 7px;margin-left: 20px;"></i>
+											<div ng-repeat="item in data.anexos track by $index" style="float: left;width: 100%;">
+												<h5 style="float: left;margin-right: 10px;">
+													<input type="file" multiple onchange="angular.element(this).scope().changeInputField(this)">
+												</h5>
+												<button class="btn btn-primary" ng-click="removeAnexo($index)" style="font-size: 10px;padding: 2px 4px;">X</button>
+
+											</div>
+										</div>
+										<div class="row ba__margin-bottom-30">
+											<div class="row ba__admin-busca">
+												<button type="button" class="btn btn-success col-xs-4" style="margin-top: 12px; margin-left: 40px" ng-click="goToEnvioEmails()">
+													Enviar E-mail
+												</button>
+
+												<div class="col-md-8" style="padding-top: 21px;">
+													<span id="sucess-send-mail" class="sucess-send-mail">E-mail enviado com sucesso!</span>
+													<span id="valida-send-mail" class="valida-send-mail">Ops! Preencha o Titulo e Mensagem</span>
+												</div>
+											</div>
+
+										</div>
+									</div>
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!--CONTAINER SISTEMA-->
+</div>
+
+<!--MODAL Enviando-->
+<div class="modal fade" id="loadingEnviaEmail" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="false">
+	<div class="modal-dialog ba__modal-loading" role="document">
+		<div class="modal-content">
+			<div class="modal-header ba__no-padding-top">
+				<h4 class="col-xs-21 modal-title Roboto-Thin ba__font-size-25">
+					<i class="icon-ba-attention text-center text-warning ba__margin-horizontal-5"></i>
+					<span>Enviando E-mails</span>
+					<!--<span>Editando tipo de lançamento</span>-->
+				</h4>
+			</div>
+			<div class="modal-body ba__modal-body-loading">
+				<form>
+					<div class="row ba__margin-top-30">
+						<i class="col-md-5 fa fa-spinner fa-spin ba__font-size-80 text-center"></i>
+						<h5 class="col-md-19 text-gray ba__margin-top-20"><b>Aguarde até que o Envio seja concluído...</b></h5>
+					</div>
+				</form>
+			</div>
+			<div class="modal-footer">
+				<button type="button" ng-click="cancelarOEnvioEmail();" class="btn btn-default col-md-8 col-md-offset-16">
+					Cancelar Envio
+				</button>
+
+
+
+			</div>
+		</div>
+	</div>
+</div>
+<!--MODAL Enviando-->
+
+<!--MODAL FILEMANAGER-->
+<div class="modal fade" id="filemanager" tabindex="-1" role="dialog" data-keyboard="false">
+	<div class="modal-dialog" role="document" style="width: 90%; height: 90%">
+		<div class="modal-content" style="height: 100%">
+			<div class="modal-header ba__no-padding-top">
+				<h4 class="col-xs-21 modal-title Roboto-Thin ba__font-size-25">
+					<i class="icon-ba-attention text-center text-warning ba__margin-horizontal-5"></i>
+					<span>Enviando E-mails</span>
+				</h4>
+			</div>
+			<div class="modal-body" style="height: 100%">
+				<iframe width="100%" height="90%" frameborder="0" allowtransparency="true"></iframe>
+			</div>
+		</div>
+	</div>
+</div>

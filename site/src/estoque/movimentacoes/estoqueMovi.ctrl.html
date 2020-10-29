@@ -1,0 +1,427 @@
+<link rel="stylesheet" href="src/estoque/movimentacoes/estoqueMovi.ctrl.css">
+
+<div class="header">
+	<div header></div>
+</div>
+
+<div ng-init="ngOnInit()" class="row container-fluid ba__body-content ba__full-width">
+	<div sidebar></div>
+	<div class="col-xs-21 ba__admin-container">
+		<div class="row ba__admin-busca" style="height: 80px;">
+			<!-- <div class="col-xs-24 input-group ba__admin-busca-input" style="float: left; border: none!important; height: 30px; margin-left: 20px">
+				<span class="input-group-addon" style="height: 60px"></span>
+				<select class="form-group col-xs-4 ba__adminSelectBusca" ng-init="search.type = 'descricao'" ng-model="search.type" style="height: 50px; border-bottom: 1px solid #cccccc;">
+					<option value="descricao">Descrição</option>
+				</select>
+				<span class="col-xs-1"></span>
+				<input type="text" ng-model="search.numero" class="form-group col-xs-3" style="height: 50px; border-bottom: 1px solid #cccccc;">
+				<button type="button" class="btn btn-primary col-xs-3 col-xs-offset-1 uppercase" style="margin-top: 12px" ng-click="pesquisar(search)">
+					Pesquisar
+					<i class="icon-ba-search"></i>
+				</button>
+			</div> -->
+		</div>
+		<div class="col-xs-24 ba__admin-container-list">
+			<div class="row ba__admin-list">
+				<div class="row ba__margin-top-20">
+					<h3 class="col-md-15 Roboto-Light">
+						<strong>{{itens.length || 0}}</strong> movimentações encontrados</h3>
+					<button type="button" class="btn btn-success col-xs-offset-3 col-xs-6 uppercase" style="margin-top: 12px" data-toggle="modal"
+					  ng-click="createMovi()">
+						Nova movimentação
+					</button>
+				</div>
+				<div class="list-group ba__admin-table ba__margin-top-40" >
+					<a class="list-group-item disabled">
+						<div class="row uppercase">
+							<div class="col-xs-1 text-center">id</div>
+							<div class="col-xs-3 text-center">data</div>
+							<div class="col-xs-3 text-center">tipo</div>
+							<div class="col-xs-3 text-center">valor do itens</div>
+							<div class="col-xs-3 text-center">valor da nota</div>
+							<div class="col-xs-3 text-center">numero da nota</div>
+							<div class="col-xs-6 text-center">fornecedor</div>
+							<div class="col-xs-2 text-center">ações</div>
+						</div>
+					</a>
+					<div class="ba__admin-table-scroll" style="height: 68%">
+						<a class="list-group-item ba__font-size-12 ba__pointer" ng-repeat="item in itens" ng-click="viewMov(item)">
+							<div class="row">
+								<div class="col-xs-1 text-center">{{item.id}}</div>
+								<div class="col-xs-3 text-center">{{item.created_at | date:'dd/MM/yyyy'}}</div>
+								<div class="col-xs-3 text-center">{{item.tipo}}</div>
+								<div class="col-xs-3 text-center">{{item.valor_itens | currency}}</div>
+								<div class="col-xs-3 text-center">{{item.valor_nota | currency}}</div>
+								<div class="col-xs-3 text-center">{{item.numero_nota}}</div>
+								<div class="col-xs-6 text-center">{{item.vmFornecedor}}</div>
+								<div class="col-xs-2 text-center">
+									<i class="icon-ba-view"></i>
+								</div>
+							</div>
+						</a>
+					</div>
+					<div class="col-md-10 col-md-offset-9" ng-if="pageCount">
+						<nav class="">
+							<ul class="pagination text-center">
+								<li>
+									<a aria-label="Previous" ng-click="updateList(current_page - 1)" class="ba__margin-right-15">
+										<span aria-hidden="true">&laquo; ANTERIOR</span>
+									</a>
+								</li>
+								<li ng-click="updateList(page)" ng-repeat="page in pages">
+									<a ng-class="page == current_page ? 'selected' : ''">{{page}}</a>
+								</li>
+								<li ng-if="pageCount > 5">
+									<a>...</a>
+								</li>
+								<li ng-if="pageCount > 5" ng-click="updateList(pageCount)">
+									<a ng-class="pageCount == current_page ? 'selected' : ''">{{pageCount}}</a>
+								</li>
+								<li>
+									<a aria-label="Next" ng-click="updateList(current_page + 1)" style="margin-left: 15px">
+										<span aria-hidden="true">PRÓXIMA &raquo;</span>
+									</a>
+								</li>
+							</ul>
+						</nav>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="modal fade" id="novaMovi" tabindex="-1" role="dialog">
+	<form ng-submit="submit(item)">
+		<div class="modal-dialog ba__modal-lancamento-avulso" role="document">
+			<div class="modal-content" style="height: 700px">
+				<div class="modal-header ba__no-padding-top">
+					<h4 class="col-xs-21 modal-title Roboto-Thin ba__font-size-25">
+						<i class="icon-ba-attention text-center text-primary ba__margin-horizontal-5"></i>
+						<span>Movimentação</span>
+					</h4>
+				</div>
+				<div class="modal-body ba__modal-body-tipo-lancamento ba__margin-top-7">
+					<div class="row">
+						<div class="form-group col-xs-24">
+							<div class="row ba__margin-bottom-30">
+								<div class="col-md-6">
+									<h4 class="text-right">
+										<b>Movimentação</b>
+									</h4>
+								</div>
+							</div>
+							<div class="row ba__margin-bottom-30">
+								<div class="col-md-6">
+									<h5 class="text-right text-gray">Tipo *</h5>
+								</div>
+								<div class="col-md-14 col-md-offset-1">
+									<label class="radio-inline ba__input-label">
+										<input ng-change="item.operacao = 'manual'" id="tipo" name="tipo" ng-model="item.tipo" class="ba__input-radio" type="radio"
+										  value="entrada" required>
+										<h5>Entrada</h5>
+									</label>
+									<label class="radio-inline ba__input-label">
+										<input id="tipo" name="tipo" ng-model="item.tipo" class="ba__input-radio" type="radio" value="saida">
+										<h5>Saída</h5>
+									</label>
+								</div>
+							</div>
+							<div class="row ba__margin-bottom-30">
+								<div class="col-md-6">
+									<h5 class="text-right text-gray">Operação</h5>
+								</div>
+								<div class="col-md-14 col-md-offset-1">
+									<select ng-disabled="item.tipo =='entrada'" class="ba__input-select" ng-model="item.operacao" ng-options="opt as opt for opt in operacoes()">
+									</select>
+								</div>
+							</div>
+							<div class="row ba__margin-bottom-30">
+								<div class="col-md-6">
+									<h5 class="text-right text-gray">Observações</h5>
+								</div>
+								<div class="col-md-14 col-md-offset-1">
+									<textarea class="ba__textarea-modal" ng-model="item.observacao"></textarea>
+								</div>
+							</div>
+
+                            <hr style="border-top: 1px solid #ccc; margin: 5% 0!important;">
+
+                            <div class="row ba__margin-bottom-30">
+                                <div class="col-md-6">
+                                    <h4 class="text-right">
+                                        <b>Produtos</b>
+                                    </h4>
+                                </div>
+                            </div>
+                            <div ng-if="!item.id_pedido">
+                                <div class="row ba__margin-bottom-30">
+                                    <div class="col-md-6">
+                                        <h5 class="text-right text-gray">Grupo</h5>
+                                    </div>
+                                    <div class="col-md-14 col-md-offset-1">
+                                        <select class="ba__input-select" ng-change="changeGroup(produto.id_grupoproduto)" ng-model="produto.id_grupoproduto" ng-options="opt.id as opt.descricao for opt in grupoProdutos">
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="row ba__margin-bottom-30">
+                                    <div class="col-md-6">
+                                        <h5 class="text-right text-gray">Produto *</h5>
+                                    </div>
+                                    <div class="col-md-14 col-md-offset-1">
+                                        <select class="ba__input-select" ng-change="changeProduct(produto.id_produto)" ng-disabled="!produto.id_grupoproduto" ng-model="produto.id_produto" ng-options="opt.id as opt.descricao for opt in filterProdutos">
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="row ba__margin-bottom-30">
+                                    <div class="col-md-6">
+                                        <h5 class="text-right text-gray">Estoque atual</h5>
+                                    </div>
+                                    <div class="col-md-14 col-md-offset-1">
+                                        <input type="number" class="ba__input-modal" ng-model="produto.estoque_atual" readonly disabled>
+                                    </div>
+                                </div>
+                                <div class="row ba__margin-bottom-30">
+                                    <div class="col-md-6">
+                                        <h5 class="text-right text-gray">Quantidade *</h5>
+                                    </div>
+                                    <div class="col-md-14 col-md-offset-1">
+                                        <input min="1" type="number" class="ba__input-modal" ng-model="produto.quantidade">
+                                    </div>
+                                </div>
+                                <div class="row ba__margin-bottom-30">
+                                    <div class="col-md-12 col-md-offset-7">
+                                        <button ng-disabled="!produto.id_produto" ng-click="addProduto(produto)" type="button" class="btn btn-success">
+                                            Adicionar produto
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="list-group ba__admin-table ba__margin-top-40" style="height: 25%">
+                                <a class="list-group-item disabled">
+                                    <div class="row uppercase">
+                                        <div class="col-xs-4 text-center">Código
+                                            <i class="ba__margin-horizontal-5"></i>
+                                        </div>
+                                        <div class="col-xs-8 text-center">Descrição
+                                            <i class="ba__margin-horizontal-5"></i>
+                                        </div>
+                                        <div class="col-xs-8 text-center">Quantidade
+                                            <i class="ba__margin-horizontal-5"></i>
+                                        </div>
+                                        <div class="col-xs-2 text-center"></div>
+                                    </div>
+                                </a>
+                                <div class="ba__admin-table-scroll">
+                                    <a class="list-group-item ba__font-size-12" ng-repeat="prod in item.estoque">
+                                        <div class="row">
+                                            <div class="col-xs-4 text-center">{{prod.id_produto}}</div>
+                                            <div class="col-xs-8 text-center">{{prod.vmDescricao}}</div>
+                                            <div class="col-xs-7 text-center">{{prod.quantidade}}</div>
+                                            <div class="col-xs-2 text-center">
+                                                <i ng-if="!item.id_pedido" ng-click="removeProduto(prod)" class="fa fa-close text-gray-medium ba__margin-left-35"></i>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
+							<hr style="border-top: 1px solid #ccc; margin: 50px 0!important;">
+                            <div class="row ba__margin-bottom-30">
+                                <div class="col-md-6">
+                                    <h4 class="text-right">
+                                        <b>Dados da NF-E</b>
+                                    </h4>
+                                </div>
+                            </div>
+                            <div class="row ba__margin-bottom-30">
+                                <div class="col-md-6">
+                                    <h5 class="text-right text-gray">Fornecedor</h5>
+                                </div>
+                                <div class="col-md-14 col-md-offset-1">
+                                    <select class="ba__input-select" ng-model="item.id_fornecedor" ng-options="opt.id as opt.nome_fantasia for opt in fornecedores">
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="row ba__margin-bottom-30" ng-if="item.id_pedido">
+                                <div class="col-md-6">
+                                    <h5 class="text-right text-gray">ID da compra</h5>
+                                </div>
+                                <div class="col-md-14 col-md-offset-1">
+                                    <input type="text" class="ba__input-modal" ng-model="item.id_pedido">
+                                </div>
+                            </div>
+                            <div class="row ba__margin-bottom-30">
+                                <div class="col-md-6">
+                                    <h5 class="text-right text-gray">Número da nota</h5>
+                                </div>
+                                <div class="col-md-14 col-md-offset-1">
+                                    <input type="text" class="ba__input-modal" ng-model="item.numero_nota">
+                                </div>
+                            </div>
+                            <div class="row ba__margin-bottom-30">
+                                <div class="col-md-6">
+                                    <h5 class="text-right text-gray">Valor da nota</h5>
+                                </div>
+                                <div class="col-md-14 col-md-offset-1">
+                                    <input type="text" class="ba__input-modal" ng-model="item.valor_nota" ui-money-mask>
+                                </div>
+                            </div>
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer" style="padding: 0; padding-top: 25px">
+					<button ng-if="!item.id" type="submit" class="btn btn-success col-md-5 ba__margin-left-15 pull-right">
+						Movimentar
+					</button>
+					<button type="button" data-dismiss='modal' class="btn btn-default col-md-5 ba__margin-left-15 pull-right">
+						cancelar
+					</button>
+				</div>
+			</div>
+		</div>
+	</form>
+</div>
+<div class="modal fade" id="viewMovi" tabindex="-1" role="dialog">
+	<form ng-submit="submit(item)">
+		<div class="modal-dialog ba__modal-lancamento-avulso" role="document">
+			<div class="modal-content" style="height: 700px">
+				<div class="modal-header ba__no-padding-top">
+					<h4 class="col-xs-21 modal-title Roboto-Thin ba__font-size-25">
+						<i class="icon-ba-attention text-center text-primary ba__margin-horizontal-5"></i>
+						<span>Movimentação</span>
+					</h4>
+				</div>
+				<div class="modal-body ba__modal-body-tipo-lancamento ba__margin-top-7">
+					<div class="row">
+						<div class="form-group col-xs-24">
+							<div class="row ba__margin-bottom-30">
+								<div class="col-md-6">
+									<h4 class="text-right">
+										<b>Movimentação</b>
+									</h4>
+								</div>
+							</div>
+							<div class="row ba__margin-bottom-30">
+								<div class="col-md-6">
+									<h5 class="text-right text-gray">Tipo *</h5>
+								</div>
+								<div class="col-md-14 col-md-offset-1">
+									<label class="radio-inline ba__input-label">
+										<input ng-change="item.operacao = 'manual'" id="tipo" name="tipo" ng-model="item.tipo" class="ba__input-radio" type="radio"
+											   value="entrada" required disabled>
+										<h5>Entrada</h5>
+									</label>
+									<label class="radio-inline ba__input-label">
+										<input id="tipo" name="tipo" ng-model="item.tipo" class="ba__input-radio" type="radio" value="saida" disabled>
+										<h5>Saída</h5>
+									</label>
+								</div>
+							</div>
+							<div class="row ba__margin-bottom-30">
+								<div class="col-md-6">
+									<h5 class="text-right text-gray">Operação</h5>
+								</div>
+								<div class="col-md-14 col-md-offset-1">
+									<select class="ba__input-select" ng-model="item.operacao" ng-options="opt as opt for opt in operacoes()" disabled></select>
+								</div>
+							</div>
+							<div class="row ba__margin-bottom-30">
+								<div class="col-md-6">
+									<h5 class="text-right text-gray">Observações</h5>
+								</div>
+								<div class="col-md-14 col-md-offset-1">
+									<textarea class="ba__textarea-modal" ng-model="item.observacao" disabled></textarea>
+								</div>
+							</div>
+
+							<hr style="border-top: 1px solid #ccc; margin: 5% 0!important;">
+
+							<div class="row ba__margin-bottom-30">
+								<div class="col-md-6">
+									<h4 class="text-right">
+										<b>Produtos</b>
+									</h4>
+								</div>
+							</div>
+							<div class="list-group ba__admin-table ba__margin-top-40" style="height: 25%">
+								<a class="list-group-item disabled">
+									<div class="row uppercase">
+										<div class="col-xs-4 text-center">Código
+											<i class="ba__margin-horizontal-5"></i>
+										</div>
+										<div class="col-xs-8 text-center">Descrição
+											<i class="ba__margin-horizontal-5"></i>
+										</div>
+										<div class="col-xs-8 text-center">Quantidade
+											<i class="ba__margin-horizontal-5"></i>
+										</div>
+										<div class="col-xs-2 text-center"></div>
+									</div>
+								</a>
+								<div class="ba__admin-table-scroll">
+									<a class="list-group-item ba__font-size-12" ng-repeat="prod in item.estoque">
+										<div class="row">
+											<div class="col-xs-4 text-center">{{prod.id_produto}}</div>
+											<div class="col-xs-8 text-center">{{prod.vmDescricao}}</div>
+											<div class="col-xs-7 text-center">{{prod.quantidade}}</div>
+										</div>
+									</a>
+								</div>
+							</div>
+
+							<hr style="border-top: 1px solid #ccc; margin: 50px 0!important;">
+							<div class="row ba__margin-bottom-30">
+								<div class="col-md-6">
+									<h4 class="text-right">
+										<b>Dados da NF-E</b>
+									</h4>
+								</div>
+							</div>
+							<div class="row ba__margin-bottom-30">
+								<div class="col-md-6">
+									<h5 class="text-right text-gray">Fornecedor</h5>
+								</div>
+								<div class="col-md-14 col-md-offset-1">
+									<select class="ba__input-select" disabled ng-model="item.id_fornecedor" ng-options="opt.id as opt.nome_fantasia for opt in fornecedores">
+									</select>
+								</div>
+							</div>
+							<div class="row ba__margin-bottom-30" ng-if="item.id_pedido">
+								<div class="col-md-6">
+									<h5 class="text-right text-gray">ID da compra</h5>
+								</div>
+								<div class="col-md-14 col-md-offset-1">
+									<input type="text" class="ba__input-modal" ng-model="item.id_pedido" disabled>
+								</div>
+							</div>
+							<div class="row ba__margin-bottom-30">
+								<div class="col-md-6">
+									<h5 class="text-right text-gray">Número da nota</h5>
+								</div>
+								<div class="col-md-14 col-md-offset-1">
+									<input type="text" class="ba__input-modal" ng-model="item.numero_nota" disabled>
+								</div>
+							</div>
+							<div class="row ba__margin-bottom-30">
+								<div class="col-md-6">
+									<h5 class="text-right text-gray">Valor da nota</h5>
+								</div>
+								<div class="col-md-14 col-md-offset-1">
+									<input type="text" class="ba__input-modal" ng-model="item.valor_nota" ui-money-mask disabled>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer" style="padding: 0; padding-top: 25px">
+					<button type="button" data-dismiss='modal' class="btn btn-default col-md-5 ba__margin-left-15 pull-right">
+						cancelar
+					</button>
+					<button ng-if="item.id && !item.id_pedido" type="button" ng-click="delete(item)" class="btn btn-danger-full col-md-5 ba__margin-left-15 pull-right">
+						Excluir
+					</button>
+				</div>
+			</div>
+		</div>
+	</form>
+</div>

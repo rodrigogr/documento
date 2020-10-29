@@ -1,0 +1,216 @@
+<link rel="stylesheet" href="src/cadastros/informativo/informativo.ctrl.css">
+
+<div class="header">
+    <div header></div>
+</div>
+
+<div ng-init="ngOnInit()" class="row container-fluid ba__body-content ba__full-width">
+    <!--CONTAINER MENU-->
+    <div sidebar></div>
+    <!--CONTAINER SISTEMA-->
+    <div class="col-xs-21 ba__admin-container">
+        <div class="col-xs-24 ba__admin-container-list">
+            <div class="row ba__admin-list">
+                <div class="row ba__margin-top-20">
+                    <h3 class="col-md-15 Roboto-Light">
+                        <strong>{{Itens.length || 0}}</strong> Registros encontrados</h3>
+                    <button type="button" class="btn btn-success col-xs-offset-3 col-xs-6 uppercase"
+                            ng-if="accessPagina.inserir" style="margin-top: 12px" ng-click="novo();">
+                        novo
+                    </button>
+                </div>
+                <div class="list-group ba__admin-table ba__margin-top-40" style="height: 80%">
+                    <a class="list-group-item disabled">
+                        <div class="row uppercase">
+                            <div class="col-xs-2">ID
+                                <i class="ba__margin-horizontal-5"></i>
+                            </div>
+                            <div class="col-xs-12">Contúdo
+                                <i class="ba__margin-horizontal-5"></i>
+                            </div>
+                            <div class="col-xs-4">tipo
+                                <i class="ba__margin-horizontal-5"></i>
+                            </div>
+                            <div class="col-xs-2">Dt. inicial
+                                <i class="ba__margin-horizontal-5"></i>
+                            </div>
+                            <div class="col-xs-2">Dt. final
+                                <i class="ba__margin-horizontal-5"></i>
+                            </div>
+                            <div class="col-xs-2">Ações</div>
+                        </div>
+                    </a>
+                    <div class="ba__admin-table-scroll">
+                        <div class="list-group-item ba__font-size-12 ba__pointer"
+                             ng-click="edit(item);$('#novoInformativo').modal('show');$event.stopPropagation();"
+                             ng-repeat="item in Itens">
+                            <div class="row">
+                                <div class="col-xs-2">{{item.id}}</div>
+                                <div class="col-xs-12">{{item.conteudo}}</div>
+                                <div class="col-xs-4">{{item.tipo}}</div>
+                                <div class="col-xs-2">{{item.datainicial | date:'dd/MM/yyyy'}}</div>
+                                <div class="col-xs-2">{{item.datafinal | date:'dd/MM/yyyy'}}</div>
+                                <div class="col-xs-2">
+                                    <a ng-click='linkPdf(item);$event.stopPropagation();' target="_blank"
+                                       class="icon-ba-view link-only" title="Visualizar"></a>
+                                    <i class="icon-ba-edit ba__margin-left-20" title="Editar"
+                                       ng-if="accessPagina.editar"></i>
+                                    <i class="icon-ba-trash ba__margin-left-20" title="Excluir"
+                                       ng-if="accessPagina.excluir"
+                                       ng-click="delete(item.id);$event.stopPropagation();"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-10 col-md-offset-9" ng-if="pageCount">
+                    <nav class="">
+                        <ul class="pagination text-center">
+                            <li>
+                                <a aria-label="Previous" ng-click="updateList(current_page - 1)"
+                                   class="ba__margin-right-15">
+                                    <span aria-hidden="true">&laquo; ANTERIOR</span>
+                                </a>
+                            </li>
+                            <li ng-click="updateList(page)" ng-repeat="page in pages">
+                                <a ng-class="page == current_page ? 'selected' : ''">{{page}}</a>
+                            </li>
+                            <li ng-if="pageCount > 5">
+                                <a>...</a>
+                            </li>
+                            <li ng-if="pageCount > 5" ng-click="updateList(pageCount)">
+                                <a ng-class="pageCount == current_page ? 'selected' : ''">{{pageCount}}</a>
+                            </li>
+                            <li>
+                                <a aria-label="Next" ng-click="updateList(current_page + 1)" style="margin-left: 15px">
+                                    <span aria-hidden="true">PRÓXIMA &raquo;</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--MODAL CADASTRAR TIPO DE LANÇAMENTO-->
+<div class="modal fade" id="novoInformativo" tabindex="-1" role="dialog">
+    <div class="modal-dialog ba__modal-lancamento-avulso" role="document">
+        <div class="modal-content" style="height: 700px">
+            <div class="modal-header ba__no-padding-top">
+                <h4 class="col-xs-21 modal-title Roboto-Thin ba__font-size-25">
+                    <i class="icon-ba-attention text-center text-primary ba__margin-horizontal-5"></i>
+                    <span>{{informativo && informativo.id ? 'Editar': 'Novo'}}</span>
+                    <!--<span>Editando tipo de lançamento</span>-->
+                </h4>
+            </div>
+            <div class="modal-body ba__modal-body-tipo-lancamento ba__margin-top-7">
+                <form>
+                    <div class="row">
+                        <div ng-if="informativo.id" class="row ba__margin-bottom-30">
+                            <div class="col-md-3">
+                                <h5 class="text-left text-gray">Código</h5>
+                            </div>
+                            <div class="col-md-2 col-md-offset-1">
+                                <input readonly type="text" class="ba__input-modal" ng-model="informativo.id">
+                            </div>
+                        </div>
+                        <div class="row ba__margin-bottom-30">
+                            <div class="col-md-3">
+                                <h5 class="text-left text-gray">Tipo</h5>
+                            </div>
+                            <div class="col-md-10 col-md-offset-1" style="text-align: left;">
+                                <label class="radio-inline">
+                                    <input type="radio" ng-model='informativo.tipo' value="Mensagem">Mensagem</label>
+                                <label class="radio-inline">
+                                    <input type="radio" ng-model='informativo.tipo' value="Imagem">Imagem</label>
+                            </div>
+                        </div>
+                        <div ng-if="informativo.tipo=='Mensagem'">
+                            <div class="row ba__margin-bottom-30" style="margin-bottom: 5px">
+                                <div class="col-md-3">
+                                    <h5 class="text-left text-gray">Conteúdo</h5>
+                                </div>
+                            </div>
+                            <div class="row ba__margin-bottom-30" style="margin-bottom: 5px">
+                                <textarea ui-tinymce="tinymceOptions" ng-model="informativo.conteudo"></textarea>
+                            </div>
+                        </div>
+                        <div ng-if="informativo.tipo=='Imagem'">
+                            <div class="row ba__margin-bottom-30" style="margin-bottom: 5px">
+                                <div class="col-md-3">
+                                    <h5 class="text-left text-gray">Descrição</h5>
+                                </div>
+                            </div>
+                            <div class="row ba__margin-bottom-30" style="margin-bottom: 5px">
+                                <textarea style="height: 100px;width: 300px;"
+                                          ng-model="informativo.conteudo"></textarea>
+                            </div>
+                        </div>
+                        <div ng-if="informativo.tipo=='Imagem'">
+                            <div class="row ba__margin-top-30">
+                                <i>*Tipo: png, jpg, jpeg, gif</i>
+                                <input onchange="angular.element(this).scope().changeImage(this.files[0])" type="file" />
+                                <img ng-src="{{informativo.image}}" style="height: 100px;object-fit: cover;margin: 10px 0 20px 0;">
+                            </div>
+                        </div>
+                        <div class="row ba__margin-bottom-30">
+                            <div class="col-md-3">
+                                <h5 class="text-left text-gray">Período</h5>
+
+                                <h5>Início
+                                    <input type="date" ng-model='informativo.datainicial'>
+                                </h5>
+                                <h5>Fim
+                                    <input type="date" ng-model='informativo.datafinal'>
+                                </h5>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer" style="padding: 0; padding-top: 25px">
+                <button data-dismiss='modal' type="button"
+                        class="btn btn-default btn-clear col-xs-8 col-xs-offset-6 btnVeiculo">
+                    Cancelar
+                </button>
+                <button ng-disabled="!validBtn(informativo)" type="button"
+                        ng-if="!informativo.id && accessPagina.inserir" ng-click="save(informativo)"
+                        class="btn btn-success col-xs-9 col-xs-push-1 btnFocus btnVeicul">
+                    Salvar
+                </button>
+                <button ng-disabled="!validBtn(informativo)" type="button" ng-if="informativo.id && accessPagina.editar"
+                        ng-click="save(informativo)" class="btn btn-success col-xs-9 col-xs-push-1 btnFocus btnVeicul">
+                    Editar
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+<!--MODAL boleto-->
+<div class="modal fade relatorio-modal" id="showPdf" tabindex="-1" role="dialog" data-backdrop="static"
+     data-keyboard="false">
+    <h1 data-dismiss="modal">X</h1>
+    <object data="{{content}}" type="application/pdf"></object>
+</div>
+<!--MODAL buscando lancamentos-->
+<div class="modal fade" id="loadingPdf" role="dialog" data-backdrop="static">
+    <div class="modal-dialog ba__modal-loading" role="document">
+        <div class="modal-content">
+            <div class="modal-header ba__no-padding-top">
+                <h4 class="col-xs-21 modal-title Roboto-Thin ba__font-size-25">
+                    <i class="icon-ba-attention text-center text-warning ba__margin-horizontal-5"></i>
+                    <span>Aguarde...</span>
+                </h4>
+            </div>
+            <div class="modal-body ba__modal-body-loading">
+                <form>
+                    <div class="row ba__margin-top-30">
+                        <i class="col-md-5 fa fa-spinner fa-spin ba__font-size-80 text-center"></i>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

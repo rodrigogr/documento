@@ -1,0 +1,245 @@
+<link rel='stylesheet' href='src/patrimonio/patrimonio.css'>
+
+<div class="header">
+    <div header></div>
+</div>
+<div class='patrimonio'>
+    <section class='main'>
+        <div class='container-fluid'>
+            <div ng-init='init()' class='row'>
+                <nav sidebar></nav>
+
+                <div class='col-xs-21 content'>
+                    <form action='' method='post' class='form-horizontal filter'>
+                        <div class='row'>
+                            <label class='control-label col-xs-2' for='filter'>Pesquisar</label>
+                            <div class='col-xs-22'>
+                                <input class='form-control' ng-model='data.filter.value'>
+                            </div>
+                        </div>
+                    </form>
+
+                    <div class='result-action'>
+                        <h3 ng-if='(data.rows | filter:data.filter.value).length == 1'><strong>1</strong> apólice encontrada</h3>
+                        <h3 ng-if='(data.rows | filter:data.filter.value).length != 1'><strong>{{(data.rows | filter:data.filter.value).length}}</strong> apólices encontradas</h3>
+                        <button data-toggle='modal' ng-click='newRow()' ng-if="accessPagina.inserir" type='submit' class='btn btn-success'>Nova apólice</button>
+                    </div>
+
+                    <div class='list-group'>
+                        <a class='list-group-item disabled'>
+                            <div class='row uppercase'>
+                                <div class='col-xs-4'>Nº da apólice</div>
+                                <div class='col-xs-11'>Descricao</div>
+                                <div class='col-xs-3'>Bens</div>
+                                <div class='col-xs-2'>Dt. final</div>
+                                <div class='col-xs-2'>Valor do prêmio</div>
+                                <div class='col-xs-2 acoes'>Ações</div>
+                            </div>
+                        </a>
+
+                        <a href='#' class='list-group-item' ng-repeat='row in (data.rows | filter:data.filter.value)' ng-click='editRow($event, row)'>
+                            <div class='row'>
+                                <div class='col-xs-4'>{{row.numero}}</div>
+                                <div class='col-xs-11'>{{row.descricao}}</div>
+                                <div class='col-xs-3'>{{row.patrimonios.length}}</div>
+                                <!--<div class='col-xs-2'>{{mDateSrv.isoToDateObj(row.data_final).toLocaleString('pt-BR', {'timeZone':'America/Sao_Paulo'}).substr(0, 10)}}</div>-->
+                                <div class='col-xs-2'>{{(mDateSrv.isoToDateObj(row.data_final).getTime() < data_hoje.getTime() ? 'Expirado' : mDateSrv.isoToDateObj(row.data_final).toLocaleString('pt-BR', {'timeZone':'America/Sao_Paulo'}).substr(0, 10))}}</div>
+                                <div class='col-xs-2'>{{row.valor_premio.toLocaleString('arab', {'style':'currency', 'currency':'BRL'})}}</div>
+                                <div class='col-xs-2 acoes'>
+                                    <i class='fa fa-eye'></i>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Modal registrar apólice. -->
+    <div class='modal fade' id='registro'>
+        <div class='modal-dialog'>
+            <form class='form-horizontal modal-content' ng-submit='submit()'>
+                <div class='modal-header'>
+                    <h4 class='modal-title'>Patrimônio - registro de apólice</h4>
+                </div>
+                <div class='modal-body'>
+                    <fieldset>
+                        <div class='row'>
+                            <legend class='col-md-6'>Apólice</legend>
+                        </div>
+
+                        <!-- TODO: em todos os elementos, estabelecer padrão de ordem para as propriedades. -->
+                        <div class='form-group'>
+                            <label class='control-label col-md-6' for='descricao'>Descrição</label>
+                            <div class='col-md-18'>
+                                <input class='form-control' type='text' id='descricao' name='descricao' ng-model='data.model.descricao' required>
+                            </div>
+                        </div>
+
+                        <!-- TODO: em todos os elementos, estabelecer padrão de ordem para as propriedades. -->
+                        <div class='form-group'>
+                            <label class='control-label col-md-6' for='status'>Status</label>
+                            <div class='col-md-18'>
+                                <input class='form-control' type='text' id='status' name='status' ng-model='data.model.status' readonly>
+                            </div>
+                        </div>
+
+                        <div class='form-group'>
+                            <label class='control-label col-md-6' for='seguradora'>Seguradora</label>
+                            <div class='col-md-18'>
+                                <select class='form-control' name='seguradora' id='seguradora' required
+
+                                    ng-model='data.model.id_empresa'
+                                    ng-options='option.id as option.nome_fantasia for option in data.list.seguradoras'
+
+                                    >
+                                    <option value=''>Selecione...</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class='form-group'>
+                            <label class='control-label col-md-6' for='data_inicio'>Data de início</label>
+                            <div class='col-md-18'>
+                                <input type='date' id='data_inicio' name='data_inicio' class='form-control' ng-model='data.model.data_inicio' required>
+                            </div>
+                        </div>
+
+                        <div class='form-group'>
+                            <label class='control-label col-md-6' for='data_final'>Data final</label>
+                            <div class='col-md-18'>
+                                <input type='date' id='data_final' name='data_final' class='form-control' ng-model='data.model.data_final' required>
+                            </div>
+                        </div>
+
+                        <div class='form-group'>
+                            <label class='control-label col-md-6' for='numero'>Número da apólice</label>
+                            <div class='col-md-18'>
+                                <input class='form-control' type='text' id='numero' name='numero' ng-model='data.model.numero' required>
+                            </div>
+                        </div>
+                    </fieldset>
+
+                    <fieldset ng-show='data.model.id'>
+                        <div class='row'>
+                            <legend class='col-md-6'>Lista de bens</legend>
+                        </div>
+
+                        <!-- TODO: melhorar essa parte, para não ser necessário criar uma div só para encapsular a controller. -->
+                        <div ng-controller='PatrimonioApolicePatrimonioCtrl' ng-init='bensSemPendencia()'>
+                            <!-- TODO: inverter as classes onde estão col-xs, deixar as classes mais importantes primeiro. -->
+                            <!-- TODO: arrumar uma forma de mostrar essa tag somente quando o status do controller pai for ativo. -->
+                            <div class='form-group' ng-show='mApoliceSrv.getStatus() == "Ativo"'>
+                                <label class='control-label col-md-6' for='bens_patrimoniais'>Bens patrimoniais</label>
+                                <div class='col-md-14'>
+                                    <select class='form-control' name='bens_patrimoniais' id='bens_patrimoniais'
+
+                                        ng-model='data.patrimonioSelecionado'
+                                        ng-options='option as option.numero + " - " + option.produto.descricao for option in data.list.patrimonios'
+
+                                        >
+                                        <option value=''>selecione...</option>
+                                    </select>
+                                </div>
+                                <div class='col-md-4'>
+                                    <button type='button' class='btn btn-primary' ng-click='newRow()' ng-if="accessPagina.inserir">+</button>
+                                </div>
+                            </div>
+
+                            <section class='bens' ng-show='data.rows.length'>
+                                <div class='list-group' ng-show='mApoliceSrv.getStatus() == "Ativo"'>
+                                    <a class='list-group-item disabled'>
+                                        <div class='row uppercase'>
+                                            <div class='col-xs-20'>Nome do bem</div>
+                                            <div class='col-xs-4 acoes'>Ações</div>
+                                        </div>
+                                    </a>
+
+                                    <div class='list-group-item' ng-repeat='row in data.rows'>
+                                        <div class='row'>
+                                            <div class='col-xs-20'>{{row.produto.descricao}}</div>
+                                            <div class='col-xs-4 acoes'>
+                                                <a href='#' ng-click='deleteRow($event, row)' ng-if="accessPagina.inserir">
+                                                    <i class='fa fa-trash'></i>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class='list-group' ng-show='mApoliceSrv.getStatus() != "Ativo"'>
+                                    <a class='list-group-item disabled uppercase'>Nome do bem</a>
+                                    <div class='list-group-item' ng-repeat='row in data.rows'>{{row.produto.descricao}}</div>
+                                </div>
+                            </section>
+                        </div>
+                    </fieldset>
+
+                    <fieldset>
+                        <div class='row'>
+                            <legend class='col-md-6'>Valores</legend>
+                        </div>
+
+                        <div class='form-group'>
+                            <label class='control-label col-md-6' for='valor_franquia'>Valor da franquia</label>
+                            <div class='col-md-18'>
+                                <input id='valor_franquia' name='valor_franquia' class='form-control' ng-model='data.model.valor_franquia' placeholder='R$ 0,00' ui-money-mask required>
+                            </div>
+                        </div>
+
+                        <div class='form-group'>
+                            <label class='control-label col-md-6' for='valor_premio'>Valor do prêmio</label>
+                            <div class='col-md-18'>
+                                <input id='valor_premio' name='valor_premio' class='form-control' ng-model='data.model.valor_premio' placeholder='R$ 0,00' ui-money-mask required>
+                            </div>
+                        </div>
+
+                        <div class='form-group'>
+                            <label class='control-label col-md-6' for='descricao_valores'>Descrição dos valores</label>
+                            <div class='col-md-18'>
+                                <textarea id='descricao_valores' name='descricao_valores' class='form-control' ng-model='data.model.descricao_valores' required></textarea>
+                            </div>
+                        </div>
+                    </fieldset>
+                </div>
+
+                <div class='modal-footer'>
+                    <a href='#' class='revogar-baixa' ng-click='openModalCancelamento($event)' ng-if="accessPagina.excluir" ng-show='data.model.id && data.model.status == "Ativo"'>Cancelar apólice</a>
+                    <button type='button' class='btn btn-default' ng-click='closeModal()'>Fechar</button>
+
+                    <button class='btn btn-success' ng-show='!data.model.id'>
+                        <span>Registrar</span>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <!-- Modal registrar apólice. -->
+
+    <!-- Modal cancelamento de apólice. -->
+    <div class='modal fade' id='cancelamento'>
+        <div class='modal-dialog'>
+            <form class='form-horizontal modal-content' ng-submit='update()'>
+                <div class='modal-header'>
+                    <h4 class='modal-title'>Motivo do cancelamento</h4>
+                </div>
+
+                <div class='modal-body'>
+                    <div class='form-group'>
+                        <label class='control-label col-md-6' for='motivo_cancelamento'>Qual o motivo do<br>cancelamento?</label>
+                        <div class='col-md-18'>
+                            <textarea id='motivo_cancelamento' name='motivo_cancelamento' class='form-control' ng-model='data.model.motivo_cancelamento' required></textarea>
+                        </div>
+                    </div>
+                </div>
+
+                <div class='modal-footer'>
+                    <button type='button' class='btn btn-default' ng-click='closeModalCancelamento()'>Não cancelar</button>
+                    <button class='btn btn-success'>Cancelar agora</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Modal cancelamento de apólice. -->
+</div>

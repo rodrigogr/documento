@@ -1,0 +1,83 @@
+<link rel="stylesheet" href="src/app/login/login.ctrl.css">
+
+
+<div class="row container-fluid ba__header-page">
+    <div class="col-xs-3 bg-primary">
+        <div class="ba__bioacesso-header-logo"></div>
+    </div>
+    <div class="col-xs-4 bg-success">
+        <div class="ba__logo-condominio"></div>
+    </div>
+
+    <div class="col-xs-15 display-table">
+        <p class="ba__font-size-20 text-info table-cell">
+            {{condominio}}
+        </p>
+    </div>
+</div>
+
+<div class="row container-fluid ba__body-login-content">
+    <div class="row">
+        <div class="col-xs-6 col-xs-offset-9 ba__login-content-box">
+            <h4 class="text-center text-primary uppercase ba__margin-bottom-40 ba__font-color-gray" style="font-size: 18px">Entre com suas credenciais</h4>
+            <br/>
+            <form ng-submit="onLogin()">
+                <p class="error"></p>
+                <div class="input-group input-group-xs col-xs-20 col-xs-offset-2 ba__login-input">
+                    <!--Input de Nome de usuário-->
+                    <span class="input-group-addon"><i class="icon-ba-user"></i></span>
+
+                    <input type="text" name="login" id="login" ng-model="credenciais.login" class="form-control"
+                           autocomplete="off"
+                           placeholder="Nome de usuário">
+                    <span class="input-group-addon pointer" ng-click="clearLogin('login')" tabindex="none"><i class="icon-ba-cross-outline ba__font-size-10"></i></span>
+                </div>
+                <h4 class="error text-primary text-center"></h4>
+                <!--Input de Nome de senha-->
+                <div class="input-group input-group-xs col-xs-20 col-xs-offset-2 ba__login-input">
+                    <!--Input de Senha de acesso-->
+                    <span class="input-group-addon"><i class="icon-ba-lock"></i></span>
+                    <input type="password" name="password" id="password" ng-model="credenciais.password" class="form-control"
+                           autocomplete="off"
+                           placeholder="Senha de acesso">
+                    <input type="hidden" name="ip" id="ip"/>
+                    <span class="input-group-addon pointer" ng-click="clearLogin('password')" tabindex="none"><i class="icon-ba-cross-outline ba__font-size-10"></i></span>
+                </div>
+                <h4 class="error text-primary text-center"></h4>
+                <button type="submit" class="btn btn-primary ba__btn-login-style col-xs-20 col-xs-offset-2 ba__margin-top-40 ba__font-size-20">
+                    Entrar agora
+                </button>
+            </form>
+            <button type="button"
+                    class="btn btn-default ba__btn-login-style btn-clear col-xs-20 col-xs-offset-2"
+                    style="color: #a09e9a;
+                        font-size: 18px"
+                    data-toggle="modal"
+                    id="btnEsqueciSenha"
+                    data-target="#alertaNovaSenha">
+                Esqueci a senha
+            </button>
+        </div>
+    </div>
+</div>
+<!-- INICIO Modal ALERTA NOVA SENHA-->
+<div class="modal fade" id="alertaNovaSenha" role="dialog"
+     aria-labelledby="alertaNovaSenhaLabel">
+    <div class="modal-dialog ba__modal-liberar-entrada" role="document">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div class="row">
+                    <h2 class="text-center ba__no-padding">
+                        <i class="icon-ba-alert text-warning text-center ba__font-size-60"></i>
+                    </h2>
+                    <h3 class="uppercase text-center Roboto-Thin ba__no-padding">Atenção!</h3>
+                    <h5 class="text-center ba__margin-top-40">Dirija-se à administração para definir uma nova senha.</h5>
+                </div>
+            </div>
+            <div class="modal-footer ba__margin-top-20 ba__no-padding-bottom">
+                <button type="button" type="submit" data-dismiss="modal" class="btn btn-success col-xs-10 col-xs-offset-7">Ok, entendi.</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- FINAL Modal ALERTA NOVA SENHA-->

@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="pt" ng-app="AppModule">
+
+<head>
+    <base href="/">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" href="img/financeiro.ico">
+    <title>Bioacesso - Financeiro</title>
+    <link href="https://fonts.googleapis.com/css?family=Raleway:100,600" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="css/lib/overlay.css">
+    <link rel="stylesheet" href="css/lib/bootstrap.css">
+    <link rel="stylesheet" href="css/lib/bootstrap-theme.css">
+    <link rel="stylesheet" href="css/lib/font-awesome.css">
+    <link rel="stylesheet" href="css/lib/styles.css">
+    <link rel="stylesheet" href="css/lib/dialog.css">
+    <link rel="stylesheet" href="css/lib/webcam.css">
+    <link rel="stylesheet" href="css/lib/ba-icons.css">
+    <link rel="stylesheet" href="css/lib/autocomplete.css">
+    <link rel="stylesheet" href="css/lib/sweetalert.css">
+    <link rel="stylesheet" href="css/lib/custom.css">
+    <link rel="stylesheet" href="css/loader.css">
+    <link rel='stylesheet' href='bower_components/angular-toastr/dist/angular-toastr.css' />
+    <link rel='stylesheet' href='src/header/header.css'>
+    <style type="text/css">#toast-container .toast { opacity: 1;}</style>
+</head>
+
+<body>
+    <div class="loader">
+        <div class="bar"></div>
+    </div>
+    <div ui-view></div>
+</body>
+<!--BOWER-->
+<script src='bower_components/jquery/dist/jquery.js'></script>
+<script src='bower_components/angular/angular.js'></script>
+<script src='bower_components/angular-animate/angular-animate.js'></script>
+<script src='bower_components/angular-aria/angular-aria.js'></script>
+<script src='bower_components/angular-cookies/angular-cookies.js'></script>
+<script src='bower_components/angular-resource/angular-resource.js'></script>
+<script src='bower_components/angular-route/angular-route.js'></script>
+<script src='bower_components/angular-sanitize/angular-sanitize.js'></script>
+<script src='bower_components/angular-touch/angular-touch.js'></script>
+<script src='bower_components/angular-ui-router/release/angular-ui-router.js'></script>
+<script src='bower_components/bootstrap/dist/js/bootstrap.js'></script>
+<script src='bower_components/lodash/dist/lodash.js'></script>
+<script src='bower_components/moment/min/moment-with-locales.js'></script>
+<script src='bower_components/angular-input-masks/angular-input-masks-standalone.js'></script>
+<script src='bower_components/angular-locale-pt-br/angular-locale_pt-br.js'></script>
+<!-- toastr -->
+<script src='bower_components/angular-toastr/dist/angular-toastr.tpls.js'></script>
+<script src='bower_components/ngMask/dist/ngMask.js'></script>
+<script src='bower_components/tinymce/tinymce.min.js'></script>
+<script src='bower_components/angular-ui-tinymce/dist/tinymce.min.js'></script>
+<script src='bower_components/tinymce/themes/modern/theme.js'></script>
+<script src='bower_components/tinymce/plugins/link/plugin.js'></script>
+<script src='bower_components/tinymce/plugins/image/plugin.js'></script>
+<script src='bower_components/tinymce/plugins/imagetools/plugin.js'></script>
+<script src='bower_components/tinymce/plugins/code/plugin.js'></script>
+<script src='bower_components/tinymce/plugins/preview/plugin.js'></script>
+<script src='bower_components/tinymce/plugins/advlist/plugin.js'></script>
+<script src='bower_components/tinymce/plugins/lists/plugin.js'></script>
+<script src='bower_components/tinymce/plugins/hr/plugin.js'></script>
+<script src='bower_components/tinymce/plugins/print/plugin.js'></script>
+<script src='bower_components/tinymce/plugins/fullscreen/plugin.js'></script>
+<script src='bower_components/tinymce/plugins/fullpage/plugin.js'></script>
+<script src='bower_components/tinymce/plugins/table/plugin.js'></script>
+<script src='bower_components/tinymce/plugins/contextmenu/plugin.js'></script>
+<script src='bower_components/tinymce/plugins/emoticons/plugin.js'></script>
+<script src='bower_components/tinymce/plugins/textcolor/plugin.js'></script>
+<script src='bower_components/sweetalert/dist/sweetalert.min.js'></script>
+<script src='bower_components/ngSweetAlert/SweetAlert.js'></script>
+<script src='bower_components/ui-router-states-tree/ui-router-states-tree.js'></script>
+<script src='bower_components/angular-bootstrap/ui-bootstrap.min.js'></script>
+<script src='bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js'></script>
+<script src='bower_components/typeahead.js/dist/typeahead.bundle.min.js'></script>
+
+<script src="bower_components/chart.js/dist/Chart.min.js"></script>
+<script src="bower_components/angular-chart.js/dist/angular-chart.min.js"></script>
+<!-- DIRECTIVES -->
+<script src='src/app/directives/directives.js'></script>
+<script src='src/side-bar/sidebar.js'></script>
+<script src='src/header/header.js'></script>
+<!-- LIBS -->
+<script src='libs/filemanager-plugin.min.js'></script>
+<!-- FILTERS -->
+<script src='src/app/filters/filters.js'></script>
+<!-- SERVICES -->
+<script src='src/app/services/servicesModule.js'></script>
+<script src='src/app/services/bioacessoService.js'></script>
+<script src='src/app/services/bancoService.js'></script>
+<script src='src/app/services/receitaService.js'></script>
+<script src='src/app/services/configuracaoService.js'></script>
+<script src='src/app/services/utilService.js'></script>
+<script src='src/app/services/cryptoService.js'></script>
+<script src='src/app/services/contasPagarService.js'></script>
+<script src='src/app/services/lancamentoService.js'></script>
+<script src='src/app/services/fluxoService.js'></script>
+<script src='src/app/services/loginService.js'></script>
+<script src='src/app/services/authService.js'></script>
+<!-- patrimonio início. -->
+<script src='src/app/services/patrimonio/bens.srv.js'></script>
+<script src='src/app/services/patrimonio/manutencao.srv.js'></script>
+<script src='src/app/services/patrimonio/baixa.srv.js'></script>
+<script src='src/app/services/patrimonio/apolice.srv.js'></script>
+<script src='src/app/services/patrimonio/apolice-patrimonio.srv.js'></script>
+<script src='src/app/services/patrimonio/historico.srv.js'></script>
+<script src='src/app/services/patrimonio/date.srv.js'></script>
+<script src='src/app/services/patrimonio/valor.srv.js'></script>
+<!-- patrimonio fim. -->
+<script src='src/app/services/pagamentoService.js'></script>
+<script src='src/app/services/tipoDocumentoService.js'></script>
+<script src='src/app/services/envioEmailService.js'></script>
+<script src='src/app/services/titulosProvisionadosService.js'></script>
+<script src='src/app/services/contasPagarGeralRelatorioService.js'></script>
+<script src='src/app/services/titulosRecebidosRelatorioService.js'></script>
+<script src='src/app/services/relatorioInadimplenciaAcordoService.js'></script>
+<script src='src/app/services/relatorioInadimplentesService.js'></script>
+<script src='src/app/services/relatorioContasPagarAnaliticoService.js'></script>
+<script src='src/app/services/relatorioContasPagarSinteticoService.js'></script>
+<script src='src/app/services/relatorioInadimplenciaAnaliticoService.js'></script>
+<script src='src/app/services/produtoService.js'></script>
+<script src='src/app/services/grupoProdutoService.js'></script>
+<script src='src/app/services/unidadeProdutoService.js'></script>
+<script src='src/app/services/areaService.js'></script>
+<script src='src/app/services/ruaService.js'></script>
+<script src='src/app/services/colunaService.js'></script>
+<script src='src/app/services/nivelService.js'></script>
+<script src='src/app/services/sequenciaService.js'></script>
+<script src='src/app/services/aprovadorService.js'></script>
+<script src='src/app/services/usuarioService.js'></script>
+<script src='src/app/services/pedidoService.js'></script>
+<script src='src/app/services/empresaService.js'></script>
+
+<!-- CONTAS A RECEBER -->
+<script src="src/contas-receber/contasReceber.module.js"></script>
+<script src="src/contas-receber/consulta-arq-retorno/consultaArqRetorno.ctrl.js"></script>
+<script src="src/contas-receber/pre-lancamentos/preLancamentos.ctrl.js"></script>
+<script src="src/contas-receber/lancamento-avulso/lancamentoAvulso.ctrl.js"></script>
+<script src="src/contas-receber/simular-calcular/simularCalcular.ctrl.js"></script>
+<script src="src/contas-receber/recebimentos-manuais/recebimentoManual.ctrl.js"></script>
+<script src="src/contas-receber/lancamento-recorrente/lancamentoRecorrente.ctrl.js"></script>
+<script src="src/contas-receber/recebimento-automatico/recebimentoAutomatico.ctrl.js"></script>
+
+<!-- CONTAS A PAGAR -->
+<script src="src/contas-pagar/contasPagar.module.js"></script>
+<script src="src/contas-pagar/lancamentos-aprovados/lancamento-estimado/lancamentoEstimado.ctrl.js"></script>
+<script src="src/contas-pagar/lancamentos/lancamentosContasPagar.ctrl.js"></script>
+<script src="src/contas-pagar/pagamento/pagamentoContasPagar.ctrl.js"></script>
+<script src="src/contas-pagar/lancamentos-aprovados/lancamentosAprovados.ctrl.js"></script>
+<script src="src/contas-pagar/lancamentos-aprovados/detail/detailEstimado.ctrl.js"></script>
+
+<!-- CADASTROS -->
+<script src="src/cadastros/cadastros.module.js"></script>
+<script src="src/cadastros/inadimplencia/tipo/tipoInadimplencia.Ctrl.js"></script>
+<script src="src/cadastros/inadimplencia/situacao/situacaoInadimplencia.Ctrl.js"></script>
+<script src="src/cadastros/departamentos/departamentos.ctrl.js"></script>
+<script src="src/cadastros/grupo-calculo/grupoCalculo.ctrl.js"></script>
+<script src="src/cadastros/informativo/informativo.ctrl.js"></script>
+<script src="src/cadastros/config-condominio/configCondominio.ctrl.js"></script>
+<script src="src/cadastros/config-receita/configReceita.ctrl.js"></script>
+<script src="src/cadastros/grupos-conta/grupoConta.ctrl.js"></script>
+<script src="src/cadastros/planos-conta/planosConta.ctrl.js"></script>
+<!-- estoque -->
+<script src='src/cadastros/estoque/areas/areas.ctrl.js'></script>
+<script src='src/cadastros/estoque/colunas/coluna.ctrl.js'></script>
+<script src='src/cadastros/estoque/grupo-produtos/gruposProdutos.ctrl.js'></script>
+<script src='src/cadastros/estoque/niveis/niveis.ctrl.js'></script>
+<script src='src/cadastros/estoque/produtos/produtos.ctrl.js'></script>
+<script src='src/cadastros/estoque/ruas/ruas.ctrl.js'></script>
+<script src='src/cadastros/estoque/sequencias/sequencia.ctrl.js'></script>
+<script src='src/cadastros/estoque/unidades/unidades.ctrl.js'></script>
+
+<!--BANCO CAIXA-->
+<script src="src/banco-caixa/bancoCaixa.module.js"></script>
+<script src="src/banco-caixa/contas/contas.ctrl.js"></script>
+<script src="src/banco-caixa/fluxo/fluxo.ctrl.js"></script>
+
+<!-- RELATORIOS -->
+<script src="src/relatorios/relatorios.module.js"></script>
+<script src="src/relatorios/inadimplencia/acordo/relatorioInadimplenciaAcordo.Ctrl.js"></script>
+<script src="src/relatorios/previsto-realizado/relatorioPrevistoRealizado.Ctrl.js"></script>
+<script src="src/relatorios/contas-pagar/analitico/relCPAnalitico.Ctrl.js"></script>
+<script src="src/relatorios/contas-pagar/sintetico/relCPSintetico.Ctrl.js"></script>
+<script src="src/relatorios/inadimplencia/analitico/relInadiAnalitico.ctrl.js"></script>
+<script src="src/relatorios/inadimplencia/inadimplentes/relInadiInadimplentes.ctrl.js"></script>
+<script src="src/relatorios/contas-receber/titulosProvisionados/relCRTitulosProvisionados.Ctrl.js"></script>
+<script src="src/relatorios/contas-receber/titulos-recebidos/relCRTitulosRecebidos.Ctrl.js"></script>
+
+<!-- INADIMPLENCIA -->
+<script src='src/inadimplencia/inadimplencia.module.js'></script>
+<script src='src/inadimplencia/inadimplenciaService.js'></script>
+<script src='src/inadimplencia/acordo/simular/inadimplenciaSimularNegociarCtrl.js'></script>
+<script src='src/inadimplencia/acordo/efetuados/acordosEfetuados.ctrl.js'></script>
+<script src='src/inadimplencia/classificar/inadimplenciaClassificar.ctrl.js'></script>
+<script src='src/inadimplencia/modelos/modeloCartas.ctrl.js'></script>
+<script src='src/inadimplencia/envios/quitacao/envioCartasQuitacao.ctrl.js'></script>
+<script src='src/inadimplencia/envios/cobranca/envioCartasCobranca.ctrl.js'></script>
+
+<!-- COMPRAS -->
+<script src='src/compras/compras.module.js'></script>
+<script src='src/compras/aprovadores/comprasAprovadores.ctrl.js'></script>
+<script src='src/compras/pedidos/comprasPedidos.ctrl.js'></script>
+<script src='src/compras/solicitacoes/comprasSolicitacoes.ctrl.js'></script>
+<script src='src/compras/painel-aprovacao/comprasPainelAprovacao.ctrl.js'></script>
+
+
+<!-- PATRIMONIO -->
+<script src='src/patrimonio/patrimonio.module.js'></script>
+<script src='src/patrimonio/bens/bens.ctrl.js'></script>
+<script src='src/patrimonio/manutencao/manutencao.ctrl.js'></script>
+<script src='src/patrimonio/baixa/baixa.ctrl.js'></script>
+<script src='src/patrimonio/apolice/apolice.ctrl.js'></script>
+<script src='src/patrimonio/apolice/apolice-patrimonio.ctrl.js'></script>
+
+<!-- NOTIFICAÇÕES -->
+<script src="src/notificacoes/notificacoes.module.js"></script>
+<script src="src/notificacoes/enviar-email/enviarEmail.Ctrl.js"></script>
+
+<!-- INTEGRAÇÃO -->
+<script src="src/integracoes/integracoes.module.js"></script>
+<script src="src/integracoes/arquivo-contabil/arquivoContabil.Ctrl.js"></script>
+
+<!-- ESTOQUE -->
+<script src="src/estoque/estoque.module.js"></script>
+<script src="src/estoque/movimentacoes/estoqueMovi.ctrl.js"></script>
+<script src="src/estoque/estoque/estoque.ctrl.js"></script>
+
+
+<!-- APP CONFIG -->
+<script src="src/app/app.module.js"></script>
+<script src="src/app/config/urlConfig.js"></script>
+<script src='src/app/login/login.ctrl.js'></script>
+<script src='src/app/home/home.ctrl.js'></script>
+
+<script>
+    'use strict'
+    $('html').css('zoom', $(window).width() / 1920);
+    window.onload = () => {
+        $('html').css('zoom', $(window).width() / 1920);
+        window.onresize = (event) => $('html').css('zoom', $(window).width() / 1920);
+        $(document).on('show.bs.modal', '.modal', e => {
+            setTimeout(function () {
+                let myObjs = this.querySelectorAll('select, input, textarea');
+                for (var i = 0; i < myObjs.length; i++) {
+                    if (!$(myObjs[i]).is('[readonly]') && !myObjs[i].disabled) {
+                        $(myObjs[i]).focus();
+                        if ($(myObjs[i]).is(":focus")) break;
+                    }
+                }
+                $('.modal-body').scrollTop(0);
+            }.bind(e.target), 500)
+        });
+    };
+    $('.loader').hide();
+</script>
+
+</html>

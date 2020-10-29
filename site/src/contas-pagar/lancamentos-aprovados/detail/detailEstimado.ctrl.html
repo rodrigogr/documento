@@ -1,0 +1,118 @@
+<link rel="stylesheet" href="src/contas-pagar/lancamentos-aprovados/detail/detailEstimado.ctrl.css">
+
+<div class="row container-fluid ba__header-page">
+	<div class="col-xs-3 bg-primary">
+		<div class="ba__bioacesso-header-logo"></div>
+	</div>
+	<div class="col-xs-4 bg-success" style="display: none">
+		<div class="ba__logo-condominio"></div>
+	</div>
+	<!--    CASO ESTEJA EM ADMIN DENTRO DE ALGUMA LISTA-->
+	<div class="col-xs-12 bg-success uppercase " style="margin-left: 2%;">
+		<!--        CADASTROS DE MORADORES-->
+		<h3 class="text-info Roboto-Thin" style="margin-top: 23px"><i class="icon-ba-house"></i>Contas a Pagar / Lancamentos estimados / <span class="text-primary">Detalhes</span>
+		</h3>
+	</div>
+	<!--   CASO ESTEJA NA PARTE ADMIN-->
+	<div class="col-xs-4 ba__lateral-feed" style="height: 100%; right: 0;">
+		<div class="ba__user-settings">
+			<img class="col-xs-6 photo" ng-src="{{usuarioLogado.url_foto && usuarioLogado.url_foto || 'img/avatar.png'}}" />
+			<div class="col-xs-16 ba__margin-left-15">
+				<h5 class="ba__font-size-15">
+					Administrador
+					<!--                    <br/>-->
+					<!--                    <span class="ba__font-size-10">Último acesso: 08/03/2015 às 13:52</span>-->
+				</h5>
+			</div>
+			<div class="col-xs-2" style="margin-top: 10px">
+				<a href="/logout" style="text-decoration: none"><i class="icon-ba-logoff text-info ba__font-size-17 text-center ba__margin-horizontal-5"></i></a>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div ng-init="ngOnInit()" class="row container-fluid ba__body-content ba__full-width">
+	<!--CONTAINER MENU-->
+	<div sidebar></div>
+
+	<!--CONTAINER SISTEMA-->
+	<div class="col-xs-21 ba__admin-container">
+
+		<!-- INICIO Tela LANCAMENTOS ESTIMADOS-->
+		<div class="col-xs-24 ba__admin-container-list">
+
+			<div class="row ba__admin-list">
+				<div class="row ba__margin-top-20">
+					<h3 class="col-md-8 Roboto-Light">Previsão de <strong>{{getTitle()}}</strong></h3>
+				</div>
+				<div class="list-group ba__admin-table ba__margin-top-20">
+					<div class="ba__admin-table-scroll">
+						<div class="row ba__margin-bottom-35" ng-repeat="grupoLancamento in Itens">
+							<div class="row uppercase" style="height: auto; margin: 10px 20px;">
+								<div class="col-xs-11" style="padding-right: 20px">
+									<h4 class="text-gray" "><strong>{{grupoLancamento[0].grupo_lancamento.descricao}}</strong></h4></div>
+									<div class="col-xs-11 " style="padding-right: 20px "><h4 class="text-gray ""><strong>{{totalByGroup(grupoLancamento) | currency:'R$ ':2}}</strong></h4>
+								</div>
+							</div>
+
+							<a class="list-group-item ba__font-size-12" ng-repeat="lancamentoEstimado in grupoLancamento" style="height: auto"
+							  ng-click="editLancamentoEstimado(lancamentoEstimado)">
+								<div class="row" >
+									<div class="col-xs-11" style="padding-right: 20px">{{lancamentoEstimado.tipo_lancamento.descricao}}</div>
+									<div class="col-xs-5" style="padding-right: 20px">{{lancamentoEstimado.valor | currency:'R$ ':2}}</div>
+									<div class="col-xs-4" style="padding-right: 20px" ng-show="lancamentoEstimado.fundo_reserva > 0">Fundo de reserva</div>
+									<div class="col-xs-4" style="padding-right: 20px" ng-show="!lancamentoEstimado.fundo_reserva > 0"></div>
+								</div>
+							</a>
+						</div>
+						<div class="row">
+							<div class="row" style="margin: 50px 0 70px 0;">
+								<div class="row ba__font-size-12 uppercase ">
+									<div class="col-xs-offset-2 col-xs-6" style="padding: 0 20px 10px 20px">DESPESAS COM FUNDO DE RESERVA</div>
+									<div class="col-xs-4" style="padding-right: 20px">{{resumoLancamentosEstimados.total_despesas_com_fundo | currency:'R$ ':2}}</div>
+									<div class="col-xs-6" style="padding: 0 20px 10px 20px">RATEIO (FRAÇÃO IDEAL) (R$/m²)</div>
+									<div class="col-xs-4" style="padding-right: 20px">{{resumoLancamentosEstimados.valor_rateio_m2 | currency:'R$ ':4}}</div>
+								</div>
+								<div class="row ba__font-size-12 uppercase ">
+									<div class="col-xs-offset-2 col-xs-6" style="padding: 0 20px 10px 20px">VALOR DO FUNDO RESERVA</div>
+									<div class="col-xs-4" style="padding-right: 20px">{{resumoLancamentosEstimados.total_fundo_reserva | currency:'R$ ':2}}</div>
+									<div class="col-xs-6" style="padding: 0 20px 10px 20px">RATEIO DO FUNDO DE RESERVA (R$/M²)</div>
+									<div class="col-xs-4" style="padding-right: 20px">{{resumoLancamentosEstimados.valor_rateio_fundo | currency:'R$ ':4}}</div>
+								</div>
+								<div class="row ba__font-size-12 uppercase ">
+									<div class="col-xs-offset-2 col-xs-6" style="padding: 0 20px 10px 20px">DESPESAS SEM FUNDO DE RESERVA</div>
+									<div class="col-xs-4" style="padding-right: 20px">{{resumoLancamentosEstimados.total_despesas_sem_fundo | currency:'R$ ':2}}</div>
+									<div class="col-xs-6" style="padding: 0 20px 10px 20px"></div>
+									<div class="col-xs-4" style="padding-right: 20px"></div>
+								</div>
+								<div class="row uppercase">
+									<div class="col-xs-offset-2 col-xs-6" style="padding: 0 20px">
+										<h5 class="text-gray" style="font-size: 20px;"><strong>TOTAL GERAL DE DESPESAS</strong></h5>
+									</div>
+									<div class="col-xs-4" style="padding-right: 20px">
+										<h5 class="text-gray" style="font-size: 20px;"><strong>{{resumoLancamentosEstimados.total_geral | currency:'R$ ':2}}</strong></h5>
+									</div>
+									<div class="col-xs-6" style="padding: 0 20px">
+										<h5 class="text-gray" style="font-size: 20px;"><strong>TOTAL GERAL DO RATEIO (R$/M²)</strong></h5>
+									</div>
+									<div class="col-xs-4" style="padding-right: 20px">
+										<h5 class="text-gray" style="font-size: 20px;"><strong>{{(resumoLancamentosEstimados.valor_rateio_fundo + resumoLancamentosEstimados.valor_rateio_m2) | currency:'R$ ':4}}</strong></h5>
+									</div>
+								</div>
+							</div>
+							<button ng-click="pdfUrl()" class="btn btn-default col-xs-offset-7 col-xs-4 uppercase" style="margin-bottom: 60px">
+								Gerar pdf
+							</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<!--MODAL boleto-->
+<div class="modal fade relatorio-modal" id="showPdf" tabindex="-1" role="dialog" data-backdrop="static"
+	 data-keyboard="false">
+	<h1 data-dismiss="modal">X</h1>
+	<object data="{{content}}" type="application/pdf"></object>
+</div>

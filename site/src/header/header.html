@@ -1,0 +1,45 @@
+<header>
+    <div class='container-fluid'>
+        <div class='row'>
+            <h1 class='col-xs-3 logo'>Financeiro</h1>
+
+            <div class='col-xs-21'>
+                <h2><i class='icon-ba-house text-primary'></i> Início / {{modulo}} / <span class='text-primary'>{{tela}}</span></h2>
+                <section class='user'>
+                    <img ng-src='{{usuarioLogado.url_foto && usuarioLogado.url_foto || "img/avatar.png"}}' />
+                    <span class='name'>{{ nome }}</span>
+                    <div class="dropdown menu_opcoes">
+                        <a  style="text-decoration: none" data-toggle="dropdown" id="dropdownMenuLink" aria-haspopup="true" aria-expanded="false" ><i class="fa fa-th text-info ba__font-size-17 text-center ba__margin-horizontal-5"></i></a>
+                        <div class="dropdown-menu itens" aria-labelledby="dropdownMenuLink">
+                            <div class="row">
+                                <a class="col" ng-click="acesso()" ng-repeat="apps in boxApp">
+                                    <div class="col-xs-3 ba__mainView-menu apps">
+                                        <i class="icon-ba-{{apps.icon}} ba__font-size-20 text-center"></i>
+                                        <h5 class="text-center uppercase ba__font-size-10">{{apps.nome}}</h5>
+                                    </div>
+                                </a>
+                            </div>
+                            <div class="row">
+                                <div class="col-xs-4 col-xs-offset-3">
+                                    <a class="col-xs-3">
+                                        <span>v4.0.6</span>
+                                    </a>
+                                </div>
+                                <div class="col-xs-8 col-xs-offset-7">
+                                    <a href="#" ng-click="offLogin()">
+                                        <button type="button"
+                                                class="btn btn-primary ba__bg-red uppercase Roboto-Regular">
+                                            <i class="icon-ba-logoff ba__font-red-dark"></i>
+                                            Sair
+                                        </button>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <a href='#' ng-click="offLogin()" style="line-height: 85px"><i class='fa icon-ba-logoff text-info ba__font-size-17 text-center ba__margin-horizontal-5'></i></a>
+                </section>
+            </div>
+        </div>
+    </div>
+</header>

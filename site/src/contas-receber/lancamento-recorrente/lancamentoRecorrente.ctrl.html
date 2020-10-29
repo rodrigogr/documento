@@ -1,0 +1,397 @@
+<link rel="stylesheet" href="src/contas-receber/lancamento-recorrente/lancamentoRecorrente.ctrl.css">
+
+<div class="header">
+	<div header></div>
+</div>
+
+<div ng-init="ngOnInit()" class="row container-fluid ba__body-content ba__full-width">
+	<div sidebar></div>
+	<div class="col-xs-21 ba__admin-container">
+		<div class="col-xs-24 ba__admin-container-list">
+			<div class="row ba__admin-list">
+				<div class="row ba__margin-top-20">
+					<h3 class="col-md-15 Roboto-Light">
+						<strong>{{data.lancamentosRecorrentes.length || 0}}</strong> lançamento recorrentes</h3>
+
+					<button type="button" class="btn btn-success col-xs-offset-3 col-xs-6 uppercase" style="margin-top: 12px" data-toggle="modal"
+					  ng-click="createLancamentoRecorrente()" ng-if="accessPagina.inserir">
+						Novo
+					</button>
+				</div>
+				<div class="list-group ba__admin-table ba__margin-top-40" >
+					<a class="list-group-item disabled">
+						<div class="row uppercase">
+							<div class="col-xs-9">Descrição
+								<i class="ba__margin-horizontal-5"></i>
+							</div>
+							<div class="col-xs-4">Valor
+								<i class="ba__margin-horizontal-5"></i>
+							</div>
+							<div class="col-xs-3">Rateio
+								<i class="ba__margin-horizontal-5"></i>
+							</div>
+							<div class="col-xs-5 text-center">Período
+								<i class="ba__margin-horizontal-5"></i>
+							</div>
+							<div class="col-xs-2 text-right">Ações
+								<i class="ba__margin-horizontal-5"></i>
+							</div>
+						</div>
+					</a>
+					<div class="ba__admin-table-scroll" style="height: 75%">
+						<a class="list-group-item ba__font-size-12 ba__pointer" ng-repeat="lancamentosRecorrente in data.lancamentosRecorrentes"
+						  style="height: auto">
+							<div class="row" ng-click="visualizar(lancamentosRecorrente,$event)">
+								<div class="col-xs-9">{{lancamentosRecorrente.lancamento.descricao}}</div>
+								<div class="col-xs-4">{{lancamentosRecorrente.lancamento.valor | currency:'R$ '}}</div>
+								<div class="col-xs-3 ba__font-color-gray text-green-dark text-left" ng-show="lancamentosRecorrente.rateio === 1">
+									<i class="fa fa-check"></i> SIM
+								</div>
+								<span class="col-xs-3 ba__font-color-gray text-gray-dark text-left" ng-show="lancamentosRecorrente.rateio !== 1">
+									<!--<i class="fa fa-check"></i> -->NÃO
+								</span>
+								<div ng-if="lancamentosRecorrente.fixo" class="col-xs-5 text-center">Permanente</div>
+								<div ng-if="!lancamentosRecorrente.fixo" class="col-xs-5 text-center">{{mesExtenso(lancamentosRecorrente.mes_ini)+'/'+lancamentosRecorrente.ano_ini+' &nbsp;à&nbsp; '+mesExtenso(lancamentosRecorrente.mes_fim)+'/'+lancamentosRecorrente.ano_fim}}</div>
+								<div class="col-xs-2 text-right">
+									<i class="icon-ba-view" title="Visualizar" ng-click="visualizar(lancamentosRecorrente);$event.stopPropagation();"></i>
+									<i class="icon-ba-trash ba__margin-left-20" title="Excluir" ng-if="accessPagina.excluir" ng-click="showDeleteAlert(lancamentosRecorrente);$event.stopPropagation();"></i>
+								</div>
+							</div>
+						</a>
+					</div>
+					<div class="col-md-10 col-md-offset-9" ng-if="pageCount">
+						<nav class="">
+							<ul class="pagination text-center">
+								<li>
+									<a aria-label="Previous" ng-click="updateList(current_page - 1)" class="ba__margin-right-15">
+										<span aria-hidden="true">&laquo; ANTERIOR</span>
+									</a>
+								</li>
+								<li ng-click="updateList(page)" ng-repeat="page in pages">
+									<a ng-class="page == current_page ? 'selected' : ''">{{page}}</a>
+								</li>
+								<li ng-if="pageCount > 5">
+									<a>...</a>
+								</li>
+								<li ng-if="pageCount > 5" ng-click="updateList(pageCount)">
+									<a ng-class="pageCount == current_page ? 'selected' : ''">{{pageCount}}</a>
+								</li>
+								<li>
+									<a aria-label="Next" ng-click="updateList(current_page + 1)" style="margin-left: 15px">
+										<span aria-hidden="true">PRÓXIMA &raquo;</span>
+									</a>
+								</li>
+							</ul>
+						</nav>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!--MODAL CADASTRAR TIPO DE LANÇAMENTO RECCORRENTE-->
+<div ng-keypress="$event.keyCode == 13 && saveLancamentoRecorrente()" class="modal fade" id="novoLancamentoRecorrente" tabindex="-1"
+  role="dialog">
+	<div class="modal-dialog ba__modal-lancamento-recorrente" role="document">
+		<div class="modal-content" style="height: 700px">
+			<div class="modal-header ba__no-padding-top">
+				<h4 class="col-xs-21 modal-title Roboto-Thin ba__font-size-25">
+					<i class="icon-ba-attention text-center text-primary ba__margin-horizontal-5"></i>
+					<span>{{data.lancamentoRecorrenteSelecionado.id_lancamento ? 'Editar' : 'Novo';}}</span>
+				</h4>
+			</div>
+			<div class="modal-body ba__modal-body-tipo-lancamento ba__margin-top-7">
+				<form>
+					<div class="row">
+						<div class="form-group col-xs-24">
+							<div class="row ba__margin-bottom-30">
+								<div class="col-md-6">
+									<h5 class="text-right text-gray">*Descrição</h5>
+								</div>
+								<div class="col-md-12 col-md-offset-1">
+									<input type="text" class="ba__input-modal" maxlength="90" style="text-transform:uppercase" ng-model="data.lancamentoRecorrenteSelecionado.descricao">
+								</div>
+							</div>
+							<div class="row ba__margin-bottom-30">
+								<div class="col-md-6">
+									<h5 class="text-right text-gray">Grupo de contas</h5>
+								</div>
+								<div class="col-md-13 col-md-offset-1">
+									<div class="input-group">
+										<select class="ba__input-select" ng-model="data.grupoCPSelecionado.id_tipo_lancamento" ng-change="filterPC(data.grupoCPSelecionado.id_tipo_lancamento)"
+										  ng-options="grp.id as grp.descricao for grp in grupoLancamentos">
+										</select>
+									</div>
+								</div>
+							</div>
+							<div class="row ba__margin-bottom-30">
+								<div class="col-md-6">
+									<h5 class="text-right text-gray">*Plano de contas</h5>
+								</div>
+								<div class="col-md-13 col-md-offset-1">
+									<div class="input-group">
+										<select class="ba__input-select" ng-disabled="data.lancamentoAvulsoSelecionado.id_lancamento" ng-model="data.lancamentoRecorrenteSelecionado.idtipo_lancamento"
+										  enter ng-options="planoConta.id as planoConta.descricao for planoConta in data.planoContas">
+										</select>
+									</div>
+								</div>
+							</div>
+							<div class="row ba__margin-bottom-30">
+								<div class="col-md-6">
+									<h5 class="text-right text-gray">*Valor</h5>
+								</div>
+								<div class="col-md-10 col-md-offset-1">
+									<input type="text" class="ba__input-modal" style="text-transform:uppercase" ui-money-mask ng-model="data.lancamentoRecorrenteSelecionado.valor"
+									  placeholder="R$ 0,00">
+								</div>
+							</div>
+							<div class="row ba__margin-bottom-30">
+								<div class="col-md-6">
+									<h5 class="text-right text-gray">Cobrança permanente</h5>
+								</div>
+								<div class="col-md-3 col-md-offset-1 ba__margin-top-5">
+									<div class="col-xs-7">
+										<div class="onoffswitch">
+											<input type="checkbox" name="onoffswitch" ng-change="switchOnOff()" checked class="onoffswitch-checkbox" enter ng-model="data.lancamentoRecorrenteSelecionado.fixo"
+											  id="fixo">
+											<label class="onoffswitch-label" for="fixo">
+												<span class="onoffswitch-inner"></span>
+												<span class="onoffswitch-switch"></span>
+											</label>
+										</div>
+									</div>
+								</div>
+								<h5 class="col-xs-3">
+									<span class="pull-left" style="font-size: 20px; margin-left: -10px; ">
+										<span ng-show="data.lancamentoRecorrenteSelecionado.fixo" class="text-positive">SIM</span>
+										<span ng-show="!data.lancamentoRecorrenteSelecionado.fixo">NÃO</span>
+									</span>
+								</h5>
+							</div>
+							<div ng-show="!data.lancamentoRecorrenteSelecionado.fixo">
+								<div class="row ba__margin-bottom-30">
+									<div class="col-md-6">
+										<h5 class="text-right text-gray">Inicia em</h5>
+									</div>
+									<div class="col-md-8 col-md-offset-1">
+										<select class="ba__input-select" ng-model="data.lancamentoRecorrenteSelecionado.mes_ini" style="font-size: 14px" enter ng-options="meses.codigo as meses.nome for meses in data.meses">
+											<option value="">Selecione o mês</option>
+										</select>
+									</div>
+									<div class="col-md-4 col-md-offset-1">
+										<input type="number" class="ba__input-modal" ng-model="data.lancamentoRecorrenteSelecionado.ano_ini" style="font-size: 14px" placeholder="Ano"/>
+										</select>
+									</div>
+								</div>
+								<div class="row ba__margin-bottom-30">
+									<div class="col-md-6">
+										<h5 class="text-right text-gray">Expira em</h5>
+									</div>
+									<div class="col-md-8 col-md-offset-1">
+										<select ng-change="verificaMesAno(data.lancamentoRecorrenteSelecionado)" class="ba__input-select" ng-model="data.lancamentoRecorrenteSelecionado.mes_fim"
+										  style="font-size: 14px" enter ng-options="meses.codigo as meses.nome for meses in data.meses">
+											<option value="">Selecione o mês</option>
+										</select>
+									</div>
+									<div class="col-md-4 col-md-offset-1">
+										<input ng-blur="verificaMesAno(data.lancamentoRecorrenteSelecionado)" type="number" class="ba__input-modal" ng-model="data.lancamentoRecorrenteSelecionado.ano_fim"
+										  style="font-size: 14px" placeholder="Ano" />
+										</select>
+									</div>
+								</div>
+							</div>
+							<div class="row ba__margin-bottom-30">
+								<div class="col-md-6">
+									<h5 class="text-right text-gray">Rateio</h5>
+								</div>
+								<div class="col-md-3 col-md-offset-1 ba__margin-top-5">
+									<div class="col-xs-7">
+										<div class="onoffswitch">
+											<input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" enter ng-model="data.lancamentoRecorrenteSelecionado.rateio"
+											  id="rateio">
+											<label class="onoffswitch-label" for="rateio">
+												<span class="onoffswitch-inner"></span>
+												<span class="onoffswitch-switch"></span>
+											</label>
+										</div>
+									</div>
+								</div>
+								<h5 class="col-xs-3">
+									<span class="pull-left" style="font-size: 20px; margin-left: -10px; ">
+										<span ng-show="data.lancamentoRecorrenteSelecionado.rateio" class="text-positive">SIM</span>
+										<span ng-show="!data.lancamentoRecorrenteSelecionado.rateio">NÃO</span>
+									</span>
+								</h5>
+							</div>
+						</div>
+					</div>
+				</form>
+			</div>
+			<div class="modal-footer" style="padding: 0; padding-top: 25px">
+				<button type="button" class="btn btn-success col-md-5 col-md-offset-1 pull-right" ng-if="accessPagina.inserir && !data.lancamentoRecorrenteSelecionado.id_lancamento
+" ng-click="saveLancamentoRecorrente()" ng-disabled="validaCampo()">
+					Salvar
+				</button>
+
+				<button type="button" class="btn btn-default btn-clear col-md-5 pull-right" ng-click="closeLancamentoRecorrente()">
+					Cancelar
+				</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!--MODAL EXCLUSAO-->
+<div ng-keypress="$event.keyCode == 13 && deleteLancamentoRecorrente()" class="modal fade" id="deleteAlert" tabindex="-1"
+  role="dialog">
+	<div class="modal-dialog ba__modal-loading" role="document">
+		<div class="modal-content">
+			<div class="modal-header ba__no-padding-top">
+				<h4 class="col-xs-21 modal-title Roboto-Thin ba__font-size-25">
+					<i class="icon-ba-attention text-center text-warning ba__margin-horizontal-5"></i>
+					<span>Confirmação</span>
+					<!--<span>Editando tipo de lançamento</span>-->
+				</h4>
+			</div>
+			<div class="modal-body ba__modal-body-loading">
+				<form>
+					<div class="row ba__margin-top-30">
+						<h5 class="col-md-24 text-gray ba__margin-top-20">
+							<b>Deseja realmente concluir esta ação?</b>
+						</h5>
+					</div>
+				</form>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default btn-clear col-md-8 col-md-offset-7" ng-click="closeDeleteModal()">
+					cancelar
+				</button>
+				<button type="button" class="btn btn-danger-full col-md-8 col-md-offset-1 pull-right" ng-click="deleteLancamentoRecorrente()">
+					DELETAR
+				</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- MODAL VISUALIZAR -->
+<div class="modal fade" id="CPLRVisualizar" tabindex="-1" role="dialog">
+	<div class="modal-dialog ba__modal-lancamento-recorrente" role="document">
+		<div class="modal-content" style="height: 700px">
+			<div class="modal-header ba__no-padding-top">
+				<h4 class="col-xs-21 modal-title Roboto-Thin ba__font-size-25">
+					<i class="icon-ba-view text-center text-primary ba__margin-horizontal-5"></i>
+					<span>Visualizar</span>
+				</h4>
+			</div>
+			<div class="modal-body ba__modal-body-tipo-lancamento ba__margin-top-7">
+				<form>
+					<div class="row">
+						<div class="form-group col-xs-24" id="stepOne">
+							<div class="row ba__margin-bottom-30">
+								<div class="col-md-6">
+									<h5 class="text-right text-gray">Descrição</h5>
+								</div>
+								<div class="col-md-13 col-md-offset-1">
+									<input type="text" class="ba__input-modal" ng-model="data.viewSelecionado.descricao" readonly>
+								</div>
+							</div>
+							<div class="row ba__margin-bottom-30">
+								<div class="col-md-6">
+									<h5 class="text-right text-gray">Grupo de contas</h5>
+								</div>
+								<div class="col-md-13 col-md-offset-1">
+									<div class="input-group" style="width: 100%">
+										<select class="ba__input-select" disabled ng-model="data.viewSelecionado.id_grupo_conta" enter ng-options="grp.id as grp.descricao for grp in grupoLancamentos">
+										</select>
+									</div>
+								</div>
+							</div>
+							<div class="row ba__margin-bottom-30">
+								<div class="col-md-6">
+									<h5 class="text-right text-gray">Plano de contas</h5>
+								</div>
+								<div class="col-md-13 col-md-offset-1">
+									<div class="input-group" style="width: 100%">
+										<select class="ba__input-select" disabled ng-model="data.viewSelecionado.idtipo_lancamento" enter ng-options="planoConta.id as planoConta.descricao for planoConta in data.planoContas">
+										</select>
+									</div>
+								</div>
+							</div>
+							<div class="row ba__margin-bottom-30">
+								<div class="col-md-6">
+									<h5 class="text-right text-gray">Valor</h5>
+								</div>
+								<div class="col-md-10 col-md-offset-1">
+									<input type="text" class="ba__input-modal" style="text-transform:uppercase" ui-money-mask ng-model="data.viewSelecionado.valor"
+									  readonly>
+								</div>
+							</div>
+							<div class="row ba__margin-bottom-30">
+								<div class="col-md-6">
+									<h5 class="text-right text-gray">Cobrança Permanente</h5>
+								</div>
+								<div class="col-md-10 col-md-offset-2">
+									<h5 class="col-xs-3">
+										<span class="pull-left" style="font-size: 20px; margin-left: -10px; ">
+											<span ng-show="data.viewSelecionado.fixo" class="text-positive">SIM</span>
+											<span ng-show="!data.viewSelecionado.fixo">NÃO</span>
+										</span>
+									</h5>
+								</div>
+							</div>
+							<div class="row ba__margin-bottom-30" ng-if="!data.viewSelecionado.fixo">
+								<div class="col-md-6">
+									<h5 class="text-right text-gray">Inicia em</h5>
+								</div>
+								<div class="col-md-8 col-md-offset-1">
+									<select class="ba__input-select" disabled ng-model="data.viewSelecionado.mes_ini" style="font-size: 14px" enter ng-options="meses.codigo as meses.nome for meses in data.meses">
+									</select>
+								</div>
+								<div class="col-md-4 col-md-offset-1">
+									<select class="ba__input-select" disabled ng-model="data.viewSelecionado.ano_ini" style="font-size: 14px" enter ng-options="anos.ano as anos.ano for anos in data.anos">
+									</select>
+								</div>
+							</div>
+							<div class="row ba__margin-bottom-30" ng-if="!data.viewSelecionado.fixo">
+								<div class="col-md-6">
+									<h5 class="text-right text-gray">Expira em</h5>
+								</div>
+								<div class="col-md-8 col-md-offset-1">
+									<select class="ba__input-select" disabled ng-model="data.viewSelecionado.mes_fim" style="font-size: 14px" enter ng-options="meses.codigo as meses.nome for meses in data.meses">
+									</select>
+								</div>
+								<div class="col-md-4 col-md-offset-1">
+									<select class="ba__input-select" disabled ng-model="data.viewSelecionado.ano_fim" style="font-size: 14px" enter ng-options="anos.ano as anos.ano for anos in data.anos">
+									</select>
+								</div>
+							</div>
+							<div class="row ba__margin-bottom-30">
+								<div class="col-md-6">
+									<h5 class="text-right text-gray">Rateio</h5>
+								</div>
+								<div class="col-md-10 col-md-offset-2">
+									<h5 class="col-xs-3">
+										<span class="pull-left" style="font-size: 20px; margin-left: -10px; ">
+											<span ng-show="data.viewSelecionado.rateio" class="text-positive">SIM</span>
+											<span ng-show="!data.viewSelecionado.rateio">NÃO</span>
+										</span>
+									</h5>
+								</div>
+							</div>
+						</div>
+					</div>
+				</form>
+			</div>
+			<div class="modal-footer" style="padding: 0; padding-top: 25px">
+				<button data-dismiss="modal" type="button" class="btn btn-default btn-clear col-md-5 col-md-offset-1 pull-right">
+					fechar
+				</button>
+                <!--<button type="button" class="btn btn-success col-md-5  pull-right" ng-if="accessPagina.editar" ng-click="saveLancamentoRecorrente()" ng-disabled="validaCampo()">
+                    Editar
+                </button>-->
+			</div>
+		</div>
+	</div>
+</div>

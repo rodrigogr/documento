@@ -1,0 +1,120 @@
+﻿.list-group-item .row div {
+    overflow: inherit !important;
+}
+
+.status-pendente{
+    background: transparent;
+    color: #c9ae2f;
+    border-color: #c9ae2f;
+    border-radius: 4px;
+}
+.status-solicitado-Solicitado{
+    background: #FFF;
+    color: #3772a8;
+    border-color: #3772a8;
+    border-radius: 4px;
+}
+.status-em-aberto{
+    background: transparent;
+    color: #ed6c44;
+    border-color: #ed6c44;
+    border-radius: 4px;
+}
+.status-em-cotacao{
+    background: transparent;
+    color: #000;
+    border-color: #3772a8;
+    border-radius: 4px;
+}
+.status-solicitado{
+    background: #FFF !important;
+    color: #3772a8;
+    border-color: #3772a8;
+    border-radius: 4px;
+}
+.status-aprovacao-da-compra{
+    background: transparent;
+    color: #9d35bf;
+    border-color: #9d35bf;
+    border-radius: 4px;
+}
+.status-compra-aprovada{
+    background: transparent;
+    color: #7acd75;
+    border-color: #7acd75;
+    border-radius: 4px;
+}
+.status-cancelado{
+    background: transparent;
+    color: #ca4a4a;
+    border-color: #ca4a4a;
+    border-radius: 4px;
+}
+.status-compra-encerrada{
+    background: transparent;
+    color: #808080;
+    border-color: #7acd75;
+    border-radius: 4px;
+}
+
+.status-pendente span{
+    color: #c9ae2f;
+}
+
+.status-em-aberto span{
+    color: #ed6c44;
+}
+.status-em-cotacao span {
+    color: #3772a8;
+}
+.status-aprovacao-da-compra span {
+    color: #9d35bf;
+}
+.status-compra-aprovada span {
+    color: #7acd75;
+}
+.status-compra-encerrada span {
+    color: #808080;
+}
+.status-cancelado span{
+    color: #ca4a4a;
+}
+.s-p .status{
+    border: 1px solid;
+    padding: 5px 10px;
+    margin-top: 3px;
+    float: left;
+}
+.s-p .Solicitado{
+    color: #3772a8;
+    border-radius: 4px;
+}
+.modal-detalhe_pedido
+{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 1400px;
+    margin: auto;
+    overflow-y: hidden;
+    -webkit-transform: translate(-50%,-50%) !important;
+    -ms-transform: translate(-50%,-50%) !important;
+    transform: translate(-50%,-50%) !important;
+}
+.fornecedores-cotacao{
+    border: 1px solid #e2e2e2;
+    padding: 0 20px 39px 20px;
+    margin-top: 20px;
+}
+#emCotacao .ba__input-modal{
+    height: 43px;
+}
+
+.compras label
+{
+    color: rgb(89, 95, 101);
+    font-family: 'Roboto-Regular', sans-serif;
+    font-size: 18px;
+    font-weight: 500;
+    line-height: 25px
+}

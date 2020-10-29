@@ -1,0 +1,185 @@
+@charset 'UTF-8';
+
+/* *** Regras genéricas (início). *** */
+.header
+{
+    white-space: nowrap
+}
+
+.header .logo
+{
+    background: url('../../img/logo_ba_financeiro.png') no-repeat center center
+}
+
+.header header, .header header .user
+{
+    border-color: #c5c5c5;
+    border-style: solid;
+    border-width: 0
+}
+
+/* *** Regras genéricas (fim). *** */
+
+/* *** Regras específicas para o cabeçalho (início). *** */
+/*.header header
+{
+    border-bottom-width: 1px
+}*/
+
+.header header
+{
+    height: 70px
+}
+
+/* Todos os elementos internos de header, devem ter a altura definida para
+header. */
+.header header *
+{
+    height: inherit
+}
+
+/* O logo no cabeçalho deve, adicionalmente, ter fundo laranja e dimensões como
+definidas abaixo */
+.header header .logo
+{
+    background-color: #ed6c44;
+    background-size: 177px 39px
+}
+
+/* Essas regras estão separadas porque são necessárias apenas quando o logo
+   está em um h1. O logo deve estar em um h1 por questões de usabilidade. */
+.header header h1.logo
+{
+    margin: 0;
+    text-indent: -9999px
+}
+
+.header header h2
+{
+    width: calc(95% - 350px);
+    margin: 0;
+    float: left;
+    font: 28px/70px Roboto-Thin, sans-serif;
+    text-transform: uppercase;
+    overflow: hidden;
+    text-overflow: ellipsis
+}
+
+.header header h2 .icon-ba-house
+{
+    display: inline-block;
+    font-size: 21px;
+    line-height: inherit;
+    vertical-align: top;
+    padding-left: 20px;
+}
+
+.header header .user
+{
+    width: 300px;
+    float: left;
+}
+
+/* Essas regras estão separadas porque são necessárias apenas porque a sombra
+   não deve ser mostrada à direita e isso é causado pelo padding do bootstrap. */
+.header header .user
+{
+    width: 315px;
+    margin-right: -15px;
+    box-shadow: -6px 0 20px -8px #969696;
+}
+
+.header header .user > *
+{
+    display: initial;
+    line-height: 70px;
+    vertical-align: top
+}
+
+/* Essa regra está separada porque é um hack para contornar o comportamento dos
+   elementos inline-block de renderizar espaços entre tags. */
+.header header .user
+{
+    font-size: 0
+}
+
+.header header .user img
+{
+    width: 44px;
+    height: 44px;
+    margin: 13px 13px 13px 26px;
+    border-radius: 50%
+}
+
+.header header .user span
+{
+    width: calc(100% - 82px);
+    margin: 0;
+    font-size: 15px;
+    overflow-x: hidden;
+    text-overflow: ellipsis;
+    color: #8a939c
+}
+
+.header header .user a
+{
+    width: 70px;
+    padding-top: 2px;
+    text-align: center;
+    text-decoration: none;
+    color: #8a939c
+}
+
+.header header .user a:hover
+{
+    color: #ca4a4a;
+    background: rgba(0, 0, 0, 0.01)
+}
+/* *** Regras específicas para o cabeçalho (fim). *** */
+
+/* *** Regras para resetar algumas propriedades de css do Bootstrap que não deveriam ter sido alteradas (início). *** */
+.header .btn-default
+{
+    height: 34px;
+    padding: 6px 12px;
+    line-height: 1.42857143;
+    background-image: none;
+    border-radius: 4px;
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+    transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s
+}
+
+.header .btn-default, .header .btn-warning
+{
+    border: none
+}
+
+.header .ui-select-choices-row:not(:last-child)
+{
+    border-bottom: 1px solid #dedede
+}
+
+.header .container-fluid
+{
+    padding-right: 15px
+}
+
+.menu_opcoes {
+    line-height: 85px !important;
+    margin-left: 20px;
+    margin-right: 20px;
+}
+.menu_opcoes .itens {
+    height: auto;
+    left: 122px;
+    position: relative;
+    top: -37%;
+    width: 100%;
+    z-index: 21000;
+}
+.menu_opcoes .itens .apps {
+    margin: 15px;
+}
+.menu_opcoes .itens .apps h5 {
+    margin-top: -21px;
+}

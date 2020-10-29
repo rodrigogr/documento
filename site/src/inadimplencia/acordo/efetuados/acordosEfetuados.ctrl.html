@@ -1,0 +1,442 @@
+<link rel="stylesheet" href="src/inadimplencia/acordo/efetuados/acordosEfetuados.ctrl.css">
+
+<div class="header">
+	<div header></div>
+</div>
+
+<div ng-init='InadimplenciaService.ngOnInit()' class="row container-fluid ba__body-content ba__full-width">
+	<!--CONTAINER MENU-->
+	<div sidebar></div>
+
+	<!--CONTAINER SISTEMA-->
+	<div class="col-xs-21 ba__admin-container">
+		<!-- INICIO Tela CATEGORIA DE USUÁRIOS-->
+		<div class="col-xs-24 ba__admin-container-list">
+			<div class="row ba__admin-busca">
+				<div class="col-xs-24 input-group ba__admin-busca-input" style="float: left; border: none!important; height: 30px; margin-left: 20px">
+					<span class="input-group-addon" style="height: 60px"></span>
+					<select ng-init="search.type = 'logradouro'" ng-model="search.type" class="form-group col-xs-3 ba__adminSelectBusca" style="height: 50px; border-bottom: 1px solid #cccccc;">
+							<option value="agendamento">Dt. de Agendamento</option>
+							<option value="logradouro">Endereço</option>
+							</select>
+					<div ng-if='search.type === "agendamento"'>
+						<span class="col-xs-1"><h4 class="text-right" >inicio</h4></span>
+						<input type="date" ng-model="search.inicio" class="form-group col-xs-3">
+						<span class="col-xs-1"><h4 class="text-right" >fim</h4></span>
+						<input type="date" ng-model="search.fim" class="form-group col-xs-3">
+					</div>
+					<div ng-if='search.type === "logradouro"'>
+						<span class="col-xs-2"><h4 class="text-right"style="margin-top: 15px;">Quadra&nbsp;&nbsp;</h4></span>
+						<input type="text" class="form-group col-xs-1" style="height: 50px; border-bottom: 1px solid #cccccc;" ng-model="search.quadra">
+
+						<span class="col-xs-2"><h4 class="text-right" style="margin-top: 15px;">Lote&nbsp;&nbsp;</h4></span>
+						<input type="text" class="form-group col-xs-1" style="height: 50px; border-bottom: 1px solid #cccccc;" ng-model="search.lote">
+					</div>
+					<button type="button" ng-click="pesquisar(search)" class="btn btn-primary col-xs-3 col-xs-offset-1 uppercase" style="margin-top: 12px">
+							Pesquisar
+							<i class="icon-ba-search"></i>
+							</button>
+				</div>
+			</div>
+			<div class="row ba__admin-list" style="overflow-y: auto;">
+				<div class="row ba__margin-top-20">
+					<h3 ng-if="titulosList" class="col-md-15 Roboto-Light" style="margin-left: 10px"><strong>{{titulosList.length}}</strong> acordos encontrados
+					</h3>
+				</div>
+				<div class="list-group ba__admin-table ba__margin-top-20" style="height: auto;">
+					<a class="list-group-item disabled">
+						<div class="row uppercase" style="padding-left: 4px">
+							<div class="col-xs-2">CÓDIGO<i class="ba__margin-horizontal-5"></i></div>
+							<div class="col-xs-5">PARCEIRO<i class="ba__margin-horizontal-5"></i></div>
+							<div class="col-xs-4">DÍVIDA ORIGINAL<i class="ba__margin-horizontal-5"></i></div>
+							<div class="col-xs-4">VALOR DO ACORDO<i class="ba__margin-horizontal-5"></i></div>
+							<div class="col-xs-4">DATA DE AGENDAM.<i class="ba__margin-horizontal-5"></i></div>
+							<div class="col-xs-3">SITUAÇÃO<i class="ba__margin-horizontal-5"></i></div>
+							<div class="col-xs-1">ações</div>
+						</div>
+					</a>
+					<div class="ba__admin-table-scroll col-xs-24">
+						<a  class="list-group-item ba__font-size-12" ng-repeat="acordo in titulosList">
+							<div class="row">
+								<div ng-click="openModal($event,'#acordosEfetuados', acordo);selectAcordo(acordo.id)">
+									<div class="col-xs-2"><b>{{acordo.id}}</b></div>
+									<div class="col-xs-5"><b>{{acordo.nome_parceiro}}</b></div>
+									<div class="col-xs-4"><b>{{acordo.valor_divida | currency:'R$ '}}</b></div>
+									<div class="col-xs-4"><b>{{acordo.valor_acordo | currency:'R$ '}}</b></div>
+									<div class="col-xs-4"><b>{{acordo.data_agendamento}}</b></div>
+									<div class="col-xs-3 uppercase"><b>{{InadimplenciaService.statusById(acordo.status)}}</b></div>
+									<div class="col-xs-1">
+										<i class="icon-ba-view"></i>
+										<i class="fa fa-trash" ng-click="openModal($event,'#cancelarAcordo', acordo);"></i>
+									</div>
+								</div>
+							</div>
+						</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!--MODAL Cancelar  Titulo-->
+<div class="modal fade" id="cancelarAcordo" tabindex="-1" role="dialog" data-backdrop="static">
+	<div class="modal-dialog ba__modal-loading" role="document" style="width: 900px;">
+		<div class="modal-content">
+			<div class="modal-header ba__no-padding-top">
+				<h4 class="col-xs-21 modal-title Roboto-Thin ba__font-size-25">
+					<i class="icon-ba-attention text-center text-warning ba__margin-horizontal-5"></i>
+					<span>Cancelar acordo</span>
+				</h4>
+			</div>
+			<div class="modal-body">
+				<form>
+					<div class="row">
+						<h5 class="col-md-24 text-gray ba__margin-top-20 bg-warning ba__padding-35">
+							Esta ação irá cancelar os títulos em aberto (boletos não pagos) e as operações que os compõem. Os títulos pagos não sofrerão
+							nenhuma alteração.
+						</h5>
+					</div>
+					<div class="row ba__margin-bottom-30 ba__margin-top-30">
+						<div class="col-md-8">
+							<h4 class="text-right text-gray">Motivo do cancelamento</h4>
+						</div>
+						<div class="col-md-15 col-md-offset-1">
+							<input ng-model="motivoCancel" type="text" class="ba__input-modal" placeholder="" style="text-transform:uppercase; height: 60px; margin-top: -10px">
+						</div>
+					</div>
+					<h5 class="ba__padding-10">Deseja realmente cancelar este título?</h5>
+				</form>
+			</div>
+			<div class="modal-footer">
+				<button type="button" data-dismiss="modal" class="btn btn-default col-md-8 col-md-offset-7">
+							Não Cancelar
+							</button>
+				<button ng-click="cancelarAcordo(motivoCancel); motivoCancel = ''" type="button" type="submit" class="btn btn-warning col-md-8 col-md-offset-1 pull-right">
+							Cancelar o acordo
+							</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!--MODAL Provisões de Crédito-->
+<div class="modal fade" id="acordosEfetuados" tabindex="-1" role="dialog" data-backdrop="static">
+	<div class="modal-dialog ba__modal-nova-conta" role="document">
+		<div class="modal-content" style="height: 850px;">
+			<div class="modal-header ba__no-padding-top">
+				<h4 class="col-xs-21 modal-title Roboto-Thin ba__font-size-25">
+					<i class="icon-ba-attention text-center text-warning ba__margin-horizontal-5"></i>
+					<span>Acordos Efetuados</span>
+				</h4>
+			</div>
+			<div class="modal-body" style="height: 660px !important;">
+				<div class="col-md-24">
+					<ul class="nav nav-tabs">
+						<li class="active">
+							<a data-toggle="tab" href="#modalTab1" onclick="return false;">
+								<h5>DADOS DO ACORDO</h5>
+							</a>
+						</li>
+						<li>
+							<a data-toggle="tab" href="#modalTab2" onclick="return false;">
+								<h5>ORDENS</h5>
+							</a>
+						</li>
+					</ul>
+					<div class="tab-content">
+						<div id="modalTab1" class="tab-pane fade in active">
+							<div class="list-group ba__admin-table ba__margin-top-40" style="height: 35%">
+								<div class="row ba__margin-bottom-10">
+									<div class="col-md-6 col-md-offset-2">
+										<h4 class="text-right text-gray">Status Acordo</h4>
+									</div>
+									<div class="col-md-10 col-md-offset-1"><input type="text" class="ba__input-modal" disabled style="text-transform:uppercase" value="{{InadimplenciaService.statusById(detalheAcordo.status)}}"></div>
+								</div>
+							</div>
+
+							<div class="list-group ba__admin-table ba__margin-top-10" style="height: 35%">
+								<div class="row ba__margin-bottom-10">
+									<div class="col-md-6 col-md-offset-2">
+										<h4 class="text-right text-gray">Data de Simulação</h4>
+									</div>
+									<div class="col-md-10 col-md-offset-1"><input type="text" class="ba__input-modal" disabled style="text-transform:uppercase" value="{{detalheAcordo.data_acordo}}"></div>
+								</div>
+							</div>
+
+							<div class="list-group ba__admin-table ba__margin-top-10" style="height: 35%">
+								<div class="row ba__margin-bottom-10">
+									<div class="col-md-6 col-md-offset-2">
+										<h4 class="text-right text-gray">Data de Agendamento 1ª parcela</h4>
+									</div>
+									<div class="col-md-10 col-md-offset-1"><input type="text" class="ba__input-modal" disabled style="text-transform:uppercase" value="{{detalheAcordo.data_agendamento}}"></div>
+								</div>
+							</div>
+
+							<div class="list-group ba__admin-table ba__margin-top-10" style="height: 35%">
+								<div class="row ba__margin-bottom-10">
+									<div class="col-md-6 col-md-offset-2">
+										<h4 class="text-right text-gray">Número de Parcelas</h4>
+									</div>
+									<div class="col-md-10 col-md-offset-1"><input type="text" class="ba__input-modal" disabled style="text-transform:uppercase" value="{{detalheAcordo.recebimento_acordo.numero_parcelas}}"></div>
+								</div>
+							</div>
+
+							<div class="list-group ba__admin-table ba__margin-top-10" style="height: 35%">
+								<div class="row ba__margin-bottom-10">
+									<div class="col-md-6 col-md-offset-2">
+										<h4 class="text-right text-gray">Valor do acordo</h4>
+									</div>
+									<div class="col-md-10 col-md-offset-1"><input type="text" class="ba__input-modal" disabled style="text-transform:uppercase" value="{{detalheAcordo.valor_acordo | currency:'R$ '}}"></div>
+								</div>
+							</div>
+
+							<div class="list-group ba__admin-table ba__margin-top-10" style="height: 35%">
+								<div class="row ba__margin-bottom-10">
+									<div class="col-md-6 col-md-offset-2">
+										<h4 class="text-right text-gray">Dívida original</h4>
+									</div>
+									<div class="col-md-10 col-md-offset-1"><input type="text" class="ba__input-modal" disabled style="text-transform:uppercase" value="{{detalheAcordo.valor_divida | currency:'R$ '}}"></div>
+								</div>
+							</div>
+
+							<div class="list-group ba__admin-table ba__margin-top-10" style="height: 35%">
+								<div class="row ba__margin-bottom-10">
+									<div class="col-md-6 col-md-offset-2">
+										<h4 class="text-right text-gray">Multa</h4>
+									</div>
+									<div class="col-md-10 col-md-offset-1"><input type="text" class="ba__input-modal" disabled style="text-transform:uppercase" value="{{valorMulta() | currency:'R$ '}}"></div>
+								</div>
+							</div>
+
+							<div class="list-group ba__admin-table ba__margin-top-10" style="height: 35%">
+								<div class="row ba__margin-bottom-10">
+									<div class="col-md-6 col-md-offset-2">
+										<h4 class="text-right text-gray">Juros</h4>
+									</div>
+									<div class="col-md-10 col-md-offset-1"><input type="text" class="ba__input-modal" disabled style="text-transform:uppercase" value="{{valorJuros() | currency:'R$ '}}"></div>
+								</div>
+							</div>
+
+							<div class="list-group ba__admin-table ba__margin-top-10" style="height: 35%">
+								<div class="row ba__margin-bottom-10">
+									<div class="col-md-6 col-md-offset-2">
+										<h4 class="text-right text-gray">Outros custos</h4>
+									</div>
+									<div class="col-md-10 col-md-offset-1"><input type="text" class="ba__input-modal" disabled style="text-transform:uppercase" value="{{valorCustosAdd() | currency:'R$ '}}"></div>
+								</div>
+							</div>
+
+							<div class="list-group ba__admin-table ba__margin-top-10" style="height: 35%">
+								<div class="row ba__margin-bottom-10">
+									<div class="col-md-6 col-md-offset-2">
+										<h4 class="text-right text-gray">Abatimentos</h4>
+									</div>
+									<div class="col-md-10 col-md-offset-1"><input type="text" class="ba__input-modal" disabled style="text-transform:uppercase" value="{{valorDescontos() | currency:'R$ -'}}"></div>
+								</div>
+							</div>
+
+							<!-- <div class="list-group ba__admin-table ba__margin-top-10" style="height: 35%">
+								<div class="row ba__margin-bottom-10">
+									<div class="col-md-6 col-md-offset-2">
+										<h4 class="text-right text-gray">Correções</h4>
+									</div>
+									<div class="col-md-10 col-md-offset-1"><input type="text" class="ba__input-modal" style="text-transform:uppercase" placeholder=""></div>
+								</div>
+							</div> -->
+
+							<!-- <div class="list-group ba__admin-table ba__margin-top-10" style="height: 35%">
+								<div class="row ba__margin-bottom-10">
+									<div class="col-md-6 col-md-offset-2">
+										<h4 class="text-right text-gray">Observações</h4>
+									</div>
+									<div class="col-md-10 col-md-offset-1"><input type="text" class="ba__input-modal" style="text-transform:uppercase" placeholder=""></div>
+								</div>
+							</div> -->
+
+							<div class="list-group ba__admin-table ba__margin-top-10" style="height: 35%" ng-if="detalheAcordo.status == 0">
+								<div class="row ba__margin-bottom-10">
+									<div class="col-md-6 col-md-offset-2">
+										<h4 class="text-right text-gray">Motivo do cancelamento</h4>
+									</div>
+									<div class="col-md-10 col-md-offset-1"><input type="text" class="ba__input-modal" disabled style="text-transform:uppercase" value='{{detalheAcordo.cancelamento}}'></div>
+								</div>
+							</div>
+
+						</div>
+						<div id="modalTab2" class="tab-pane fade">
+							<div class="row">
+								<div class="list-group ba__admin-table ba__margin-top-40" style="height: 35%">
+									<h5 class="ba__margin-bottom-20">BOLETOS</h5>
+									<a  class="list-group-item disabled">
+										<div class="row uppercase" style="padding-left: 4px">
+											<div class="col-xs-2">nosso nº.<i class="ba__margin-horizontal-5"></i>
+											</div>
+											<div class="col-xs-4">DT. DE VENCIMENTO.<i class="ba__margin-horizontal-5"></i>
+											</div>
+											<div class="col-xs-4">DT. DE COMPENS.<i class="ba__margin-horizontal-5"></i></div>
+											<div class="col-xs-4">VALOR<i class="ba__margin-horizontal-5"></i></div>
+											<div class="col-xs-4">SITUAÇÃO<i class="ba__margin-horizontal-5"></i></div>
+											<div class="col-xs-5">&nbsp;<i class="ba__margin-horizontal-5"></i>
+											</div>
+										</div>
+									</a>
+									<div class="ba__admin-table-scroll col-xs-24" ng-repeat="boleto in detalheAcordo.recebimento_parcelas">
+
+										<a  class="list-group-item ba__font-size-12">
+											<div class="row">
+												<div class="col-xs-2"><b>{{boleto.parcelas_boleto.nosso_numero}}</b></div>
+												<div class="col-xs-4"><b>{{boleto.parcelas_boleto.data_vencimento}}</b></div>
+												<div class="col-xs-4"><b>{{boleto.data_compensado}}</b></div>
+												<div class="col-xs-4"><b>{{boleto.valor |currency:'R$ '}}</b></div>
+												<div class="col-xs-4"><b>{{boleto.parcelas_boleto.situacao}}</b></div>
+												<div class="col-xs-5" ng-if="detalheAcordo.status == 1">
+													<i class="fa fa-print ba__margin-left-15" ng-click="visualizaBoleto(boleto.id)"></i>
+													<i class="fa fa-download ba__margin-left-15" ng-if="boleto.parcelas_boleto.situacao == 'Provisionado'" ng-click="downloadRemessa(boleto.id)"></i>
+													<i class="fa fa-envelope ba__margin-left-15 disabled" ng-if="boleto.parcelas_boleto.situacao == 'Provisionado'" ng-click="enviaBoleto(boleto.id)"></i>
+												</div>
+											</div>
+										</a>
+									</div>
+								</div>
+							</div>
+
+							<div class="row">
+								<div class="list-group ba__admin-table ba__margin-top-40" style="height: 35%">
+									<h5 class="ba__margin-bottom-20">LANÇAMENTOS</h5>
+									<div class="row uppercase" style="padding-left: 4px">
+										<div class="col-xs-2">CÓD.<i class="ba__margin-horizontal-5"></i></div>
+										<div class="col-xs-8">DESCRIÇÃO<i class="ba__margin-horizontal-5"></i></div>
+										<div class="col-xs-4">DT.BASE<i class="ba__margin-horizontal-5"></i></div>
+										<div class="col-xs-3">TIPO<i class="ba__margin-horizontal-5"></i></div>
+										<div class="col-xs-4">VALOR<i class="ba__margin-horizontal-5"></i></div>
+									</div>
+								</div>
+                                <!--ini lista de lançamento-->
+                                <div class="ba__admin-table-scroll col-xs-24" ng-if="(detalheAcordo.forma_pagamento === 'DINHEIRO')">
+                                    <a  class="list-group-item ba__font-size-12" >
+                                        <div class="row">
+                                            <div class="col-xs-2"><b>{{detalheAcordo.id}}</b></div>
+                                            <div class="col-xs-8"><b>Pagamento À Vista</b></div>
+                                            <div class="col-xs-4"><b>{{detalheAcordo.data_acordo | date:'dd/MM/yyyy'}}</b></div>
+                                            <div class="col-xs-3"><b>À Vista</b></div>
+                                            <div class="col-xs-4"><b>{{detalheAcordo.valor_acordo |currency:'R$ -'}}</b></div>
+                                        </div>
+                                    </a>
+                                </div>
+								<div class="ba__admin-table-scroll col-xs-24" ng-if="(detalheAcordo.valor_entrada)">
+                                    <a  class="list-group-item ba__font-size-12" >
+                                        <div class="row">
+                                            <div class="col-xs-2"><b>{{detalheAcordo.id}}</b></div>
+                                            <div class="col-xs-8"><b>Valor de entrada</b></div>
+                                            <div class="col-xs-4"><b>{{detalheAcordo.data_recebimento_entrada | date:'dd/MM/yyyy'}}</b></div>
+                                            <div class="col-xs-3"><b>Entrada</b></div>
+                                            <div class="col-xs-4"><b>{{detalheAcordo.valor_entrada |currency:'R$ -'}}</b></div>
+                                        </div>
+                                    </a>
+                                </div>
+								<div class="ba__admin-table-scroll col-xs-24" ng-repeat="lancamento in detalheAcordo.recebimento_acordo.lancamentos">
+									<a  class="list-group-item ba__font-size-12">
+										<div class="row">
+											<div class="col-xs-2"><b>{{lancamento.lancamento.id}}</b></div>
+											<div class="col-xs-8"><b>{{lancamento.lancamento.descricao}}</b></div>
+											<div class="col-xs-4"><b>{{detalheAcordo.data_acordo | date:'dd/MM/yyyy'}}</b></div>
+											<div class="col-xs-3"><b>{{InadimplenciaService.optionByValue(lancamento.lancamento.categoria)}}</b></div>
+											<div class="col-xs-4"><b>{{lancamento.lancamento.valor | currency:lancamento.lancamento.categoria == 7 ? 'R$ -' :'R$ '}}</b></div>
+										</div>
+									</a>
+								</div>
+                                <!--end lista de lançamentos-->
+							</div>
+
+							<div class="row">
+								<div class="list-group ba__admin-table ba__margin-top-40" style="height: 35%">
+									<h5 class="ba__margin-bottom-20">BOLETOS NEGOCIADOS</h5>
+									<div class="row uppercase" style="padding-left: 4px">
+										<div class="col-xs-3">NOSSO_NÚMERO<i class="ba__margin-horizontal-5"></i></div>
+										<div class="col-xs-4">DT. DE VENCIMENTO<i class="ba__margin-horizontal-5"></i></div>
+										<div class="col-xs-4">DT.BASE<i class="ba__margin-horizontal-5"></i></div>
+										<div class="col-xs-4">VALOR<i class="ba__margin-horizontal-5"></i></div>
+									</div>
+								</div>
+								<div class="ba__admin-table-scroll col-xs-24" ng-repeat="negociado in detalheAcordo.parcelas_negociadas">
+									<a  class="list-group-item ba__font-size-12">
+										<div class="row">
+											<div class="col-xs-3"><b>{{negociado.parcela_boleto.nosso_numero}}</b></div>
+											<div class="col-xs-4"><b>{{negociado.parcela_boleto.data_vencimento}}</b></div>
+											<div class="col-xs-4"><b>{{negociado.parcela_boleto.data_vencimento_origem}}</b></div>
+											<div class="col-xs-4"><b>{{negociado.recebimento_parcela.valor | currency:'R$ '}}</b></div>
+										</div>
+									</a>
+								</div>
+							</div>
+
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" data-dismiss="modal" class="btn btn-success col-md-4 col-md-offset-1 pull-right">
+							Ok
+							</button>
+				<!-- <button type="button" data-dismiss="modal" class="btn btn-default col-md-4 col-md-offset-1 pull-right">
+							Cancelar
+							</button> -->
+			</div>
+		</div>
+
+	</div>
+</div>
+
+<!--MODAL LOADING-->
+<div class="modal fade" id="loading" role="dialog" data-backdrop="static">
+	<div class="modal-dialog ba__modal-loading" role="document">
+		<div class="modal-content">
+			<div class="modal-header ba__no-padding-top">
+				<h4 class="col-xs-21 modal-title Roboto-Thin ba__font-size-25">
+					<i class="icon-ba-attention text-center text-warning ba__margin-horizontal-5"></i>
+					<span>Enviando</span>
+				</h4>
+			</div>
+			<div class="modal-body ba__modal-body-loading">
+				<form>
+					<div class="row ba__margin-top-30">
+						<i class="col-md-5 fa fa-spinner fa-spin ba__font-size-80 text-center"></i>
+						<h5 class="col-md-19 text-gray ba__margin-top-20"><b>Aguarde um instante...</b></h5>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!--MODAL GERANDO REMESSA-->
+<div class="modal fade" id="loading-gerar_remessa" role="dialog" data-backdrop="static">
+	<div class="modal-dialog ba__modal-loading" role="document">
+		<div class="modal-content">
+			<div class="modal-header ba__no-padding-top">
+				<h4 class="col-xs-21 modal-title Roboto-Thin ba__font-size-25">
+					<i class="icon-ba-attention text-center text-warning ba__margin-horizontal-5"></i>
+					<span>Download arquivo de remessa</span>
+				</h4>
+			</div>
+			<div class="modal-body ba__modal-body-loading">
+				<form>
+					<div class="row ba__margin-top-30">
+						<i class="col-md-5 fa fa-spinner fa-spin ba__font-size-80 text-center"></i>
+						<h5 class="col-md-19 text-gray ba__margin-top-20">
+							<b>Carregando...</b>
+						</h5>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!--MODAL boleto-->
+<div class="modal fade relatorio-modal" id="showPdf" tabindex="-1" role="dialog" data-backdrop="static"
+	 data-keyboard="false">
+	<h1 data-dismiss="modal">X</h1>
+	<object data="{{content}}" type="application/pdf"></object>
+</div>

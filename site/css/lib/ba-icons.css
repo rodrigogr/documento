@@ -1,0 +1,222 @@
+@font-face {
+    font-family: 'ba-icons';
+    src:  url('../fonts/ba-icons/ba-icons.eot?vl3rdt');
+    src:  url('../fonts/ba-icons/ba-icons.eot?vl3rdt#iefix') format('embedded-opentype'),
+    url('../fonts/ba-icons/ba-icons.ttf?vl3rdt') format('truetype'),
+    url('../fonts/ba-icons/ba-icons.woff?vl3rdt') format('woff'),
+    url('../fonts/ba-icons/ba-icons.svg?vl3rdt#ba-icons') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+[class^="icon-"], [class*=" icon-"] {
+    /* use !important to prevent issues with browser extensions that change fonts */
+    font-family: 'ba-icons' !important;
+    speak: none;
+    font-style: normal;
+    font-weight: normal;
+    font-variant: normal;
+    text-transform: none;
+    line-height: 1;
+
+    /* Better Font Rendering =========== */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-ba-access:before {
+    content: "\e900";
+}
+.icon-ba-add-outline:before {
+    content: "\e901";
+}
+.icon-ba-alert-outline:before {
+    content: "\e902";
+}
+.icon-ba-alert:before {
+    content: "\e903";
+}
+.icon-ba-attention:before {
+    content: "\e904";
+}
+.icon-ba-box:before {
+    content: "\e905";
+}
+.icon-ba-building:before {
+    content: "\e906";
+}
+.icon-ba-calendar:before {
+    content: "\e907";
+}
+.icon-ba-car:before {
+    content: "\e908";
+}
+.icon-ba-cellphone:before {
+    content: "\e909";
+}
+.icon-ba-chip:before {
+    content: "\e90a";
+}
+.icon-ba-cross-outline:before {
+    content: "\e90b";
+}
+.icon-ba-cross:before {
+    content: "\e90c";
+}
+.icon-ba-dog:before {
+    content: "\e90d";
+}
+.icon-ba-down:before {
+    content: "\e90e";
+}
+.icon-ba-edit:before {
+    content: "\e90f";
+}
+.icon-ba-enter:before {
+    content: "\e910";
+}
+.icon-ba-entrance:before {
+    content: "\e911";
+}
+.icon-ba-equipments:before {
+    content: "\e912";
+}
+.icon-ba-fingerprint:before {
+    content: "\e913";
+}
+.icon-ba-flux:before {
+    content: "\e914";
+}
+.icon-ba-house:before {
+    content: "\e915";
+}
+.icon-ba-houses:before {
+    content: "\e916";
+}
+.icon-ba-id:before {
+    content: "\e917";
+}
+.icon-ba-industry:before {
+    content: "\e918";
+}
+.icon-ba-insert:before {
+    content: "\e919";
+}
+.icon-ba-leave:before {
+    content: "\e91a";
+}
+.icon-ba-left:before {
+    content: "\e91b";
+}
+.icon-ba-liink:before {
+    content: "\e91c";
+}
+.icon-ba-list:before {
+    content: "\e91d";
+}
+.icon-ba-load:before {
+    content: "\e91e";
+}
+.icon-ba-lock:before {
+    content: "\e91f";
+}
+.icon-ba-logoff:before {
+    content: "\e920";
+}
+.icon-ba-mark-box:before {
+    content: "\e921";
+}
+.icon-ba-mark-circle:before {
+    content: "\e922";
+}
+.icon-ba-mark:before {
+    content: "\e923";
+}
+.icon-ba-offon:before {
+    content: "\e924";
+}
+.icon-ba-onoff:before {
+    content: "\e925";
+}
+.icon-ba-panic:before {
+    content: "\e926";
+}
+.icon-ba-pc:before {
+    content: "\e927";
+}
+.icon-ba-people:before {
+    content: "\e928";
+}
+.icon-ba-phone:before {
+    content: "\e929";
+}
+.icon-ba-photo:before {
+    content: "\e92a";
+}
+.icon-ba-pin:before {
+    content: "\e92b";
+}
+.icon-ba-plus:before {
+    content: "\e92c";
+}
+.icon-ba-record:before {
+    content: "\e92d";
+}
+.icon-ba-registry:before {
+    content: "\e92e";
+}
+.icon-ba-resident:before {
+    content: "\e92f";
+}
+.icon-ba-restriction:before {
+    content: "\e930";
+}
+.icon-ba-right:before {
+    content: "\e931";
+}
+.icon-ba-search:before {
+    content: "\e932";
+}
+.icon-ba-search2:before {
+    content: "\e933";
+}
+.icon-ba-service:before {
+    content: "\e934";
+}
+.icon-ba-star:before {
+    content: "\e935";
+}
+.icon-ba-super-user:before {
+    content: "\e936";
+}
+.icon-ba-system:before {
+    content: "\e937";
+}
+.icon-ba-tablet:before {
+    content: "\e938";
+}
+.icon-ba-tools:before {
+    content: "\e939";
+}
+.icon-ba-totem:before {
+    content: "\e93a";
+}
+.icon-ba-trash:before {
+    content: "\e93b";
+}
+.icon-ba-unlock-forever:before {
+    content: "\e93c";
+}
+.icon-ba-unlock:before {
+    content: "\e93d";
+}
+.icon-ba-up:before {
+    content: "\e93e";
+}
+.icon-ba-user:before {
+    content: "\e93f";
+}
+.icon-ba-view:before {
+    content: "\e940";
+}
+

@@ -1,0 +1,71 @@
+<link rel="stylesheet" href="src/contas-pagar/lancamentos-aprovados/lancamentosAprovados.ctrl.css">
+
+<div class="header">
+	<div header></div>
+</div>
+
+<div ng-init="ngOnInit()" class="row container-fluid ba__body-content ba__full-width">
+	<!--CONTAINER MENU-->
+	<div sidebar></div>
+
+	<!--CONTAINER SISTEMA-->
+	<div class="col-xs-21 ba__admin-container">
+		<div class="col-xs-24 ba__admin-container-list">
+			<div class="row ba__admin-list">
+				<div class="row ba__margin-top-20">
+					<h3 class="col-md-15 Roboto-Light">
+						<strong>{{Itens.length || 0}}</strong> Registros encontradas</h3>
+					<a type="button" class="btn btn-success col-xs-offset-3 col-xs-6 uppercase" ng-if="accessPagina.inserir || accessPagina.editar" style="margin-top: 12px" ui-sref="CPCadEstimar">
+						Estimar
+					</a>
+				</div>
+				<div class="list-group ba__admin-table ba__margin-top-40">
+					<a class="list-group-item disabled">
+						<div class="row uppercase">
+							<div class="col-xs-12">Mês
+								<i class="ba__margin-horizontal-5"></i>
+							</div>
+							<div class="col-xs-12">Ano
+								<i class="ba__margin-horizontal-5"></i>
+							</div>
+						</div>
+					</a>
+					<div class="ba__admin-table-scroll" style="height: 77%">
+						<a class="list-group-item ba__font-size-12" ui-sref="CPDetalEstimado({mes:item.mes_competencia,ano: item.ano_competencia})"
+						  ng-repeat="item in Itens" style="height: auto">
+							<div class="row">
+								<div class="col-xs-12">{{mesExtenso(item.mes_competencia)}}</div>
+								<div class="col-xs-12">{{item.ano_competencia}}</div>
+							</div>
+						</a>
+					</div>
+					<div class="col-md-10 col-md-offset-9" ng-if="pageCount">
+						<nav class="">
+							<ul class="pagination text-center">
+								<li>
+									<a aria-label="Previous" ng-click="updateList(current_page - 1)" class="ba__margin-right-15">
+										<span aria-hidden="true">&laquo; ANTERIOR</span>
+									</a>
+								</li>
+								<li ng-click="updateList(page)" ng-repeat="page in pages">
+									<a ng-class="page == current_page ? 'selected' : ''">{{page}}</a>
+								</li>
+								<li ng-if="pageCount > 5">
+									<a>...</a>
+								</li>
+								<li ng-if="pageCount > 5" ng-click="updateList(pageCount)">
+									<a ng-class="pageCount == current_page ? 'selected' : ''">{{pageCount}}</a>
+								</li>
+								<li>
+									<a aria-label="Next" ng-click="updateList(current_page + 1)" style="margin-left: 15px">
+										<span aria-hidden="true">PRÓXIMA &raquo;</span>
+									</a>
+								</li>
+							</ul>
+						</nav>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

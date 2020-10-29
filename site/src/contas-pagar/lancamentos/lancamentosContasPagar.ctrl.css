@@ -1,0 +1,21 @@
+.ba__admin-table-scroll {
+	height: 73%;
+}
+.pago {
+    background-color: #eaeaea !important;
+}
+.parcelas:hover {
+    border: 1px solid #ccc;
+}
+.parcelas .icon-ba-trash:hover {
+    color: #ed6c44;
+}
+.icon_pago {
+    color: green;
+    font-size: 15px;
+    border: 1px solid green;
+    border-radius: 20px;
+    padding: 4px;
+    margin-left: 16px;
+    margin-top: 7px;
+}

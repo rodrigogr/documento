@@ -1,0 +1,100 @@
+<link rel="stylesheet" href="src/contas-receber/recebimento-automatico/recebimentoAutomatico.ctrl.css">
+
+<div class="header">
+	<div header></div>
+</div>
+
+<div ng-init="ngOnInit()" class="row container-fluid ba__body-content ba__full-width">
+	<!--CONTAINER MENU-->
+	<div sidebar></div>
+	<!--CONTAINER MENU-->
+
+	<!--CONTAINER SISTEMA-->
+	<div class="col-xs-21 ba__admin-container">
+
+		<!-- INICIO Tela CATEGORIA DE USUÁRIOS-->
+		<div class="col-xs-24 ba__admin-container-list">
+
+			<div class="row ba__admin-list" style="overflow-y: auto;">
+
+				<div class="modal-dialog" style="width: 49%; float: left; margin-bottom: 0">
+					<div class="modal-content card-2" style="padding-top: 20px">
+						<div class="modal-header ba__no-padding-top ba__margin-bottom-15">
+							<h4 class="col-xs-21 modal-title Roboto-Thin ba__font-size-25">
+								<i class="icon-ba-attention text-center text-primary ba__margin-horizontal-5"></i>
+								<span>Processamento de Arquivo de Retorno</span>
+							</h4>
+						</div>
+						<div class="modal-body">
+							<form>
+								<div class="row">
+									<div class="form-group col-xs-23 col-xs-offset-1">
+
+										<div class="row ba__margin-bottom-30">
+											<div class="col-md-8">
+												<h5 class="text-right text-gray">Carteiras disponíveis</h5>
+											</div>
+											<div class="col-md-10 col-md-offset-1">
+												<select class="ba__input-select" ng-model="data.baixaAutomatica.id_configuracao_carteira" enter ng-options="carteiraDisponivel.id_carteira_conta as carteiraDisponivel.descricao for carteiraDisponivel in data.carteirasDisponiveis">
+																							</select>
+											</div>
+										</div>
+
+										<div class="row ba__margin-bottom-30">
+											<div class="col-md-8">
+												<h5 class="text-right text-gray">Layout do arquivo</h5>
+											</div>
+											<div class="col-md-8 col-md-offset-1">
+												<select class="ba__input-select" ng-model="data.baixaAutomatica.id_layout" enter ng-options="layoutRemessa.id as layoutRemessa.descricao for layoutRemessa in data.layoutsRemessa">
+																							</select>
+											</div>
+										</div>
+										<div class="row ba__margin-bottom-30">
+											<div class="col-md-8">
+												<h5 class="text-right text-gray">Arquivo</h5>
+											</div>
+											<div class="col-md-12 col-md-offset-1">
+												<input type="file" name="file-1" id="file-1" class="inputfile inputfile-1" fileread="data.baixaAutomatica.file" />
+											</div>
+										</div>
+
+									</div>
+
+								</div>
+							</form>
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-success col-md-7 pull-right" ng-click="$('#loading').modal('show'); realizarBaixaAutomatica()">
+															Processar arquivo
+													</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+	</div>
+	<!--CONTAINER SISTEMA-->
+</div>
+
+<!--MODAL loading-->
+<div class="modal fade" id="loading" role="dialog" data-backdrop="static">
+	<div class="modal-dialog ba__modal-loading" role="document">
+		<div class="modal-content">
+			<div class="modal-header ba__no-padding-top">
+				<h4 class="col-xs-21 modal-title Roboto-Thin ba__font-size-25">
+					<i class="icon-ba-attention text-center text-warning ba__margin-horizontal-5"></i>
+					<span>Processando</span>
+				</h4>
+			</div>
+			<div class="modal-body ba__modal-body-loading">
+				<form>
+					<div class="row ba__margin-top-30">
+						<i class="col-md-5 fa fa-spinner fa-spin ba__font-size-80 text-center"></i>
+						<h5 class="col-md-19 text-gray ba__margin-top-20"><b>Estamos processando o arquivo. Aguarde um instante...</b></h5>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>

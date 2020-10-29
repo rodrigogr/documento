@@ -1,0 +1,51 @@
+<div class="col-xs-3 ba__menuAdmin">
+    <div id='cssmenu' class="ba__admin-table-scroll">
+        <ul>
+            <li></li>
+            <li class='has-sub'>
+                <a ui-sref="index" ng-click="acaoMenu('principal');">
+                  <span style="text-transform: uppercase">
+                    <i class="fa fa-home text-center text-primary" style="margin-right: 10px;"></i>
+                    menu principal
+                  </span>
+                </a>
+            </li>
+            <!-- ACESSO RÁPIDO -->
+            <li class='has-sub'
+                ng-if="acessoRapido.indexOf('CPEstimados') !== -1 || acessoRapido.indexOf('RecbSimuCalcReceita') !== -1 || acessoRapido.indexOf('CPLancamentos') !== -1">
+                <a ng-click="acaoMenu('acessoRapido');">
+                  <span style="text-transform: uppercase">
+                    <i class="fa fa-flash text-center text-primary" style="margin-right: 10px;"></i>
+                    Acesso rápido
+                  </span>
+                </a>
+                <ul id="acessoRapido" class="_menu_">
+                    <li ng-if="acessoRapido.indexOf('CPEstimados') !== -1"><a ui-sref="CPEstimados"><span>Previsão orçamentária</span></a>
+                    </li>
+                    <li ng-if="acessoRapido.indexOf('RecbSimuCalcReceita') !== -1"><a ui-sref="RecbSimuCalcReceita"><span>Simulação e cálculo</span></a>
+                    </li>
+                    <li ng-if="acessoRapido.indexOf('CPLancamentos') !== -1"><a
+                            ui-sref="CPLancamentos"><span>Contas a pagar</span></a></li>
+                </ul>
+            </li>
+
+            <li class='has-sub' ng-repeat="menu in menuShow">
+                <a ng-click="acaoMenu(menu.menu_principal.cod)">
+                    <span style="text-transform: uppercase">
+                        <i class="fa {{ menu.menu_principal.icon }} text-center text-primary" style="margin-right: 10px;"></i>
+                        {{menu.menu_principal.nome}}
+                    </span>
+                </a>
+                <ul id="{{ menu.menu_principal.cod }}" class="_menu_" style="{{ menu.menu_principal.cod == menuAberto ? 'display:block': '' }}">
+                    <li ng-repeat="submenu in menu.submenus">
+                        <a ng-if="!submenu.submenu_principal" ui-sref="{{submenu.cod}}"><span>{{submenu.nome}}</span></a>
+                        <a ng-if="submenu.submenu_principal"><span>{{submenu.submenu_principal.nome}}</span></a>
+                        <p ng-if="submenu.submenu_principal" ng-repeat="submenutree in submenu.submenu_principal.submenu" class="subMenus_">
+                            <a ui-sref="{{submenutree.cod}}"><span>{{submenutree.nome}}</span></a>
+                        </p>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+</div>

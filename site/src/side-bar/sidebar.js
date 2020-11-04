@@ -17,66 +17,27 @@ angular.module('appDirectives').directive("sidebar", function () {
 function sidebarCtrl($scope, LoginService) {
 	var menuSis = [
 	    {
-        'menu_principal': {
-            'cod': 'contasReceber',
-            'nome': 'Receitas',
-            'icon': 'fa-plus-circle'
-            },
-            'submenus': [{
-                'cod': 'RecbLancAvul',
-                'nome': 'Cobranças avulsas'
-                },{
-                'cod': 'RecbPreLanc',
-                'nome': 'Pré-lançamentos'
-                },{
-                'cod': 'RecbLancReco',
-                'nome': 'Lançamentos recorrentes'
-                },{
-                'cod': 'RecbSimuCalcReceita',
-                'nome': 'Simulação e cálculo'
-                },{
-                'cod': 'RecbManual',
-                'nome': 'Recebimento manual'
-                },{
-                'cod': 'RecbAuto',
-                'nome': 'Recebimento automático'
-                },{
-                'cod': 'RecbConsArqRet',
-                'nome': 'Consulta de arquivo retorno'
-                }
-            ]
-        },{
-        'menu_principal': {
-            'cod': 'contasPagar',
-            'nome': 'Despesas',
-            'icon': 'fa-minus-circle'
-            },
-            'submenus':[{
+	        'menu_principal': {
                 'cod': 'CPEstimados',
-                'nome': 'Previsão orçamentária'
-                },{
-                'cod': 'CPLancamentos',
-                'nome': 'Contas a pagar'
-                },{
-                'cod': 'CPPagamentos',
-                'nome': 'Pagamentos'
-                }
-            ]
-        },{
-        'menu_principal': {
-            'cod': 'BancoCaixa',
-            'nome': 'Banco/Caixa',
-            'icon': 'fa-money'
+                'nome': 'Reservas',
+                'icon': 'fa-calendar'
+            }
+        },
+        {
+	        'menu_principal': {
+                'cod': 'contasPagar',
+                'nome': 'Despesas',
+                'icon': 'fa-minus-circle'
             },
-            'submenus':[{
-                'cod': 'BncCxFluxo',
-                'nome': 'Fluxo de caixa'
+                'submenus':[{
+                    'cod': 'CPLancamentos',
+                    'nome': 'Contas a pagar'
                 },{
-                'cod': 'BncCxContas',
-                'nome': 'Contas'
+                    'cod': 'CPPagamentos',
+                    'nome': 'Pagamentos'
                 }
-            ]
-        },{
+                ]
+        }, {
         'menu_principal': {
             'cod': 'cadastrosConfig',
             'nome': 'Cadastros',
@@ -155,20 +116,7 @@ function sidebarCtrl($scope, LoginService) {
             'icon': 'fa-file-text'
         },
         'submenus':[
-            {
-                'submenu_principal': {
-                    'cod': 'relContasReceber',
-                    'nome': 'Receitas',
-                    'submenu': [{
-                        'cod': 'RelTitProv',
-                        'nome': 'Títulos provisionados'
-                    },{
-                        'cod': 'RelTitReceb',
-                        'nome': 'Títulos recebidos'
-                    }
-                    ]
-                }
-            },
+
             {
                 'submenu_principal': {
                     'cod': 'relContasPagar',
@@ -183,131 +131,8 @@ function sidebarCtrl($scope, LoginService) {
                         }
                     ]
                 }
-            },
-            {
-                'submenu_principal': {
-                    'cod': 'RelInadimplencia',
-                    'nome': 'Inadimplência',
-                    'submenu': [
-                        {
-                            'cod': 'RelInadAcord',
-                            'nome': 'Acordo'
-                        },{
-                            'cod': 'RelInad',
-                            'nome': 'Inadimplentes'
-                        },{
-                            'cod': 'RelInadAnal',
-                            'nome': 'Analítico'
-                        }
-                    ]
-                }
-            },
-            {
-                'cod': 'RelPrevReal',
-                'nome': 'Previsto/Realizado'
             }
         ]
-        },{
-            'menu_principal': {
-                'cod': 'inadimplencia',
-                'nome': 'Inadimplentes',
-                'icon': 'fa-exclamation-circle'
-            },
-            'submenus':[{
-                'cod': 'InadClassi',
-                'nome': 'Classificar'
-                },{
-                    'submenu_principal': {
-                        'cod': 'acordo',
-                        'nome': 'Acordo',
-                        'submenu': [{
-                            'cod': 'InadSimuNego',
-                            'nome': 'Simular'
-                        }, {
-                            'cod': 'InadAcordEfet',
-                            'nome': 'Efetuados'
-                        }]
-                    }
-                },{
-                    'submenu_principal': {
-                        'cod': 'modelos',
-                        'nome': 'Modelos',
-                        'submenu': [{
-                            'cod': 'InadModeCartaCobr',
-                            'nome': 'Cobrança'
-                        }, {
-                            'cod': 'InadModeCartaQuit',
-                            'nome': 'Quitação'
-                        }]
-                    }
-                },{
-                    'submenu_principal': {
-                        'cod': 'enviosInadimplencia',
-                        'nome': 'Envios',
-                        'submenu': [{
-                            'cod': 'InadEnvCartCobr',
-                            'nome': 'Cobrança'
-                        }, {
-                            'cod': 'InadEnvCartaQuit',
-                            'nome': 'Quitação'
-                        }]
-                    }
-                }
-            ]
-        }, {
-            'menu_principal': {
-                'cod': 'compras',
-                'nome': 'Compras',
-                'icon': 'fa-shopping-cart'
-            },
-            'submenus': [{
-                'cod': 'ComprasSolicitacoes',
-                'nome': 'Solicitações'
-                },{
-                'cod': 'ComprasPainel',
-                'nome': 'Painel de Aprovação'
-                },{
-                'cod': 'ComprasPedidos',
-                'nome': 'Pedidos'
-                },{
-                'cod': 'ComprasAprovador',
-                'nome': 'Permissões'
-                },{
-                'cod': 'ComprasPedido',
-                'nome': 'Pedidos'
-            }]
-        },{
-            'menu_principal': {
-                'cod': 'patrimonio',
-                'nome': 'Patrimônio',
-                'icon': 'fa-bank'
-            },
-            'submenus': [{
-                'cod': 'PatrimonioBens',
-                'nome': 'Bens patrimoniais'
-                }, {
-                'cod': 'PatrimonioManutencao',
-                'nome': 'Manutenção'
-                }, {
-                'cod': 'PatrimonioBaixa',
-                'nome': 'Baixa'
-                },{
-                'cod': 'PatrimonioApolice',
-                'nome': 'Apólices'
-            }]
-        },{
-            'menu_principal': {
-                'cod': 'estoque',
-                'nome': 'Estoque',
-                'icon': 'fa-cubes'
-            },
-            'submenus': [{
-                'cod': 'estoqueEstoque',
-                'nome': 'Estoque atual'
-                },{
-                'cod': 'estoqueMovimentacoes',
-                'nome': 'Movimentações'
-            }]
         },{
             'menu_principal': {
                 'cod': 'notificacoes',
@@ -317,16 +142,6 @@ function sidebarCtrl($scope, LoginService) {
             'submenus': [{
                 'cod': 'NotfEnvEmail',
                 'nome': 'Enviar E-mail'
-            }]
-        },{
-            'menu_principal': {
-                'cod': 'integracoes',
-                'nome': 'Integrações',
-                'icon': 'fa-clipboard'
-            },
-            'submenus': [{
-                'cod': 'arquivoContabil',
-                'nome': 'Arquivo Contábil'
             }]
         }
     ];
@@ -389,12 +204,6 @@ function sidebarCtrl($scope, LoginService) {
 			}
         });
         //menu acesso rápido
-        if (arrAccess.indexOf('CPEstimados') > -1) {
-            $scope.acessoRapido.push('CPEstimados');
-        }
-        if (arrAccess.indexOf('RecbSimuCalcReceita') > -1) {
-            $scope.acessoRapido.push('RecbSimuCalcReceita');
-        }
         if (arrAccess.indexOf('CPLancamentos') > -1) {
             $scope.acessoRapido.push('CPLancamentos');
         }

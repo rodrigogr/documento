@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Carteira extends Model
 {
     public $timestamps = true;
+    protected $connection = 'portaria';
     protected $fillable = [
         'descricao',
         'id_banco'

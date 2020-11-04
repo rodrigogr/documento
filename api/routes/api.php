@@ -19,24 +19,25 @@ use Illuminate\Http\Request;
 Route::post('auth/login', 'AuthController@login');
 Route::get('auth/checkAuth','AuthController@checkAuth');
 Route::get('condominio', 'CondominioConfiguracoesController@condominio');
-Route::get('receita_calculo/visualizar_boleto/{id}', 'ReceitaCalculoController@visualizarBoletos');
-Route::get('receita_calculo/emitir_remessa/{id}', 'ReceitaCalculoController@emitirRemessa');
+
+//Route::get('receita_calculo/visualizar_boleto/{id}', 'ReceitaCalculoController@visualizarBoletos');
+//Route::get('receita_calculo/emitir_remessa/{id}', 'ReceitaCalculoController@emitirRemessa');
 Route::get('auth/getLogin/{hash}','AuthController@getLogin');
-Route::get('recebimento/manual/download_remessa/{id}', 'RecebimentoController@download_remessa');
-Route::get('lancamento_avulsos/gerar_remessa/{id}', 'LancamentoAvulsoController@download_remessa');
-Route::get('inadimplencia/acordos_efetuados/remessa/{id}', 'AcordoController@download_remessa');
+//Route::get('recebimento/manual/download_remessa/{id}', 'RecebimentoController@download_remessa');
+//Route::get('lancamento_avulsos/gerar_remessa/{id}', 'LancamentoAvulsoController@download_remessa');
+//Route::get('inadimplencia/acordos_efetuados/remessa/{id}', 'AcordoController@download_remessa');
 
-Route::post('export_arquivo/lancamentos/layout_tron', 'ExportArquivoCsvController@exportLancamentosLayoutTron');
-Route::get('lancamento_agendar/demonstrativo/{id}', 'LancamentoAgendarController@demonstrativo');
-
-Route::get('import_database/receitasMadri/{ano_competencia}', 'MigrationDatabaseClientController@importCSVReceitasjdsMadri');
-Route::get('import_database/associadosMadri/{ano_competencia}', 'MigrationDatabaseClientController@importCSVAssociadojdsMadri');
-Route::get('import_database/contasPagar', 'MigrationDatabaseClientController@importCSVContasAPagarJdsMadri');
-Route::get('import_database/fornecedoresMadri', 'MigrationDatabaseClientController@importCSVFornecedorHojeDiaADia');
-Route::get('import_database/produtosMadri', 'MigrationDatabaseClientController@importCSVProdutosHojeDiaADia');
-Route::get('import_database/grupoprodutosMadri', 'MigrationDatabaseClientController@importCSVGrupoProdutoHojeDiaADia');
-Route::get('import_database/correcao/associado', 'MigrationDatabaseClientController@correcaoMigracaoReceitasAssociado');
-Route::get('import_database/correcao/receitas', 'MigrationDatabaseClientController@correcaoMigracaoReceitas');
+//Route::post('export_arquivo/lancamentos/layout_tron', 'ExportArquivoCsvController@exportLancamentosLayoutTron');
+//Route::get('lancamento_agendar/demonstrativo/{id}', 'LancamentoAgendarController@demonstrativo');
+//
+//Route::get('import_database/receitasMadri/{ano_competencia}', 'MigrationDatabaseClientController@importCSVReceitasjdsMadri');
+//Route::get('import_database/associadosMadri/{ano_competencia}', 'MigrationDatabaseClientController@importCSVAssociadojdsMadri');
+//Route::get('import_database/contasPagar', 'MigrationDatabaseClientController@importCSVContasAPagarJdsMadri');
+//Route::get('import_database/fornecedoresMadri', 'MigrationDatabaseClientController@importCSVFornecedorHojeDiaADia');
+//Route::get('import_database/produtosMadri', 'MigrationDatabaseClientController@importCSVProdutosHojeDiaADia');
+//Route::get('import_database/grupoprodutosMadri', 'MigrationDatabaseClientController@importCSVGrupoProdutoHojeDiaADia');
+//Route::get('import_database/correcao/associado', 'MigrationDatabaseClientController@correcaoMigracaoReceitasAssociado');
+//Route::get('import_database/correcao/receitas', 'MigrationDatabaseClientController@correcaoMigracaoReceitas');
 
 Route::group(['middleware' => 'jwt.auth'], function () {
 
@@ -56,27 +57,27 @@ Route::group(['middleware' => 'jwt.auth'], function () {
     | API Supplementing Resource Routes
     |--------------------------------------------------------------------------
     */
-    Route::get('tipo_lancamentos/litar_por_fluxo', 'TipoLancamentoController@listarPorFluxo');
-    Route::get('receita_calculo/informacao', 'ReceitaCalculoController@informacao');
-    Route::get('receita_calculo/informacao/{mes}/{ano}', 'ReceitaCalculoController@informacao');
-    Route::get('receita_calculo/previsao_orcamentaria', 'ReceitaCalculoController@preisaoOrcamentaria');
-    Route::post('receita_calculo/simular', 'ReceitaCalculoController@simulacao');
-    Route::post('receita_calculo/aprovar_simulacao', 'ReceitaCalculoController@aprovarSimulacao');
+//    Route::get('tipo_lancamentos/litar_por_fluxo', 'TipoLancamentoController@listarPorFluxo');
+//    Route::get('receita_calculo/informacao', 'ReceitaCalculoController@informacao');
+//    Route::get('receita_calculo/informacao/{mes}/{ano}', 'ReceitaCalculoController@informacao');
+//    Route::get('receita_calculo/previsao_orcamentaria', 'ReceitaCalculoController@preisaoOrcamentaria');
+//    Route::post('receita_calculo/simular', 'ReceitaCalculoController@simulacao');
+//    Route::post('receita_calculo/aprovar_simulacao', 'ReceitaCalculoController@aprovarSimulacao');
 
-    Route::get('receita_calculo/visualizar_boleto_nao_enviado/{id}', 'ReceitaCalculoController@visualizarBoletosNaoEnviado');
-
-    Route::get('receita_calculo/enviar_email/{id}', 'ReceitaCalculoController@enviarEmail');
-    Route::get('receita_calculo/update_nosso_numero', 'ReceitaCalculoController@update_nosso_numero');
-
-    Route::get('lancamento_avulsos/gerar_boleto/{id}', 'LancamentoAvulsoController@gerarBoleto');
-    Route::get('lancamento_avulsos/enviar_email/{id}', 'LancamentoAvulsoController@enviarEmail');
-    Route::get('lancamento_avulsos/antigos', 'LancamentoAvulsoController@antigos');
-    Route::post('lancamento_avulsos/cancela_lancamento_avulso', 'LancamentoAvulsoController@cancelaLancamentoAvulso');
-    Route::get('lancamento_avulsos/deleta_lancamento_antigo/{id}', 'LancamentoAvulsoController@deletaLancamentoAntigo');
-    Route::get('lancamento_avulsos/check_edit_lancamento_antigo/{id}', 'LancamentoAvulsoController@checkLancamentoAntigo');
-    Route::post('lancamento_avulsos/update_lancamento_antigo', 'LancamentoAvulsoController@updateLancamentoAntigo');
-    Route::post('lancamento_avulsos/busca', 'LancamentoAvulsoController@search');
-    Route::get('conta_bancarias/carteiras_disponiveis', 'ContaBancariaController@carteirasDisponiveis');
+//    Route::get('receita_calculo/visualizar_boleto_nao_enviado/{id}', 'ReceitaCalculoController@visualizarBoletosNaoEnviado');
+//
+//    Route::get('receita_calculo/enviar_email/{id}', 'ReceitaCalculoController@enviarEmail');
+//    Route::get('receita_calculo/update_nosso_numero', 'ReceitaCalculoController@update_nosso_numero');
+//
+//    Route::get('lancamento_avulsos/gerar_boleto/{id}', 'LancamentoAvulsoController@gerarBoleto');
+//    Route::get('lancamento_avulsos/enviar_email/{id}', 'LancamentoAvulsoController@enviarEmail');
+//    Route::get('lancamento_avulsos/antigos', 'LancamentoAvulsoController@antigos');
+//    Route::post('lancamento_avulsos/cancela_lancamento_avulso', 'LancamentoAvulsoController@cancelaLancamentoAvulso');
+//    Route::get('lancamento_avulsos/deleta_lancamento_antigo/{id}', 'LancamentoAvulsoController@deletaLancamentoAntigo');
+//    Route::get('lancamento_avulsos/check_edit_lancamento_antigo/{id}', 'LancamentoAvulsoController@checkLancamentoAntigo');
+//    Route::post('lancamento_avulsos/update_lancamento_antigo', 'LancamentoAvulsoController@updateLancamentoAntigo');
+//    Route::post('lancamento_avulsos/busca', 'LancamentoAvulsoController@search');
+//    Route::get('conta_bancarias/carteiras_disponiveis', 'ContaBancariaController@carteirasDisponiveis');
     Route::get('conta_bancarias/select', 'ContaBancariaController@select');
 
     Route::get('imoveis/busca_morador/{quadra}/{lote}', 'ImovelController@pesquisarMoradorPorImovel');
@@ -87,21 +88,21 @@ Route::group(['middleware' => 'jwt.auth'], function () {
     Route::post('pagamento/estornar', 'PagamentoController@estornar');
     Route::get('pagamento/filtro', 'PagamentoController@filtroByDataVencimento');
 
-    Route::post('recebimento/processar_arquivo_retorno', 'RecebimentoController@processar_arquivo');
-    Route::get('recebimento/cancelar_processamento/{id}', 'RecebimentoController@cancelar_processamento');
-    Route::post('recebimento/print_pendencias_simular_calcular', 'RecebimentoController@printPendenciasSC');
-    Route::get('recebimento/consultar_arquivo', 'RecebimentoController@consultar_arquivo');
-    Route::post('recebimento/receber_todos', 'RecebimentoController@receber_todos');
-    Route::get('recebimento/titulos_processados/{id_arquivo_retorno}', 'RecebimentoController@titulos_processados');
-    Route::get('recebimento/titulos_processados_status/{status}/{id_arquivo_retorno}', 'RecebimentoController@titulosProcessadosByStatus');
-    Route::get('recebimento/demonstrativo_titulo/{id}', 'RecebimentoController@demonstrativo_titulo');
-    Route::post('recebimento/manual', 'RecebimentoController@recebimento_manual');
-    Route::get('recebimento/manual/saldo_receber/{id}', 'RecebimentoController@saldo_receber');
-    Route::get('recebimento/manual/debitos/{id}', 'RecebimentoController@debitos');
-    Route::get('recebimento/manual/ordem_pagamentos/{id}', 'RecebimentoController@ordem_pagamentos');
-    Route::post('recebimento/manual/atualizar_boleto', 'RecebimentoController@atualizar_boleto');
-    Route::post('recebimento/manual/atualizar_juros_multa', 'RecebimentoController@resultJurosMulta');
-    Route::get('recebimento/manual/visualizar_boleto/{id_parcela}', 'RecebimentoController@visualizar_boleto');
+//    Route::post('recebimento/processar_arquivo_retorno', 'RecebimentoController@processar_arquivo');
+//    Route::get('recebimento/cancelar_processamento/{id}', 'RecebimentoController@cancelar_processamento');
+//    Route::post('recebimento/print_pendencias_simular_calcular', 'RecebimentoController@printPendenciasSC');
+//    Route::get('recebimento/consultar_arquivo', 'RecebimentoController@consultar_arquivo');
+//    Route::post('recebimento/receber_todos', 'RecebimentoController@receber_todos');
+//    Route::get('recebimento/titulos_processados/{id_arquivo_retorno}', 'RecebimentoController@titulos_processados');
+//    Route::get('recebimento/titulos_processados_status/{status}/{id_arquivo_retorno}', 'RecebimentoController@titulosProcessadosByStatus');
+//    Route::get('recebimento/demonstrativo_titulo/{id}', 'RecebimentoController@demonstrativo_titulo');
+//    Route::post('recebimento/manual', 'RecebimentoController@recebimento_manual');
+//    Route::get('recebimento/manual/saldo_receber/{id}', 'RecebimentoController@saldo_receber');
+//    Route::get('recebimento/manual/debitos/{id}', 'RecebimentoController@debitos');
+//    Route::get('recebimento/manual/ordem_pagamentos/{id}', 'RecebimentoController@ordem_pagamentos');
+//    Route::post('recebimento/manual/atualizar_boleto', 'RecebimentoController@atualizar_boleto');
+//    Route::post('recebimento/manual/atualizar_juros_multa', 'RecebimentoController@resultJurosMulta');
+//    Route::get('recebimento/manual/visualizar_boleto/{id_parcela}', 'RecebimentoController@visualizar_boleto');
 // Route::get('recebimento/manual/visualizar_fatura/{id_parcela}/{mes}/{ano}','RecebimentoController@visualizarFatura');
 
     Route::get('recebimento/manual/enviar_email/{id}', 'RecebimentoController@enviar_email');
@@ -253,16 +254,7 @@ Route::group(['middleware' => 'jwt.auth'], function () {
     Route::get('informativo/{id}/image', 'InformativoController@getImage');
     Route::get('informativo/{id}/visualizar', 'InformativoController@getVisualizar');
 
-// patrimonio
-    Route::group(['prefix' => 'patrimonios'], function () {
-        Route::resource('bens', 'PatrimoniosBensController');
-        Route::resource('bensSemPendencia', 'PatrimoniosBensController@bensSemPendencia');
-        Route::resource('manutencoes', 'PatrimoniosManutencoesController');
-        Route::resource('baixas', 'PatrimoniosBaixasController');
-        Route::get('historicos', 'PatrimoniosHistoricosController@index');
-        Route::resource('apolices', 'PatrimoniosApolicesController');
-        Route::resource('apolices/bens', 'PatrimoniosApolicesPatrimoniosController');
-    });
+
 
     Route::group(['prefix' => 'produtos'], function () {
         Route::get('getImage64/{id}', 'ProdutoController@getImage64');
@@ -276,32 +268,10 @@ Route::group(['middleware' => 'jwt.auth'], function () {
     Route::resource('produtos', 'ProdutoController');
 
 
-    Route::group(['prefix' => 'estoque'], function () {
-        Route::get('movimentacoes', 'EstoqueMovimentacaoController@movimentacoes');
-        Route::post('movimentacoes', 'EstoqueMovimentacaoController@store');
-        Route::delete('movimentacoes/{id}', 'EstoqueMovimentacaoController@delete');
-    });
-
-    Route::group(['prefix' => 'pedidos'], function () {
-        Route::post('movprodutos/{idPedido}', 'PedidoController@movProdutos');
-        Route::post('pedidoDeleteItens', 'PedidoController@deleteItensByPedido');
-        Route::get('getinfomov/{idPedido}', 'PedidoController@getInfoMov');
-        Route::get('solicitacao', 'PedidoController@solicitacao');
-        Route::get('aprovacao', 'PedidoController@aprovacao');
-        Route::post('search', 'PedidoController@solicitacao');
-        Route::post('imprimir_solicitacao', 'PedidoController@imprimirSolicitacao');
-        Route::post('imprimir_cotacao', 'PedidoController@imprimirCotacao');
-        Route::post('notificacao_aprovador', 'PedidoController@notificacaoAprovador');
-
-    });
-    Route::resource('pedidos', 'PedidoController');
-
-//FLUXO
-    Route::post('fluxo', 'FluxoCaixaController@filtroFluxo');
-    Route::post('fluxo/saldo_contas', 'FluxoCaixaController@saldoContas');
-
 // FORMULAS
     Route::resource('formulas', 'FormulasController');
-//    INTEGRAÇÕES
-    Route::post('exporta_arquivo_contabil','ExportArquivoCsvController@exportLancamentosLayoutTron');
+
 });
+
+require_once('api/reservas.routes.php');
+require_once('api/localreservavel.routes.php');

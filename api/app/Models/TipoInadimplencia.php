@@ -7,11 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 class TipoInadimplencia extends Model
 {
     public $timestamps = true;
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array
-     */
+    protected $connection = 'portaria';
+
     protected $fillable = [
         'descricao',
     ];

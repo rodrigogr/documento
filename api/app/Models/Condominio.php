@@ -12,7 +12,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Condominio extends Model {
 
-    // public $timestamps = true;
+    protected  $connection = 'portaria';
     protected $table = 'condominio';
 
     protected $fillable = [

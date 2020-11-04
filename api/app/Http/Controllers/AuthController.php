@@ -28,7 +28,7 @@ class AuthController extends Controller
         if ($credentials['pwd'] !== sha1($usuario->senha)) {
             return response()->error('Senha Inválida!',401);
         }
-        $permissao_financeiro = \DB::table('permissao_usuario as p')
+        $permissao_financeiro = \DB::connection('portaria')->table('permissao_usuario as p')
             ->join('modulo_sistema as m','p.id_modulo','=','m.id')
             ->where('p.id_usuario',$usuario->id)
             ->where('visualizar',1)
@@ -72,7 +72,8 @@ class AuthController extends Controller
                  ]);
             }
             $payload = JWTAuth::parseToken()->getPayload();
-            $permissoes = \DB::table('permissao_usuario as p')
+
+            $permissoes = \DB::connection('portaria')->table('permissao_usuario as p')
                 ->join('modulo_sistema as m','p.id_modulo','=','m.id')
                 ->where('p.id_usuario',$payload["sub"])
                 ->where('visualizar',1)
@@ -126,7 +127,7 @@ class AuthController extends Controller
     public function userPermissoes (Request $request)
     {
         $usuario = $request->all();
-        $permissoes = \DB::table('permissao_usuario as p')
+        $permissoes = \DB::connection('portaria')->table('permissao_usuario as p')
             ->join('modulo_sistema as m','p.id_modulo','=','m.id')
             ->whereRaw("sha1(p.id_usuario) = '".$usuario["id"]."'")
             ->where('visualizar',1)
@@ -138,7 +139,7 @@ class AuthController extends Controller
     public function permissaoByPagina (Request $request)
     {
         $dados = $request->All();
-        $permissaoPg = \DB::table('permissao_usuario as p')
+        $permissaoPg = \DB::connection('portaria')->table('permissao_usuario as p')
             ->join('modulo_sistema as m','p.id_modulo','=','m.id')
             ->whereRaw("sha1(p.id_usuario) = '".$dados["id"]."'")
             ->where('m.nome',$dados["pg"])
@@ -150,7 +151,7 @@ class AuthController extends Controller
     public function boxHeaderAccess (Request $request)
     {
         $dados = $request->all();
-        $permissaoAppsBox = \DB::table('permissao_usuario as p')
+        $permissaoAppsBox = \DB::connection('portaria')->table('permissao_usuario as p')
             ->join('modulo_sistema as m','p.id_modulo','=','m.id')
             ->whereRaw("sha1(p.id_usuario) = '".$dados["dados"]["id"]."'")
             ->where(function($q){

@@ -6,15 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Receita extends Model
 {
-    static public $associations = [
-        'carteiraBancaria',
-        'tipoLancamentoMulta',
-        'tipoLancamentoJuros',
-        'tipoLancamentoCorrecao',
-        'tipoLancamentoCustasAdicionais',
-        'tipoLancamentoDesconto',
-        'tipoInadimplenciaPadrao'
-    ];
+
+    protected $connection = 'portaria';
     public $timestamps = true;
     protected $fillable = [
         'percentualmulta',
@@ -41,7 +34,15 @@ class Receita extends Model
         'id_tipolancamentoabatimento',
         'id_tipolancamentojuridico'
     ];
-
+    static public $associations = [
+        'carteiraBancaria',
+        'tipoLancamentoMulta',
+        'tipoLancamentoJuros',
+        'tipoLancamentoCorrecao',
+        'tipoLancamentoCustasAdicionais',
+        'tipoLancamentoDesconto',
+        'tipoInadimplenciaPadrao'
+    ];
     static public function complete($id = NULL)
     {
         return ($id != NULL) ? self::where('id', $id)->with(self::$associations)->first() : self::with(self::$associations)->get();

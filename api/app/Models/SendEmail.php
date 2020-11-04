@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class SendEmail extends Model
 {
     public $timestamps = true;
+    protected $connection = 'portaria';
     /**
      * The attributes that are mass assignable.
      *

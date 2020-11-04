@@ -8,12 +8,7 @@ class PessoaPermanente extends Model
 {
     public $timestamps = false;
     protected $table = 'pessoa_permanente';
-
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array
-     */
+    protected $connection = 'portaria';
     protected $fillable = [
         'id_pessoa',
         'codigo',

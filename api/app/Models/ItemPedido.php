@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class ItemPedido extends Model
 {
     public $timestamps = true;
-
+    protected $connection = 'portaria';
     protected $fillable = [
         'idpedido',
         'idproduto',

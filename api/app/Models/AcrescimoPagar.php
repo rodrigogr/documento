@@ -8,7 +8,7 @@ class AcrescimoPagar extends Model
 {
     public $timestamps = true;
     protected  $table = 'acrescimo_pagar';
-
+    protected $connection = 'portaria';
     protected $fillable = [
         'id_lancamento_agendar',
         'id_tipo_lancamento',

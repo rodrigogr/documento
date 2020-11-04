@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class ConfiguracaoCarteira extends Model
 {
     public $timestamps = true;
+    protected $connection = 'portaria';
     static public $associations = [
         'conta_bancaria',
         'carteira',

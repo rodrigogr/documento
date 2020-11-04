@@ -12,8 +12,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class CondominioConfiguracoes extends  Model
 {
+    protected $connection = 'portaria';
     public $timestamps = true;
-
     protected  $fillable = [
         'calculomessubsequente',
         'compensarabatimento',

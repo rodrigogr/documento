@@ -12,6 +12,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class GrupoCalculo extends Model
 {
+    protected $connection = 'portaria';
     public $timestamps =true;
     protected $table = 'grupo_calculo';
     static public $associations = [

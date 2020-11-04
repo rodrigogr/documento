@@ -83,7 +83,7 @@ class GrupoLancamentoController extends Controller
     public function gruposLancamentoPorTipo(GrupoLancamentoRequest $request)
     {
         $data = $request->all();
-        $Data = \DB::table('grupo_lancamentos as g')
+        $Data = \DB::connection('portaria')->table('grupo_lancamentos as g')
             ->join('tipo_lancamentos as l','l.idgrupo_lancamento','g.id')
             ->where('l.fluxo',$data["tipo"])
             ->distinct()

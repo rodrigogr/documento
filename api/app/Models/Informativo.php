@@ -9,7 +9,7 @@ class Informativo extends Model
 {
     public $timestamps = true;
     protected $table = 'informativo';
-
+    protected $connection = 'portaria';
     protected $fillable = [
         'tipo',
         'conteudo',

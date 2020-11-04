@@ -19,7 +19,7 @@ class ImovelRequest extends JsonRequest
     }
 
     /**
-     * Get the validation rules that apply to the request.
+     * Get the validation rules that apply to the reuest.
      *
      * @return array
      */

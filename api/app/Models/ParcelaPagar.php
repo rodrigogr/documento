@@ -7,9 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class ParcelaPagar extends Model
 {
-    static public $associations = [
-        'lancamento_agendar'
-    ];
+    protected $connection = 'portaria';
     public $timestamps = true;
     protected $table = 'parcela_pagar';
     protected $fillable = [
@@ -25,7 +23,9 @@ class ParcelaPagar extends Model
         'numero_comprovante',
         'forma_pagamento_origem'
     ] ;
-
+    static public $associations = [
+        'lancamento_agendar'
+    ];
     static public function complete($id = NULL)
     {
         return ($id != NULL) ? self::where('id', $id)->with(self::$associations)->first() : self::with(self::$associations)->get();

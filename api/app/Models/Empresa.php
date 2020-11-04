@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Empresa extends Model
 {
+    protected $connection = 'portaria';
     public $timestamps = false;
     protected $table = 'empresa';
     protected $fillable = [

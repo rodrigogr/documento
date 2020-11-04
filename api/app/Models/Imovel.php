@@ -9,7 +9,7 @@ class Imovel extends Model
 {
     public $timestamps = true;
     protected $table = 'imovel';
-
+    protected $connection = 'portaria';
     protected $fillable = [
         'quadra',
         'lote',

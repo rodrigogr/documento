@@ -1,16 +1,13 @@
 'use strict'
 angular.module('AppModule', [
-        'InadimplanciaModule',
+
         'CadastrosModule',
         'RelatoriosModule',
-        'BancoCaixaModule',
+
         'ContasPagarModule',
-        'ContasReceberModule',
+
         'NotificacoesModules',
-        'IntegracoesModules',
-        'ComprasModule',
-        'PatrimonioModule',
-        'EstoqueModule',
+
         'ui.router',
         'appServices',
         'appDirectives',
@@ -71,7 +68,7 @@ angular.module('AppModule', [
                 $http.get(config.apiUrl + 'api/auth/getLogin/'+$location.$$search.uid_bioacesso).then( function(res) {
                     if (res.data.data.usr.id) {
                         $timeout(() => {
-                            $('.boas-vindas-text p').html('Bem vindo ao Bioacesso Sistema Financeiro<br>Aguarde...');
+                            $('.boas-vindas-text p').html('Bem vindo ao Bioacesso Sistema Comunicação<br>Aguarde...');
                         }, 2000);
                         localStorage.setItem('bioacs-crtk', res.data.data.token);
                         localStorage.setItem('bioacs-uid', JSON.stringify(res.data.data.usr));

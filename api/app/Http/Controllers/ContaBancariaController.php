@@ -104,7 +104,7 @@ class ContaBancariaController extends Controller
             ->join('carteiras','configuracao_carteiras.id_carteira', '=', 'carteiras.id')
             ->join('receitas','conta_bancarias.id', '=', 'receitas.id_configuracao_carteira','left')
             ->select('configuracao_carteiras.id','configuracao_carteiras.id_conta_bancaria', 'conta_bancarias.conta','carteiras.descricao as carteira','carteiras.id as id_carteira',
-                \DB::raw('(CASE WHEN conta_bancarias.id = receitas.id_configuracao_carteira THEN 1 ELSE 0 END) AS padrao'), 'bancos.descricao as banco')
+                \DB::connection('portaria')->raw('(CASE WHEN conta_bancarias.id = receitas.id_configuracao_carteira THEN 1 ELSE 0 END) AS padrao'), 'bancos.descricao as banco')
             ->get() ;
         if (count($Data)) {
             $result =[];

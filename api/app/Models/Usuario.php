@@ -5,6 +5,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Usuario extends Model
 {
+    protected $connection = 'portaria';
     protected $table = 'usuario';
     public $timestamps = true;
 

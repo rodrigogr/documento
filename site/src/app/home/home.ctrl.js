@@ -1,7 +1,7 @@
 'use strict'
 angular.module('AppModule').controller('IndexCtrl',
 	function ($scope, $state, LancamentoService, HeaderFactory) {
-        $scope.tese = HeaderFactory.setHeader('BIOACESSO','FINANCEIRO');
+        $scope.tese = HeaderFactory.setHeader('BIOACESSO','COMUNICAÇÃO');
         $scope.labels = ["January", "February", "March", "April", "May", "June", "July"];
         $scope.series = ['Series A', 'Series B'];
         $scope.data = [

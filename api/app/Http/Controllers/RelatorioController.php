@@ -89,7 +89,7 @@ class RelatorioController extends Controller{
                 ->join('tipo_lancamentos as t', 't.id', 'l.id_tipo_lancamento')
                 ->join('grupo_lancamentos as g', 'g.id', 't.idgrupo_lancamento')
                 ->select('g.id', 'g.descricao as grupo', 't.id as id_tipo', 't.descricao as tipo', 'l.mes_competencia', 'l.ano_competencia',
-                    'parcela_pagar.data_base', 'parcela_pagar.tipo_operacao', \DB::raw('SUM(parcela_pagar.valor_pago) as valor_total'));
+                    'parcela_pagar.data_base', 'parcela_pagar.tipo_operacao', \DB::connection('portaria')->raw('SUM(parcela_pagar.valor_pago) as valor_total'));
                 //->whereBetween('parcela_pagar.data_base',[$data_ini,$data_fim]);
             if ($data["data_inicial"] != "") {
                 $Data = $Data->whereBetween('parcela_pagar.data_base', [$data_ini, $data_fim]);
@@ -456,7 +456,7 @@ class RelatorioController extends Controller{
         $Data = Recebimento::whereHas('parcelas',function($q) use($data_ini,$data_fim,$data) {
                     $q->with('parcelasBoleto')->whereHas('parcelasBoleto', function($q) use($data_ini,$data_fim,$data){
                         $q->whereBetween('data_vencimento',[$data_ini,$data_fim]);
-                        $q->where('data_vencimento','<',\DB::raw('CURDATE()'));
+                        $q->where('data_vencimento','<',\DB::connection('portaria')->raw('CURDATE()'));
                         if (!$data["periodo_congelado"]) {
                             $q->where('situacao', 'Provisionado');
                         }
@@ -500,11 +500,11 @@ class RelatorioController extends Controller{
             }])
             ->join('imovel as i','i.id','recebimentos.idimovel')
             ->select('recebimentos.id','recebimentos.idimovel','recebimentos.idassociado','recebimentos.numero_parcelas','i.quadra','i.lote')
-            ->orderBy(\DB::raw('ABS(quadra)'),'ASC')
-            ->orderBy(\DB::raw('ABS(lote)'),'ASC');
+            ->orderBy(\DB::connection('portaria')->raw('ABS(quadra)'),'ASC')
+            ->orderBy(\DB::connection('portaria')->raw('ABS(lote)'),'ASC');
 
         if ($data["quadra"] != "" && $data["lote"] != "" ){
-            $Data = $Data->where('i.quadra',\DB::raw('ABS('.$data["quadra"].')'))->where('i.lote',\DB::raw('ABS('.$data["lote"].')'));
+            $Data = $Data->where('i.quadra',\DB::connection('portaria')->raw('ABS('.$data["quadra"].')'))->where('i.lote',\DB::connection('portaria')->raw('ABS('.$data["lote"].')'));
         }
         $Data = $Data->get();
 //        return $Data;
@@ -618,7 +618,7 @@ class RelatorioController extends Controller{
             ->join('pessoa as pe','r.idassociado','pe.id')
             ->join('imovel as i','r.idimovel','i.id')
             ->join('situacao_inadimplencias as s','s.id','rp.id_situacao_inadimplencia')
-            ->where('parcela_boletos.data_vencimento','<', \DB::raw('CURDATE()'))
+            ->where('parcela_boletos.data_vencimento','<', \DB::connection('portaria')->raw('CURDATE()'))
             ->whereNull('parcela_boletos.deleted_at');
         ;
 
@@ -638,18 +638,18 @@ class RelatorioController extends Controller{
             $Data = $Data->where('parcela_boletos.situacao','Provisionado');
         }
         if ($data["quadra"] != "" && $data["lote"] != "" ){
-            $Data = $Data->where('i.quadra',\DB::raw('ABS('.$data["quadra"].')'))->where('i.lote',\DB::raw('ABS('.$data["lote"].')'));
+            $Data = $Data->where('i.quadra',\DB::connection('portaria')->raw('ABS('.$data["quadra"].')'))->where('i.lote',\DB::connection('portaria')->raw('ABS('.$data["lote"].')'));
         }
         if($data["situacao_cobranca"] != ""){
             $Data = $Data->where('s.id',$data["situacao_cobranca"]);
         }
 
         $Data = $Data->select('parcela_boletos.id_parcela','parcela_boletos.data_vencimento','rp.data_recebimento','pe.nome as associado','parcela_boletos.nosso_numero',
-                'i.quadra','i.lote','rp.valor',\DB::raw('DATE_FORMAT(parcela_boletos.data_vencimento_origem,"%m/%Y") as competencia'), 's.idtipo_inadimplencia',
+                'i.quadra','i.lote','rp.valor',\DB::connection('portaria')->raw('DATE_FORMAT(parcela_boletos.data_vencimento_origem,"%m/%Y") as competencia'), 's.idtipo_inadimplencia',
                 's.descricao as sit_inadimplencia')
             ->groupBy('parcela_boletos.id_parcela')
             ->orderBy('i.quadra','ASC')
-            ->orderBy(\DB::raw('ABS(i.lote)'),'ASC')
+            ->orderBy(\DB::connection('portaria')->raw('ABS(i.lote)'),'ASC')
 
             ->get();
 
@@ -728,8 +728,8 @@ class RelatorioController extends Controller{
                         });
         if ($lote !="" && $quadra !="") {
             $DataQuery = $DataQuery->whereHas('imovel', function($q) use($quadra,$lote) {
-                $q->where('quadra',\DB::raw(abs($quadra)));
-                $q->where('lote',\DB::raw(abs($lote)));
+                $q->where('quadra',\DB::connection('portaria')->raw(abs($quadra)));
+                $q->where('lote',\DB::connection('portaria')->raw(abs($lote)));
             });
             $DataQuery = $DataQuery->with('imovel');
         }
@@ -748,7 +748,7 @@ class RelatorioController extends Controller{
         }
         if ($data["lancamentoAvulso"] == 'gerados') {
             $DataQuery = $DataQuery->whereHas('lancamentos', function ($q) {
-                $q->whereNotIn('lancamentos_contas_receber.id_lancamento', [\DB::raw('select id_lancamento from lancamento_avulsos')]);
+                $q->whereNotIn('lancamentos_contas_receber.id_lancamento', [\DB::connection('portaria')->raw('select id_lancamento from lancamento_avulsos')]);
             });
         }
         $DataQuery = $DataQuery->with(array('lancamentos' => function ($q) {

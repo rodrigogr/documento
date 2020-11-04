@@ -14,6 +14,7 @@ use Illuminate\Database\Eloquent\Model;
 
 
 class Pessoa extends Model {
+    protected $connection = 'portaria';
     public $timestamps = false;
     protected $table = 'pessoa';
     /**

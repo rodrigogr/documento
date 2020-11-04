@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Localidade extends Model
 {
+    protected $connection = 'portaria';
     public $timestamps = true;
     /**
      * The attributes that are mass assignable.

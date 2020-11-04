@@ -9,11 +9,7 @@ class ImovelPermanente extends Model
 {
     public $timestamps = true;
     protected $table = 'imovel_permanente';
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array
-     */
+    protected $connection = 'portaria';
     protected $fillable = [
         'id_pessoa',
         'id_imovel',

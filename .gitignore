@@ -1,0 +1,14 @@
+/.idea
+/.vscode
+api/.env
+api/public/.htaccess
+api/public/index.php
+api/storage/
+api/vendor/
+api/composer.lock
+/node_modules
+site/node_modules
+site/bower_components
+site/package-lock.json
+site/src/app/config/urlConfig.js
+.gitignore

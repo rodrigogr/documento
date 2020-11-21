@@ -1,6 +1,7 @@
 /.idea
 /.vscode
 api/.env
+api/.idea
 api/public/.htaccess
 api/public/index.php
 api/storage/

@@ -18,10 +18,24 @@ function sidebarCtrl($scope, LoginService) {
 	var menuSis = [
 	    {
 	        'menu_principal': {
-                'cod': 'CPEstimados',
+                'cod': 'reserva',
                 'nome': 'Reservas',
                 'icon': 'fa-calendar'
-            }
+            },
+            'submenus': [
+                {
+                    'cod': 'reservaLocal',
+                    'nome': 'Locais Reserváveis'
+                },
+                {
+                    'cod': 'reservaCalendario',
+                    'nome': 'Calendário de Reservas'
+                },
+                {
+                    'cod': 'reservaAprovacao',
+                    'nome': 'Aprovações Pendentes'
+                }
+            ]
         },
         {
 	        'menu_principal': {

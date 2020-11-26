@@ -80,7 +80,7 @@ return [
             'driver' => 'mysql',
             'host' => env('DB_PORTARIA_HOST', 'localhost'),
             'port' => env('DB_PORTARIA_PORT', '3306'),
-            'database' => env('DB_PORTARIA_DATABASE', 'bioacesso-portaria'),
+            'database' => env('DB_PORTARIA_DATABASE', 'bioacesso_portaria'),
             'username' => env('DB_PORTARIA_USERNAME', 'root'),
             'password' => env('DB_PORTARIA_PASSWORD', 'root'),
             'charset' => 'utf8',

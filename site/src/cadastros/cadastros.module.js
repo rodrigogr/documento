@@ -149,4 +149,28 @@ angular.module('CadastrosModule', [
 					onEnter: () => window.stop()
 				}
 			})
+			.state('reservaLocal', {
+				url: "/unidade",
+				templateUrl: 'src/cadastros/estoque/unidades/unidades.ctrl.html',
+				controller: 'UnidadeCtrl',
+				resolve: {
+					onEnter: () => window.stop()
+				}
+			})
+			.state('reservaCalendario', {
+				url: "/unidade",
+				templateUrl: 'src/cadastros/estoque/unidades/unidades.ctrl.html',
+				controller: 'UnidadeCtrl',
+				resolve: {
+					onEnter: () => window.stop()
+				}
+			})
+			.state('reservaAprovacao', {
+				url: "/unidade",
+				templateUrl: 'src/cadastros/estoque/unidades/unidades.ctrl.html',
+				controller: 'UnidadeCtrl',
+				resolve: {
+					onEnter: () => window.stop()
+				}
+			})
 	});

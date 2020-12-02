@@ -1,13 +1,6 @@
 'use strict'
 angular.module('AppModule', [
-
-        'CadastrosModule',
-        'RelatoriosModule',
-
         'ContasPagarModule',
-
-        'NotificacoesModules',
-
         'ui.router',
         'appServices',
         'appDirectives',

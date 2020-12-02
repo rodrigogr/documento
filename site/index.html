@@ -32,6 +32,7 @@
     </div>
     <div ui-view></div>
 </body>
+
 <!--BOWER-->
 <script src='bower_components/jquery/dist/jquery.min.js'></script>
 <script src='bower_components/angular/angular.js'></script>
@@ -48,7 +49,6 @@
 <script src='bower_components/moment/min/moment-with-locales.js'></script>
 <script src='bower_components/angular-input-masks/angular-input-masks-standalone.js'></script>
 <script src='bower_components/angular-locale-pt-br/angular-locale_pt-br.js'></script>
-<!-- toastr -->
 <script src='bower_components/angular-toastr/dist/angular-toastr.tpls.js'></script>
 <script src='bower_components/ngMask/dist/ngMask.js'></script>
 <script src='bower_components/tinymce/tinymce.min.js'></script>
@@ -75,108 +75,38 @@
 <script src='bower_components/angular-bootstrap/ui-bootstrap.min.js'></script>
 <script src='bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js'></script>
 <script src='bower_components/typeahead.js/dist/typeahead.bundle.min.js'></script>
-
 <script src="bower_components/chart.js/dist/Chart.min.js"></script>
 <script src="bower_components/angular-chart.js/dist/angular-chart.min.js"></script>
+
 <!-- DIRECTIVES -->
 <script src='src/app/directives/directives.js'></script>
 <script src='src/side-bar/sidebar.js'></script>
 <script src='src/header/header.js'></script>
+
 <!-- LIBS -->
 <script src='libs/filemanager-plugin.min.js'></script>
+
 <!-- FILTERS -->
 <script src='src/app/filters/filters.js'></script>
+
 <!-- SERVICES -->
 <script src='src/app/services/servicesModule.js'></script>
 <script src='src/app/services/bioacessoService.js'></script>
-<script src='src/app/services/bancoService.js'></script>
-<script src='src/app/services/receitaService.js'></script>
-<script src='src/app/services/configuracaoService.js'></script>
 <script src='src/app/services/utilService.js'></script>
 <script src='src/app/services/cryptoService.js'></script>
 <script src='src/app/services/contasPagarService.js'></script>
 <script src='src/app/services/lancamentoService.js'></script>
-<script src='src/app/services/fluxoService.js'></script>
 <script src='src/app/services/loginService.js'></script>
 <script src='src/app/services/authService.js'></script>
-<!-- patrimonio início. -->
-<script src='src/app/services/patrimonio/bens.srv.js'></script>
-<script src='src/app/services/patrimonio/manutencao.srv.js'></script>
-<script src='src/app/services/patrimonio/baixa.srv.js'></script>
-<script src='src/app/services/patrimonio/apolice.srv.js'></script>
-<script src='src/app/services/patrimonio/apolice-patrimonio.srv.js'></script>
-<script src='src/app/services/patrimonio/historico.srv.js'></script>
-<script src='src/app/services/patrimonio/date.srv.js'></script>
-<script src='src/app/services/patrimonio/valor.srv.js'></script>
-<!-- patrimonio fim. -->
 <script src='src/app/services/pagamentoService.js'></script>
-<script src='src/app/services/tipoDocumentoService.js'></script>
-<script src='src/app/services/envioEmailService.js'></script>
-<script src='src/app/services/titulosProvisionadosService.js'></script>
-<script src='src/app/services/contasPagarGeralRelatorioService.js'></script>
-<script src='src/app/services/titulosRecebidosRelatorioService.js'></script>
-<script src='src/app/services/relatorioInadimplenciaAcordoService.js'></script>
-<script src='src/app/services/relatorioInadimplentesService.js'></script>
-<script src='src/app/services/relatorioContasPagarAnaliticoService.js'></script>
-<script src='src/app/services/relatorioContasPagarSinteticoService.js'></script>
-<script src='src/app/services/relatorioInadimplenciaAnaliticoService.js'></script>
-<script src='src/app/services/produtoService.js'></script>
-<script src='src/app/services/grupoProdutoService.js'></script>
-<script src='src/app/services/unidadeProdutoService.js'></script>
-<script src='src/app/services/areaService.js'></script>
-<script src='src/app/services/ruaService.js'></script>
-<script src='src/app/services/colunaService.js'></script>
-<script src='src/app/services/nivelService.js'></script>
-<script src='src/app/services/sequenciaService.js'></script>
-<script src='src/app/services/aprovadorService.js'></script>
-<script src='src/app/services/usuarioService.js'></script>
-<script src='src/app/services/pedidoService.js'></script>
-<script src='src/app/services/empresaService.js'></script>
-
-
 
 <!-- CONTAS A PAGAR -->
 <script src="src/contas-pagar/contasPagar.module.js"></script>
 <script src="src/contas-pagar/lancamentos/lancamentosContasPagar.ctrl.js"></script>
-<script src="src/contas-pagar/pagamento/pagamentoContasPagar.ctrl.js"></script>
-<script src="src/contas-pagar/lancamentos-aprovados/lancamentosAprovados.ctrl.js"></script>
-<script src="src/contas-pagar/lancamentos-aprovados/detail/detailEstimado.ctrl.js"></script>
 
-<!-- CADASTROS -->
-<script src="src/cadastros/cadastros.module.js"></script>
-<script src="src/cadastros/inadimplencia/tipo/tipoInadimplencia.Ctrl.js"></script>
-<script src="src/cadastros/inadimplencia/situacao/situacaoInadimplencia.Ctrl.js"></script>
-<script src="src/cadastros/departamentos/departamentos.ctrl.js"></script>
-<script src="src/cadastros/grupo-calculo/grupoCalculo.ctrl.js"></script>
-<script src="src/cadastros/informativo/informativo.ctrl.js"></script>
-<script src="src/cadastros/config-condominio/configCondominio.ctrl.js"></script>
-<script src="src/cadastros/config-receita/configReceita.ctrl.js"></script>
-<script src="src/cadastros/grupos-conta/grupoConta.ctrl.js"></script>
-<script src="src/cadastros/planos-conta/planosConta.ctrl.js"></script>
-<script src='src/cadastros/estoque/areas/areas.ctrl.js'></script>
-<script src='src/cadastros/estoque/colunas/coluna.ctrl.js'></script>
-<script src='src/cadastros/estoque/grupo-produtos/gruposProdutos.ctrl.js'></script>
-<script src='src/cadastros/estoque/niveis/niveis.ctrl.js'></script>
-<script src='src/cadastros/estoque/produtos/produtos.ctrl.js'></script>
-<script src='src/cadastros/estoque/ruas/ruas.ctrl.js'></script>
-<script src='src/cadastros/estoque/sequencias/sequencia.ctrl.js'></script>
-<script src='src/cadastros/estoque/unidades/unidades.ctrl.js'></script>
-
-
-
-<!-- RELATORIOS -->
-<script src="src/relatorios/relatorios.module.js"></script>
-<script src="src/relatorios/contas-pagar/analitico/relCPAnalitico.Ctrl.js"></script>
-<script src="src/relatorios/contas-pagar/sintetico/relCPSintetico.Ctrl.js"></script>
-
-
-
-
-<!-- NOTIFICAÇÕES -->
-<script src="src/notificacoes/notificacoes.module.js"></script>
-<script src="src/notificacoes/enviar-email/enviarEmail.Ctrl.js"></script>
-
-
+<!-- RESERVAS -->
+<script src="src/reservas/reservas.module.js"></script>
+<script src="src/reservas/local-reservavel/localReservavel.ctrl.js"></script>
 
 <!-- APP CONFIG -->
 <script src="src/app/app.module.js"></script>

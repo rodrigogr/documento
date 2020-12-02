@@ -1,15 +1,21 @@
 'use strict'
-angular.module('ReservaModules', [
-		'ui.router',
-		'ngAria',
-		'toastr',
-		'oitozero.ngSweetAlert'
+angular.module('ReservasModule', [
+	'ui.router',
+	'appDirectives',
+	'appFilters',
+	'ngAria',
+	'ui.utils.masks',
+	'toastr',
+	'ngMask',
+	'oitozero.ngSweetAlert',
+	'ui.tinymce'
 	])
-	.config(function ($stateProvider, $urlRouterProvider) {
+	.config(function ($stateProvider) {
 		$stateProvider
-			.state('ReservaLocal', {
+			.state('reservaLocal', {
 				url: "/reservas/local",
 				templateUrl: 'src/reservas/local-reservavel/localReservavel.ctrl.html',
-				controller: 'LocalReservavelCtrl'
-			})
+				controller: 'LocalReservavelCtrl',
+				resolve: {onEnter: () => window.stop()}
+			});
 	});

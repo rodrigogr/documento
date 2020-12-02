@@ -1,6 +1,6 @@
 'use strict'
-angular.module('ReservaModules').controller('LocalReservavelCtrl',
-    function ($scope, UtilsService, EnvioEmailService, HeaderFactory) {
+angular.module('ReservasModule').controller('LocalReservavelCtrl',
+    function ($scope, UtilsService, HeaderFactory) {
 
         HeaderFactory.setHeader('reservas', 'Locais reserváveis');
     });

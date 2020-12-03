@@ -133,7 +133,7 @@ class AuthController extends Controller
             ->where('visualizar',1)
             ->select('m.nome as cod','m.desc as nome', 'p.visualizar','p.inserir','p.editar','p.excluir')
             ->get();
-        return response()->success($permissoes);
+        return response()->success($this->resultFormatoPermissoes($permissoes));
     }
 
     public function permissaoByPagina (Request $request)
@@ -206,6 +206,21 @@ class AuthController extends Controller
             return response()->error('Erro '.$e->getMessage());
         }
         return response()->success(urlencode($cript));
+    }
+
+    private function resultFormatoPermissoes($dados) {
+        $permissoes = json_decode($dados);
+        $res = [];
+        foreach ($permissoes as $p){
+            $res[$p->cod] = [
+                "nome" => $p->nome,
+                "visualizar" => $p->visualizar,
+                "editar" => $p->editar,
+                "inserir" => $p->inserir,
+                "excluir" => $p->excluir
+            ];
+        }
+        return $res;
     }
 
 }

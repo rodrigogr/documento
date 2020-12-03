@@ -5,6 +5,7 @@ function AuthService($q, config) {
     this.data = {
         user: {}
     };
+    this.acessosUsuario = '';
 
     this.getToken = function () {
         return localStorage.getItem('bioacs-crtk');
@@ -38,5 +39,12 @@ function AuthService($q, config) {
         }).catch(function (error) {
             throw error;
         }));
+    }
+
+    this.setAcessosUsuario = function (dados) {
+        this.acessosUsuario = dados;
+    }
+    this.getAcessosUsuario = function () {
+        return this.acessosUsuario;
     }
 }

@@ -3,3 +3,39 @@
 <div class="header">
     <div header></div>
 </div>
+
+<div class="row container-fluid ba__body-content ba__full-width">
+    <!--CONTAINER MENU-->
+    <div sidebar></div>
+    <!--CONTAINER SISTEMA-->
+    <div class="col-xs-21 ba__admin-container">
+        <!-- INICIO Tela CATEGORIA DE USUÁRIOS-->
+        <div class="col-xs-24 ba__admin-container-list">
+            <div class="row ba__admin-busca">
+                <div class="col-xs-24 input-group ba__admin-busca-input" style="float: left; border: none!important; height: 30px; margin-left: 20px">
+                    <span class="input-group-addon" style="height: 60px"></span>
+                    <select class="form-group col-xs-3 ba__adminSelectBusca" ng-change="pesquisaChange()" ng-init="search.type = 'nome'" ng-model="search.type"
+                            style="height: 50px; border-bottom: 1px solid #cccccc;padding-left: 20px;">
+                        <option value="nome">Nome</option>
+                    </select>
+                    <button type="button" class="btn btn-primary col-xs-3 col-xs-offset-1 uppercase" style="margin-top: 7px" ng-click="checkData(search) && pesquisar(search)">
+                        Pesquisar
+                        <i class="icon-ba-search"></i>
+                    </button>
+                </div>
+            </div>
+
+            <div class="row ba__admin-list">
+                <div class="row ba__margin-top-20">
+                    <h3 class="col-md-15 Roboto-Light">
+                        <strong>{{locais.length || 0}}</strong> Registros encontrados</h3>
+                    <button type="button" class="btn btn-success col-xs-offset-3 col-xs-6 uppercase" style="margin-top: 12px"
+                            data-toggle="modal" ng-click="createContasPagar()" ng-if="accessPagina.inserir">
+                        Novo Local
+                    </button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>

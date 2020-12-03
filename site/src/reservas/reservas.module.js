@@ -17,5 +17,17 @@ angular.module('ReservasModule', [
 				templateUrl: 'src/reservas/local-reservavel/localReservavel.ctrl.html',
 				controller: 'LocalReservavelCtrl',
 				resolve: {onEnter: () => window.stop()}
+			})
+			.state('reservaCalendario', {
+				url: "/reservas/calendario",
+				templateUrl: 'src/reservas/calendario-reserva/calendarioReserva.ctrl.html',
+				controller: 'CalendarioReservaCtrl',
+				resolve: {onEnter: () => window.stop()}
+			})
+			.state('reservaAprovacao', {
+				url: "/reservas/aprovacao",
+				templateUrl: 'src/reservas/aprovacao-pendente/aprovacaoPendente.ctrl.html',
+				controller: 'AprovacaoReservaCtrl',
+				resolve: {onEnter: () => window.stop()}
 			});
 	});

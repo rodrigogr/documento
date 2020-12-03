@@ -3742,3 +3742,14 @@ span{
 #toast-container.toast-top-center .toast, #toast-container.toast-bottom-center .toast {
     width: 20% !important;
 }
+.loadingMenu {
+    display: table-cell;
+    vertical-align: middle;
+    height: 70px;
+}
+.loadingMenu i {
+    width: 20px;
+    height: 20px;
+    font-size: 25px;
+    margin-left: 80px;
+}

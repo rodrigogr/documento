@@ -29,6 +29,8 @@
                 </ul>
             </li>
 
+            <li ng-if="loadingMenu" class="loadingMenu"><i class="fa fa-cog fa-spin"></i></li>
+
             <li class='has-sub' ng-repeat="menu in menuShow">
                 <a ng-click="acaoMenu(menu.menu_principal.cod)">
                     <span style="text-transform: uppercase">

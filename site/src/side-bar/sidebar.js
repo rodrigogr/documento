@@ -14,7 +14,7 @@ angular.module('appDirectives').directive("sidebar", function () {
 	}
 });
 
-function sidebarCtrl($scope, LoginService) {
+function sidebarCtrl($scope, LoginService, AuthService) {
 	var menuSis = [
 	    {
 	        'menu_principal': {
@@ -160,7 +160,11 @@ function sidebarCtrl($scope, LoginService) {
         }
     ];
 	let user = JSON.parse(localStorage.getItem("bioacs-uid"));
+    $scope.loadingMenu = true;
+
     LoginService.userAccess(user.id).then( function(result ) {
+        AuthService.setAcessosUsuario(result.data);
+
         $scope.objAccess = result.data;
         $scope.menuShow = [];
         $scope.acessoRapido = [];
@@ -214,14 +218,13 @@ function sidebarCtrl($scope, LoginService) {
                     'submenus': arrSub
                 };
                 $scope.menuShow.push(menuAdd);
-
 			}
         });
         //menu acesso rápido
         if (arrAccess.indexOf('CPLancamentos') > -1) {
             $scope.acessoRapido.push('CPLancamentos');
         }
-    });
+    }).finally( () => $scope.loadingMenu = false );
 
     $scope.menuAberto = sessionStorage.getItem("menu");
     $(function(){

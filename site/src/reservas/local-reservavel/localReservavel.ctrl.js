@@ -1,7 +1,7 @@
 'use strict'
 angular.module('ReservasModule').controller('LocalReservavelCtrl',
-    function ($scope, HeaderFactory, AuthService) {
+    function ($scope, $state, HeaderFactory, AuthService) {
         HeaderFactory.setHeader('reservas', 'Locais reserváveis');
-        let acessoUsuario = AuthService.getAcessosUsuario();
-        $scope.permissaoReservaLocal = acessoUsuario.filter()
+        let user = JSON.parse(localStorage.getItem("bioacs-uid"));
+        AuthService.aclPaginaService($state.$current.name, user.id).then(result => $scope.accessPagina = result.data);
     });

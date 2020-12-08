@@ -8,7 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="icon" href="img/financeiro.ico">
     <title>Bioacesso - Comunicação</title>
-    <link href="https://fonts.googleapis.com/css?family=Raleway:100,600" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="css/lib/googleFont-Raleway.css">
     <link rel="stylesheet" href="css/lib/overlay.css">
     <link rel="stylesheet" href="css/lib/bootstrap.css">
     <link rel="stylesheet" href="css/lib/bootstrap-theme.css">
@@ -91,14 +91,20 @@
 
 <!-- SERVICES -->
 <script src='src/app/services/servicesModule.js'></script>
-<script src='src/app/services/bioacessoService.js'></script>
-<script src='src/app/services/utilService.js'></script>
 <script src='src/app/services/cryptoService.js'></script>
-<script src='src/app/services/contasPagarService.js'></script>
-<script src='src/app/services/lancamentoService.js'></script>
-<script src='src/app/services/loginService.js'></script>
 <script src='src/app/services/authService.js'></script>
+<script src='src/app/services/loginService.js'></script>
+<script src='src/app/services/utilService.js'></script>
+<script src='src/app/services/lancamentoService.js'></script>
+<script src='src/app/services/contasPagarService.js'></script>
 <script src='src/app/services/pagamentoService.js'></script>
+<script src='src/app/services/bioacessoService.js'></script>
+
+<!-- APP CONFIG -->
+<script src="src/app/app.module.js"></script>
+<script src="src/app/config/urlConfig.js"></script>
+<script src='src/app/login/login.ctrl.js'></script>
+<script src='src/app/home/home.ctrl.js'></script>
 
 <!-- CONTAS A PAGAR -->
 <script src="src/contas-pagar/contasPagar.module.js"></script>
@@ -107,12 +113,6 @@
 <!-- RESERVAS -->
 <script src="src/reservas/reservas.module.js"></script>
 <script src="src/reservas/local-reservavel/localReservavel.ctrl.js"></script>
-
-<!-- APP CONFIG -->
-<script src="src/app/app.module.js"></script>
-<script src="src/app/config/urlConfig.js"></script>
-<script src='src/app/login/login.ctrl.js'></script>
-<script src='src/app/home/home.ctrl.js'></script>
 
 <script>
     'use strict'

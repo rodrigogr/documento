@@ -163,8 +163,6 @@ function sidebarCtrl($scope, LoginService, AuthService) {
     $scope.loadingMenu = true;
 
     LoginService.userAccess(user.id).then( function(result ) {
-        AuthService.setAcessosUsuario(result.data);
-
         $scope.objAccess = result.data;
         $scope.menuShow = [];
         $scope.acessoRapido = [];
@@ -220,6 +218,7 @@ function sidebarCtrl($scope, LoginService, AuthService) {
                 $scope.menuShow.push(menuAdd);
 			}
         });
+
         //menu acesso rápido
         if (arrAccess.indexOf('CPLancamentos') > -1) {
             $scope.acessoRapido.push('CPLancamentos');
@@ -231,12 +230,24 @@ function sidebarCtrl($scope, LoginService, AuthService) {
         $("#"+$scope.menuAberto).show();
     });
 
-
 	$scope.acaoMenu = (div) => {
 		$(`._menu_:not(#${div})`).hide();
 		$(`#${div}`).fadeToggle("fast", "linear");
 		sessionStorage.setItem("menu", div);
 	};
 
+	/*function formataPermissoes(permissoes) {
+        var res = [];
+        angular.forEach(permissoes, function (item) {
+            res[item.cod] = {
+                nome: item.nome,
+                visualizar: item.visualizar,
+                editar: item.editar,
+                inserir: item.inserir,
+                excluir: item.excluir
+            }
+        });
+        AuthService.setAcessosUsuario(res);
+    }*/
 
 }

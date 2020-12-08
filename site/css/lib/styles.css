@@ -3345,6 +3345,7 @@ input.cmn-toggle-yes-no:checked+label:after {
 
 .btn {
     font-size: 20px;
+    border-radius: 4px;
 }
 
 .btn-danger-full {
@@ -3752,4 +3753,7 @@ span{
     height: 20px;
     font-size: 25px;
     margin-left: 80px;
+}
+.titulo-lista {
+    font-size: 17px;
 }

@@ -42,6 +42,7 @@ Route::get('auth/getLogin/{hash}','AuthController@getLogin');
 Route::group(['middleware' => 'jwt.auth'], function () {
 
     Route::post('aclToFrontEnd', 'AuthController@userPermissoes');
+    Route::post('aclPermissoes', 'AuthController@userPermissoesFormata');
     Route::post('aclPagina', 'AuthController@permissaoByPagina');
     Route::post('boxApp','AuthController@boxHeaderAccess');
     Route::get('acessoLoginApps','AuthController@acessoExterno');

@@ -41,8 +41,8 @@ function AuthService($q, config) {
         }));
     }
 
-    this.setAcessosUsuario = function (dados) {
-        this.acessosUsuario = dados;
+    this.setAcessosUsuario = function (permissoes) {
+        this.acessosUsuario = permissoes;
     }
     this.getAcessosUsuario = function () {
         return this.acessosUsuario;

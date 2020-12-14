@@ -77,24 +77,24 @@
                                 </h4>
                             </div>
                             <div class="row checkPassosLocal">
-                                <span class="col-sm-7 col-sm-offset-1"><h4><b>1</b> Dados Gerais</h4></span>
-                                <span class="col-sm-7 col-sm-offset-1"><h4><b>2</b> Parametrizações</h4></span>
-                                <span class="col-sm-6 col-sm-offset-2"><h4><b>3</b> Período</h4></span>
+                                <span class="col-sm-7 col-sm-offset-1"><h4><b ng-class="{'step-selecionado': step == 1}">1</b> Dados Gerais</h4></span>
+                                <span class="col-sm-7 col-sm-offset-1"><h4><b ng-class="{'step-selecionado': step == 2}">2</b> Parametrizações</h4></span>
+                                <span class="col-sm-6 col-sm-offset-2"><h4><b ng-class="{'step-selecionado': step == 3}">3</b> Período</h4></span>
                             </div>
                         </div>
                         <div class="modal-body ba__modal-body-tipo-lancamento">
                             <form>
                                 <div class="row">
                                     <!--STEP DADOS GERAIS-->
-                                    <div class="form-group col-xs-24" id="step1" ng-show="step === 1">
+                                    <div class="form-group col-xs-24 ba__margin-top-20" id="step1" ng-show="step === 1">
                                         <div class="row ba__margin-bottom-30">
                                             <div class="col-md-4">
                                                 <h5 class="text-right text-gray">Localidade</h5>
                                             </div>
                                             <div class="col-md-10 col-md-offset-1">
-                                                <select class="ba__input-select" ng-model="data.contaPagarSelecionado.id_tipo_lancamento" enter ng-options="planoConta.id as planoConta.descricao for planoConta in planoContas">
-                                                    <option value="">Alphavile Cruzeiro</option>
-                                                    <option value="">Alphavile Araguaia</option>
+                                                <select class="ba__input-select" ng-model="localReservavel.idLocalidade"
+                                                        ng-options="localidade.id as localidade.descricao for localidade in localidades"
+                                                        enter>
                                                 </select>
                                             </div>
                                         </div>
@@ -104,39 +104,46 @@
                                             </div>
                                             <div class="col-md-10 col-md-offset-1">
                                                 <input type="text" class="ba__input-modal" maxlength="90" style="text-transform:uppercase" ng-model="data.contaPagarSelecionado.descricao"
-                                                       placeholder="Descrição" required>
+                                                       required>
                                             </div>
                                         </div>
                                         <div class="row ba__margin-bottom-30">
                                             <div class="col-md-4">
                                                 <h5 class="text-right text-gray">Descrição</h5>
                                             </div>
-                                            <div class="col-md-12 col-md-offset-1">
-                                                <div class="input-group">
-                                                    <textarea name="" id="" cols="30" rows="10"></textarea>
-                                                </div>
+                                            <div class="col-md-10 col-md-offset-1">
+                                                <textarea class="ba__input-modal"></textarea>
                                             </div>
                                         </div>
                                         <div class="row ba__margin-bottom-30">
                                             <div class="col-md-4">
                                                 <h5 class="text-right text-gray">Capacidade</h5>
                                             </div>
-                                            <div class="col-md-12 col-md-offset-1">
-                                                <div class="input-group">
-                                                    <select class="ba__input-select" ng-model="data.contaPagarSelecionado.id_tipo_lancamento" enter ng-options="planoConta.id as planoConta.descricao for planoConta in planoContas">
-                                                    </select>
+                                            <div class="col-md-1 col-md-offset-1 ba__margin-right-20">
+                                                <div class="onoffswitch">
+                                                    <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="capacidade" checked enter ng-model="localReservavel.capacidade">
+                                                    <label class="onoffswitch-label" for="capacidade">
+                                                        <span class="onoffswitch-inner"></span>
+                                                        <span class="onoffswitch-switch"></span>
+                                                    </label>
                                                 </div>
+                                            </div>
+                                            <p ng-if="!localReservavel.capacidade" class="col-md-6 ba__margin-left-10 ba__font-size-15">sem limite definido</p>
+                                            <div ng-if="localReservavel.capacidade" class="col-md-18 col-md-offset-1 ba__margin-top-10">
+                                                <i class="fa fa-minus-circle ba__font-size-25 pull-left" style="padding-top: 10px"></i>
+                                                <input type="text" class="ba__input-modal limite-pessoas">
+                                                <i class="icon-ba-plus ba__font-size-25 pull-left" style="padding-top: 10px"></i>
+                                                <span class="label_pessoa">pessoas</span>
                                             </div>
                                         </div>
                                         <div class="row ba__margin-bottom-30">
-                                            <div class="col-md-4">
-                                                <h5 class="text-right text-gray">Regras de Utilização *</h5>
+                                            <div class="col-md-3">
+                                                <h5 class="text-right text-gray">Regras de Utilização</h5>
                                             </div>
-                                            <div class="col-md-12 col-md-offset-1">
-                                                <div class="input-group">
-                                                    <select class="ba__input-select" ng-model="data.contaPagarSelecionado.id_fornecedor" enter ng-options="fornecedor.id as fornecedor.nome_fantasia for fornecedor in fornecedores">
-                                                    </select>
-                                                </div>
+                                            <div class="col-md-19 col-md-offset-2">
+                                                <!--<button class="btn btn-default pull-left ba__margin-right-15">ANEXAR ARQUIVO</button>-->
+                                                <input class="ba__font-size-12" type="file" ng-model="localReservavel.regras" onchange="angular.element(this).scope()">
+                                                <span class="col-md-14 ba__font-size-12 ba__font-color-gray ba__margin-top-10" >Arquivos de no max 10MB, nas extensões .PDF, .DOC, .DOCX, .XLS, .XLSX, .JPG ou .TXT</span>
                                             </div>
                                         </div>
                                         <div class="row ba__margin-bottom-30">
@@ -144,10 +151,12 @@
                                                 <h5 class="text-right text-gray">Imagem do local</h5>
                                             </div>
                                             <div class="col-md-10 col-md-offset-1">
+                                                <input type="file" id="inputFoto" style="display: none" ng-model="localReservavel.fotos" onchange="angular.element(this).scope()">
                                                 <div class="input-group">
-                                                    <select class="ba__input-select" ng-model="data.contaPagarSelecionado.mes_competencia" enter
-                                                            ng-options="mes.codigo as mes.nome for mes in data.meses">
-                                                    </select>
+                                                    <span style="display: inline-flex">
+                                                        <img src="img/avatar.png" ng-click="addFotoLocal()" class="img-local">
+                                                        <img src="img/avatar.png" class="img-local">
+                                                    </span>
                                                 </div>
                                             </div>
                                         </div>
@@ -326,16 +335,15 @@
                                 </div>
                             </form>
                         </div>
-                        <div class="modal-footer" style="margin-top: 20px">
+                        <div class="modal-footer" style="margin: 20px">
                             <button type="button" class="btn btn-success col-md-5 col-md-offset-1 pull-right" ng-show="data.stepStatus === 5"
                                     ng-click="saveContasPagar()">
                                 Concluir
                             </button>
-                            <button type="button" ng-click="nextStep()" class="btn btn-success col-md-5 col-md-offset-1 pull-right" ng-disabled="validateField()"
-                                    ng-show="data.stepStatus < 5">
+                            <button type="button" ng-click="nextStep()" class="btn btn-success col-md-5 col-md-offset-1 pull-right">
                                 Próximo passo
                             </button>
-                            <button type="button" class="btn btn-default btn-clear col-md-5 pull-right" ng-click="closeContasPagarModal()">
+                            <button type="button" class="btn btn-default btn-clear col-md-5 pull-right" ng-click="fecharModalLocalReserva()">
                                 cancelar
                             </button>
                             <button type="button" ng-click="previousStep()" class="btn btn-default col-md-5 pull-right" ng-show="data.stepStatus > 1">

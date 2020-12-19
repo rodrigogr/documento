@@ -19,7 +19,7 @@ class CreateLocalReservavelTable extends Migration
             $table->string('nome');
             $table->text('descricao');
             $table->smallInteger('capacidade');
-            $table->integer('regras');
+            $table->binary('regras');
             $table->integer('id_fotos_local');
             $table->boolean('dados_reversa');
             $table->smallInteger('antecedencia_max_num');
@@ -29,7 +29,9 @@ class CreateLocalReservavelTable extends Migration
             $table->smallInteger('antecedencia_cancel_num');
             $table->string('antecedencia_cancel_periodo',10);
             $table->smallInteger('limit_reserva');
+            $table->integer('id_periodo');
             $table->index('id_fotos_local');
+            $table->index('id_periodo');
             $table->timestamps();
         });
     }

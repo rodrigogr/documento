@@ -33,9 +33,16 @@ angular.module('ReservasModule').controller('LocalReservavelCtrl',
             $("#inputFoto").click();
         }
 
-        $scope.nextStep = function () {
+        $scope.goStep = function (step) {
             $('.ba__modal-body-tipo-lancamento').scrollTop(0);
-            $scope.step = $scope.step + 1;
+            if (typeof step == 'number') {
+                $scope.step = step;
+            } else if (step === '+') {
+                $scope.step = $scope.step + 1;
+            } else {
+                $scope.step = $scope.step - 1;
+            }
+
         }
 
     });

@@ -16,10 +16,10 @@ class PeriodoLocalReservavelTable extends Migration
         Schema::create('periodo_local_reservavel', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('id_reserva');
-            $table->char('dia_semana',3);
+            $table->char('dia_semana',3)->nullable(false);
             $table->time('hora_ini');
             $table->time('hora_fim');
-            $table->decimal('valor',6,2);
+            $table->decimal('valor',6,2)->default(0);
         });
     }
 

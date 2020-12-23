@@ -60,6 +60,10 @@ body {
     margin: 0;
     font-family: 'Roboto-Regular', sans-serif;
     overflow-x: hidden;
+    color: #2e363e;
+}
+.color-padrao {
+    color: #2e363e;
 }
 
 @font-face {

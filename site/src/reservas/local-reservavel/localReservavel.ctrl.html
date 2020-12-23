@@ -89,7 +89,7 @@
                                     <div class="form-group col-xs-24 ba__margin-top-20" id="step1" ng-show="step === 1">
                                         <div class="row ba__margin-bottom-30">
                                             <div class="col-md-4">
-                                                <h5 class="text-right text-gray">Localidade</h5>
+                                                <h5 class="text-right">Localidade</h5>
                                             </div>
                                             <div class="col-md-10 col-md-offset-1">
                                                 <select class="ba__input-select" ng-model="localReservavel.idLocalidade"
@@ -100,7 +100,7 @@
                                         </div>
                                         <div class="row ba__margin-bottom-30">
                                             <div class="col-md-4">
-                                                <h5 class="text-right text-gray">Nome do local</h5>
+                                                <h5 class="text-right">Nome do local</h5>
                                             </div>
                                             <div class="col-md-10 col-md-offset-1">
                                                 <input type="text" class="ba__input-modal" maxlength="90" style="text-transform:uppercase" ng-model="data.contaPagarSelecionado.descricao"
@@ -109,7 +109,7 @@
                                         </div>
                                         <div class="row ba__margin-bottom-30">
                                             <div class="col-md-4">
-                                                <h5 class="text-right text-gray">Descrição</h5>
+                                                <h5 class="text-right">Descrição</h5>
                                             </div>
                                             <div class="col-md-10 col-md-offset-1">
                                                 <textarea class="ba__input-modal"></textarea>
@@ -117,7 +117,7 @@
                                         </div>
                                         <div class="row ba__margin-bottom-30">
                                             <div class="col-md-4">
-                                                <h5 class="text-right text-gray">Capacidade</h5>
+                                                <h5 class="text-right">Capacidade</h5>
                                             </div>
                                             <div class="col-md-1 col-md-offset-1 ba__margin-right-20">
                                                 <div class="onoffswitch">
@@ -137,18 +137,18 @@
                                             </div>
                                         </div>
                                         <div class="row ba__margin-bottom-30">
-                                            <div class="col-md-3">
-                                                <h5 class="text-right text-gray">Regras de Utilização</h5>
+                                            <div class="col-md-3 col-md-offset-1">
+                                                <h5 class="text-right">Regras de Utilização</h5>
                                             </div>
-                                            <div class="col-md-19 col-md-offset-2">
+                                            <div class="col-md-19 col-md-offset-1">
                                                 <!--<button class="btn btn-default pull-left ba__margin-right-15">ANEXAR ARQUIVO</button>-->
                                                 <input class="ba__font-size-12" type="file" ng-model="localReservavel.regras" onchange="angular.element(this).scope()">
                                                 <span class="col-md-14 ba__font-size-12 ba__font-color-gray ba__margin-top-10" >Arquivos de no max 10MB, nas extensões .PDF, .DOC, .DOCX, .XLS, .XLSX, .JPG ou .TXT</span>
                                             </div>
                                         </div>
                                         <div class="row ba__margin-bottom-30">
-                                            <div class="col-md-4">
-                                                <h5 class="text-right text-gray">Imagem do local</h5>
+                                            <div class="col-md-3 col-md-offset-1">
+                                                <h5 class="text-right">Imagem do local</h5>
                                             </div>
                                             <div class="col-md-10 col-md-offset-1">
                                                 <input type="file" id="inputFoto" style="display: none" ng-model="localReservavel.fotos" onchange="angular.element(this).scope()">
@@ -164,11 +164,11 @@
                                     <!--STEP PARAMETRIZAÇÕES-->
                                     <div class="form-group col-xs-24" id="step2" ng-show="step === 2">
 
-                                        <div class="row ba__margin-top-15">
+                                        <div class="row ba__margin-top-15 ba__margin-bottom-30">
                                             <div class="col-md-6">
-                                                <div class="col-xs-7 pull-right">
+                                                <div class="col-xs-5 pull-right">
                                                     <div class="onoffswitch">
-                                                        <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" enter ng-model="data.acrescimoObj.incluir_soma" id="incluirSoma">
+                                                        <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" enter ng-model="data.acrescimoObj.incluir_soma">
                                                         <label class="onoffswitch-label" for="incluirSoma">
                                                             <span class="onoffswitch-inner" ng-show="data.acrescimoObj.incluir_soma"></span>
                                                             <span class="onoffswitch-switch" ng-show="!data.acrescimoObj.incluir_soma"></span>
@@ -177,64 +177,74 @@
                                                 </div>
                                             </div>
                                             <div class="col-md-14 col-md-offset-1">
-                                                <h5 class="text-gray" style="margin-top: 0">Deixar visível os dados de quem reservou para os outros usuários (somente nome e unidade)</h5>
-                                            </div>
-                                        </div>
-
-                                        <div class="row ba__margin-bottom-30">
-                                            <div class="col-md-6">
-                                                <h5 class="text-right text-gray">Número do documento</h5>
-                                            </div>
-                                            <div class="col-md-10 col-md-offset-1">
-                                                <input type="text" class="ba__input-modal" style="text-transform:uppercase" ng-model="data.contaPagarSelecionado.numero_nf"
-                                                       placeholder="">
+                                                <h5 style="margin-top: 0">Deixar visível os dados de quem reservou para os outros usuários (somente nome e unidade)</h5>
                                             </div>
                                         </div>
                                         <div class="row ba__margin-bottom-30">
-                                            <div class="col-md-6">
-                                                <h5 class="text-right text-gray">Data de emissão do documento</h5>
+                                            <div class="col-md-5 col-md-push-1">
+                                                <h5 class="text-right">Antecedência máxima para reserva</h5>
                                             </div>
-                                            <div class="col-md-10 col-md-offset-1">
-                                                <input type="date" class="ba__input-modal" ng-model="data.contaPagarSelecionado.data_emissao_nf" />
-                                            </div>
-                                        </div>
-                                        <div class="row ba__margin-bottom-30">
-                                            <div class="col-md-6">
-                                                <h5 class="text-right text-gray">Localização*</h5>
-                                            </div>
-                                            <div class="col-md-10 col-md-offset-1">
-                                                <div class="input-group">
-                                                    <select class="ba__input-select" ng-model="data.contaPagarSelecionado.id_localizacao" enter ng-options="localidade.id as localidade.descricao for localidade in localidades">
-                                                    </select>
-                                                </div>
+                                            <div class="col-md-17 col-md-offset-2">
+                                                <i class="fa fa-minus-circle ba__font-size-25 pull-left text-gray" style="padding-top: 10px"></i>
+                                                <input type="text" class="ba__input-modal limite-pessoas color-padrao" style="margin: 0 10px 0 2px">
+                                                <i class="fa icon-ba-plus ba__font-size-25 pull-left text-gray" style="padding-top: 10px"></i>
+                                                <select class="ba__input-select color-padrao" style="width: 21%;margin-left: 10px;float: left;">
+                                                    <option value="horas">horas</option>
+                                                    <option value="dias">dias</option>
+                                                    <option value="semanas">semanas</option>
+                                                    <option value="mês">mês</option>
+                                                </select>
                                             </div>
                                         </div>
                                         <div class="row ba__margin-bottom-30">
-                                            <div class="col-md-6">
-                                                <h5 class="text-right text-gray">Departamento*</h5>
+                                            <div class="col-md-5 col-md-push-1">
+                                                <h5 class="text-right">Antecedência mínima para reserva</h5>
                                             </div>
-                                            <div class="col-md-10 col-md-offset-1">
-                                                <div class="input-group">
-                                                    <select class="ba__input-select" ng-model="data.contaPagarSelecionado.id_departamento" enter ng-options="departamento.id as departamento.descricao for departamento in departamentos">
-                                                    </select>
-                                                </div>
+                                            <div class="col-md-17 col-md-offset-2">
+                                                <i class="fa fa-minus-circle ba__font-size-25 pull-left text-gray" style="padding-top: 10px"></i>
+                                                <input type="text" class="ba__input-modal limite-pessoas color-padrao" style="margin: 0 10px 0 2px">
+                                                <i class="fa icon-ba-plus ba__font-size-25 pull-left text-gray" style="padding-top: 10px"></i>
+                                                <select class="ba__input-select color-padrao" style="width: 21%;margin-left: 10px;float: left;">
+                                                    <option value="horas">horas</option>
+                                                    <option value="dias">dias</option>
+                                                    <option value="semanas">semanas</option>
+                                                    <option value="mês">mês</option>
+                                                </select>
                                             </div>
                                         </div>
                                         <div class="row ba__margin-bottom-30">
-                                            <div class="col-md-6">
-                                                <h5 class="text-right text-gray">Observação</h5>
+                                            <div class="col-md-5 col-md-push-1">
+                                                <h5 class="text-right">Antecedencia mínima para cancelamento</h5>
                                             </div>
-                                            <div class="col-md-10 col-md-offset-1">
-                                                <input type="text" class="ba__input-modal" style="text-transform:uppercase" ng-model="data.contaPagarSelecionado.observacao"
-                                                       placeholder="">
+                                            <div class="col-md-17 col-md-offset-2">
+                                                <i class="fa fa-minus-circle ba__font-size-25 pull-left text-gray" style="padding-top: 10px"></i>
+                                                <input type="text" class="ba__input-modal limite-pessoas color-padrao" style="margin: 0 10px 0 2px">
+                                                <i class="fa icon-ba-plus ba__font-size-25 pull-left text-gray" style="padding-top: 10px"></i>
+                                                <select class="ba__input-select color-padrao" style="width: 21%;margin-left: 10px;float: left;">
+                                                    <option value="horas">horas</option>
+                                                    <option value="dias">dias</option>
+                                                    <option value="semanas">semanas</option>
+                                                    <option value="mês">mês</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="row ba__margin-bottom-30">
+                                            <div class="col-md-5 col-md-push-1">
+                                                <h5 class="text-right">Quantas reservas um morador pode fazer no mesmo dia?</h5>
+                                            </div>
+                                            <div class="col-md-17 col-md-offset-2">
+                                                <i class="fa fa-minus-circle ba__font-size-25 pull-left text-gray" style="padding-top: 10px"></i>
+                                                <input type="text" class="ba__input-modal limite-pessoas color-padrao" style="margin: 0 10px 0 2px">
+                                                <i class="fa icon-ba-plus ba__font-size-25 pull-left text-gray" style="padding-top: 10px"></i>
                                             </div>
                                         </div>
                                     </div>
+
                                     <!--STEP PERÍODOS-->
                                     <div class="form-group col-xs-24" id="step3" ng-show="step === 3">
                                         <div class="row ba__margin-bottom-30">
                                             <div class="col-md-6">
-                                                <h5 class="text-right text-gray">Grupo de conta</h5>
+                                                <h5 class="text-right">Grupo de conta</h5>
                                             </div>
                                             <div class="col-md-12 col-md-offset-1">
                                                 <div class="input-group">
@@ -246,7 +256,7 @@
                                         </div>
                                         <div class="row ba__margin-bottom-30">
                                             <div class="col-md-6">
-                                                <h5 class="text-right text-gray">Tipo de lançamento</h5>
+                                                <h5 class="text-right">Tipo de lançamento</h5>
                                             </div>
                                             <div class="col-md-7 col-md-offset-1">
                                                 <div class="input-group">
@@ -257,7 +267,7 @@
                                         </div>
                                         <div class="row ba__margin-bottom-30">
                                             <div class="col-md-6">
-                                                <h5 class="text-right text-gray">Valor</h5>
+                                                <h5 class="text-right">Valor</h5>
                                             </div>
                                             <div class="col-md-7 col-md-offset-1">
                                                 <input type="text" class="ba__input-modal" ui-money-mask style="text-transform:uppercase" ng-model="data.acrescimoObj.valor"
@@ -266,7 +276,7 @@
                                         </div>
                                         <div class="row ba__margin-bottom-30">
                                             <div class="col-md-6">
-                                                <h5 class="text-right text-gray">Incluir soma</h5>
+                                                <h5 class="text-right">Incluir soma</h5>
                                             </div>
                                             <div class="col-md-2 col-md-offset-1 ba__margin-top-5">
                                                 <div class="col-xs-7 ba__margin-left-5">
@@ -332,7 +342,7 @@
                                                                 </div>
                                                             </div>
                                                             <div class="col-xs-2">
-                                                                <i class="icon-ba-trash text-gray-medium ba__margin-left-15" ng-click="excluirTaxa($index)"></i>
+                                                                <i class="icon-ba-trash-medium ba__margin-left-15" ng-click="excluirTaxa($index)"></i>
                                                                 <input type="hidden" ng-model="acrescimoSelecionado.deleted" ng-init="acrescimoSelecionado.deleted=0" />
                                                             </div>
                                                         </div>

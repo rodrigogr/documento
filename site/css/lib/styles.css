@@ -1149,6 +1149,10 @@ body {
     margin-left: 65px;
 }
 
+.ba__margin-right-5 {
+    margin-right: 5px;
+}
+
 .ba__margin-right-15 {
     margin-right: 15px;
 }
@@ -3780,7 +3784,7 @@ span{
 .checkPassosLocal {
     border-top: 1px solid #e2e2e2;
     border-bottom: 1px solid #e2e2e2;
-    padding: 25px 20px 17px;
+    padding: 30px 20px 30px;
     margin-top: 11px;
 }
 .checkPassosLocal h4 b {
@@ -3800,7 +3804,7 @@ span{
     margin: 0 15px 0 3px;
 }
 .label_pessoa {
-    float:left;padding-top: 11px;font-size: 18px;margin-left: 14px;
+    float:left;padding-top: 11px;font-size: 18px;margin-left: 4px;
 }
 .img-local {
     width: 100px;
@@ -3813,4 +3817,48 @@ span{
     background-color: #ff8347;
     color: #FFF;
     border: 1px solid #ff8347 !important;
+}
+
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+    -moz-appearance: textfield;
+}
+
+.modal-footer .btn + .btn {
+}
+.reservaDiasSemana {
+    padding-left: 0;
+    border-bottom: 0px solid #ccc;
+    box-shadow: inset 0px 11px 8px -21px #CC8, inset 0px -9px 5px -10px #CCC;
+}
+.reservaDiasSemana li {
+    list-style: none;
+    width: 141px;
+    display: inline-block;
+    font-size: 25px;
+    text-align: center;
+    padding: 8px 0;
+    cursor: pointer;
+}
+.activeDia {
+    border-bottom: 8px solid #ff8347;
+}
+.cardHorario {
+    max-height: 235px;
+    overflow-y: auto;
+}
+.cardHorario > div {
+    margin-bottom: 8px;
+    background: coral;
+    color: white;
+    border-radius: 8px;
+    box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.2);
+    padding: 12px 15px;
 }

@@ -8,10 +8,12 @@ angular.module('ReservasModule').controller('LocalReservavelCtrl',
         $scope.resetLocal = function () {
             $scope.localReservavel = {
                 idLocalidade: 1,
+                nome: '',
+                descricao: '',
                 capacidade: false,
                 capacidade_num: 0,
-                fotos: null,
-                regras: null
+                regras: null,
+                fotos: null
             }
         }
 
@@ -42,7 +44,24 @@ angular.module('ReservasModule').controller('LocalReservavelCtrl',
             } else {
                 $scope.step = $scope.step - 1;
             }
-
         }
+
+        $scope.subNum = function () {
+            if ($scope.localReservavel.capacidade_num > 0) {
+                --$scope.localReservavel.capacidade_num;
+            }
+        }
+
+        $scope.addNum = function () {
+            ++$scope.localReservavel.capacidade_num;
+        }
+
+        $('.reservaDiasSemana li').click(function() {
+            $(this).siblings('li').removeClass('activeDia');
+            $(this).addClass('activeDia');
+
+            return false;
+        });
+
 
     });

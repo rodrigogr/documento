@@ -21,7 +21,7 @@ class CreateLocalReservavelTable extends Migration
             $table->smallInteger('capacidade')->nullable()->default(null);
             $table->binary('regras')->nullable()->default(null);;
             $table->integer('id_fotos_local')->nullable()->default(null);;
-            $table->boolean('dados_reversa')->default(false);
+            $table->boolean('visualizar_reversa_usuario')->default(false);
             $table->smallInteger('antecedencia_max_num')->default(0);
             $table->string('antecedencia_max_periodo',10);
             $table->smallInteger('antecedencia_min_num')->default(0);

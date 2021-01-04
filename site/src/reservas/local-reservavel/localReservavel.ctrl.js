@@ -13,9 +13,57 @@ angular.module('ReservasModule').controller('LocalReservavelCtrl',
                 capacidade: false,
                 capacidade_num: 0,
                 regras: null,
-                fotos: null
+                fotos: null,
+                dadosVisiveis: false,
+                antecedenciaMaxReserva: 0,
+                antecedenciaMaxReservaTempo: 'horas',
+                antecedenciaMinReserva: 0,
+                antecedenciaMinReservaTempo: 'horas',
+                antecedenciaMinCancelamento: 0,
+                antecedenciaMinCancelamentoTempo: 'horas',
+                numMaxReserva: 0,
+                periodo: {
+                    seg: [{
+                            hora_ini: '',
+                            hora_fim: '',
+                            valor: ''
+                    }],
+                    ter: [{
+                        hora_ini: '',
+                        hora_fim: '',
+                        valor: ''
+                    }],
+                    qua: [{
+                        hora_ini: '',
+                        hora_fim: '',
+                        valor: ''
+                    }],
+                    qui: [{
+                        hora_ini: '',
+                        hora_fim: '',
+                        valor: ''
+                    }],
+                    sex: [{
+                        hora_ini: '',
+                        hora_fim: '',
+                        valor: ''
+                    }],
+                    sab: [{
+                        hora_ini: '',
+                        hora_fim: '',
+                        valor: ''
+                    }],
+                    dom: [{
+                        hora_ini: '',
+                        hora_fim: '',
+                        valor: ''
+                    }]
+                }
             }
+            $scope.periodoAtual = 'seg';
+            $scope.objPeriodoAtual = $scope.localReservavel.periodo.seg;
         }
+        $scope.manterHorarios = false;
 
         $scope.createNovoLocal = function () {
             $scope.resetLocal();
@@ -46,14 +94,14 @@ angular.module('ReservasModule').controller('LocalReservavelCtrl',
             }
         }
 
-        $scope.subNum = function () {
-            if ($scope.localReservavel.capacidade_num > 0) {
-                --$scope.localReservavel.capacidade_num;
+        $scope.subNum = function (variavel) {
+            if ($scope.localReservavel[variavel] > 0) {
+                --$scope.localReservavel[variavel];
             }
         }
 
-        $scope.addNum = function () {
-            ++$scope.localReservavel.capacidade_num;
+        $scope.addNum = function (variavel) {
+            ++$scope.localReservavel[variavel];
         }
 
         $('.reservaDiasSemana li').click(function() {
@@ -63,5 +111,39 @@ angular.module('ReservasModule').controller('LocalReservavelCtrl',
             return false;
         });
 
+        $scope.escolhaDiaSemana = function (diaSemana) {
+            $scope.periodoAtual = diaSemana;
+            $scope.objPeriodoAtual = $scope.localReservavel.periodo[diaSemana];
+        }
+
+        $scope.excluirPeriodo = function (index) {
+            $scope.localReservavel.periodo[$scope.periodoAtual].splice(index,1);
+        }
+
+        $scope.adicionarPeriodo = function (diaSemana) {
+            $scope.localReservavel.periodo[diaSemana].push(
+                {
+                    hora_ini: '',
+                    hora_fim: '',
+                    valor: ''
+                }
+            );
+        }
+
+        $scope.$watch('manterHorarios', function(value, oldValue) {
+            if (value && !oldValue) {
+                let periodoSelecionado = $scope.localReservavel.periodo[$scope.periodoAtual];
+                $scope.localReservavel.periodo.seg = periodoSelecionado;
+                $scope.localReservavel.periodo.ter = periodoSelecionado;
+                $scope.localReservavel.periodo.qua = periodoSelecionado;
+                $scope.localReservavel.periodo.qui = periodoSelecionado;
+                $scope.localReservavel.periodo.sex = periodoSelecionado;
+                $scope.localReservavel.periodo.sab = periodoSelecionado;
+                $scope.localReservavel.periodo.dom = periodoSelecionado;
+
+            } else if (!value && oldValue) {
+
+            }
+        });
 
     });

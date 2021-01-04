@@ -58,7 +58,13 @@ angular.module('ReservasModule').controller('LocalReservavelCtrl',
                         hora_fim: '',
                         valor: ''
                     }]
-                }
+                },
+                diasInativos: [{
+                    data: '10/01/2021',
+                    descricao: 'Manutenção programada',
+                    repeticao: 'Mensal',
+                    deleted: 0
+                }]
             }
             $scope.periodoAtual = 'seg';
             $scope.objPeriodoAtual = $scope.localReservavel.periodo.seg;
@@ -132,17 +138,18 @@ angular.module('ReservasModule').controller('LocalReservavelCtrl',
 
         $scope.$watch('manterHorarios', function(value, oldValue) {
             if (value && !oldValue) {
-                let periodoSelecionado = $scope.localReservavel.periodo[$scope.periodoAtual];
-                $scope.localReservavel.periodo.seg = periodoSelecionado;
-                $scope.localReservavel.periodo.ter = periodoSelecionado;
-                $scope.localReservavel.periodo.qua = periodoSelecionado;
-                $scope.localReservavel.periodo.qui = periodoSelecionado;
-                $scope.localReservavel.periodo.sex = periodoSelecionado;
-                $scope.localReservavel.periodo.sab = periodoSelecionado;
-                $scope.localReservavel.periodo.dom = periodoSelecionado;
+                $scope.periodoCopy = angular.copy($scope.localReservavel.periodo);
+
+                $scope.localReservavel.periodo.seg = $scope.localReservavel.periodo[$scope.periodoAtual];
+                $scope.localReservavel.periodo.ter = $scope.localReservavel.periodo[$scope.periodoAtual];
+                $scope.localReservavel.periodo.qua = $scope.localReservavel.periodo[$scope.periodoAtual];
+                $scope.localReservavel.periodo.qui = $scope.localReservavel.periodo[$scope.periodoAtual];
+                $scope.localReservavel.periodo.sex = $scope.localReservavel.periodo[$scope.periodoAtual];
+                $scope.localReservavel.periodo.sab = $scope.localReservavel.periodo[$scope.periodoAtual];
+                $scope.localReservavel.periodo.dom = $scope.localReservavel.periodo[$scope.periodoAtual];
 
             } else if (!value && oldValue) {
-
+                $scope.localReservavel.periodo = $scope.periodoCopy;
             }
         });
 

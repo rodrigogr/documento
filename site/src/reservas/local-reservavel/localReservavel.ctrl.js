@@ -24,9 +24,9 @@ angular.module('ReservasModule').controller('LocalReservavelCtrl',
                 numMaxReserva: 0,
                 periodo: {
                     seg: [{
-                            hora_ini: '',
-                            hora_fim: '',
-                            valor: ''
+                        hora_ini: '',
+                        hora_fim: '',
+                        valor: ''
                     }],
                     ter: [{
                         hora_ini: '',
@@ -59,12 +59,7 @@ angular.module('ReservasModule').controller('LocalReservavelCtrl',
                         valor: ''
                     }]
                 },
-                diasInativos: [{
-                    data: '10/01/2021',
-                    descricao: 'Manutenção programada',
-                    repeticao: 'Mensal',
-                    deleted: 0
-                }]
+                diasInativos: []
             }
             $scope.periodoAtual = 'seg';
             $scope.objPeriodoAtual = $scope.localReservavel.periodo.seg;
@@ -152,5 +147,66 @@ angular.module('ReservasModule').controller('LocalReservavelCtrl',
                 $scope.localReservavel.periodo = $scope.periodoCopy;
             }
         });
+
+        function resetDiaInativo () {
+            $scope.diaInativo = {
+                id: '',
+                data: '',
+                descricao: '',
+                repetir: '',
+                deleted: 0
+            }
+            $scope.editandoDiaInativo = false;
+        }
+
+        $scope.adicionarDiaInativo = function () {
+            resetDiaInativo();
+            $("#cadastroDiaInativo").modal("show");
+        }
+
+        $scope.fecharModalDiaInativo = function () {
+            resetDiaInativo();
+            $("#cadastroDiaInativo").modal("hide");
+        }
+
+        $scope.inserirDiaInativo = function () {
+            let diaInativo = angular.copy($scope.diaInativo);
+            $scope.localReservavel.diasInativos.push({
+                id: '',
+                data: diaInativo.data,
+                descricao: diaInativo.descricao,
+                repetir: diaInativo.repetir,
+                deleted: 0
+            });
+            $scope.fecharModalDiaInativo();
+        }
+
+        $scope.excluirDiaInativo = function (index) {
+            $scope.localReservavel.diasInativos[index].deleted = 1;
+        }
+
+        $scope.abreEditarDiaInativo = function (index) {
+            $scope.diaInativo = {
+                id: $scope.localReservavel.diasInativos[index].id,
+                data: $scope.localReservavel.diasInativos[index].data,
+                descricao: $scope.localReservavel.diasInativos[index].descricao,
+                repetir: $scope.localReservavel.diasInativos[index].repetir,
+                deleted: 0
+            }
+            $scope.editandoDiaInativo = true;
+            $scope.editandoIndex = index;
+
+            $("#cadastroDiaInativo").modal('show');
+        }
+
+        $scope.updateDiaInativo = function (index) {
+            $scope.localReservavel.diasInativos[index].id = $scope.diaInativo.id;
+            $scope.localReservavel.diasInativos[index].data = $scope.diaInativo.data;
+            $scope.localReservavel.diasInativos[index].descricao = $scope.diaInativo.descricao;
+            $scope.localReservavel.diasInativos[index].repetir = $scope.diaInativo.repetir;
+            $scope.localReservavel.diasInativos[index].deleted = $scope.diaInativo.deleted;
+
+            $scope.fecharModalDiaInativo();
+        }
 
     });

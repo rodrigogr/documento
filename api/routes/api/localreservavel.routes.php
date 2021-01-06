@@ -14,4 +14,4 @@ Route::group(['middleware' => 'jwt.auth'], function ()
     });
 });
 
-//Route::resource('localteste', 'LocalReservavelController');
+Route::resource('localteste', 'LocalReservavelController');

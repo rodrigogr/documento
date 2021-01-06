@@ -273,6 +273,7 @@ Route::group(['middleware' => 'jwt.auth'], function () {
     Route::resource('formulas', 'FormulasController');
 
 });
-
+Route::resource('localteste', 'LocalReservavelController');
+Route::resource('produtos', 'ProdutoController');
 require_once('api/reservas.routes.php');
 require_once('api/localreservavel.routes.php');

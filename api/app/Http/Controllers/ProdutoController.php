@@ -19,6 +19,9 @@ class ProdutoController extends Controller
 
     public function index(Request $request)
     {
+        $teste = ["teste1" => 111, 'teste2' => 2222];
+        return response($teste);
+
         $data = $request->all();
         if(isset($data['page'])){
             $Data = Produto::with(['grupo_produto', 'unidade_produto'])->orderBy('id','DESC')->paginate(10);

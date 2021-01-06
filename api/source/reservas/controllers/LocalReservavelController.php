@@ -10,6 +10,9 @@ class LocalReservavelController  extends Controller
 
     public function index()
     {
+        $teste = ["novo" => 'SIM', 'outro' => 333];
+        return response($teste);
+
         $Data = LocalReservavel::all();
         if (count($Data)) {
             return response()->success($Data);

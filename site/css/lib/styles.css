@@ -3817,12 +3817,19 @@ span{
 .label_pessoa {
     float:left;padding-top: 11px;font-size: 18px;margin-left: 4px;
 }
-.img-local {
+.imgAdd-localReservavel {
     width: 100px;
     height: 100px;
     margin-right: 10px;
     border: 1px solid #999;
     border-radius: 20px;
+    object-fit: none;
+    opacity: 0.8;
+}
+.img-localReservavel {
+    width: 180px;
+    object-fit: contain;
+    max-height: 150px;
 }
 .step-selecionado {
     background-color: #FF6633;

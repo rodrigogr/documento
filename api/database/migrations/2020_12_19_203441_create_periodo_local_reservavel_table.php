@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class FotoLocalReservavelTable extends Migration
+class CreatePeriodoLocalReservavelTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,13 @@ class FotoLocalReservavelTable extends Migration
      */
     public function up()
     {
-        Schema::create('foto_local_reservavel', function (Blueprint $table) {
+        Schema::create('periodo_local_reservavel', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('id_reserva');
-            $table->string('foto');
+            $table->char('dia_semana',3)->nullable(false);
+            $table->time('hora_ini');
+            $table->time('hora_fim');
+            $table->decimal('valor',6,2)->default(0);
         });
     }
 
@@ -27,6 +30,6 @@ class FotoLocalReservavelTable extends Migration
      */
     public function down()
     {
-        Schema::drop('foto_local_reservavel');
+        Schema::drop('periodo_local_reservavel');
     }
 }

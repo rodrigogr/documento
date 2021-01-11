@@ -100,6 +100,30 @@ return [
             'engine' => null,
         ],
 
+        'portal' => [
+            'driver' => 'mysql',
+            'host' => env('DB_PORTARIA_HOST', 'localhost'),
+            'port' => env('DB_PORTARIA_PORT', '3306'),
+            'database' => env('DB_PORTARIA_DATABASE', 'bioacesso_portal'),
+            'username' => env('DB_PORTARIA_USERNAME', 'root'),
+            'password' => env('DB_PORTARIA_PASSWORD', 'bioacesso@uzer'),
+            'charset' => 'utf8',
+            'collation' => 'utf8_unicode_ci',
+            'prefix' => '',
+            'options'  => array(PDO::MYSQL_ATTR_LOCAL_INFILE => true),
+            //'strict' => true,
+            'modes' => [
+                //'ONLY_FULL_GROUP_BY',
+                'STRICT_TRANS_TABLES',
+                'NO_ZERO_IN_DATE',
+                'NO_ZERO_DATE',
+                'ERROR_FOR_DIVISION_BY_ZERO',
+                'NO_AUTO_CREATE_USER',
+                'NO_ENGINE_SUBSTITUTION'
+            ],
+            'engine' => null,
+        ],
+
         'pgsql' => [
             'driver' => 'pgsql',
             'host' => env('DB_HOST', 'localhost'),

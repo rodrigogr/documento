@@ -1,19 +1,19 @@
 'use strict'
 angular.module('ReservasModule').controller('LocalReservavelCtrl',
-    function ($scope, $state, HeaderFactory, AuthService, $http, config) {
+    function ($scope, $state, $http, HeaderFactory, AuthService, UtilsService, config) {
         HeaderFactory.setHeader('reservas', 'Locais reserváveis');
         let user = JSON.parse(localStorage.getItem("bioacs-uid"));
         AuthService.aclPaginaService($state.$current.name, user.id).then(result => $scope.accessPagina = result.data);
 
         $scope.resetLocal = function () {
             $scope.localReservavel = {
-                idLocalidade: 1,
+                id_localidade: 1,
                 nome: '',
                 descricao: '',
                 capacidade: false,
                 capacidade_num: 0,
-                regras: null,
-                fotos: null,
+                regra: '',
+                foto: '',
                 dadosVisiveis: false,
                 antecedenciaMaxReserva: 0,
                 antecedenciaMaxReservaTempo: 'horas',
@@ -83,6 +83,41 @@ angular.module('ReservasModule').controller('LocalReservavelCtrl',
         $scope.addFotoLocal = function () {
             $("#inputFoto").click();
         }
+
+        $scope.changeInputField = function (ele) {
+            var file = ele.files[0];
+
+            if (ele.files.length > 0) {
+                if (file > 10485760) {
+                    return UtilsService.openAlert('Tamanho máximo de anexos permitido foi atingido: 10MB');
+
+                }
+                if (ele.name == 'foto') {
+                    $scope.localReservavel.foto = { url: URL.createObjectURL(file) };
+                } else {
+                    $scope.localReservavel.regra = { url: URL.createObjectURL(file) };
+                }
+
+                $scope.getbase64(file, ele.name);
+
+            }
+
+            // let toMB = (file.size / 1048576).toFixed(2);
+            // $("#tamanho").html('arquivos adicionados: tamanho total: ' + toMB + 'MB');
+
+        }
+
+        $scope.getbase64 = function (file, el) {
+            let f = file;
+            let r = new FileReader();
+
+            r.onloadend = function (e) {
+                $scope.localReservavel[el].base64 = e.target.result;
+                $scope.$apply();
+            };
+            r.readAsDataURL(f);
+        }
+
 
         $scope.goStep = function (step) {
             $('.ba__modal-body-tipo-lancamento').scrollTop(0);
@@ -227,8 +262,15 @@ angular.module('ReservasModule').controller('LocalReservavelCtrl',
             $scope.fecharModalDiaInativo();
         }
 
-        $scope.save = function () {
-            $http.post(`${config.apiUrl}api/situacao_inadimplencias`, data);
+        $scope.salvar = function () {
+            $http.post(`${config.apiUrl}api/localReservavel`, $scope.localReservavel).then(handleSuccess, handleError);
+        }
+
+        function handleSuccess(res) {
+            return res.data;
+        }
+        function handleError(res) {
+            return {errors:true,data:res.data.message};
         }
 
     });

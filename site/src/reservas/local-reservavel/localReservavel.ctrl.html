@@ -92,7 +92,7 @@
                                                 <h5 class="text-right">Localidade</h5>
                                             </div>
                                             <div class="col-md-10 col-md-offset-1">
-                                                <select class="ba__input-select" ng-model="localReservavel.idLocalidade"
+                                                <select class="ba__input-select" ng-model="localReservavel.id_localidade"
                                                         ng-options="localidade.id as localidade.descricao for localidade in localidades"
                                                         enter>
                                                 </select>
@@ -146,7 +146,7 @@
                                             </div>
                                             <div class="col-md-19 col-md-offset-1">
                                                 <!--<button class="btn btn-default pull-left ba__margin-right-15">ANEXAR ARQUIVO</button>-->
-                                                <input class="ba__font-size-12" type="file" ng-model="localReservavel.regras" onchange="angular.element(this).scope()">
+                                                <input class="ba__font-size-12" type="file" name="regra" onchange="angular.element(this).scope().changeInputField(this, 'regra')">
                                                 <span class="col-md-14 ba__font-size-12 ba__font-color-gray ba__margin-top-10" >Arquivos de no max 10MB, nas extensões .PDF, .DOC, .DOCX, .XLS, .XLSX, .JPG ou .TXT</span>
                                             </div>
                                         </div>
@@ -155,16 +155,17 @@
                                                 <h5 class="text-right">Imagem do local</h5>
                                             </div>
                                             <div class="col-md-10 col-md-offset-1">
-                                                <input type="file" id="inputFoto" style="display: none" ng-model="localReservavel.fotos" onchange="angular.element(this).scope()">
+                                                <input type="file" id="inputFoto" name="foto" class="hide" onchange="angular.element(this).scope().changeInputField(this, 'foto')">
                                                 <div class="input-group">
                                                     <span style="display: inline-flex">
-                                                        <img src="img/avatar.png" ng-click="addFotoLocal()" class="img-local">
-                                                        <img src="img/avatar.png" class="img-local">
+                                                        <img src="img/ins_foto.jpg" ng-click="addFotoLocal()" class="imgAdd-localReservavel">
+                                                        <img ng-if="localReservavel.foto.url" src="{{localReservavel.foto.url}}" class="img-localReservavel">
                                                     </span>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
+
                                     <!--STEP 2 PARAMETRIZAÇÕES-->
                                     <div class="form-group col-xs-24" id="step2" ng-show="step === 2">
 

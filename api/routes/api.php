@@ -1,7 +1,5 @@
 <?php
 
-use Illuminate\Http\Request;
-
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -266,14 +264,14 @@ Route::group(['middleware' => 'jwt.auth'], function () {
         Route::post('saveImage', 'ProdutoController@saveImage');
         Route::delete('deleteImage/{id}', 'ProdutoController@deleteImage');
     });
-    Route::resource('produtos', 'ProdutoController');
+//    Route::resource('produtos', 'ProdutoController');
 
 
 // FORMULAS
     Route::resource('formulas', 'FormulasController');
 
 });
-Route::resource('localteste', 'LocalReservavelController');
+//Route::resource('localteste', 'LocalReservavelController');
 Route::resource('produtos', 'ProdutoController');
-require_once('api/reservas.routes.php');
-require_once('api/localreservavel.routes.php');
+//require_once('api/reservas.routes.php');
+require_once('api/reservas/localreservavel.routes.php');

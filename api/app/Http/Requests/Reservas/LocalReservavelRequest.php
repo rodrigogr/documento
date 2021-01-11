@@ -1,5 +1,6 @@
 <?php
-namespace Source\Reservas\Requests;
+
+namespace App\Http\Requests\Reservas;
 
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -18,19 +19,13 @@ class LocalReservavelRequest extends FormRequest
             }
             case 'POST': {
                 return [
-                    'tipo' => 'required',
-                    'conteudo' => 'required',
-                    'datainicial' => 'required',
-                    'datafinal' => 'required'
+                    'nome' => 'required'
                 ];
             }
             case 'PUT':
             case 'PATCH': {
                 return [
-                    'tipo' => 'required',
-                    'conteudo' => 'required',
-                    'datainicial' => 'required',
-                    'datafinal' => 'required'
+                    'nome' => 'required'
                 ];
             }
             default:

@@ -22,7 +22,7 @@ angular.module('ReservasModule').controller('LocalReservavelCtrl',
                 antecedenciaMinCancelamento: 0,
                 antecedenciaMinCancelamentoTempo: 'horas',
                 numMaxReserva: 0,
-                periodo: {
+                periodo: [{
                     seg: [{
                         hora_ini: '',
                         hora_fim: '',
@@ -58,7 +58,7 @@ angular.module('ReservasModule').controller('LocalReservavelCtrl',
                         hora_fim: '',
                         valor: ''
                     }]
-                },
+                }],
                 diasInativos: []
             }
             $scope.periodoAtual = 'seg';
@@ -66,12 +66,25 @@ angular.module('ReservasModule').controller('LocalReservavelCtrl',
         }
         $scope.manterHorarios = false;
 
+        $scope.getLocais = function () {
+            $(".loader").show();
+            var promisse = ($http.get(`${config.apiUrl}api/localreservavel/`));
+            promisse.then( function (result){
+                $scope.locaisReservaveis = result.data.data;
+            }).finally(() => $(".loader").hide())
+        }
+        $scope.getLocais();
+
+        function getLocalidade() {
+            var promisse = ($http.get(`${config.apiUrl}api/localidades/`));
+            promisse.then(function (result) {
+                $scope.localidades = result.data.data;
+            });
+        }
+
         $scope.createNovoLocal = function () {
             $scope.resetLocal();
-            var promisse = ($http.get(`${config.apiUrl}api/localidades/`));
-            promisse.then( function (result){
-                $scope.localidades = result.data.data;
-            })
+            getLocalidade();
             $scope.step = 1;
             $('#cadastroLocal').modal('show');
         }
@@ -263,14 +276,38 @@ angular.module('ReservasModule').controller('LocalReservavelCtrl',
         }
 
         $scope.salvar = function () {
-            $http.post(`${config.apiUrl}api/localReservavel`, $scope.localReservavel).then(handleSuccess, handleError);
+            $http({
+                method: "POST",
+                url: `${config.apiUrl}api/localreservavel/`,
+                data: $scope.localReservavel,
+                headers:{
+                    'Content-Type': 'application/json'
+                }
+            }).
+            then(function(response) {
+                alert('ok');
+            }, function(response) {
+                alert('!!ERROR');
+            });
+            //$http.post(`${config.apiUrl}api/localreservavel/post/`, {"nome": 'valor'});
+            /*$http.get(`${config.apiUrl}api/localreservavel`)
+                .then( function (dados) {
+                    UtilsService.toastSuccess('teste');
+                }).catch(function (e) {
+                    UtilsService.toastError(e.responseJSON.message);
+                });*/
+
         }
 
-        function handleSuccess(res) {
-            return res.data;
-        }
-        function handleError(res) {
-            return {errors:true,data:res.data.message};
+        $scope.editarLocal = function (id) {
+            $("#loading").modal("show");
+            var promisse = ($http.get(`${config.apiUrl}api/localreservavel/`+id));
+            promisse.then( function (result){
+                $scope.localReservavel = result.data.data;
+                $scope.step = 1;
+                getLocalidade();
+                $('#cadastroLocal').modal('show');
+            }).finally( () => $("#loading").modal("hide") )
         }
 
     });

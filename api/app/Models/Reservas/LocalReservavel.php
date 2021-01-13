@@ -12,4 +12,14 @@ class LocalReservavel extends Model
         'nome',
         'descricao',
     ];
+
+    public static function complete()
+    {
+        return self::with('localidade')->get();
+    }
+
+    public function localidade()
+    {
+        return $this->belongsTo('App\Models\Localidade', 'id_localidade');
+    }
 }

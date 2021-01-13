@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Reservas;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Reservas\LocalReservavelRequest;
 use App\Models\Reservas\LocalReservavel;
+use Illuminate\Http\Request;
 
 class LocalReservavelController extends Controller
 {
@@ -12,7 +13,7 @@ class LocalReservavelController extends Controller
 
     public function index()
     {
-        $Data = LocalReservavel::all();
+        $Data = LocalReservavel::complete();
         if (count($Data)) {
             return response()->success($Data);
         }
@@ -23,10 +24,22 @@ class LocalReservavelController extends Controller
     {
         try {
             $data = $request->all();
-            $Data = LocalReservavel::create($data);
+            $local = LocalReservavel::create($data);
+
             return response($Data);
         } catch (Exception $e) {
             return response()->error($e->getMessage);
         }
     }
+
+    public function show($id)
+    {
+        $Data = LocalReservavel::find($id);
+        if (count($Data)) {
+            return response()->success($Data);
+        }
+        return response()->error(trans('messages.crud.MGE', ['name' => $this->name]));
+    }
+
+
 }

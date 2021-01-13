@@ -1,10 +1,12 @@
 <?php
 
+
 Route::group(['middleware' => 'jwt.auth'], function ()
 {
     Route::group(['prefix' => 'localreservavel'], function () {
         Route::get('/', 'reservas\LocalReservavelController@index');
         Route::post('/', 'reservas\LocalReservavelController@store');
+        Route::get('/{id}', 'reservas\LocalReservavelController@show');
         /*Route::get('consumo', 'ProdutoController@getProdAtivoConsumo');
         Route::get('detail/{id}', 'ProdutoController@detail');
         Route::get('search/', 'ProdutoController@searchEstoque');

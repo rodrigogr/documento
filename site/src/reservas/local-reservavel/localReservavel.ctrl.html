@@ -40,30 +40,31 @@
             <div class="ba__admin-table" style="margin: 20px">
                 <a class="list-group-item">
                     <div class="row uppercase titulo-lista">
-                        <div class="col-xs-1" style="cursor: pointer;" ng-click="sort('id')">Id {{prop=='id'&&(reverse?'⬆':'⬇')||''}}
+                        <div class="col-xs-5" style="cursor: pointer;" ng-click="sort('id')"><b>Localidade</b> {{prop=='id'&&(reverse?'⬆':'⬇')||''}}
                             <i class="ba__margin-horizontal-5"></i>
                         </div>
-                        <div class="col-xs-5" style="cursor: pointer;" ng-click="sort('descricao')">Descrição {{prop == 'descricao'&&(reverse?'⬆':'⬇')||''}}
+                        <div class="col-xs-5" style="cursor: pointer;" ng-click="sort('nome')"><b>Nome</b> {{prop == 'nome'&&(reverse?'⬆':'⬇')||''}}
                             <i class="ba__margin-horizontal-5"></i>
                         </div>
-                        <div class="col-xs-5" style="cursor: pointer;" ng-click="sort('l_fornecedor')">Fornecedor {{prop=='l_fornecedor'&&(reverse?'⬆':'⬇')||''}}
+                        <div class="col-xs-7" style="cursor: pointer;" ng-click="sort('descricao')"><b>Descrição</b> {{prop=='descricao'&&(reverse?'⬆':'⬇')||''}}
                             <i class="ba__margin-horizontal-5"></i>
                         </div>
-                        <div class="col-xs-7" style="cursor: pointer;" ng-click="sort('l_planoConta')">Plano de conta {{prop=='l_planoConta'&&(reverse?'⬆':'⬇')||''}}
+                        <div class="col-xs-3" style="cursor: pointer;" ng-click="sort('capacidade')"><b>Capacidade</b> {{prop=='capacidade'&&(reverse?'⬆':'⬇')||''}}
                             <i class="ba__margin-horizontal-5"></i>
                         </div>
-                        <div class="col-xs-2" style="cursor: pointer;" ng-click="sort('data_base')">Data Origem {{prop=='data_base'&&(reverse?'⬆':'⬇')||''}}
-                            <i class="ba__margin-horizontal-5"></i>
-                        </div>
-                        <!--<div class="col-xs-4 text-center">Localização<i class="ba__margin-horizontal-5"></i></div>-->
-                        <div class="col-xs-2" style="cursor: pointer;" ng-click="sort('l_valorTotal')">Valor {{prop == 'l_valorTotal'&&(reverse?'⬆':'⬇')||''}}
-                            <i class="ba__margin-horizontal-5"></i>
-                        </div>
-                        <div class="col-xs-2 text-center">
+                        <div class="col-xs-3" style="cursor: pointer;" ng-click="sort('valor')"><b>Valor</b> {{prop == 'valor'&&(reverse?'⬆':'⬇')||''}}
                             <i class="ba__margin-horizontal-5"></i>
                         </div>
                     </div>
                 </a>
+                <div class="list-group">
+                    <a href="javascript:void(0)" ng-click="editarLocal(local.id)" class="list-group-item" ng-repeat="local in locaisReservaveis">
+                        <h5 class="col-xs-5 list-group-item-heading">{{local.localidade.descricao}}</h5>
+                        <h5 class="col-xs-5 list-group-item-heading">{{local.nome}}</h5>
+                        <h5 class="col-xs-7 list-group-item-heading">{{local.descricao}}</h5>
+                    </a>
+                </div>
+
             </div>
 
             <div class="modal fade" id="cadastroLocal" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="false">
@@ -73,7 +74,7 @@
                             <div class="row">
                                 <h4 class="modal-title Roboto-Thin ba__font-size-25" style="padding: 31px 50px 10px; font-weight: bold;">
                                     <i class="icon-ba-building text-center text-primary ba__margin-horizontal-5 icon-modal-title"></i>
-                                    <span>{{ data.contaPagarSelecionado.id ? 'Editar local reservável' : 'Novo local reservável'}}</span>
+                                    <span>{{ localReservavel.id ? 'Editar local reservável' : 'Novo local reservável'}}</span>
                                 </h4>
                             </div>
                             <div class="row checkPassosLocal">
@@ -159,7 +160,7 @@
                                                 <div class="input-group">
                                                     <span style="display: inline-flex">
                                                         <img src="img/ins_foto.jpg" ng-click="addFotoLocal()" class="imgAdd-localReservavel">
-                                                        <img ng-if="localReservavel.foto.url" src="{{localReservavel.foto.url}}" class="img-localReservavel">
+                                                        <img ng-if="localReservavel.foto" ng-src="localReservavel.foto.url" class="img-localReservavel">
                                                     </span>
                                                 </div>
                                             </div>
@@ -438,6 +439,19 @@
                 </div>
             </div>
 
+            <!--MODAL LOADING-->
+            <div class="modal" id="loading" role="dialog" data-backdrop="static" style="background: rgba(0, 0, 0, 0.1)!important">
+                <div class="modal-dialog" role="document">
+                    <div style="padding: 20px;background:#FFF;width:14%;margin: 15% auto;position: relative;background-clip: padding-box;text-align: center;">
+                        <div class="row">
+                            <i class="col-md-5 fa fa-spinner fa-spin ba__font-size-50 text-center"></i>
+                            <h5 class="col-md-13 col-md-offset-1 text-gray ba__margin-top-20">
+                                <b>aguarde...</b>
+                            </h5>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>

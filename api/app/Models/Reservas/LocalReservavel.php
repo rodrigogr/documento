@@ -11,6 +11,17 @@ class LocalReservavel extends Model
         'id_localidade',
         'nome',
         'descricao',
+        'capacidade',
+        'regra_local',
+        'foto_local',
+        'visualizar_reversa_usuario',
+        'antecedencia_max_num',
+        'antecedencia_max_periodo',
+        'antecedencia_min_num',
+        'antecedencia_min_periodo',
+        'antecedencia_cancel_num',
+        'antecedencia_cancel_periodo',
+        'limit_reserva'
     ];
 
     public static function complete()

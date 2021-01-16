@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Reservas;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Reservas\LocalReservavelRequest;
 use App\Models\Reservas\LocalReservavel;
+use App\Models\Reservas\PeriodoLocalReservavel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -26,35 +27,19 @@ class LocalReservavelController extends Controller
         //$data = $request->except('_token');
         try {
             $data = $request->all();
-//            $local = LocalReservavel::create($data);
+            $local = LocalReservavel::create($data);
 
-//            if ($local->id) {
-                $arrayInsert = [];
+            if ($local->id) {
                 foreach ($data["periodo"] as $key => $periodo) {
                     foreach ($periodo as $item) {
-                        $arrPeriodo = ['id_reserva' => 1, 'dia_semana' => $key, 'hora_ini' => $item["hora_ini"], 'hora_fim' => $item["hora_fim"], 'valor' => $item["valor"]];
+                        $arrPeriodo = ['id_reserva' => $local->id, 'dia_semana' => $key, 'hora_ini' => $item["hora_ini"], 'hora_fim' => $item["hora_fim"], 'valor' => $item["valor"]];
                         if ($item["hora_ini"]) {
-                            array_push($arrayInsert, $arrPeriodo);
+                            PeriodoLocalReservavel::insert($arrPeriodo);
                         }
                     }
                 }
-
-                $myItems = [
-                    ['id_reserva'=>1,'dia_semana'=>'seg', 'hora_ini' => '10:20', 'hora_fim' => '15:00', 'valor' => 20.00],
-                    ['id_reserva'=>2,'dia_semana'=>'ter', 'hora_ini' => '10:20', 'hora_fim' => '15:00', 'valor' => 20.00],
-                    ['id_reserva'=>3,'dia_semana'=>'qua', 'hora_ini' => '10:20', 'hora_fim' => '15:00', 'valor' => 20.00]
-                ];
-
-
-                DB::table("periodo_local_reservavel")->insert($arrayInsert);
-
-                echo "<pre>";
-                print_r($myItems);
-                print_r($arrayInsert);
-                exit();
-
-
-//            }
+            }
+            return $local->id;
 
         } catch (Exception $e) {
             return response()->error($e->getMessage);

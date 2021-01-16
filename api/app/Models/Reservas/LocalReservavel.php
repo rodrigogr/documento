@@ -26,11 +26,16 @@ class LocalReservavel extends Model
 
     public static function complete()
     {
-        return self::with('localidade')->get();
+        return self::with(['localidade','periodo'])->get();
     }
 
     public function localidade()
     {
         return $this->belongsTo('App\Models\Localidade', 'id_localidade');
+    }
+
+    public function periodo()
+    {
+        return $this->hasMany('App\Models\Reservas\PeriodoLocalReservavel','id_reserva');
     }
 }

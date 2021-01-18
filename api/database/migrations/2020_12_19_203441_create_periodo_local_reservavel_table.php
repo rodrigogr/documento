@@ -15,11 +15,12 @@ class CreatePeriodoLocalReservavelTable extends Migration
     {
         Schema::create('periodo_local_reservavel', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('id_reserva');
+            $table->integer('id_local_reservavel')->unsigned();
             $table->char('dia_semana',3)->nullable(false);
             $table->time('hora_ini');
             $table->time('hora_fim');
             $table->decimal('valor',6,2)->default(0);
+            $table->foreign('id_local_reservavel')->references('id')->on('local_reservavel')->onDelete('cascade');
         });
     }
 

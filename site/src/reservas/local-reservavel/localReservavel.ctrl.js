@@ -162,19 +162,25 @@ angular.module('ReservasModule').controller('LocalReservavelCtrl',
 
         $scope.escolhaDiaSemana = function (diaSemana) {
             $scope.periodoAtual = diaSemana;
-            $scope.objPeriodoAtual = $scope.localReservavel.periodo[diaSemana];
+            $scope.objPeriodoAtual = $scope.localReservavel.periodo.filter(x => x.dia_semana == diaSemana);
         }
 
         $scope.excluirPeriodo = function (index) {
-            $scope.localReservavel.periodo[$scope.periodoAtual].splice(index,1);
+            if ($scope.localReservavel.periodo[index].id) {
+                $scope.localReservavel.periodo[index].deleted = 1;
+            } else {
+                $scope.localReservavel.periodo.splice(index, 1);
+            }
         }
 
         $scope.adicionarPeriodo = function (diaSemana) {
-            $scope.localReservavel.periodo[diaSemana].push(
+            $scope.localReservavel.periodo.push(
                 {
+                    dia_semana: diaSemana,
                     hora_ini: '',
                     hora_fim: '',
-                    valor: ''
+                    valor: '',
+                    deleted: 0
                 }
             );
         }
@@ -304,6 +310,13 @@ angular.module('ReservasModule').controller('LocalReservavelCtrl',
             var promisse = ($http.get(`${config.apiUrl}api/localreservavel/`+id));
             promisse.then( function (result){
                 $scope.localReservavel = result.data.data;
+                $scope.periodoAtual = 'seg';
+                $scope.objPeriodoAtual = $scope.localReservavel.periodo.filter(x => x.dia_semana=='seg');
+                $scope.localReservavel.dia_inativo.map(function (item) {
+                    item.deleted = 0;
+                    return item;
+                })
+
                 $scope.step = 1;
                 getLocalidade();
                 $('#cadastroLocal').modal('show');

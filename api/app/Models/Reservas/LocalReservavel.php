@@ -2,6 +2,7 @@
 namespace App\Models\Reservas;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 class LocalReservavel extends Model
 {
@@ -24,9 +25,14 @@ class LocalReservavel extends Model
         'limit_reserva'
     ];
 
-    public static function complete()
+    public static function simples()
     {
-        return self::with(['localidade','periodo'])->get();
+        return self::with('localidade')->select(array('id', 'nome', 'descricao', 'id_localidade', 'capacidade'))->get();
+    }
+
+    public static function complete($id)
+    {
+        return self::where('id', $id)->with(['localidade','periodo','diaInativo'])->first();
     }
 
     public function localidade()
@@ -36,6 +42,11 @@ class LocalReservavel extends Model
 
     public function periodo()
     {
-        return $this->hasMany('App\Models\Reservas\PeriodoLocalReservavel','id_reserva');
+        return $this->hasMany('App\Models\Reservas\PeriodoLocalReservavel','id_local_reservavel');
+    }
+
+    public function diaInativo()
+    {
+        return $this->hasMany('App\Models\Reservas\DiaInativoLocalReservavel','id_local_reservavel');
     }
 }

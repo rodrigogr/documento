@@ -13,11 +13,13 @@ class CreateDiasInativosTable extends Migration
      */
     public function up()
     {
-        Schema::create('dias_inativos', function (Blueprint $table) {
+        Schema::create('dia_inativo_local_reservavel', function (Blueprint $table) {
             $table->increments('id');
+            $table->integer('id_local_reservavel')->unsigned();
             $table->date('data');
             $table->string('descricao');
             $table->string('repetir', 15);
+            $table->foreign('id_local_reservavel')->references('id')->on('local_reservavel')->onDelete('cascade');;
         });
     }
 

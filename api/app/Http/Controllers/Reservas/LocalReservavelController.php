@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Reservas;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Reservas\LocalReservavelRequest;
+use App\Models\Reservas\DiaInativoLocalReservavel;
 use App\Models\Reservas\LocalReservavel;
 use App\Models\Reservas\PeriodoLocalReservavel;
 use Illuminate\Http\Request;
@@ -15,7 +16,7 @@ class LocalReservavelController extends Controller
 
     public function index()
     {
-        $Data = LocalReservavel::complete();
+        $Data = LocalReservavel::simples();
         if (count($Data)) {
             return response()->success($Data);
         }
@@ -32,13 +33,22 @@ class LocalReservavelController extends Controller
             if ($local->id) {
                 foreach ($data["periodo"] as $key => $periodo) {
                     foreach ($periodo as $item) {
-                        $arrPeriodo = ['id_reserva' => $local->id, 'dia_semana' => $key, 'hora_ini' => $item["hora_ini"], 'hora_fim' => $item["hora_fim"], 'valor' => $item["valor"]];
+                        $arrPeriodo = ['id_local_reservavel' => $local->id, 'dia_semana' => $key, 'hora_ini' => $item["hora_ini"], 'hora_fim' => $item["hora_fim"], 'valor' => $item["valor"]];
                         if ($item["hora_ini"]) {
                             PeriodoLocalReservavel::insert($arrPeriodo);
                         }
                     }
                 }
+
+                foreach ($data["diasInativos"] as $key => $diaInativo) {
+                    $arrDiaInativo = ['id_local_reservavel' => $local->id, 'data' => $diaInativo["data"], 'descricao' => $diaInativo["descricao"], 'repetir' => $diaInativo["repetir"]];
+                    if ($diaInativo["data"]) {
+                        DiaInativoLocalReservavel::insert($arrDiaInativo);
+                    }
+                }
             }
+
+
             return $local->id;
 
         } catch (Exception $e) {
@@ -48,7 +58,7 @@ class LocalReservavelController extends Controller
 
     public function show($id)
     {
-        $Data = LocalReservavel::find($id);
+        $Data = LocalReservavel::complete($id);
         if (count($Data)) {
             return response()->success($Data);
         }

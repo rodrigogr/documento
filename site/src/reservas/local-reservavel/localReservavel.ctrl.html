@@ -261,7 +261,7 @@
 
                                         <div style="background-color: #FAFAFA; padding: 30px 10px;">
                                             <div class="ba__margin-bottom-10 cardHorario">
-                                                <div class="col-md-20 unit" ng-repeat="periodo in objPeriodoAtual">
+                                                <div class="col-md-20 unit" ng-repeat="periodo in objPeriodoAtual" ng-show="periodo.deleted == 0">
                                                     <div class="form-inline">
                                                         <div class="form-group">
                                                             <i class="fa fa-clock-o ba__margin-horizontal-15 text-primary"></i>
@@ -276,7 +276,7 @@
                                                                    placeholder="R$ 0,00"
                                                                    style="width: 22% !important;">
 
-                                                            <i class="fa fa-trash" style="margin-left: 65px" ng-click="excluirPeriodo($index)"></i>
+                                                            <i class="fa fa-trash" style="margin-left: 65px" ng-click="excluirPeriodo(periodo, $index)"></i>
                                                         </div>
                                                     </div>
                                                 </div>

@@ -13,7 +13,8 @@ class PeriodoLocalReservavel extends Model
         'dia_semana',
         'hora_ini',
         'hora_fim',
-        'valor'
+        'valor',
+        'deleted'
     ];
 
 }

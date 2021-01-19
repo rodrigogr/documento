@@ -26,37 +26,44 @@ angular.module('ReservasModule').controller('LocalReservavelCtrl',
                     seg: [{
                         hora_ini: '',
                         hora_fim: '',
-                        valor: ''
+                        valor: '',
+                        deleted: 0
                     }],
                     ter: [{
                         hora_ini: '',
                         hora_fim: '',
-                        valor: ''
+                        valor: '',
+                        deleted: 0
                     }],
                     qua: [{
                         hora_ini: '',
                         hora_fim: '',
-                        valor: ''
+                        valor: '',
+                        deleted: 0
                     }],
                     qui: [{
                         hora_ini: '',
                         hora_fim: '',
-                        valor: ''
+                        valor: '',
+                        deleted: 0
                     }],
                     sex: [{
                         hora_ini: '',
                         hora_fim: '',
-                        valor: ''
+                        valor: '',
+                        deleted: 0
                     }],
                     sab: [{
                         hora_ini: '',
                         hora_fim: '',
-                        valor: ''
+                        valor: '',
+                        deleted: 0
                     }],
                     dom: [{
                         hora_ini: '',
                         hora_fim: '',
-                        valor: ''
+                        valor: '',
+                        deleted: 0
                     }]
                 }],
                 diasInativos: []
@@ -65,6 +72,7 @@ angular.module('ReservasModule').controller('LocalReservavelCtrl',
             $scope.objPeriodoAtual = $scope.localReservavel.periodo.seg;
         }
         $scope.manterHorarios = false;
+        $scope.addNovoPeriodo = 0;
 
         $scope.getLocais = function () {
             $(".loader").show();
@@ -165,24 +173,33 @@ angular.module('ReservasModule').controller('LocalReservavelCtrl',
             $scope.objPeriodoAtual = $scope.localReservavel.periodo.filter(x => x.dia_semana == diaSemana);
         }
 
-        $scope.excluirPeriodo = function (index) {
-            if ($scope.localReservavel.periodo[index].id) {
-                $scope.localReservavel.periodo[index].deleted = 1;
+        $scope.excluirPeriodo = function (periodo, indexAtual) {
+            if (periodo.id) {
+                $scope.localReservavel.periodo.map(item => {
+                    if (item.id == periodo.id) {
+                        item.deleted = 1;
+                    }
+                    return item;
+                });
+
             } else {
-                $scope.localReservavel.periodo.splice(index, 1);
+                let indexArrPrincipal = $scope.localReservavel.periodo.findIndex(item => item.addNew == periodo.addNew);
+                $scope.localReservavel.periodo.splice(indexArrPrincipal, 1);
+                $scope.objPeriodoAtual.splice(indexAtual, 1);
             }
         }
 
         $scope.adicionarPeriodo = function (diaSemana) {
-            $scope.localReservavel.periodo.push(
-                {
-                    dia_semana: diaSemana,
-                    hora_ini: '',
-                    hora_fim: '',
-                    valor: '',
-                    deleted: 0
-                }
-            );
+            let novo = {
+                dia_semana: diaSemana,
+                hora_ini: '',
+                hora_fim: '',
+                valor: '',
+                deleted: 0,
+                addNew: $scope.addNovoPeriodo++
+            }
+            $scope.localReservavel.periodo.push(novo);
+            $scope.objPeriodoAtual.push(novo);
         }
 
         $scope.$watch('manterHorarios', function(value, oldValue) {
@@ -254,15 +271,15 @@ angular.module('ReservasModule').controller('LocalReservavelCtrl',
         }
 
         $scope.excluirDiaInativo = function (index) {
-            $scope.localReservavel.diasInativos[index].deleted = 1;
+            $scope.localReservavel.dia_inativo[index].deleted = 1;
         }
 
         $scope.abreEditarDiaInativo = function (index) {
             $scope.diaInativo = {
-                id: $scope.localReservavel.diasInativos[index].id,
-                data: $scope.localReservavel.diasInativos[index].data,
-                descricao: $scope.localReservavel.diasInativos[index].descricao,
-                repetir: $scope.localReservavel.diasInativos[index].repetir,
+                id: $scope.localReservavel.dia_inativo[index].id,
+                data: $scope.localReservavel.dia_inativo[index].data,
+                descricao: $scope.localReservavel.dia_inativo[index].descricao,
+                repetir: $scope.localReservavel.dia_inativo[index].repetir,
                 deleted: 0
             }
             $scope.editandoDiaInativo = true;
@@ -272,11 +289,11 @@ angular.module('ReservasModule').controller('LocalReservavelCtrl',
         }
 
         $scope.updateDiaInativo = function (index) {
-            $scope.localReservavel.diasInativos[index].id = $scope.diaInativo.id;
-            $scope.localReservavel.diasInativos[index].data = $scope.diaInativo.data;
-            $scope.localReservavel.diasInativos[index].descricao = $scope.diaInativo.descricao;
-            $scope.localReservavel.diasInativos[index].repetir = $scope.diaInativo.repetir;
-            $scope.localReservavel.diasInativos[index].deleted = $scope.diaInativo.deleted;
+            $scope.localReservavel.dia_inativo[index].id = $scope.diaInativo.id;
+            $scope.localReservavel.dia_inativo[index].data = $scope.diaInativo.data;
+            $scope.localReservavel.dia_inativo[index].descricao = $scope.diaInativo.descricao;
+            $scope.localReservavel.dia_inativo[index].repetir = $scope.diaInativo.repetir;
+            $scope.localReservavel.dia_inativo[index].deleted = $scope.diaInativo.deleted;
 
             $scope.fecharModalDiaInativo();
         }
@@ -287,7 +304,7 @@ angular.module('ReservasModule').controller('LocalReservavelCtrl',
                 url: `${config.apiUrl}api/localreservavel/`,
                 data: $scope.localReservavel,
                 headers:{
-                    'Content-Type': 'application/json'
+                    'Authorization': 'Bearer '+ AuthService.getToken()
                 }
             }).
             then(function(response) {

@@ -33,7 +33,7 @@ class LocalReservavelController extends Controller
             if ($local->id) {
                 foreach ($data["periodo"] as $key => $periodo) {
                     foreach ($periodo as $item) {
-                        $arrPeriodo = ['id_local_reservavel' => $local->id, 'dia_semana' => $key, 'hora_ini' => $item["hora_ini"], 'hora_fim' => $item["hora_fim"], 'valor' => $item["valor"]];
+                        $arrPeriodo = ['id_local_reservavel' => $local->id, 'dia_semana' => $key, 'hora_ini' => $item["hora_ini"], 'hora_fim' => $item["hora_fim"], 'valor' => $item["valor"], 'deleted' => $item["deleted"]];
                         if ($item["hora_ini"]) {
                             PeriodoLocalReservavel::insert($arrPeriodo);
                         }

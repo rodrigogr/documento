@@ -7,6 +7,7 @@ Route::group(['middleware' => 'jwt.auth'], function ()
         Route::get('', 'reservas\LocalReservavelController@index');
         Route::post('/', 'reservas\LocalReservavelController@store');
         Route::get('/{id}', 'reservas\LocalReservavelController@show');
+        Route::put('/{id}', 'reservas\LocalReservavelController@update');
 
         /*Route::get('consumo', 'ProdutoController@getProdAtivoConsumo');
         Route::get('detail/{id}', 'ProdutoController@detail');

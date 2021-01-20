@@ -1969,7 +1969,7 @@ body {
 /*Começo do estilo para selecbox dos campos comuns*/
 
 .ba__input-select {
-    color: #8a939c;
+    color: #3d4043;
     text-transform: uppercase;
     display: block;
     padding: 5px 40px 5px 12px;
@@ -2045,7 +2045,7 @@ fieldset[disabled] .ba__input-modal {
     padding: 5px 12px;
     font-size: 20px;
     line-height: 1.42857143;
-    color: #8a939c;
+    color: #3d4043;
     background: transparent;
     background-image: none;
     border: none;
@@ -2103,7 +2103,7 @@ textarea.ba__input-modal {
     padding: 5px 12px;
     font-size: 20px;
     line-height: 1.42857143;
-    color: #8a939c;
+    color: #3d4043;
     background: transparent;
     background-image: none;
     border: none;

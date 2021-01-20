@@ -8,6 +8,7 @@ use App\Models\Reservas\DiaInativoLocalReservavel;
 use App\Models\Reservas\LocalReservavel;
 use App\Models\Reservas\PeriodoLocalReservavel;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\DB;
 
 class LocalReservavelController extends Controller
@@ -63,6 +64,45 @@ class LocalReservavelController extends Controller
             return response()->success($Data);
         }
         return response()->error(trans('messages.crud.MGE', ['name' => $this->name]));
+    }
+
+    private function itensAlterar ($arr) {
+        return $arr["id"] and !$arr["deleted"];
+    }
+
+    public function update(LocalReservavelRequest $request, $id)
+    {
+        /*$Data = LocalReservavel::find($id);
+        $data = $request->all();
+        $Data->update($data);*/
+
+        $data = $request->all();
+        $periodo = collect($data["periodo"]);
+
+        foreach ($data["periodo"] as $dia_semana) {
+            foreach ($dia_semana as $dia) {
+                if (!isset($dia["id"]) && $dia["hora_ini"]) {
+
+                }
+            }
+            exit();
+        }
+        /*$editar = $periodo->filter(function ($value, $key) {
+            foreach ( as $item) {
+
+            }
+        });*/
+
+
+        /*$editar = array_filter($data["periodo"], "itensAlterar");
+        echo "<pre>";
+        print_r($editar);
+        exit();*/
+
+        /*if (count($Data)) {
+            return response()->success($Data);
+        }
+        return response()->error(trans('messages.crud.MGE', ['name' => $this->name]));*/
     }
 
 

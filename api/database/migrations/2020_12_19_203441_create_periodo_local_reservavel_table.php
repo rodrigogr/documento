@@ -20,7 +20,6 @@ class CreatePeriodoLocalReservavelTable extends Migration
             $table->time('hora_ini');
             $table->time('hora_fim');
             $table->decimal('valor',6,2)->default(0);
-            $table->tinyInteger('deleted')->default(0);
             $table->foreign('id_local_reservavel')->references('id')->on('local_reservavel')->onDelete('cascade');
         });
     }

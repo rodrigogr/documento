@@ -327,15 +327,31 @@ angular.module('ReservasModule').controller('LocalReservavelCtrl',
             var promisse = ($http.get(`${config.apiUrl}api/localreservavel/`+id));
             promisse.then( function (result){
                 $scope.localReservavel = result.data.data;
-                $scope.periodoAtual = 'seg';
-                $scope.objPeriodoAtual = $scope.localReservavel.periodo.filter(x => x.dia_semana=='seg');
+                $scope.localReservavel.periodo.map(function (item) {
+                    item.deleted = 0;
+                    return item;
+                });
+
                 $scope.localReservavel.dia_inativo.map(function (item) {
                     item.deleted = 0;
                     return item;
-                })
+                });
+
+                $scope.periodoAtual = 'seg';
+                $scope.objPeriodoAtual = $scope.localReservavel.periodo.filter(x => x.dia_semana=='seg');
 
                 $scope.step = 1;
                 getLocalidade();
+                $('#cadastroLocal').modal('show');
+            }).finally( () => $("#loading").modal("hide") )
+        }
+
+        $scope.update = function (id) {
+            $("#loading").modal("show");
+            var promisse = ($http.put(`${config.apiUrl}api/localreservavel/`+id, $scope.localReservavel));
+            promisse.then( function (result){
+                let res = result.data.data;
+                $scope.getLocais();
                 $('#cadastroLocal').modal('show');
             }).finally( () => $("#loading").modal("hide") )
         }

@@ -34,7 +34,7 @@ class LocalReservavelController extends Controller
             if ($local->id) {
                 foreach ($data["periodo"] as $key => $periodo) {
                     foreach ($periodo as $item) {
-                        $arrPeriodo = ['id_local_reservavel' => $local->id, 'dia_semana' => $key, 'hora_ini' => $item["hora_ini"], 'hora_fim' => $item["hora_fim"], 'valor' => $item["valor"], 'deleted' => $item["deleted"]];
+                        $arrPeriodo = ['id_local_reservavel' => $local->id, 'dia_semana' => $key, 'hora_ini' => $item["hora_ini"], 'hora_fim' => $item["hora_fim"], 'valor' => $item["valor"]];
                         if ($item["hora_ini"]) {
                             PeriodoLocalReservavel::insert($arrPeriodo);
                         }
@@ -77,16 +77,51 @@ class LocalReservavelController extends Controller
         $Data->update($data);*/
 
         $data = $request->all();
-        $periodo = collect($data["periodo"]);
 
-        foreach ($data["periodo"] as $dia_semana) {
-            foreach ($dia_semana as $dia) {
-                if (!isset($dia["id"]) && $dia["hora_ini"]) {
-
+        foreach ($data["periodo"] as $key => $dia_semana) {
+            foreach ($dia_semana as $dados_dia) {
+                if (!isset($dados_dia["id"]) && $dados_dia["hora_ini"]) {
+                    $dados_dia["id_local_reservavel"] = $id;
+                    $dados_dia["dia_semana"] = $key;
+                    PeriodoLocalReservavel::insert($dados_dia);
+                }
+                if (isset($dados_dia["id"]) && $dados_dia["hora_ini"] && (isset($dados_dia["deleted"]) && !$dados_dia["deleted"])) {
+                    $periodoAlt = PeriodoLocalReservavel::find($dados_dia["id"]);
+                    $periodoAlt->id_local_reservavel = $id;
+                    $periodoAlt->dia_semana = $key;
+                    $periodoAlt->hora_ini = $dados_dia["hora_ini"];
+                    $periodoAlt->hora_fim = $dados_dia["hora_fim"];
+                    $periodoAlt->valor = $dados_dia["valor"];
+                    $periodoAlt->save();
+                }
+                if (isset($dados_dia["deleted"]) && $dados_dia["deleted"]) {
+                    $periodoDel = PeriodoLocalReservavel::find($dados_dia["id"]);
+                    $periodoDel->delete();
                 }
             }
-            exit();
         }
+
+        foreach ($data["diasInativos"] as $dia_inativo) {
+            if (!isset($dia_inativo["id"])) {
+                $dia_inativo["id_local_reservavel"] = $id;
+                unset($dia_inativo['deleted']);
+                DiaInativoLocalReservavel::insert($dia_inativo);
+            }
+            if (isset($dia_inativo["id"]) && !$dia_inativo["deleted"]) {
+                $diaAlt = DiaInativoLocalReservavel::find($dia_inativo["id"]);
+                $diaAlt->id_local_reservavel = $id;
+                $diaAlt->data = $dia_inativo["data"];
+                $diaAlt->descricao = $dia_inativo["descricao"];
+                $diaAlt->repetir = $dia_inativo["repetir"];
+                $diaAlt->save();
+            }
+            if (isset($dia_inativo["deleted"]) && $dia_inativo["deleted"]) {
+                $diaDel = DiaInativoLocalReservavel::find($dia_inativo["id"]);
+                $diaDel->delete();
+            }
+        }
+
+        return 'ok';
         /*$editar = $periodo->filter(function ($value, $key) {
             foreach ( as $item) {
 

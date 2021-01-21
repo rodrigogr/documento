@@ -10,10 +10,9 @@ class DiaInativoLocalReservavel extends Model
     public $timestamps = false;
     protected $fillable = [
         'id_local_reservavel',
-        'dia_semana',
-        'hora_ini',
-        'hora_fim',
-        'valor'
+        'data',
+        'descricao',
+        'repetir'
     ];
 
 }

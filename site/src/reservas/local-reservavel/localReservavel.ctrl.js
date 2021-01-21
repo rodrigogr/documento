@@ -260,8 +260,7 @@ angular.module('ReservasModule').controller('LocalReservavelCtrl',
 
         $scope.inserirDiaInativo = function () {
             let diaInativo = angular.copy($scope.diaInativo);
-            $scope.localReservavel.diasInativos.push({
-                id: '',
+            $scope.localReservavel.dia_inativo.push({
                 data: diaInativo.data,
                 descricao: diaInativo.descricao,
                 repetir: diaInativo.repetir,

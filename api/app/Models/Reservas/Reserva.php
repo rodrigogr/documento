@@ -27,6 +27,13 @@ class Reserva extends Model
 
     public static function completoByData($data)
     {
+        return self::where('data', $data)
+            ->select('reserva.*')
+            ->join('periodo_local_reservavel as plr','plr.id','reserva.id_periodo')
+            ->with(['periodoLocalReservavel','localReservavel','imovel','pessoa'])
+            ->orderBy('plr.hora_ini')
+            ->get();
+
         //RETORNAR ESTE SQL
         /*select
         	plr.dia_semana ,

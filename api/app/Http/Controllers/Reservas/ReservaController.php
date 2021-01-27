@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Reservas;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Reservas\ReservaRequest;
+use App\Models\Reservas\PeriodoLocalReservavel;
 use App\Models\Reservas\Reserva;
 
 class ReservaController extends Controller
@@ -43,12 +44,12 @@ class ReservaController extends Controller
 
     public function completoByData($data)
     {
-        $Data = Reserva::completoByData($data);
+        $Data = PeriodoLocalReservavel::completoByData($data);
 //        $Data = Reserva::all();
         if (count($Data)) {
             return response()->success($Data);
         }
-        return response()->error(trans('messages.crud.F', ['name' => $this->name]));
+        return response()->error(trans('messages.crud.FSE', ['name' => $this->name]));
     }
 
     public function update(ReservaRequest $request, $id)

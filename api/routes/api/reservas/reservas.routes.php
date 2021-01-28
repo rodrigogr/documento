@@ -18,6 +18,14 @@ Route::group(['middleware' => 'jwt.auth'], function ()
         Route::delete('/{id}', 'reservas\ReservaController@cancelar');
     });
 
+    Route::group(['prefix' => 'aprovacao'], function () {
+        Route::post('/aprovacao/pendentes/inicio', 'reservas\Aprovacao@inicio');
+        Route::get('/data/{data}', 'reservas\ReservaController@completoByData');
+        Route::get('/{id}', 'reservas\ReservaController@show');
+        Route::put('/{id}', 'reservas\ReservaController@update');
+        Route::delete('/{id}', 'reservas\ReservaController@cancelar');
+    });
+
 });
 
 

@@ -66,10 +66,10 @@ angular.module('ReservasModule').controller('LocalReservavelCtrl',
                         deleted: 0
                     }]
                 }],
-                diasInativos: []
+                dia_inativo: []
             }
             $scope.periodoAtual = 'seg';
-            $scope.objPeriodoAtual = $scope.localReservavel.periodo.seg;
+            $scope.objPeriodoAtual = $scope.localReservavel.periodo[0].seg[0];
         }
         $scope.manterHorarios = false;
         $scope.addNovoPeriodo = 0;

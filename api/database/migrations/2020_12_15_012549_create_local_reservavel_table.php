@@ -15,7 +15,7 @@ class CreateLocalReservavelTable extends Migration
     {
         Schema::create('local_reservavel', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('id_localidade');
+            $table->integer('id_localidade')->unsigned();
             $table->string('nome');
             $table->text('descricao');
             $table->smallInteger('capacidade')->nullable()->default(null);
@@ -34,6 +34,7 @@ class CreateLocalReservavelTable extends Migration
             $table->index('id_periodo');
             $table->index('id_dias_inativos');
             $table->timestamps();
+            $table->foreign('id_localidade')->references('id')->on('bioacesso_portaria.localidades');
         });
     }
 

@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 class PeriodoLocalReservavel extends Model
 {
     protected $connection = 'portal';
-    protected $table = 'periodo_local_reservavel as plr';
+    protected $table = 'periodo_local_reservavel';
     public $timestamps = false;
     protected $fillable = [
         'id_local_reservavel',
@@ -20,16 +20,32 @@ class PeriodoLocalReservavel extends Model
     {
         return self::leftJoin('reserva as r', function ($q) use($data) {
             $q->on('r.data',\DB::raw("'".$data."'"));
-            $q->on('r.id_periodo','plr.id');
+            $q->on('r.id_periodo','periodo_local_reservavel.id');
         })
-            ->where('plr.dia_semana','seg')
-            ->orderBy('plr.hora_ini')
+            ->with(['imovel','pessoa','localReservavel','localidade'])
+            ->where('periodo_local_reservavel.dia_semana','seg')
+            ->orderBy('periodo_local_reservavel.hora_ini')
             ->get();
     }
 
     public function imovel()
     {
         return $this->belongsTo('App\Models\Imovel', 'id_imovel');
+    }
+
+    public function pessoa()
+    {
+        return $this->belongsTo('App\Models\Pessoa', 'id_pessoa');
+    }
+
+    public function localReservavel()
+    {
+        return $this->belongsTo('App\Models\Reservas\LocalReservavel', 'id_local_reservavel');
+    }
+
+    public function localidade()
+    {
+        return $this->belongsTo('App\Models\Localidade', 'id_localidade');
     }
 
 }

@@ -7,6 +7,7 @@ use App\Http\Requests\Reservas\LocalReservavelRequest;
 use App\Models\Reservas\DiaInativoLocalReservavel;
 use App\Models\Reservas\LocalReservavel;
 use App\Models\Reservas\PeriodoLocalReservavel;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\DB;
@@ -41,9 +42,11 @@ class LocalReservavelController extends Controller
                     }
                 }
 
-                foreach ($data["diasInativos"] as $key => $diaInativo) {
+                foreach ($data["dia_inativo"] as $key => $diaInativo) {
                     $arrDiaInativo = ['id_local_reservavel' => $local->id, 'data' => $diaInativo["data"], 'descricao' => $diaInativo["descricao"], 'repetir' => $diaInativo["repetir"]];
                     if ($diaInativo["data"]) {
+                        $dataFormatada = Carbon::createFromFormat('d/m/Y', $diaInativo["data"])->format('Y-m-d');
+                        $arrDiaInativo["data"] = $dataFormatada;
                         DiaInativoLocalReservavel::insert($arrDiaInativo);
                     }
                 }

@@ -364,11 +364,17 @@
                             </form>
                         </div>
                         <div class="modal-footer" style="margin: 20px">
-                            <button type="button" class="btn btn-success col-md-5 pull-right" ng-show="step == 3"
+                            <button ng-if="!localReservavel.id" type="button" class="btn btn-success col-md-5 pull-right" ng-show="step == 3"
                                     ng-disabled="formLocalidade.$invalid"
                                     style="margin-left: 5px"
                                     ng-click="salvar()">
                                 Concluir
+                            </button>
+                            <button ng-if="localReservavel.id" type="button" class="btn btn-success col-md-5 pull-right" ng-show="step == 3"
+                                    ng-disabled="formLocalidade.$invalid"
+                                    style="margin-left: 5px"
+                                    ng-click="update()">
+                                Editar
                             </button>
                             <button type="button" ng-click="goStep('+')" class="btn btn-success col-md-5 col-md-offset-1 pull-right" ng-show="step < 3">
                                 Próximo passo

@@ -29,10 +29,6 @@ class CreateLocalReservavelTable extends Migration
             $table->smallInteger('antecedencia_cancel_num')->default(0);
             $table->string('antecedencia_cancel_periodo',10)->nullable()->default(null);;
             $table->smallInteger('limit_reserva')->default(0);
-            $table->integer('id_periodo')->nullable()->default(null);
-            $table->integer('id_dias_inativos')->nullable()->default(null);
-            $table->index('id_periodo');
-            $table->index('id_dias_inativos');
             $table->timestamps();
             $table->foreign('id_localidade')->references('id')->on('bioacesso_portaria.localidades');
         });

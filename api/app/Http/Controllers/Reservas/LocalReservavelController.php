@@ -42,7 +42,7 @@ class LocalReservavelController extends Controller
                     }
                 }
 
-                foreach ($data["dia_inativo"] as $key => $diaInativo) {
+                foreach ($data["dia_inativo"] as $diaInativo) {
                     $arrDiaInativo = ['id_local_reservavel' => $local->id, 'data' => $diaInativo["data"], 'descricao' => $diaInativo["descricao"], 'repetir' => $diaInativo["repetir"]];
                     if ($diaInativo["data"]) {
                         $dataFormatada = Carbon::createFromFormat('d/m/Y', $diaInativo["data"])->format('Y-m-d');
@@ -52,8 +52,7 @@ class LocalReservavelController extends Controller
                 }
             }
 
-
-            return $local->id;
+            return response()->success(trans('messages.crud.MSS', ['name' => $this->name]));
 
         } catch (Exception $e) {
             return response()->error($e->getMessage);
@@ -75,72 +74,63 @@ class LocalReservavelController extends Controller
 
     public function update(LocalReservavelRequest $request, $id)
     {
-        /*$Data = LocalReservavel::find($id);
-        $data = $request->all();
-        $Data->update($data);*/
+        try {
+            $Data = LocalReservavel::find($id);
+            $data = $request->all();
+            $Data->update($data);
 
-        $data = $request->all();
-
-        foreach ($data["periodo"] as $key => $dia_semana) {
-            foreach ($dia_semana as $dados_dia) {
-                if (!isset($dados_dia["id"]) && $dados_dia["hora_ini"]) {
-                    $dados_dia["id_local_reservavel"] = $id;
-                    $dados_dia["dia_semana"] = $key;
-                    PeriodoLocalReservavel::insert($dados_dia);
+            foreach ($data["periodo"] as $key => $dia_semana) {
+                foreach ($dia_semana as $dados_dia) {
+                    if (!isset($dados_dia["id"]) && $dados_dia["hora_ini"]) {
+                        $dados_dia["id_local_reservavel"] = $id;
+                        $dados_dia["dia_semana"] = $key;
+                        PeriodoLocalReservavel::create($dados_dia);
+                    }
+                    if (isset($dados_dia["id"]) && $dados_dia["hora_ini"] && (isset($dados_dia["deleted"]) && !$dados_dia["deleted"])) {
+                        $periodoAlt = PeriodoLocalReservavel::find($dados_dia["id"]);
+                        $periodoAlt->id_local_reservavel = $id;
+                        $periodoAlt->dia_semana = $key;
+                        $periodoAlt->hora_ini = $dados_dia["hora_ini"];
+                        $periodoAlt->hora_fim = $dados_dia["hora_fim"];
+                        $periodoAlt->valor = $dados_dia["valor"];
+                        $periodoAlt->save();
+                    }
+                    if (isset($dados_dia["deleted"]) && $dados_dia["deleted"]) {
+                        $periodoDel = PeriodoLocalReservavel::find($dados_dia["id"]);
+                        $periodoDel->delete();
+                    }
                 }
-                if (isset($dados_dia["id"]) && $dados_dia["hora_ini"] && (isset($dados_dia["deleted"]) && !$dados_dia["deleted"])) {
-                    $periodoAlt = PeriodoLocalReservavel::find($dados_dia["id"]);
-                    $periodoAlt->id_local_reservavel = $id;
-                    $periodoAlt->dia_semana = $key;
-                    $periodoAlt->hora_ini = $dados_dia["hora_ini"];
-                    $periodoAlt->hora_fim = $dados_dia["hora_fim"];
-                    $periodoAlt->valor = $dados_dia["valor"];
-                    $periodoAlt->save();
+            }
+
+            foreach ($data["dia_inativo"] as $dia_inativo) {
+                if (!isset($dia_inativo["id"])) {
+                    $dia_inativo["id_local_reservavel"] = $id;
+                    unset($dia_inativo['deleted']);
+//                    $dataFormatada = Carbon::createFromFormat('d/m/Y', $dia_inativo["data"])->format('Y-m-d');
+//                    $dia_inativo["data"] = $dataFormatada;
+                    DiaInativoLocalReservavel::insert($dia_inativo);
                 }
-                if (isset($dados_dia["deleted"]) && $dados_dia["deleted"]) {
-                    $periodoDel = PeriodoLocalReservavel::find($dados_dia["id"]);
-                    $periodoDel->delete();
+                if (isset($dia_inativo["id"]) && !$dia_inativo["deleted"]) {
+//                    $dataFormatada = Carbon::createFromFormat('d/m/Y', $dia_inativo["data"])->format('Y-m-d');
+//                    $dia_inativo["data"] = $dataFormatada;
+                    $diaAlt = DiaInativoLocalReservavel::find($dia_inativo["id"]);
+                    $diaAlt->id_local_reservavel = $id;
+                    $diaAlt->data = $dia_inativo["data"];
+                    $diaAlt->descricao = $dia_inativo["descricao"];
+                    $diaAlt->repetir = $dia_inativo["repetir"];
+                    $diaAlt->save();
+                }
+                if (isset($dia_inativo["deleted"]) && $dia_inativo["deleted"]) {
+                    $diaDel = DiaInativoLocalReservavel::find($dia_inativo["id"]);
+                    $diaDel->delete();
                 }
             }
+
+            return response()->success(trans('messages.crud.MUS', ['name' => $this->name]));
+
+        } catch (Exception $e) {
+            return response()->error($e->getMessage);
         }
-
-        foreach ($data["diasInativos"] as $dia_inativo) {
-            if (!isset($dia_inativo["id"])) {
-                $dia_inativo["id_local_reservavel"] = $id;
-                unset($dia_inativo['deleted']);
-                DiaInativoLocalReservavel::insert($dia_inativo);
-            }
-            if (isset($dia_inativo["id"]) && !$dia_inativo["deleted"]) {
-                $diaAlt = DiaInativoLocalReservavel::find($dia_inativo["id"]);
-                $diaAlt->id_local_reservavel = $id;
-                $diaAlt->data = $dia_inativo["data"];
-                $diaAlt->descricao = $dia_inativo["descricao"];
-                $diaAlt->repetir = $dia_inativo["repetir"];
-                $diaAlt->save();
-            }
-            if (isset($dia_inativo["deleted"]) && $dia_inativo["deleted"]) {
-                $diaDel = DiaInativoLocalReservavel::find($dia_inativo["id"]);
-                $diaDel->delete();
-            }
-        }
-
-        return 'ok';
-        /*$editar = $periodo->filter(function ($value, $key) {
-            foreach ( as $item) {
-
-            }
-        });*/
-
-
-        /*$editar = array_filter($data["periodo"], "itensAlterar");
-        echo "<pre>";
-        print_r($editar);
-        exit();*/
-
-        /*if (count($Data)) {
-            return response()->success($Data);
-        }
-        return response()->error(trans('messages.crud.MGE', ['name' => $this->name]));*/
     }
 
 

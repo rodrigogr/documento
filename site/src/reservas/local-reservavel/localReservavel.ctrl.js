@@ -263,6 +263,7 @@ angular.module('ReservasModule').controller('LocalReservavelCtrl',
         }
 
         $scope.salvar = function () {
+            $("#loading").modal("show");
             $http({
                 method: "POST",
                 url: `${config.apiUrl}api/localreservavel/`,
@@ -272,17 +273,22 @@ angular.module('ReservasModule').controller('LocalReservavelCtrl',
                 }
             })
             .then(function(response) {
+                UtilsService.toastSuccess("Local salvo com sucesso!");
                 $scope.resetLocal();
                 $('#cadastroLocal').modal('hide');
                 $scope.getLocais();
 
             }, function(error) {
-                alert('Erro ao cadastrar!');
-            });
+                UtilsService.openAlert(e.data.message);
+
+            }).finally( () => { $("#loading").modal("show") });
         }
 
         $scope.editarLocal = function (id) {
             $("#loading").modal("show");
+
+            getLocalidade();
+
             var promisse = ($http.get(`${config.apiUrl}api/localreservavel/`+id));
             promisse.then( function (result){
                 $scope.localReservavel = result.data.data;
@@ -318,10 +324,14 @@ angular.module('ReservasModule').controller('LocalReservavelCtrl',
                 $scope.localReservavel.periodo = periodo;
                 $scope.objPeriodoAtual = $scope.localReservavel.periodo["seg"];
 
+                if ($scope.localReservavel.capacidade > 0) {
+                    $scope.localReservavel.check_capacidade = true;
+                }
+
                 $scope.step = 1;
-                getLocalidade();
                 $('#cadastroLocal').modal('show');
-            }).finally( () => $("#loading").modal("hide") )
+
+            }).finally( () => $("#loading").modal("hide") );
         }
 
         $scope.update = function () {
@@ -329,8 +339,10 @@ angular.module('ReservasModule').controller('LocalReservavelCtrl',
             var promisse = ($http.put(`${config.apiUrl}api/localreservavel/`+$scope.localReservavel.id, $scope.localReservavel));
             promisse.then( function (result){
                 let res = result.data.data;
-                $scope.getLocais();
+                UtilsService.toastSuccess(res);
                 $('#cadastroLocal').modal('show');
+            }).catch( function (e) {
+                UtilsService.openAlert(e.data.message);
             }).finally( () => $("#loading").modal("hide") )
         }
 

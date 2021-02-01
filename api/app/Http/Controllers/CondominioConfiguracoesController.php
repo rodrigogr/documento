@@ -72,7 +72,7 @@ class CondominioConfiguracoesController extends Controller
     public function condominio()
     {
         $Data = Condominio::select('nome_fantasia')->first();
-        if (count($Data)) {
+        if ($Data) {
             return response()->success($Data);
         }
         return response()->error(trans('messages.crud.MAE', ['name' => $this->name]));

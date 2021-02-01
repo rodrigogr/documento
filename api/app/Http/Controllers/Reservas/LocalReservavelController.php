@@ -62,7 +62,7 @@ class LocalReservavelController extends Controller
     public function show($id)
     {
         $Data = LocalReservavel::complete($id);
-        if (count($Data)) {
+        if ($Data) {
             return response()->success($Data);
         }
         return response()->error(trans('messages.crud.MGE', ['name' => $this->name]));

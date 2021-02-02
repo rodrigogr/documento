@@ -18,6 +18,11 @@ class Localidade extends Model
         'softdeleted'
     ];
 
+    public static function getLocaisReservaveis()
+    {
+        return self::with('locaisReservaveis')->get();
+    }
+
     // ******************** RELASHIONSHIP ******************************
     // ************************** hasOne *******************************
     public function imovel()
@@ -28,5 +33,10 @@ class Localidade extends Model
     public function lancamento_agendar()
     {
         return $this->hasOne('App\Models\LancamentoAgendar', 'id_localizacao');
+    }
+
+    public function locaisReservaveis()
+    {
+        return $this->hasMany('App\Models\Reservas\LocalReservavel','id_localidade');
     }
 }

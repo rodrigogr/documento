@@ -1,0 +1,125 @@
+
+.titulo-lista {
+    font-size: 17px;
+}
+.icon-modal-title {
+    font-size: 40px;
+    float: left;
+    margin-right: 20px;
+}
+.modal-localReservavel {
+    width: 55%;
+}
+.localReservavel-content {
+    overflow: unset;
+    padding: 0;
+}
+.localReservavel-header {
+    padding: 0;
+    border: none;
+}
+.checkPassosLocal {
+    border-top: 1px solid #e2e2e2;
+    border-bottom: 1px solid #e2e2e2;
+    padding: 30px 20px 30px;
+    margin-top: 11px;
+}
+.checkPassosLocal h4 b {
+    border: 1px solid #CCC;
+    width: 55px;
+    height: 55px;
+    border-radius: 32px;
+    float: left;
+    margin-top: -18px;
+    text-align: center;
+    padding-top: 13px;
+    margin-right: 15px;
+}
+.limite-pessoas {
+    float: left;
+    width: 60px;
+    margin: 0 15px 0 3px;
+}
+.label_pessoa {
+    float:left;padding-top: 11px;font-size: 18px;margin-left: 4px;
+}
+.imgAdd-localReservavel {
+    width: 100px;
+    height: 100px;
+    margin-right: 10px;
+    border: 1px solid #999;
+    border-radius: 20px;
+    object-fit: none;
+    opacity: 0.8;
+}
+.img-localReservavel {
+    width: 180px;
+    object-fit: contain;
+    max-height: 150px;
+}
+.step-selecionado {
+    background-color: #FF6633;
+    color: #FFF;
+    border: 1px solid #FF6633 !important;
+}
+
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+    -moz-appearance: textfield;
+}
+
+.modal-footer .btn + .btn {
+}
+.reservaDiasSemana {
+    padding-left: 0;
+    border-bottom: 0px solid #ccc;
+    box-shadow: inset 0px 11px 8px -21px #CC8, inset 0px -9px 5px -10px #CCC;
+}
+.reservaDiasSemana li {
+    list-style: none;
+    width: 141px;
+    display: inline-block;
+    font-size: 25px;
+    text-align: center;
+    padding: 8px 0;
+    cursor: pointer;
+}
+.activeDia {
+    border-bottom: 8px solid #ff8347;
+}
+.cardHorario {
+    max-height: 235px;
+    overflow-y: auto;
+}
+.cardHorario .unit {
+    margin: 5px 0 8px 10px;
+    border-radius: 8px;
+    box-shadow: 0 1px 2px 1px rgba(0, 0, 0, 0.2);
+    padding: 14px 15px;
+    font-size: 27px;
+}
+.cardHorario input {
+    width: 12% !important;
+    font-size: 27px;
+}
+.btn-addPeriodo {
+    border: 1px solid #b2b2b2;
+    margin: 15px 10px;
+    padding: 15px 30px;
+}
+.blocoDiaInativo {
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.25);
+    border-left: 1px solid #eaeaea;
+    border-right: 1px solid #eaeaea;
+}
+.modal-diaInativo {
+    width: 50%;
+    top: 38%;
+}

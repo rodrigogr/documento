@@ -23,6 +23,15 @@ class LocalidadeController extends Controller
         return response()->error(trans('messages.crud.FAE', ['name' => $this->name]));
     }
 
+    public function locaisReservaveis()
+    {
+        $Data = Localidade::getLocaisReservaveis();
+        if (count($Data)) {
+            return response()->success($Data);
+        }
+        return response()->error(trans('messages.crud.FAE', ['name' => $this->name]));
+    }
+
     /**
      * Store a newly created resource in storage.
      *

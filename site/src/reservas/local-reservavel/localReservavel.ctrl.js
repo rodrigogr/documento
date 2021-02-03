@@ -39,14 +39,14 @@ angular.module('ReservasModule').controller('LocalReservavelCtrl',
         $scope.manterHorarios = false;
         $scope.addNovoPeriodo = 0;
 
-        $scope.getLocais = function () {
+        $scope.getLocaisReservaveis = function () {
             $(".loader").show();
             var promisse = ($http.get(`${config.apiUrl}api/localreservavel/`));
             promisse.then( function (result){
                 $scope.locaisReservaveis = result.data.data;
             }).finally(() => $(".loader").hide())
         }
-        $scope.getLocais();
+        $scope.getLocaisReservaveis();
 
         function getLocalidade() {
             var promisse = ($http.get(`${config.apiUrl}api/localidades/`));
@@ -140,7 +140,7 @@ angular.module('ReservasModule').controller('LocalReservavelCtrl',
 
         $scope.excluirPeriodo = function (periodo, indexAtual) {
             if (periodo.id) {
-                $scope.localReservavel.periodo.map(item => {
+                $scope.localReservavel.periodo[$scope.periodoAtual].map(item => {
                     if (item.id == periodo.id) {
                         item.deleted = 1;
                     }
@@ -148,8 +148,6 @@ angular.module('ReservasModule').controller('LocalReservavelCtrl',
                 });
 
             } else {
-                let indexArrPrincipal = $scope.localReservavel.periodo.findIndex(item => item.addNew == periodo.addNew);
-                $scope.localReservavel.periodo.splice(indexArrPrincipal, 1);
                 $scope.objPeriodoAtual.splice(indexAtual, 1);
             }
         }
@@ -276,7 +274,8 @@ angular.module('ReservasModule').controller('LocalReservavelCtrl',
                 UtilsService.toastSuccess("Local salvo com sucesso!");
                 $scope.resetLocal();
                 $('#cadastroLocal').modal('hide');
-                $scope.getLocais();
+                $("#loading").modal("show");
+                $scope.getLocaisReservaveis();
 
             }, function(error) {
                 UtilsService.openAlert(e.data.message);
@@ -329,6 +328,7 @@ angular.module('ReservasModule').controller('LocalReservavelCtrl',
                 }
 
                 $scope.step = 1;
+                $scope.periodoAtual = 'seg';
                 $('#cadastroLocal').modal('show');
 
             }).finally( () => $("#loading").modal("hide") );
@@ -340,7 +340,9 @@ angular.module('ReservasModule').controller('LocalReservavelCtrl',
             promisse.then( function (result){
                 let res = result.data.data;
                 UtilsService.toastSuccess(res);
-                $('#cadastroLocal').modal('show');
+                $('#cadastroLocal').modal('hide');
+                $scope.resetLocal();
+                $scope.getLocaisReservaveis();
             }).catch( function (e) {
                 UtilsService.openAlert(e.data.message);
             }).finally( () => $("#loading").modal("hide") )

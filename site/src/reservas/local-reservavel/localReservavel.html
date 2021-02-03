@@ -1,4 +1,4 @@
-<link rel="stylesheet" href="src/reservas/local-reservavel/localReservavel.ctrl.css">
+<link rel="stylesheet" href="src/reservas/local-reservavel/localReservavel.css">
 
 <div class="header">
     <div header></div>
@@ -29,7 +29,7 @@
             <div class="row" style="height: auto; margin: 10px 2%">
                 <div class="row ba__margin-top-20">
                     <h3 class="col-md-15 Roboto-Light">
-                        <strong>{{locais.length || 0}}</strong> Registros encontrados</h3>
+                        <strong>{{locaisReservaveis.length || 0}}</strong> Registros encontrados</h3>
                     <button type="button" class="btn btn-success col-xs-offset-3 col-xs-4 uppercase" style="margin-top: 12px"
                             data-toggle="modal" ng-click="createNovoLocal()" ng-if="accessPagina.inserir">
                         Novo Local
@@ -60,7 +60,7 @@
                         <h5 class="col-xs-5 list-group-item-heading">{{local.localidade.descricao}}</h5>
                         <h5 class="col-xs-5 list-group-item-heading">{{local.nome}}</h5>
                         <h5 class="col-xs-7 list-group-item-heading">{{local.descricao}}</h5>
-                        <h5 class="col-xs-7 list-group-item-heading">{{local.capacidade}}</h5>
+                        <h5 class="col-xs-7 list-group-item-heading">{{local.capacidade || '--'}}</h5>
                     </a>
                 </div>
 

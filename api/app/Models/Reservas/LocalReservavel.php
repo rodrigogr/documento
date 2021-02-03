@@ -27,7 +27,9 @@ class LocalReservavel extends Model
 
     public static function simples()
     {
-        return self::with('localidade')->select(array('id', 'nome', 'descricao', 'id_localidade', 'capacidade'))->get();
+        return self::with('localidade')->select(array('id', 'nome', 'descricao', 'id_localidade', 'capacidade'))
+            ->orderBy('id','desc')
+            ->get();
     }
 
     public static function complete($id)

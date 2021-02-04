@@ -1,9 +1,0 @@
-ul.tabs-aprovacao {
-    border-bottom: 2px solid #C1C1C1;
-}
-.tabs-aprovacao > li > a {
-    background: none;
-}
-.tabs-aprovacao > li.active > a {
-    background: none;
-}

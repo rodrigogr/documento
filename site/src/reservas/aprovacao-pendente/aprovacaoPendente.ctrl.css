@@ -1,0 +1,22 @@
+ul.tabs-aprovacao {
+    border-bottom: 2px solid #C1C1C1;
+}
+.tabs-aprovacao > li > a {
+    background: none;
+    border-bottom: 5px solid transparent !important;
+}
+.tabs-aprovacao > li.active > a {
+    background: none;
+}
+.list-localidade-locaisReservaveis li {
+    font-size: 20px;
+}
+.list-localidade-locaisReservaveis li:hover{
+    background: #ed6c44 !important;
+    color: #FFF;
+    cursor: pointer;
+}
+.list-localidade-locaisReservaveis span {
+    float: right;
+    color: #FFFFFF;
+}

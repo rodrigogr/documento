@@ -14,20 +14,20 @@ angular.module('ReservasModule', [
 		$stateProvider
 			.state('reservaLocal', {
 				url: "/reservas/local",
-				templateUrl: 'src/reservas/local-reservavel/localReservavel.html',
+				templateUrl: 'src/reservas/local-reservavel/localReservavel.ctrl.html',
 				controller: 'LocalReservavelCtrl',
 				resolve: {onEnter: () => window.stop()}
 			})
 			.state('reservaCalendario', {
 				url: "/reservas/calendario",
-				templateUrl: 'src/reservas/calendario-reserva/calendarioReserva.html',
+				templateUrl: 'src/reservas/calendario-reserva/calendarioReserva.ctrl.html',
 				controller: 'CalendarioReservaCtrl',
 				resolve: {onEnter: () => window.stop()}
 			})
 			.state('reservaAprovacao', {
 				url: "/reservas/aprovacao",
-				templateUrl: 'src/reservas/aprovacao-pendente/aprovacaoPendente.html',
-				controller: 'AprovacaoReservaCtrl',
+				templateUrl: 'src/reservas/aprovacao-pendente/aprovacaoPendente.ctrl.html',
+				controller: 'AprovacaoPendenteCtrl',
 				resolve: {onEnter: () => window.stop()}
 			});
 	});

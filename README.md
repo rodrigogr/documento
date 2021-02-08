@@ -9,7 +9,6 @@
     * Tokenizer PHP Extension
     * XML PHP Extension
     * GD PHP Extension
-    * Intl PHP extension
 
     1.2 SITE - Angular 
     * NODEJS >=6.0.0

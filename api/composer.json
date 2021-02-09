@@ -10,7 +10,6 @@
         "barryvdh/laravel-ide-helper": "v2.2.1",
         "barryvdh/laravel-debugbar": "v2.3.0",
         "resultsystems/validation": "~3.0",
-        "eduardokum/laravel-boleto": "0.8",
         "mpdf/mpdf": "^6.1",
         "guzzlehttp/guzzle": "^6.2",
         "respect/validation": "*",

@@ -25,6 +25,13 @@ class CheckToken extends BaseMiddleware
      */
     public function handle($request, \Closure $next)
     {
+        /*$uri = explode('/',$request->route()->getUri());
+        if ($uri[1] == 'app') {
+            //$url = str_replace('app/5eec33a37ed64e42575b84f1abc8a27843b1a050/', '', $request->getUri());
+            //return redirect($url);
+            return redirect('api/localreservavel/3');
+        }*/
+
         if (! $token = $this->auth->setRequest($request)->getToken()) {
             //return $this->respond('tymon.jwt.absent', 'token_not_provided', 400);
             return $this->response->json(['error' => 'Erro de autenticação. Credenciais não foram encontradas!<br>Faça login.'], 400);

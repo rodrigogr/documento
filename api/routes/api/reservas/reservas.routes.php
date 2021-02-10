@@ -20,6 +20,7 @@ Route::group(['middleware' => 'jwt.auth'], function ()
     Route::group(['prefix' => 'reserva'], function () {
         Route::post('/', 'reservas\ReservaController@store');
         Route::get('/data/{data}', 'reservas\ReservaController@completoByData');
+        Route::get('/data/{data}/{id_local_reservavel}', 'reservas\ReservaController@completoByDataLocalReservavel');
         Route::get('/{id}', 'reservas\ReservaController@show');
         Route::put('/{id}', 'reservas\ReservaController@update');
         Route::delete('/{id}', 'reservas\ReservaController@cancelar');

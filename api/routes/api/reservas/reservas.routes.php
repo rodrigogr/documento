@@ -32,4 +32,6 @@ Route::group(['middleware' => 'jwt.auth'], function ()
         Route::put('/{id}', 'reservas\ReservaController@update');
         Route::delete('/{id}', 'reservas\ReservaController@cancelar');
     });
+
+    Route::get('localidades/locais_reservaveis', 'LocalidadeController@locaisReservaveis');
 });

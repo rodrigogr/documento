@@ -155,11 +155,11 @@
                                                 <h5 class="text-right">Imagem do local</h5>
                                             </div>
                                             <div class="col-md-10 col-md-offset-1">
-                                                <input type="file" id="inputFoto" name="foto" class="hide" onchange="angular.element(this).scope().changeInputField(this, 'foto')">
+                                                <input type="file" id="inputFoto" ng-model="localReservavel.foto_local" name="foto" class="hide" onchange="angular.element(this).scope().changeInputField(this, 'foto')">
                                                 <div class="input-group">
                                                     <span style="display: inline-flex">
                                                         <img src="img/ins_foto.jpg" ng-click="addFotoLocal()" class="imgAdd-localReservavel">
-                                                        <img ng-if="localReservavel.foto" ng-src="localReservavel.foto.url" class="img-localReservavel">
+                                                        <img src="{{localReservavel.foto}}" class="img-localReservavel">
                                                     </span>
                                                 </div>
                                             </div>

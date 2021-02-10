@@ -75,8 +75,11 @@ class LocalReservavelController extends Controller
     public function update(LocalReservavelRequest $request, $id)
     {
         try {
-            $Data = LocalReservavel::find($id);
             $data = $request->all();
+            echo "<pre>";
+            print_r($data);
+            exit();
+            $Data = LocalReservavel::find($id);
             $Data->update($data);
 
             foreach ($data["periodo"] as $key => $dia_semana) {

@@ -79,9 +79,9 @@ angular.module('ReservasModule').controller('LocalReservavelCtrl',
 
                 }
                 if (ele.name == 'foto') {
-                    $scope.localReservavel.foto = { url: URL.createObjectURL(file) };
+                    $scope.localReservavel.foto = URL.createObjectURL(file);
                 } else {
-                    $scope.localReservavel.regra = { url: URL.createObjectURL(file) };
+                    $scope.localReservavel.regra = URL.createObjectURL(file);
                 }
 
                 $scope.getbase64(file, ele.name);
@@ -274,13 +274,12 @@ angular.module('ReservasModule').controller('LocalReservavelCtrl',
                 UtilsService.toastSuccess("Local salvo com sucesso!");
                 $scope.resetLocal();
                 $('#cadastroLocal').modal('hide');
-                $("#loading").modal("show");
                 $scope.getLocaisReservaveis();
 
             }, function(error) {
                 UtilsService.openAlert(e.data.message);
 
-            }).finally( () => { $("#loading").modal("show") });
+            }).finally( () => { $("#loading").modal("hide") });
         }
 
         $scope.editarLocal = function (id) {

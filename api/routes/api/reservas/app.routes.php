@@ -22,3 +22,5 @@
         Route::put('/{id}', 'reservas\ReservaController@update');
         Route::delete('/{id}', 'reservas\ReservaController@cancelar');
     });
+
+    Route::get('5eec33a37ed64e42575b84f1abc8a27843b1a050/localidades/locais_reservaveis', 'LocalidadeController@locaisReservaveis');

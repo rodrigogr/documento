@@ -52,6 +52,16 @@ class ReservaController extends Controller
         return response()->error(trans('messages.crud.FSE', ['name' => $this->name]));
     }
 
+    public function completoByDataLocalReservavel($data, $id_local_reservavel)
+    {
+        $Data = PeriodoLocalReservavel::completoByDataLocalReservavel($data, $id_local_reservavel);
+//        $Data = Reserva::all();
+        if (count($Data)) {
+            return response()->success($Data);
+        }
+        return response()->error(trans('messages.crud.FSE', ['name' => $this->name]));
+    }
+
     public function update(ReservaRequest $request, $id)
     {
         $data = $request->all();

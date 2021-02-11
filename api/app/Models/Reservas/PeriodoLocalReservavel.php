@@ -30,12 +30,13 @@ class PeriodoLocalReservavel extends Model
 
     public static function completoByDataLocalReservavel($data, $id_local_reservavel)
     {
-        return self::leftJoin('reserva as r', function ($q) use($data) {
+        return self::leftJoin('reserva as r', function ($q) use($data, $id_local_reservavel) {
             $q->on('r.data',\DB::raw("'".$data."'"));
             $q->on('r.id_periodo','periodo_local_reservavel.id');
+            $q->on('r.id_local_reservavel', \DB::raw($id_local_reservavel));
         })
-            ->with(['imovel','pessoa','localReservavel','localidade'])
-            ->where('local_reservavel.id',$id_local_reservavel)
+            ->with(['imovel','pessoa','localReservavel'])
+            ->where('periodo_local_reservavel.id_local_reservavel', $id_local_reservavel)
             ->orderBy('periodo_local_reservavel.hora_ini')
             ->get();
     }

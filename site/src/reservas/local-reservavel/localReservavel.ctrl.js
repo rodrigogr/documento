@@ -1,6 +1,7 @@
 'use strict'
 angular.module('ReservasModule').controller('LocalReservavelCtrl',
     function ($scope, $state, $http, HeaderFactory, AuthService, UtilsService, config) {
+
         HeaderFactory.setHeader('reservas', 'Locais reserváveis');
         let user = JSON.parse(localStorage.getItem("bioacs-uid"));
         AuthService.aclPaginaService($state.$current.name, user.id).then(result => $scope.accessPagina = result.data);
@@ -12,8 +13,8 @@ angular.module('ReservasModule').controller('LocalReservavelCtrl',
                 descricao: '',
                 check_capacidade: false,
                 capacidade: 0,
-                regra: '',
-                foto: '',
+                regra_local: '',
+                foto_local: '',
                 dadosVisiveis: false,
                 antecedenciaMaxReserva: 0,
                 antecedenciaMaxReservaTempo: 'horas',
@@ -35,6 +36,10 @@ angular.module('ReservasModule').controller('LocalReservavelCtrl',
             }
             $scope.periodoAtual = 'seg';
             $scope.objPeriodoAtual = [];
+            $scope.arquivoIcon = '';
+            $scope.arquivoNome = '';
+            $("#inputFoto").val('');
+            $("#inputRegra").val('');
         }
         $scope.manterHorarios = false;
         $scope.addNovoPeriodo = 0;
@@ -76,12 +81,12 @@ angular.module('ReservasModule').controller('LocalReservavelCtrl',
             if (ele.files.length > 0) {
                 if (file > 10485760) {
                     return UtilsService.openAlert('Tamanho máximo de anexos permitido foi atingido: 10MB');
-
                 }
-                if (ele.name == 'foto') {
+                if (ele.name == 'foto_local') {
                     $scope.localReservavel.foto = URL.createObjectURL(file);
                 } else {
                     $scope.localReservavel.regra = URL.createObjectURL(file);
+                    iconArquivo(ele.files[0]);
                 }
 
                 $scope.getbase64(file, ele.name);
@@ -98,7 +103,7 @@ angular.module('ReservasModule').controller('LocalReservavelCtrl',
             let r = new FileReader();
 
             r.onloadend = function (e) {
-                $scope.localReservavel[el].base64 = e.target.result;
+                $scope.localReservavel[el] = e.target.result;
                 $scope.$apply();
             };
             r.readAsDataURL(f);
@@ -345,6 +350,42 @@ angular.module('ReservasModule').controller('LocalReservavelCtrl',
             }).catch( function (e) {
                 UtilsService.openAlert(e.data.message);
             }).finally( () => $("#loading").modal("hide") )
+        }
+
+        function iconArquivo(file) {
+            var tipoFile = file.name.split('.')[1];
+            var icon = 'file';
+            switch (tipoFile) {
+                case "jpeg":
+                case "jpg":
+                    icon = 'jpeg';
+                    break;
+                case "png":
+                    icon = 'png';
+                    break;
+                case "doc":
+                case "docx":
+                    icon = 'word';
+                    break;
+                case "xml":
+                case "xls":
+                case "xlsx":
+                    icon = 'excel';
+                    break;
+                case "pdf":
+                    icon = 'pdf';
+                    break;
+                case "txt":
+                    icon = 'txt'
+                    break;
+            }
+            $scope.arquivoIcon = 'img/icons/icon_'+icon+'.png';
+            $scope.arquivoNome = file.name;
+        }
+
+        $scope.abreDocumento = function () {
+            let file = $scope.localReservavel.regra ? $scope.localReservavel.regra : $scope.localReservavel.regra_local;
+            window.open(file,'_blank');
         }
 
     });

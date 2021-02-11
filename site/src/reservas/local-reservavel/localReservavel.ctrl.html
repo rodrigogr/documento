@@ -144,10 +144,20 @@
                                             <div class="col-md-3 col-md-offset-1">
                                                 <h5 class="text-right">Regras de Utilização</h5>
                                             </div>
-                                            <div class="col-md-19 col-md-offset-1">
+                                            <div class="col-md-10 col-md-offset-1">
                                                 <!--<button class="btn btn-default pull-left ba__margin-right-15">ANEXAR ARQUIVO</button>-->
-                                                <input class="ba__font-size-12" type="file" name="regra" onchange="angular.element(this).scope().changeInputField(this, 'regra')">
-                                                <span class="col-md-14 ba__font-size-12 ba__font-color-gray ba__margin-top-10" >Arquivos de no max 10MB, nas extensões .PDF, .DOC, .DOCX, .XLS, .XLSX, .JPG ou .TXT</span>
+                                                <input class="ba__font-size-12 pull-left" type="file" id="inputRegra" name="regra_local" onchange="angular.element(this).scope().changeInputField(this, 'regra')">
+                                                <span class="ba__font-size-12 pull-left ba__font-color-gray ba__margin-top-10" style="clear: both;" >Arquivos de no max 10MB, nas extensões .PDF, .DOC, .DOCX, .XLS, .XLSX, .JPG ou .TXT</span>
+                                            </div>
+                                            <div class="col-md-8">
+                                                <a ng-if="localReservavel.regra_local && arquivoIcon" href="javascript:void(0)" ng-click="abreDocumento()">
+                                                    <img src="{{arquivoIcon}}">
+                                                    <i style="font-size: 17px;">{{arquivoNome}}</i>
+                                                </a>
+                                                <a ng-if="localReservavel.regra_local && !arquivoIcon" href="javascript:void(0)" ng-click="abreDocumento()">
+                                                    <img src="img/icons/icon_file.png">
+                                                    <i style="font-size: 17px;">arquivo regra</i>
+                                                </a>
                                             </div>
                                         </div>
                                         <div class="row ba__margin-bottom-30">
@@ -155,11 +165,11 @@
                                                 <h5 class="text-right">Imagem do local</h5>
                                             </div>
                                             <div class="col-md-10 col-md-offset-1">
-                                                <input type="file" id="inputFoto" ng-model="localReservavel.foto_local" name="foto" class="hide" onchange="angular.element(this).scope().changeInputField(this, 'foto')">
+                                                <input type="file" id="inputFoto" name="foto_local" class="hide" onchange="angular.element(this).scope().changeInputField(this, 'foto')">
                                                 <div class="input-group">
                                                     <span style="display: inline-flex">
                                                         <img src="img/ins_foto.jpg" ng-click="addFotoLocal()" class="imgAdd-localReservavel">
-                                                        <img src="{{localReservavel.foto}}" class="img-localReservavel">
+                                                        <img src="{{localReservavel.foto_local}}" class="img-localReservavel">
                                                     </span>
                                                 </div>
                                             </div>

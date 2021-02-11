@@ -44,6 +44,7 @@ return [
         //GETALL
         'MAE' => 'Nenhum :name cadastrado ainda.',
         'FAE' => 'Nenhuma :name cadastrada ainda.',
+        'FGAE' => 'Erro ao buscar as :name'.'s'.'.',
     ]
 
 ];

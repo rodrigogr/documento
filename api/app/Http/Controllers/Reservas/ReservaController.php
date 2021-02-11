@@ -59,7 +59,7 @@ class ReservaController extends Controller
         if (count($Data)) {
             return response()->success($Data);
         }
-        return response()->error(trans('messages.crud.FSE', ['name' => $this->name]));
+        return response()->error(trans('messages.crud.FGAE', ['name' => $this->name]));
     }
 
     public function update(ReservaRequest $request, $id)

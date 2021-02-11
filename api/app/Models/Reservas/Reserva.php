@@ -7,7 +7,6 @@ use Illuminate\Support\Facades\DB;
 
 class Reserva extends Model
 {
-    protected $connection = 'portal';
     protected $table = 'reserva';
     protected $fillable = [
         'id_local_reservavel',

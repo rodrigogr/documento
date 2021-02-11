@@ -5,7 +5,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class PeriodoLocalReservavel extends Model
 {
-    protected $connection = 'portal';
     protected $table = 'periodo_local_reservavel';
     public $timestamps = false;
     protected $fillable = [
@@ -35,9 +34,10 @@ class PeriodoLocalReservavel extends Model
             $q->on('r.id_periodo','periodo_local_reservavel.id');
             $q->on('r.id_local_reservavel', \DB::raw($id_local_reservavel));
         })
-            ->with(['imovel','pessoa','localReservavel'])
+            ->with(['imovel','pessoa','localReservavel','diaInativo'])
             ->where('periodo_local_reservavel.id_local_reservavel', $id_local_reservavel)
             ->orderBy('periodo_local_reservavel.hora_ini')
+            ->select('periodo_local_reservavel.*', 'r.id_imovel as reserva_idImovel', 'r.id_pessoa as reserva_idPessoa', 'r.status as reserva_status')
             ->get();
     }
 
@@ -59,6 +59,11 @@ class PeriodoLocalReservavel extends Model
     public function localidade()
     {
         return $this->belongsTo('App\Models\Localidade', 'id_localidade');
+    }
+
+    public function diaInativo()
+    {
+        return $this->hasMany('App\Models\Reservas\DiaInativoLocalReservavel','id_local_reservavel','id_local_reservavel');
     }
 
 }

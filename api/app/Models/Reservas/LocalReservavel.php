@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\DB;
 
 class LocalReservavel extends Model
 {
-    protected $connection = 'portal';
+    protected $connection = 'mysql';
     protected $table = 'local_reservavel';
     protected $fillable = [
         'id_localidade',

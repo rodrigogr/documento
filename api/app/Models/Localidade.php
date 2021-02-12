@@ -38,6 +38,6 @@ class Localidade extends Model
 
     public function locaisReservaveis()
     {
-        return $this->hasMany('App\Models\Reservas\LocalReservavel','id','id_localidade');
+        return $this->hasMany('App\Models\Reservas\LocalReservavel','id_localidade');
     }
 }

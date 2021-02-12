@@ -2,14 +2,6 @@
 
 Route::group(['middleware' => 'jwt.auth'], function ()
 {
-    /*Route::group(['prefix' => 'app'], function () {
-        //Route::any('5eec33a37ed64e42575b84f1abc8a27843b1a050/{??}', function () {
-        //    echo 'teste';
-        //});
-        Route::pattern('path', '[a-zA-Z0-9-/]+');
-        Route::get('5eec33a37ed64e42575b84f1abc8a27843b1a050/{path}', function(){});
-    });*/
-
     Route::group(['prefix' => 'localreservavel'], function () {
         Route::get('', 'reservas\LocalReservavelController@index');
         Route::post('/', 'reservas\LocalReservavelController@store');

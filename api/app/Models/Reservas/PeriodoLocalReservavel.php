@@ -37,7 +37,11 @@ class PeriodoLocalReservavel extends Model
             ->with(['imovel','pessoa','localReservavel','diaInativo'])
             ->where('periodo_local_reservavel.id_local_reservavel', $id_local_reservavel)
             ->orderBy('periodo_local_reservavel.hora_ini')
-            ->select('periodo_local_reservavel.*', 'r.id_imovel as reserva_idImovel', 'r.id_pessoa as reserva_idPessoa', 'r.status as reserva_status')
+            ->select('periodo_local_reservavel.*',  'r.id_imovel as reserva_idImovel',
+                                                    'r.id_pessoa as reserva_idPessoa',
+                                                    'r.status as reserva_status',
+                                                    'r.id_imovel',
+                                                    'r.id_pessoa')
             ->get();
     }
 

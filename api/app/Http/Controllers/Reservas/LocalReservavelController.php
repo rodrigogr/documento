@@ -76,9 +76,7 @@ class LocalReservavelController extends Controller
     {
         try {
             $data = $request->all();
-            echo "<pre>";
-            print_r($data);
-            exit();
+
             $Data = LocalReservavel::find($id);
             $Data->update($data);
 

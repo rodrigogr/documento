@@ -20,6 +20,7 @@ class Localidade extends Model
 
     public static function getLocaisReservaveis()
     {
+        //return self::join
         return self::with('locaisReservaveis')->get();
     }
 
@@ -37,6 +38,6 @@ class Localidade extends Model
 
     public function locaisReservaveis()
     {
-        return $this->hasMany('App\Models\Reservas\LocalReservavel','id_localidade');
+        return $this->hasMany('App\Models\Reservas\LocalReservavel','id','id_localidade');
     }
 }

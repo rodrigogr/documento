@@ -123,3 +123,13 @@ input[type=number] {
     width: 50%;
     top: 38%;
 }
+.lista-head {
+    background: inherit;
+    border-left: 0;
+    border-top: 0;
+}
+a.lista-head:hover {
+    cursor: default !important;
+    background-color: inherit;
+    border-left: 0
+}

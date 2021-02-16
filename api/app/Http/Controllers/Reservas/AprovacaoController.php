@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\Reservas;
 
 use App\Http\Controllers\Controller;
+use App\Models\Reservas\PeriodoLocalReservavel;
 use App\Models\Reservas\Reserva;
+use App\Services\Reservas\ReservaService;
 
 class AprovacaoController extends Controller
 {
@@ -11,7 +13,10 @@ class AprovacaoController extends Controller
 
     public function hoje()
     {
-        $Data = Reserva::aprovacaoPendente();
+        $hoje = date('Y-m-d');
+        $dia_semana = ReservaService::diaSemana($hoje);
+        $Data = Reserva::aprovacaoPendenteHoje($hoje, $dia_semana);
+
         if (count($Data)) {
             return response()->success($Data);
         }

@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Reservas\ReservaRequest;
 use App\Models\Reservas\PeriodoLocalReservavel;
 use App\Models\Reservas\Reserva;
+use App\Services\Reservas\ReservaService;
 
 class ReservaController extends Controller
 {
@@ -44,18 +45,20 @@ class ReservaController extends Controller
 
     public function completoByData($data)
     {
-        $Data = PeriodoLocalReservavel::completoByData($data);
-//        $Data = Reserva::all();
+        $dia_semana = ReservaService::diaSemana($data);
+        $Data = PeriodoLocalReservavel::completoByData($data, $dia_semana);
+
         if (count($Data)) {
             return response()->success($Data);
         }
-        return response()->error(trans('messages.crud.FSE', ['name' => $this->name]));
+        return response()->error(trans('messages.crud.FGAE', ['name' => $this->name]).' nesta data.');
     }
 
     public function completoByDataLocalReservavel($data, $id_local_reservavel)
     {
-        $Data = PeriodoLocalReservavel::completoByDataLocalReservavel($data, $id_local_reservavel);
-//        $Data = Reserva::all();
+        $dia_semana = ReservaService::diaSemana($data);
+        $Data = PeriodoLocalReservavel::completoByDataLocalReservavel($data, $id_local_reservavel, $dia_semana);
+
         if (count($Data)) {
             return response()->success($Data);
         }

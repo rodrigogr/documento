@@ -32,24 +32,24 @@ class Reserva extends Model
             ->with(['periodoLocalReservavel','localReservavel','imovel','pessoa'])
             ->orderBy('plr.hora_ini')
             ->get();
+    }
 
-        //RETORNAR ESTE SQL
-        /*select
-        	plr.dia_semana ,
-        	plr.hora_ini,
-        	r.*
-        from
-        	periodo_local_reservavel plr
-        	left join reserva r on r.id_periodo = plr.id
-        		and r.`data` ='2021-01-30'
-        where
-        	plr.dia_semana = 'seg'*/
-
-        /*return self::where('data', $data)->with(['periodoLocalReservavel' => function($query) {
-            $query->select('id','hora_ini','hora_fim')->orderBy('hora_ini','desc');
-        }])->get();*/
-        //return self::where('data', $data)->with(['localReservavel','periodoLocalReservavel','imovel', 'pessoa'])->get();
-        //->get()->sortBy('periodo_local_reservavel.hora_ini',SORT_REGULAR,true);
+    public static function aprovacaoPendenteHoje($data, $dia_semana)
+    {
+        return DB::table('periodo_local_reservavel')->join('reserva as r', function ($q) use($data) {
+            $q->on('r.data',\DB::raw("'".$data."'"));
+            $q->on('r.id_periodo','periodo_local_reservavel.id');
+            $q->where('r.status','=','pendente');
+        })
+            ->with(['imovel','pessoa','localReservavel','diaInativo'])
+            ->where('periodo_local_reservavel.dia_semana', $dia_semana)
+            ->orderBy('periodo_local_reservavel.hora_ini')
+            ->select('periodo_local_reservavel.*', 'r.id_imovel as reserva_idImovel',
+                'r.id_pessoa as reserva_idPessoa',
+                'r.status as reserva_status',
+                'r.id_imovel',
+                'r.id_pessoa')
+            ->get();
     }
 
     public function localReservavel()

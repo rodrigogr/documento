@@ -1,6 +1,6 @@
 'use strict'
 angular.module('ReservasModule').controller('AprovacaoPendenteCtrl',
-    function ($scope, $http, $state, UtilsService, HeaderFactory, AuthService) {
+    function ($scope, $http, $state, UtilsService, HeaderFactory, AuthService, config) {
 
         HeaderFactory.setHeader('reservas', 'Aprovações Pendentes');
         let user = JSON.parse(localStorage.getItem("bioacs-uid"));
@@ -15,8 +15,17 @@ angular.module('ReservasModule').controller('AprovacaoPendenteCtrl',
         }
 
         async function getAllLocaisReservaveis() {
-            let result = await $http.get(`${config.apiUrl}api/localidades/locais_reservaveis`);
-            $scope.pendentes = result.data.data;
+            $scope.loadLocais = false;
+            let result = await $http.get(`${config.apiUrl}api/localidades/locais_reservaveis`).finally(() => $scope.loadLocais = true);
+            $scope.locaisReservaveis = result.data.data;
         }
         getAllLocaisReservaveis();
+
+        async function todosHoje() {
+            let result = await $http.get(`${config.apiUrl}api/aprovacao/pendentes/hoje`);
+            $scope.pendentes = result.data.data;
+        }
+        todosHoje();
+
+
     });

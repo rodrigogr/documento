@@ -34,10 +34,10 @@ class Reserva extends Model
             ->get();
     }
 
-    public static function aprovacaoPendenteHoje($data, $dia_semana)
+    public static function aprovacaoPendenteHoje($hoje, $dia_semana)
     {
-        return DB::table('periodo_local_reservavel')->join('reserva as r', function ($q) use($data) {
-            $q->on('r.data',\DB::raw("'".$data."'"));
+        return PeriodoLocalReservavel::join('reserva as r', function ($q) use($hoje) {
+            $q->on('r.data',\DB::raw("'".$hoje."'"));
             $q->on('r.id_periodo','periodo_local_reservavel.id');
             $q->where('r.status','=','pendente');
         })
@@ -70,5 +70,10 @@ class Reserva extends Model
     public function pessoa()
     {
         return $this->belongsTo('App\Models\Pessoa', 'id_pessoa');
+    }
+
+    public function diaInativo()
+    {
+        return $this->hasMany('App\Models\Reservas\DiaInativoLocalReservavel','id_local_reservavel','id_local_reservavel');
     }
 }

@@ -38,12 +38,19 @@
             <div class="tab-content" style="margin: 40px 2%">
                 <div class="row">
                     <div class="col-xs-8">
-                        <ul class="list-group list-localidade-locaisReservaveis" style="margin-bottom: 0;box-shadow: 0px 3px 4px #999;">
-                            <li class="list-group-item">Todos <span> > </span></li>
-                            <li class="list-group-item">Dapibus ac facilisis in <span> > </span></li>
-                            <li class="list-group-item">Morbi leo risus <span> > </span></li>
-                            <li class="list-group-item">Porta ac consectetur ac <span> > </span></li>
-                            <li class="list-group-item">Vestibulum at eros <span> > </span></li>
+                        <span ng-if="!loadLocais"><i class="fa fa-cog fa-spin ba__font-size-17"></i></span>
+                        <ul ng-if="loadLocais"
+                            class="list-group list-localidade-locaisReservaveis"
+                            style="margin-bottom: 0;box-shadow: 0px 3px 4px #999;"
+                            ng-repeat="localidade in locaisReservaveis">
+                            <li class="list-group-item">{{localidade.descricao}} <span> > </span></li>
+                            <ul>
+                                <li class="list-group-item"
+                                    ng-repeat="locais in localidade.locais_reservaveis">
+                                        {{locais.nome}} <span> > </span>
+                                </li>
+                            </ul>
+
                         </ul>
                     </div>
                     <div class="col-xs-14 col-xs-offset-2">dias</div>

@@ -171,7 +171,7 @@ Route::group(['middleware' => 'jwt.auth'], function () {
 //Route::resource('ramo_atividades', 'RamoAtividadeController');
 //Route::resource('tipo_correspondencias', 'TipoCorrespondenciaController');
     Route::resource('tipo_telefones', 'TipoTelefoneController');
-    Route::resource('localidades', 'LocalidadeController');
+    //Route::resource('localidades', 'LocalidadeController');
     Route::resource('situacao_imovels', 'SituacaoImovelController');
     Route::resource('tipo_area_externas', 'TipoAreaExternaController');
     Route::resource('associados', 'AssociadoController');

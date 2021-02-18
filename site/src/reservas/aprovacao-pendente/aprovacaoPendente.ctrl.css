@@ -8,15 +8,35 @@ ul.tabs-aprovacao {
 .tabs-aprovacao > li.active > a {
     background: none;
 }
-.list-localidade-locaisReservaveis li {
-    font-size: 20px;
+.list-localidade-locaisReservaveis {
+    max-height: 500px;
+    overflow-y: auto;
+    overflow-x: hidden;
 }
-.list-localidade-locaisReservaveis li:hover{
-    background: #ed6c44 !important;
-    color: #FFF;
-    cursor: pointer;
+.list-localidade-locaisReservaveis dt {
+    background-color: #FFF;
 }
-.list-localidade-locaisReservaveis span {
-    float: right;
+.list-localidade-locaisReservaveis dd:nth-child(odd) {
+    background-color: #EFEFEF;
+}
+.list-localidade-locaisReservaveis dd:nth-child(even) {
+    background-color: #FFFFFF;
+}
+.list-localidade {
+    font-size: 18px;
+    padding: 10px 20px;
+    transition: all .15s ease-in-out;
+}
+.list-locaisReservaveis {
+    font-size: 17px;
+    padding: 10px 30px;
+    transition: all .08s ease-in-out;
+}
+.list-localidade:hover,.list-localidade-locaisReservaveis dd:hover {
+    background: #ed6c44 url(../../../img/arrow-rigth-white.png) 100% center no-repeat;
+    background-size: 32px;
     color: #FFFFFF;
+    font-weight: normal;
+    cursor: pointer;
+    transform: scale(1.01);
 }

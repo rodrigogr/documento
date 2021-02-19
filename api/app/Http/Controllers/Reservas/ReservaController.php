@@ -14,7 +14,7 @@ class ReservaController extends Controller
 
     public function index()
     {
-        $Data = Reserva::simples();
+        $Data = Reserva::allCompleto();
         if (count($Data)) {
             return response()->success($Data);
         }
@@ -36,7 +36,7 @@ class ReservaController extends Controller
 
     public function show($id)
     {
-        $Data = Reserva::complete($id);
+        $Data = Reserva::simples($id);
         if (count($Data)) {
             return response()->success($Data);
         }
@@ -63,6 +63,46 @@ class ReservaController extends Controller
             return response()->success($Data);
         }
         return response()->error(trans('messages.crud.FGAE', ['name' => $this->name]));
+    }
+
+    public function completoByImovel($idImovel)
+    {
+        $Data = Reserva::completoByImovel($idImovel);
+        if (count($Data)) {
+            return response()->success($Data);
+        }
+        return response()->error(trans('messages.crud.MAE', ['name' => $this->name]));
+    }
+
+    public function completoByStatus($status)
+    {
+        $Data = Reserva::completoByStatus($status);
+        if (count($Data)) {
+            return response()->success($Data);
+        }
+        return response()->error(trans('messages.crud.MAE', ['name' => $this->name]));
+    }
+
+    public function completoById($id)
+    {
+        $Data = Reserva::completoById($id);
+        if (count($Data)) {
+            return response()->success($Data);
+        }
+        return response()->error(trans('messages.crud.MAE', ['name' => $this->name]));
+    }
+
+    public function updateStatus($id, ReservaRequest $request )
+    {
+        $data = $request->all();
+        $reserva = Reserva::find($id);
+        $reserva->status = $data["status"];
+        $reserva->save();
+
+        if ($reserva) {
+            return response()->success($reserva);
+        }
+        return response()->error(trans('messages.crud.MAE', ['name' => $this->name]));
     }
 
     public function update(ReservaRequest $request, $id)

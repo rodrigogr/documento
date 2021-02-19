@@ -25,8 +25,10 @@ class ReservaRequest extends FormRequest
                     'id_pessoa' => 'required'
                 ];
             }
-            case 'PUT':
             case 'PATCH': {
+                return [];
+            }
+            case 'PUT': {
                 return [
                     'id_local_reservavel' => 'required',
                     'id_periodo' => 'required',

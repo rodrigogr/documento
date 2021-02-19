@@ -54,17 +54,6 @@ class Pessoa extends Model {
         return $this->attributes['cpf'] = DataHelper::getOnlyNumbers($value);
     }
 
-    public function getCpfAttribute($value)
-    {
-        $cpf_cnpj_cei = Util::onlyNumbers($value);
-
-        if (strlen($cpf_cnpj_cei) == 11) {
-            return DataHelper::mask($value, '###.###.###-##');
-        }
-        return DataHelper::mask($value, '##.###.###/####-##');
-
-    }
-
     public function setRgAttribute($value)
     {
         return $this->attributes['rg'] = DataHelper::getOnlyNumbers($value);

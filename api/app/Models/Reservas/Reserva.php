@@ -19,9 +19,10 @@ class Reserva extends Model
     public $timestamps = true;
     use SoftDeletes;
 
-    public static function simples()
+    public static function allCompleto()
     {
-        return self::with('localidade')->select(array('id', 'nome', 'descricao', 'id_localidade', 'capacidade'))->get();
+        return self::with(['localReservavel','periodoLocalReservavel','imovel','pessoa','diaInativo'])
+            ->get();
     }
 
     public static function completoByData($data)
@@ -49,6 +50,33 @@ class Reserva extends Model
                 'r.status as reserva_status',
                 'r.id_imovel',
                 'r.id_pessoa')
+            ->get();
+    }
+
+    public static function completoByImovel($idImovel)
+    {
+        return self::with(['localReservavel','periodoLocalReservavel','imovel','pessoa','diaInativo'])
+            ->where('id_imovel', $idImovel)
+            ->get();
+    }
+
+    public static function completoByStatus($status)
+    {
+        return self::with(['localReservavel','periodoLocalReservavel','imovel','pessoa','diaInativo'])
+            ->where('status', $status)
+            ->get();
+    }
+
+    public static function simples($id)
+    {
+        return self::where('id',$id)
+            ->get();
+    }
+
+    public static function completoById($id)
+    {
+        return self::with(['localReservavel','periodoLocalReservavel','imovel','pessoa','diaInativo'])
+            ->where('id', $id)
             ->get();
     }
 

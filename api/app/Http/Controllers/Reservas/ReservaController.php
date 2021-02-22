@@ -7,6 +7,7 @@ use App\Http\Requests\Reservas\ReservaRequest;
 use App\Models\Reservas\PeriodoLocalReservavel;
 use App\Models\Reservas\Reserva;
 use App\Services\Reservas\ReservaService;
+use Illuminate\Http\Request;
 
 class ReservaController extends Controller
 {
@@ -21,11 +22,12 @@ class ReservaController extends Controller
         return response()->error(trans('messages.crud.MAE', ['name' => $this->name]));
     }
 
-    public function store(ReservaRequest $request)
+    public function store(Request $request)
     {
         try {
-            $data = $request->all();
-            $reserva = Reserva::create($data);
+            foreach ($request->all() as $item) {
+                Reserva::create($item);
+            }
 
             return response()->success(trans('messages.crud.FSS', ['name' => $this->name]));
 

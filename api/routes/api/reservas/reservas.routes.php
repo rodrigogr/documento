@@ -25,10 +25,6 @@ Route::group(['middleware' => 'jwt.auth'], function ()
 
     Route::group(['prefix' => 'aprovacao'], function () {
         Route::get('/pendentes/hoje', 'reservas\AprovacaoController@hoje');
-        Route::get('/data/{data}', 'reservas\ReservaController@completoByData');
-        Route::get('/{id}', 'reservas\ReservaController@show');
-        Route::put('/{id}', 'reservas\ReservaController@update');
-        Route::delete('/{id}', 'reservas\ReservaController@cancelar');
     });
 
     Route::get('localidades/locais_reservaveis', 'LocalidadeController@locaisReservaveis');

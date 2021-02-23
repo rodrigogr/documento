@@ -6,6 +6,8 @@ angular.module('ReservasModule').controller('AprovacaoPendenteCtrl',
         let user = JSON.parse(localStorage.getItem("bioacs-uid"));
         AuthService.aclPaginaService($state.$current.name, user.id).then(result => $scope.accessPagina = result.data);
 
+        moment.locale('pt-br');
+
         $scope.contentActive = function(aba) {
             if (aba == 1) {
 
@@ -24,6 +26,11 @@ angular.module('ReservasModule').controller('AprovacaoPendenteCtrl',
         async function todosHoje() {
             let result = await $http.get(`${config.apiUrl}api/aprovacao/pendentes/hoje`);
             $scope.pendentes = result.data.data;
+            $scope.topicoData = {
+                dia: moment().format('D'),
+                mes: moment().format('MMMM'),
+                semana: moment().format('dddd')
+            };
         }
         todosHoje();
 

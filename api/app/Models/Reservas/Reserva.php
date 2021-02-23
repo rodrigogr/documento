@@ -4,6 +4,7 @@ namespace App\Models\Reservas;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\DB;
+use function foo\func;
 
 class Reserva extends Model
 {
@@ -40,9 +41,12 @@ class Reserva extends Model
         return PeriodoLocalReservavel::join('reserva as r', function ($q) use($hoje) {
             $q->on('r.data',\DB::raw("'".$hoje."'"));
             $q->on('r.id_periodo','periodo_local_reservavel.id');
-            $q->where('r.status','=','pendente');
         })
-            ->with(['imovel','pessoa','localReservavel','diaInativo'])
+            ->with(['imovel','pessoa','diaInativo'])
+            ->with(['localReservavel' => function ($q) {
+                $q->join('bioacesso_portaria.localidades','localidades.id','=','local_reservavel.id_localidade');
+                $q->select('localidades.descricao as localidade','local_reservavel.*');
+            }])
             ->where('periodo_local_reservavel.dia_semana', $dia_semana)
             ->orderBy('periodo_local_reservavel.hora_ini')
             ->select('periodo_local_reservavel.*', 'r.id_imovel as reserva_idImovel',
@@ -103,5 +107,10 @@ class Reserva extends Model
     public function diaInativo()
     {
         return $this->hasMany('App\Models\Reservas\DiaInativoLocalReservavel','id_local_reservavel','id_local_reservavel');
+    }
+
+    public function localidade()
+    {
+        return $this->belongsTo('App\Models\Localidade', 'id_pessoa');
     }
 }

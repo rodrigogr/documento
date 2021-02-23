@@ -25,10 +25,6 @@
 
     Route::group(['prefix' => '5eec33a37ed64e42575b84f1abc8a27843b1a050/aprovacao'], function () {
         Route::get('/pendentes/hoje', 'reservas\AprovacaoController@hoje');
-        Route::get('/data/{data}', 'reservas\ReservaController@completoByData');
-        Route::get('/{id}', 'reservas\ReservaController@show');
-        Route::put('/{id}', 'reservas\ReservaController@update');
-        Route::delete('/{id}', 'reservas\ReservaController@cancelar');
     });
 
     Route::get('5eec33a37ed64e42575b84f1abc8a27843b1a050/localidades/locais_reservaveis', 'LocalidadeController@locaisReservaveis');

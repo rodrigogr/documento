@@ -12,6 +12,14 @@ ul.tabs-aprovacao {
     max-height: 500px;
     overflow-y: auto;
     overflow-x: hidden;
+    linear-gradient(to left, transparent 17px, black 17px);
+    -webkit-mask-image: linear-gradient(to top, transparent, black),linear-gradient(to left, transparent 17px, black 17px);
+    -webkit-mask-size: 103% 20000px;
+    -webkit-mask-position: left bottom;
+    transition: mask-position 0.3s, -webkit-mask-position 0.3s;
+}
+.list-localidade-locaisReservaveis:hover {
+    -webkit-mask-position: left top;
 }
 .list-localidade-locaisReservaveis dt {
     background-color: #FFF;
@@ -39,4 +47,49 @@ ul.tabs-aprovacao {
     font-weight: normal;
     cursor: pointer;
     transform: scale(1.01);
+}
+.bloco-reservas {
+    background-color: #FFFFFF;
+    padding: 15px 30px;
+    border-radius: 8px;
+    margin-left: 20px;
+}
+.titulo-dia-mes {
+    margin-top: 10px;
+    color: #ed6c44;
+    font-weight: bold;
+}
+.titulo-semana {
+    font-size: 25px;
+    font-weight: normal;
+    color: #666;
+    margin-left: 10px;
+}
+.lista-reserva-dia {
+    padding: 20px 0;
+    border-bottom: 1px solid #CCCCCC;
+}
+.lista-reserva-dia .local {
+    font-size: 20px;
+    margin-bottom: 15px;
+}
+.lista-reserva-dia .periodo {
+    background: #cccccc85;
+    text-align: center;
+    font-size: 18px;
+    padding: 10px;
+    border-radius: 8px;
+}
+.lista-reserva-dia .status-local button {
+    font-size: 12px;
+    color: #965216;
+    background: #F2C94C;
+    border-radius: 17px;
+    width: 148px;
+    height: 28px;
+    margin-bottom: 10px;
+}
+.lista-reserva-dia .status-local p {
+    margin-bottom: 0;
+    font-size: 17px;
 }

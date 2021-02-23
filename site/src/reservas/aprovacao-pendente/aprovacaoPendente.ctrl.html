@@ -41,7 +41,7 @@
                         <span ng-if="!loadLocais"><i class="fa fa-cog fa-spin ba__font-size-17"></i></span>
                         <div ng-if="loadLocais">
                             <dl>
-                                <dt class="list-localidade">Todos</dt>
+                                <dt class="list-localidade" ng-click="todosHoje()">Todos</dt>
                             </dl>
                             <dl ng-repeat="localidade in locaisReservaveis">
                                 <dt class="list-localidade">{{localidade.descricao}}</dt>
@@ -52,7 +52,26 @@
                         </div>
                     </div>
 
-                    <div class="col-xs-14 col-xs-offset-2">dias</div>
+                    <div class="col-xs-14 col-xs-offset-1 bloco-reservas">
+                        <div class="row">
+                            <h3 class="titulo-dia-mes">Dia {{topicoData.dia}} de {{topicoData.mes}} <span class="titulo-semana">{{topicoData.semana}}</span></h3>
+                        </div>
+                        <div class="lista-reserva-dia" ng-repeat="reserva in pendentes">
+                            <div class="row local">
+                                <i class="fa icon-ba-pin"></i>
+                                <label class="text-capitalize">{{reserva.local_reservavel.nome}}</label> / <span class="text-capitalize">{{reserva.local_reservavel.localidade}}</span>
+                            </div>
+                            <div class="row">
+                                <span class="col-xs-4 periodo"><b>{{reserva.hora_ini}} - {{reserva.hora_fim}}</b><br>{{reserva.valor | currency}}</span>
+                                <span class="col-xs-13 col-xs-offset-1 status-local">
+                                    <button class="btn text-uppercase">{{reserva.reserva_status}}</button><br>
+                                    <p>{{'Qd '+reserva.imovel.quadra+' / Lt '+reserva.imovel.lote}} - {{reserva.imovel.logradouro}}</p>
+                                    <p class="text-capitalize">{{reserva.pessoa.nome}}</p>
+                                </span>
+                                <span class="col-xs-6 pull-right"><button class="btn btn-primary" style="width: 100%">ANALISAR</button></span>
+                            </div>
+                        </div>
+                    </div>
 
                 </div>
             </div>

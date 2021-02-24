@@ -22,7 +22,11 @@ class Reserva extends Model
 
     public static function allCompleto()
     {
-        return self::with(['localReservavel','periodoLocalReservavel','imovel','pessoa','diaInativo'])
+        return self::with(['localReservavel' => function ($q) {
+            $q->join('bioacesso_portaria.localidades','localidades.id','=','local_reservavel.id_localidade');
+            $q->select('localidades.descricao as localidade','local_reservavel.*');
+        }])
+            ->with(['periodoLocalReservavel','imovel','pessoa','diaInativo'])
             ->get();
     }
 

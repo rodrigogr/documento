@@ -56,7 +56,12 @@
                         <div class="row">
                             <h3 class="titulo-dia-mes">Dia {{topicoData.dia}} de {{topicoData.mes}} <span class="titulo-semana">{{topicoData.semana}}</span></h3>
                         </div>
-                        <div class="lista-reserva-dia" ng-repeat="reserva in pendentes">
+                        <div class="lista-reserva-dia" ng-if="!pendentes.length">
+                            <div class="row local">
+                                Nenhuma reserva para aprovação
+                            </div>
+                        </div>
+                        <div class="lista-reserva-dia" ng-if="pendentes.length" ng-repeat="reserva in pendentes">
                             <div class="row local">
                                 <i class="fa icon-ba-pin"></i>
                                 <label class="text-capitalize">{{reserva.local_reservavel.nome}}</label> / <span class="text-capitalize">{{reserva.local_reservavel.localidade}}</span>

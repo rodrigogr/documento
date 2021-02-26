@@ -16,7 +16,7 @@ class AprovacaoController extends Controller
         $hoje = date('Y-m-d');
         $dia_semana = ReservaService::diaSemana($hoje);
         $Data = Reserva::aprovacaoPendenteHoje($hoje, $dia_semana);
-        if (count($Data)) {
+        if ($Data) {
             return response()->success($Data);
         }
         return response()->error(trans('messages.crud.MAE', ['name' => $this->name]));

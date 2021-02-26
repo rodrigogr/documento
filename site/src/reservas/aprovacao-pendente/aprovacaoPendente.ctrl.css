@@ -21,6 +21,9 @@ ul.tabs-aprovacao {
 .list-localidade-locaisReservaveis:hover {
     -webkit-mask-position: left top;
 }
+.list-localidade-locaisReservaveis dl {
+    margin-bottom: 1px;
+}
 .list-localidade-locaisReservaveis dt {
     background-color: #FFF;
 }

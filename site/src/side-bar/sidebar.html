@@ -10,24 +10,6 @@
                   </span>
                 </a>
             </li>
-            <!-- ACESSO RÁPIDO -->
-            <li class='has-sub'
-                ng-if="acessoRapido.indexOf('CPEstimados') !== -1 || acessoRapido.indexOf('RecbSimuCalcReceita') !== -1 || acessoRapido.indexOf('CPLancamentos') !== -1">
-                <a ng-click="acaoMenu('acessoRapido');">
-                  <span style="text-transform: uppercase">
-                    <i class="fa fa-flash text-center text-primary" style="margin-right: 10px;"></i>
-                    Acesso rápido
-                  </span>
-                </a>
-                <ul id="acessoRapido" class="_menu_">
-                    <li ng-if="acessoRapido.indexOf('CPEstimados') !== -1"><a ui-sref="CPEstimados"><span>Previsão orçamentária</span></a>
-                    </li>
-                    <li ng-if="acessoRapido.indexOf('RecbSimuCalcReceita') !== -1"><a ui-sref="RecbSimuCalcReceita"><span>Simulação e cálculo</span></a>
-                    </li>
-                    <li ng-if="acessoRapido.indexOf('CPLancamentos') !== -1"><a
-                            ui-sref="CPLancamentos"><span>Contas a pagar</span></a></li>
-                </ul>
-            </li>
 
             <li ng-if="loadingMenu" class="loadingMenu"><i class="fa fa-cog fa-spin"></i></li>
 

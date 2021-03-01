@@ -36,118 +36,119 @@ function sidebarCtrl($scope, LoginService, AuthService) {
                     'nome': 'Aprovações Pendentes'
                 }
             ]
-        },
+         },
+        // {
+	    //     'menu_principal': {
+        //         'cod': 'contasPagar',
+        //         'nome': 'Despesas',
+        //         'icon': 'fa-minus-circle'
+        //     },
+        //         'submenus':[{
+        //             'cod': 'CPLancamentos',
+        //             'nome': 'Contas a pagar'
+        //         },{
+        //             'cod': 'CPPagamentos',
+        //             'nome': 'Pagamentos'
+        //         }
+        //         ]
+        // }, {
+        // 'menu_principal': {
+        //     'cod': 'cadastrosConfig',
+        //     'nome': 'Cadastros',
+        //     'icon': 'fa-gear'
+        //     },
+        //     'submenus':[{
+        //         'cod': 'CadGrupLanc',
+        //         'nome': 'Grupo de conta'
+        //         },{
+        //         'cod': 'CadTipoLanc',
+        //         'nome': 'Plano de conta'
+        //         },{
+        //         'cod': 'CadConfigCond',
+        //         'nome': 'Configuração condomínio'
+        //         },{
+        //         'cod': 'CadConfigReceit',
+        //         'nome': 'Configuração receita'
+        //         },{
+        //         'cod': 'CadGrupCalc',
+        //         'nome': 'Grupo de cálculo'
+        //         },{
+        //         'submenu_principal': {
+        //             'cod': 'CadTipoInad',
+        //             'nome': 'Inadimplência',
+        //             'submenu': [{
+        //                 'cod': 'CadTipoInad',
+        //                 'nome': 'Tipo'
+        //             },{
+        //                 'cod': 'CadSitInad',
+        //                 'nome': 'Situação'
+        //             }]
+        //             }
+        //         },{
+        //         'cod': 'CadDept',
+        //         'nome': 'Departamento'
+        //         },{
+        //         'cod': 'CadInfo',
+        //         'nome': 'Informativo'
+        //         },{
+        //         'submenu_principal': {
+        //             'cod': 'cadastrosEstoque',
+        //             'nome': 'Estoque',
+        //             'submenu': [{
+        //                 'cod': 'ComprasCadUnidade',
+        //                 'nome': 'Unidades'
+        //             },{
+        //                 'cod': 'ComprasCadArea',
+        //                 'nome': 'Áreas'
+        //             },{
+        //                 'cod': 'ComprasCadRua',
+        //                 'nome': 'Ruas'
+        //             },{
+        //                 'cod': 'ComprasCadColuna',
+        //                 'nome': 'Colunas'
+        //             },{
+        //                 'cod': 'ComprasCadNivel',
+        //                 'nome': 'Níveis'
+        //             },{
+        //                 'cod': 'ComprasCadSequencia',
+        //                 'nome': 'Sequências'
+        //             },{
+        //                 'cod': 'ComprasCadGrupo',
+        //                 'nome': 'Grupo produtos'
+        //             },{
+        //                 'cod': 'ComprasCadProduto',
+        //                 'nome': 'Produtos'
+        //             }
+        //             ]
+        //         }
+        //     }
+        //     ]
+        // },{
+        // 'menu_principal': {
+        //     'cod': 'relatoriosFinanceiro',
+        //     'nome': 'Relatórios',
+        //     'icon': 'fa-file-text'
+        // },
+        // 'submenus':[
+        //
+        //     {
+        //         'submenu_principal': {
+        //             'cod': 'relContasPagar',
+        //             'nome': 'Despesas',
+        //             'submenu': [
+        //                 {
+        //                     'cod': 'RelContSint',
+        //                     'nome': 'Sintético'
+        //                 },{
+        //                     'cod': 'RelContAnal',
+        //                     'nome': 'Analítico'
+        //                 }
+        //             ]
+        //         }
+        //     }
+        // ]
+        // },
         {
-	        'menu_principal': {
-                'cod': 'contasPagar',
-                'nome': 'Despesas',
-                'icon': 'fa-minus-circle'
-            },
-                'submenus':[{
-                    'cod': 'CPLancamentos',
-                    'nome': 'Contas a pagar'
-                },{
-                    'cod': 'CPPagamentos',
-                    'nome': 'Pagamentos'
-                }
-                ]
-        }, {
-        'menu_principal': {
-            'cod': 'cadastrosConfig',
-            'nome': 'Cadastros',
-            'icon': 'fa-gear'
-            },
-            'submenus':[{
-                'cod': 'CadGrupLanc',
-                'nome': 'Grupo de conta'
-                },{
-                'cod': 'CadTipoLanc',
-                'nome': 'Plano de conta'
-                },{
-                'cod': 'CadConfigCond',
-                'nome': 'Configuração condomínio'
-                },{
-                'cod': 'CadConfigReceit',
-                'nome': 'Configuração receita'
-                },{
-                'cod': 'CadGrupCalc',
-                'nome': 'Grupo de cálculo'
-                },{
-                'submenu_principal': {
-                    'cod': 'CadTipoInad',
-                    'nome': 'Inadimplência',
-                    'submenu': [{
-                        'cod': 'CadTipoInad',
-                        'nome': 'Tipo'
-                    },{
-                        'cod': 'CadSitInad',
-                        'nome': 'Situação'
-                    }]
-                    }
-                },{
-                'cod': 'CadDept',
-                'nome': 'Departamento'
-                },{
-                'cod': 'CadInfo',
-                'nome': 'Informativo'
-                },{
-                'submenu_principal': {
-                    'cod': 'cadastrosEstoque',
-                    'nome': 'Estoque',
-                    'submenu': [{
-                        'cod': 'ComprasCadUnidade',
-                        'nome': 'Unidades'
-                    },{
-                        'cod': 'ComprasCadArea',
-                        'nome': 'Áreas'
-                    },{
-                        'cod': 'ComprasCadRua',
-                        'nome': 'Ruas'
-                    },{
-                        'cod': 'ComprasCadColuna',
-                        'nome': 'Colunas'
-                    },{
-                        'cod': 'ComprasCadNivel',
-                        'nome': 'Níveis'
-                    },{
-                        'cod': 'ComprasCadSequencia',
-                        'nome': 'Sequências'
-                    },{
-                        'cod': 'ComprasCadGrupo',
-                        'nome': 'Grupo produtos'
-                    },{
-                        'cod': 'ComprasCadProduto',
-                        'nome': 'Produtos'
-                    }
-                    ]
-                }
-            }
-            ]
-        },{
-        'menu_principal': {
-            'cod': 'relatoriosFinanceiro',
-            'nome': 'Relatórios',
-            'icon': 'fa-file-text'
-        },
-        'submenus':[
-
-            {
-                'submenu_principal': {
-                    'cod': 'relContasPagar',
-                    'nome': 'Despesas',
-                    'submenu': [
-                        {
-                            'cod': 'RelContSint',
-                            'nome': 'Sintético'
-                        },{
-                            'cod': 'RelContAnal',
-                            'nome': 'Analítico'
-                        }
-                    ]
-                }
-            }
-        ]
-        },{
             'menu_principal': {
                 'cod': 'notificacoes',
                 'nome': 'Notificações',

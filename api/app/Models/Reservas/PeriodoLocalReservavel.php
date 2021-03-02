@@ -24,7 +24,10 @@ class PeriodoLocalReservavel extends Model
             ->with(['imovel','pessoa','localReservavel','diaInativo'])
             ->where('periodo_local_reservavel.dia_semana', $dia_semana)
             ->orderBy('periodo_local_reservavel.hora_ini')
-            ->select('periodo_local_reservavel.*', 'r.id_imovel as reserva_idImovel',
+            ->select('periodo_local_reservavel.*',
+                \DB::raw('date_format(periodo_local_reservavel.hora_ini,"%H:%i") as hora_ini'),
+                \DB::raw('date_format(periodo_local_reservavel.hora_fim,"%H:%i") as hora_fim'),
+                'r.id_imovel as reserva_idImovel',
                 'r.id_pessoa as reserva_idPessoa',
                 'r.status as reserva_status',
                 'r.id_imovel',
@@ -43,11 +46,14 @@ class PeriodoLocalReservavel extends Model
             ->where('periodo_local_reservavel.id_local_reservavel', $id_local_reservavel)
             ->where('periodo_local_reservavel.dia_semana', $dia_semana)
             ->orderBy('periodo_local_reservavel.hora_ini')
-            ->select('periodo_local_reservavel.*',  'r.id_imovel as reserva_idImovel',
-                                                    'r.id_pessoa as reserva_idPessoa',
-                                                    'r.status as reserva_status',
-                                                    'r.id_imovel',
-                                                    'r.id_pessoa')
+            ->select('periodo_local_reservavel.*',
+                        \DB::raw('date_format(periodo_local_reservavel.hora_ini,"%H:%i") as hora_ini'),
+                        \DB::raw('date_format(periodo_local_reservavel.hora_fim,"%H:%i") as hora_fim'),
+                        'r.id_imovel as reserva_idImovel',
+                        'r.id_pessoa as reserva_idPessoa',
+                        'r.status as reserva_status',
+                        'r.id_imovel',
+                        'r.id_pessoa')
             ->get();
     }
 

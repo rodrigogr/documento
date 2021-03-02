@@ -11,9 +11,6 @@
 |
 */
 
-/*Route::get('/user', function (Request $request) {
-    return $request->user();
-})->middleware('auth:api');*/
 Route::post('auth/login', 'AuthController@login');
 Route::get('auth/checkAuth','AuthController@checkAuth');
 Route::get('condominio', 'CondominioConfiguracoesController@condominio');
@@ -31,11 +28,7 @@ Route::group(['middleware' => 'jwt.auth'], function () {
 
     Route::get('imoveis/busca_morador/{quadra}/{lote}', 'ImovelController@pesquisarMoradorPorImovel');
     Route::get('imoveis/busca_titular/{quadra}/{lote}', 'ImovelController@pesquisarTitularPorImovel');
-
-
-
     Route::resource('imoveis', 'ImovelController');
-
     Route::resource('imovel_permanentes', 'ImovelPermanenteController');
 
 

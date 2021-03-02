@@ -27,5 +27,9 @@ Route::group(['middleware' => 'jwt.auth'], function ()
         Route::get('/pendentes/hoje', 'reservas\AprovacaoController@hoje');
     });
 
-    Route::get('localidades/locais_reservaveis', 'LocalidadeController@locaisReservaveis');
+    Route::group(['prefix' => 'localidades'], function () {
+        Route::get('', 'LocalidadeController@index');
+        Route::get('/locais_reservaveis', 'LocalidadeController@locaisReservaveis');
+    });
+
 });

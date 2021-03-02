@@ -27,4 +27,7 @@
         Route::get('/pendentes/hoje', 'reservas\AprovacaoController@hoje');
     });
 
-    Route::get('5eec33a37ed64e42575b84f1abc8a27843b1a050/localidades/locais_reservaveis', 'LocalidadeController@locaisReservaveis');
+    Route::group(['prefix' => '5eec33a37ed64e42575b84f1abc8a27843b1a050/localidades'], function () {
+        Route::get('', 'LocalidadeController@index');
+        Route::get('/locais_reservaveis', 'LocalidadeController@locaisReservaveis');
+    });

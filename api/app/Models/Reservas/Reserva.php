@@ -49,7 +49,7 @@ class Reserva extends Model
             ->with(['imovel','pessoa','diaInativo'])
             ->with(['localReservavel' => function ($q) {
                 $q->join('bioacesso_portaria.localidades','localidades.id','=','local_reservavel.id_localidade');
-                $q->select('localidades.descricao as localidade','local_reservavel.*');
+                $q->select('bioacesso_portaria.localidades.descricao as localidade','local_reservavel.*');
             }])
             ->where('periodo_local_reservavel.dia_semana', $dia_semana)
             ->orderBy('periodo_local_reservavel.hora_ini')

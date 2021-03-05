@@ -23,16 +23,14 @@ angular.module('ReservasModule').controller('AprovacaoPendenteCtrl',
         }
         getAllLocaisReservaveis();
 
-        async function todosHoje() {
-            let result = await $http.get(`${config.apiUrl}api/aprovacao/pendentes/hoje`);
+        $http.get(`${config.apiUrl}api/aprovacao/pendentes/hoje`).then( function (result) {
+            $scope.loadDiaPendente = true;
             $scope.pendentes = result.data.data;
             $scope.topicoData = {
                 dia: moment().format('D'),
                 mes: moment().format('MMMM'),
                 semana: moment().format('dddd')
-            };
-        }
-        todosHoje();
-
+            }
+        }).finally( () => $scope.loadDiaPendente = false);
 
     });

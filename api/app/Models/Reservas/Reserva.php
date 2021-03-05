@@ -18,7 +18,6 @@ class Reserva extends Model
         'id_pessoa'
     ];
     public $timestamps = true;
-    use SoftDeletes;
 
     public static function allCompleto()
     {

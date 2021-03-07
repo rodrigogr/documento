@@ -26,7 +26,7 @@ class CondominioConfiguracoesController extends Controller
     public function index()
     {
         $Data = CondominioConfiguracoes::all();
-        if (count($Data)) {
+        if (!empty($Data)) {
             return response()->success($Data);
         }
         return response()->error(trans('messages.crud.MAE', ['name' => $this->name]));
@@ -46,7 +46,7 @@ class CondominioConfiguracoesController extends Controller
     public function show($id)
     {
         $Data = CondominioConfiguracoes::find($id);
-        if (count($Data)) {
+        if (!empty($Data)) {
             return response()->success($Data);
         } else {
             return response()->error(trans('messages.crud.MGE', ['name' => $this->name]));
@@ -56,7 +56,7 @@ class CondominioConfiguracoesController extends Controller
     public function update(CondominioConfiguracoesRequest $request, $id)
     {
         $Data = CondominioConfiguracoes::find($id);
-        if (count($Data)) {
+        if (!empty($Data)) {
             try {
                 $data = $request->all();
                 $Data->update($data);
@@ -72,7 +72,7 @@ class CondominioConfiguracoesController extends Controller
     public function condominio()
     {
         $Data = Condominio::select('nome_fantasia')->first();
-        if (count($Data)) {
+        if (!empty($Data)) {
             return response()->success($Data);
         }
         return response()->error(trans('messages.crud.MAE', ['name' => $this->name]));

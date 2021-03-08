@@ -14,12 +14,12 @@
             <div class="row ba__admin-busca">
                 <div class="col-xs-24 input-group ba__admin-busca-input" style="float: left; border: none!important; height: 30px; margin-left: 20px">
                     <span class="input-group-addon" style="height: 60px"></span>
-                    <select class="col-xs-3 ba__adminSelectBusca" ng-change="pesquisaChange()" ng-init="search.type = 'nome'" ng-model="search.type"
+                    <select class="col-xs-3 ba__adminSelectBusca" ng-model="search.type"
                             style="height: 50px; border-bottom: 1px solid #cccccc;padding-left: 20px;">
                         <option value="nome">Nome</option>
                     </select>
                     <input type="text" class="col-xs-4 ba__margin-left-15" ng-model="search.nome" style="height: 50px; border-bottom: 1px solid #cccccc;">
-                    <button type="button" class="btn btn-primary col-xs-3 col-xs-offset-1 uppercase" style="margin-top: 7px" ng-click="checkData(search) && pesquisar(search)">
+                    <button type="button" class="btn btn-primary col-xs-3 col-xs-offset-1 uppercase" style="margin-top: 7px" ng-click="pesquisalocalReservavel()">
                         Pesquisar
                         <i class="icon-ba-search"></i>
                     </button>
@@ -95,6 +95,18 @@
                                                 <select class="ba__input-select" ng-model="localReservavel.id_localidade"
                                                         ng-options="localidade.id as localidade.descricao for localidade in localidades"
                                                         enter>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="row ba__margin-bottom-30">
+                                            <div class="col-md-4">
+                                                <h5 class="text-right">Requer Restrição</h5>
+                                            </div>
+                                            <div class="col-md-10 col-md-offset-1">
+                                                <select class="ba__input-select" ng-model="localReservavel.restricao" enter>
+                                                    <option value="">Nenhuma</option>
+                                                    <option value="restricao_clube">Somente cadastrados no Clube</option>
+                                                    <option value="restricao_academia">Somente cadastrados na Academia</option>
                                                 </select>
                                             </div>
                                         </div>

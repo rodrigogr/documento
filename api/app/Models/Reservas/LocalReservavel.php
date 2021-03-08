@@ -22,12 +22,13 @@ class LocalReservavel extends Model
         'antecedencia_min_periodo',
         'antecedencia_cancel_num',
         'antecedencia_cancel_periodo',
-        'limit_reserva'
+        'limit_reserva',
+        'restricao'
     ];
 
     public static function simples()
     {
-        return self::with('localidade')->select(array('id', 'nome', 'descricao', 'id_localidade', 'capacidade'))
+        return self::with('localidade')->select(array('id', 'nome', 'descricao', 'id_localidade', 'capacidade', 'restricao'))
             ->orderBy('id','desc')
             ->get();
     }
@@ -36,6 +37,16 @@ class LocalReservavel extends Model
     {
         return self::where('id', $id)->with(['localidade','periodo','diaInativo'])->first();
     }
+
+    public static function nomeLocalReservavel($nome_local)
+    {
+        return self::with('localidade')->select(array('id', 'nome', 'descricao', 'id_localidade', 'capacidade'))
+            ->where('nome','like','%'.$nome_local.'%')
+            ->orderBy('id','desc')
+            ->get();
+    }
+
+    ## Relacionamentos Entidades
 
     public function localidade()
     {

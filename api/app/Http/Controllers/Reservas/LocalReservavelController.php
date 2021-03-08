@@ -25,9 +25,36 @@ class LocalReservavelController extends Controller
         return response()->error(trans('messages.crud.MAE', ['name' => $this->name]));
     }
 
+    public function locaisPermitidos($idPessoa)
+    {
+        $Data = LocalReservavel::simples();
+        if ($Data) {
+            $permitidos = [];
+            foreach ($Data as $local) {
+                if ($local->restricao) {
+                    if ($local->restricao == 'restricao_clube') {
+                        $verificaClube = $this->buscaPessoaClube($idPessoa);
+                        if ($verificaClube) {
+                            $permitidos[] = $local;
+                        }
+                    } else {
+                        $verificaAcademia = $this->buscaPessoaAcademia($idPessoa);
+                        if ($verificaAcademia) {
+                            $permitidos[] = $local;
+                        }
+                    }
+                } else {
+                    $permitidos[] = $local;
+                }
+            }
+
+            return response()->success($permitidos);
+        }
+        return response()->error(trans('messages.crud.MAE', ['name' => $this->name]));
+    }
+
     public function store(LocalReservavelRequest $request)
     {
-        //$data = $request->except('_token');
         try {
             $data = $request->all();
             $local = LocalReservavel::create($data);
@@ -134,5 +161,27 @@ class LocalReservavelController extends Controller
         }
     }
 
+    public function nomeLocalReservavel($nome_local)
+    {
+        try {
+            $Data = LocalReservavel::nomeLocalReservavel($nome_local);
+            return response()->success($Data);
+
+        } catch (\Exception $e) {
+            return response()->error(trans('messages.crud.MAE', ['name' => $this->name]));
+        }
+    }
+
+    private function buscaPessoaClube($idPessoa)
+    {
+        return \DB::connection('portaria')
+            ->select('select id from clube where id_pessoa = '.$idPessoa.' and softdeleted = 0');
+    }
+
+    private function buscaPessoaAcademia($idPessoa)
+    {
+        return \DB::connection('portaria')
+            ->select('select id from academia where id_pessoa = '.$idPessoa.' and acesso_academia = 1');
+    }
 
 }

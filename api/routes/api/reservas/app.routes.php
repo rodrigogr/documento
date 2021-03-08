@@ -7,6 +7,8 @@
         Route::post('/', 'reservas\LocalReservavelController@store');
         Route::get('/{id}', 'reservas\LocalReservavelController@show');
         Route::put('/{id}', 'reservas\LocalReservavelController@update');
+        Route::get('/nome/{nome_local}', 'reservas\LocalReservavelController@nomeLocalReservavel');
+        Route::get('/pessoa/{id_pessoa}', 'reservas\LocalReservavelController@locaisPermitidos');
     });
 
     Route::group(['prefix' => '5eec33a37ed64e42575b84f1abc8a27843b1a050/reserva'], function () {

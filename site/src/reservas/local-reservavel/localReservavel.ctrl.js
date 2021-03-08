@@ -23,6 +23,7 @@ angular.module('ReservasModule').controller('LocalReservavelCtrl',
                 antecedenciaMinCancelamento: 0,
                 antecedenciaMinCancelamentoTempo: 'horas',
                 numMaxReserva: 0,
+                restricao: '',
                 periodo: {
                     seg: [],
                     ter: [],
@@ -43,6 +44,10 @@ angular.module('ReservasModule').controller('LocalReservavelCtrl',
         }
         $scope.manterHorarios = false;
         $scope.addNovoPeriodo = 0;
+        $scope.search = {
+            type: 'nome',
+            nome: ''
+        }
 
         $scope.getLocaisReservaveis = function () {
             $(".loader").show();
@@ -267,6 +272,7 @@ angular.module('ReservasModule').controller('LocalReservavelCtrl',
 
         $scope.salvar = function () {
             $("#loading").modal("show");
+            $scope.localReservavel.restricao = $scope.localReservavel.restricao || null;
             $http({
                 method: "POST",
                 url: `${config.apiUrl}api/localreservavel/`,
@@ -386,6 +392,16 @@ angular.module('ReservasModule').controller('LocalReservavelCtrl',
         $scope.abreDocumento = function () {
             let file = $scope.localReservavel.regra ? $scope.localReservavel.regra : $scope.localReservavel.regra_local;
             window.open(file,'_blank');
+        }
+
+        $scope.pesquisalocalReservavel = function () {
+            if ($scope.search.nome.length && $scope.search.nome.length > 2) {
+                $(".loader").show();
+                var promisse = ($http.get(`${config.apiUrl}api/localreservavel/nome/`+$scope.search.nome));
+                promisse.then( function (result){
+                    $scope.locaisReservaveis = result.data.data;
+                }).finally(() => $(".loader").hide());
+            }
         }
 
     });

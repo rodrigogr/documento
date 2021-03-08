@@ -1515,7 +1515,6 @@ body {
 
 .btn-clear {
     background-color: transparent;
-    color: inherit;
 }
 
 .text-success {
@@ -3730,9 +3729,9 @@ a.link-only {
     color: inherit !important;
 }
 
-span{
+/*span{
     color: #555555;
-}
+}*/
 
 .ba__textarea-modal{
     display: block;
@@ -3772,4 +3771,9 @@ span{
     height: 20px;
     font-size: 25px;
     margin-left: 80px;
+}
+.requer-restricao-local {
+    float: left;
+    margin-top: 8px;
+    margin-right: 10px;
 }

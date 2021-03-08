@@ -65,7 +65,15 @@ class Reserva extends Model
 
     public static function completoByImovel($idImovel)
     {
-        return self::with(['localReservavel','periodoLocalReservavel','imovel','pessoa','diaInativo'])
+        return self::with(['periodoLocalReservavel' => function ($q) {
+                $q->select('id',
+                    'id_local_reservavel',
+                    'dia_semana',
+                    \DB::raw('date_format(hora_ini,"%H:%i") as hora_ini'),
+                    \DB::raw('date_format(hora_fim,"%H:%i") as hora_fim'),
+                    'valor');
+            }])
+            ->with(['localReservavel','imovel','pessoa','diaInativo'])
             ->where('id_imovel', $idImovel)
             ->get();
     }

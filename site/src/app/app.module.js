@@ -1,5 +1,6 @@
 'use strict'
 angular.module('AppModule', [
+        'ContasPagarModule',
         'ReservasModule',
         'ui.router',
         'appServices',

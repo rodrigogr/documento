@@ -15,17 +15,14 @@
 2. Ambiente de Desenvolvimento
     
     2.1 Instalação
-         
-      * Projeto
+        O projeto é arquitetado por duas estrutura de pastas
+            
+            API  - Concentra todo back-end
+            SITE - Concetra todo front-end
+            
+      * Intalando e configurando front-end"
         
-         ```
-         #!git
-         
-         git clone https://NOMEUSUARIO@bitbucket.org/uzertecnologia/financeiro.git
-         
-         git checkout compras
-         ```
-      * Site - Acessar pasta "projeto/site"
+        * Acessar pasta "projeto/site
         * Download das dependencias.
          ```
                 // Instalar o bower
@@ -48,17 +45,12 @@
                 
                 // Dentro do  diretorio "projeto/site" executar
                 http-server
-                
-                * Executar pelo xampp
-                Criar um vhost e servir essa pasta
-                // Configurar URL da API. Abra o arquivo
-                    projeto/site/app/config/urlConfig.js
-                                                
-                //informe o endereço da api
-                    apiUrl: 'http://localhost:8000/'
+         
          ```
         
-      * Api - Acessar pasta "projeto/api"
+      * Intalando e configurando back-end 
+        
+        * Acessar pasta "projeto/api"
       
         * Download das dependencias
          ```
@@ -98,36 +90,20 @@
          ```
         * Base de dados - Necessario base de dados do portaria com suas tabelas
             ```
-            //Criar as tabelas
-            php artisan migrate
+            1 - Restaurar dump do banco de dados do portaria (mysql) 
+                
+                projeto/database/dump/dbBioacesso_portaria.sql
+          
+            2 - Restaurar dump do banco de dados do portal (mysql)
+                projeto/database/dump/dbBioacesso_portal.sql
             
-            // Cria conteúdos iniciais. 
-            php artisan db:seed
             ```
          *  Servidor de desenvolvimento local 
             ```
              //Executa o servidor incorporado do PHP no terminal
              php artisan serve
              
-             * Executando  no xampp
-                * mover o arquivo "index.php" para pasta "public" e altrar as seguites partes:
-                
-                    require __DIR__.'/../bootstrap/autoload.php';
-                    //require __DIR__ . '/bootstrap/autoload.php';
-             
-                    $app = require_once __DIR__.'/../bootstrap/app.php';
-                    //$app = require_once __DIR__ . '/bootstrap/app.php';
-             
-                * criar um arquivo . htaccess e colocar o conteudo 
-                     Options +FollowSymLinks
-                     RewriteEngine On
-                     
-                     RewriteCond %{REQUEST_FILENAME} !-d
-                     RewriteCond %{REQUEST_FILENAME} !-f
-                     RewriteRule ^ index.php [L]
+ 
              ```
 3. Ambiente de Produção
 
-connect server
-chmod 400 Uzer.pem
-ssh -i Uzer.pem ubuntu@ec2-13-58-177-226.us-east-2.compute.amazonaws.com

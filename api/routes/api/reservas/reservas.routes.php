@@ -8,7 +8,6 @@ Route::group(['middleware' => 'jwt.auth'], function ()
         Route::get('/{id}', 'reservas\LocalReservavelController@show');
         Route::put('/{id}', 'reservas\LocalReservavelController@update');
         Route::get('/nome/{nome_local}', 'reservas\LocalReservavelController@nomeLocalReservavel');
-        Route::get('/pessoa/{id_pessoa}', 'reservas\LocalReservavelController@locaisPermitidos');
     });
 
     Route::group(['prefix' => 'reserva'], function () {
@@ -32,6 +31,7 @@ Route::group(['middleware' => 'jwt.auth'], function ()
     Route::group(['prefix' => 'localidades'], function () {
         Route::get('/', 'LocalidadeController@index');
         Route::get('/locais_reservaveis', 'LocalidadeController@locaisReservaveis');
+        Route::get('/locais_reservaveis/pessoa/{id_pessoa}', 'LocalidadeController@locaisPermitidos');
     });
 
 });

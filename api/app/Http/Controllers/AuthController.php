@@ -210,9 +210,6 @@ class AuthController extends Controller
     }
 
     public function userPermissoesFormata($dados) {
-        echo "<pre>";
-        print_r($dados);
-        exit();
         $permissoes = json_decode($dados);
         $res = [];
         foreach ($permissoes as $p){

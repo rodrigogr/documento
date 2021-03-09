@@ -43,7 +43,7 @@ definidas abaixo */
 .header header .logo
 {
     background-color: #ed6c44;
-    background-size: 177px 39px
+    background-size: 90%;
 }
 
 /* Essas regras estão separadas porque são necessárias apenas quando o logo
@@ -76,8 +76,7 @@ definidas abaixo */
 
 .header header .user
 {
-    width: 300px;
-    float: left;
+    float: right;
 }
 
 /* Essas regras estão separadas porque são necessárias apenas porque a sombra
@@ -171,7 +170,6 @@ definidas abaixo */
 }
 .menu_opcoes .itens {
     height: auto;
-    left: 122px;
     position: relative;
     top: -37%;
     width: 100%;

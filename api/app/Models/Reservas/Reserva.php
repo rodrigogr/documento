@@ -73,7 +73,11 @@ class Reserva extends Model
                     \DB::raw('date_format(hora_fim,"%H:%i") as hora_fim'),
                     'valor');
             }])
-            ->with(['localReservavel','imovel','pessoa','diaInativo'])
+            ->with(['localReservavel' => function ($q) {
+                $q->join('bioacesso_portaria.localidades','localidades.id','=','local_reservavel.id_localidade');
+                $q->select('localidades.descricao as localidade','local_reservavel.*');
+            }])
+            ->with(['imovel','pessoa','diaInativo'])
             ->where('id_imovel', $idImovel)
             ->get();
     }
@@ -125,6 +129,6 @@ class Reserva extends Model
 
     public function localidade()
     {
-        return $this->belongsTo('App\Models\Localidade', 'id_pessoa');
+        return $this->belongsTo('App\Models\Localidade', 'id_localidade');
     }
 }

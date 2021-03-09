@@ -48,12 +48,12 @@ class AuthController extends Controller
         $token = JWTAuth::fromUser($usuario);
         //$objectToken = JWTAuth::setToken($token);
         //$expiration = JWTAuth::decode($objectToken->getToken())->get('exp');
-
+        $primeiroNome = explode(" ", $usuario->nome);
         return response()->success([
             'token' => $token,
             'usr' => [
                 'id' => sha1($usuario->id),
-                'nome' => $usuario->nome
+                'nome' => $primeiroNome[0]
             ]
         ]);
     }

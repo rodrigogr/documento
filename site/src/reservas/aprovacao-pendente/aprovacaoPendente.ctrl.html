@@ -65,9 +65,13 @@
                                 <span class="input-group-btn">
                                     <button type="button" class="btn btn-default" ng-click="open1()"><i class="fa fa-calendar"></i></button>
                                 </span>-->
+
                                 <div class="col-md-6">
                                     <p class="input-group">
-                                        <input type="text" class="form-control" uib-datepicker-popup="{{format}}" ng-model="dt" is-open="popup1.opened" close-text="Close" />
+                                        <input type="text" class="form-control" uib-datepicker-popup="{{format}}"
+                                               ng-model="dt" is-open="popup1.opened"
+                                               current-text="Hoje"
+                                               close-text="Fechar" />
                                         <span class="input-group-btn">
                                             <button type="button" class="btn btn-default" ng-click="open1()"><i class="fa fa-calendar"></i></button>
                                         </span>
@@ -79,19 +83,21 @@
                                     Nenhuma reserva para aprovação
                                 </div>
                             </div>
-                            <div class="lista-reserva-dia" ng-if="pendentes.length" ng-repeat="reserva in pendentes">
-                                <div class="row local">
-                                    <i class="fa icon-ba-pin"></i>
-                                    <label class="text-capitalize">{{reserva.local_reservavel.nome}}</label> / <span class="text-capitalize">{{reserva.local_reservavel.localidade}}</span>
-                                </div>
-                                <div class="row">
-                                    <span class="col-xs-4 periodo"><b>{{reserva.hora_ini}} - {{reserva.hora_fim}}</b><br>{{reserva.valor | currency}}</span>
-                                    <span class="col-xs-13 col-xs-offset-1 status-local">
-                                        <button class="btn text-uppercase">{{reserva.reserva_status}}</button><br>
-                                        <p>{{'Qd '+reserva.imovel.quadra+' / Lt '+reserva.imovel.lote}} - {{reserva.imovel.logradouro}}</p>
-                                        <p class="text-capitalize">{{reserva.pessoa.nome}}</p>
-                                    </span>
-                                    <span class="col-xs-6 pull-right"><button class="btn btn-primary" style="width: 100%">ANALISAR</button></span>
+                            <div class="lista-pendentes" ng-if="pendentes.length">
+                                <div class="lista-reserva-dia" ng-repeat="reserva in pendentes">
+                                    <div class="row local">
+                                        <i class="fa icon-ba-pin"></i>
+                                        <label class="text-capitalize">{{reserva.local_reservavel.nome}}</label> / <span class="text-capitalize">{{reserva.local_reservavel.localidade}}</span>
+                                    </div>
+                                    <div class="row">
+                                        <span class="col-xs-4 periodo"><b>{{reserva.hora_ini}} - {{reserva.hora_fim}}</b><br>{{reserva.valor | currency}}</span>
+                                        <span class="col-xs-13 col-xs-offset-1 status-local">
+                                            <button class="btn text-uppercase">{{reserva.reserva_status}}</button><br>
+                                            <p>{{'Qd '+reserva.imovel.quadra+' / Lt '+reserva.imovel.lote}} - {{reserva.imovel.logradouro}}</p>
+                                            <p class="text-capitalize">{{reserva.pessoa.nome}}</p>
+                                        </span>
+                                        <span class="col-xs-6 pull-right"><button class="btn btn-primary" style="width: 100%">ANALISAR</button></span>
+                                    </div>
                                 </div>
                             </div>
                         </div>

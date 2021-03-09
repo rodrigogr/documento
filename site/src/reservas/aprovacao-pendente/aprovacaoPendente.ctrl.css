@@ -96,3 +96,7 @@ ul.tabs-aprovacao {
     margin-bottom: 0;
     font-size: 17px;
 }
+.lista-pendentes {
+    max-height: 465px;
+    overflow-y: auto;
+}

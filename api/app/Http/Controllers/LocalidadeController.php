@@ -133,9 +133,13 @@ class LocalidadeController extends Controller
                         $permitidos[] = $local_reservavel;
                     }
                 }
-                unset($localidade->locaisReservaveis);
-                $localidade->locaisReservaveis = $permitidos;
-                $permitidos = [];
+                if (!count($permitidos)) {
+                    unset($localidade);
+                } else {
+                    unset($localidade->locaisReservaveis);
+                    $localidade->locaisReservaveis = $permitidos;
+                    $permitidos = [];
+                }
             }
 
             return response()->success($Data);

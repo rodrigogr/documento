@@ -37,6 +37,19 @@ function sidebarCtrl($scope, LoginService, AuthService) {
                 }
             ]
          },
+         {
+            'menu_principal': {
+                'cod': 'assembleia',
+                'nome': 'Assembleia Online',
+                'icon': 'fa-area-chart'
+            },
+            'submenus': [
+                {
+                    'cod': 'assembleia',
+                    'nome': 'Assembleia'
+                }   
+            ]
+         },
         // {
 	    //     'menu_principal': {
         //         'cod': 'contasPagar',
@@ -164,6 +177,7 @@ function sidebarCtrl($scope, LoginService, AuthService) {
     $scope.loadingMenu = true;
 
     LoginService.userAccess(user.id).then( function(result ) {
+        
         $scope.objAccess = result.data;
         $scope.menuShow = [];
         $scope.acessoRapido = [];
@@ -176,6 +190,7 @@ function sidebarCtrl($scope, LoginService, AuthService) {
         angular.forEach($scope.objAccess, function(value){
             arrAccess.push(value.cod);
         });
+
         angular.forEach(menuSis, function (p) {
             if (arrAccess.indexOf(p.menu_principal.cod) > -1){
                 let arrSub = [];

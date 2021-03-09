@@ -37,6 +37,19 @@ function sidebarCtrl($scope, LoginService, AuthService) {
                 }
             ]
          },
+        {
+            'menu_principal': {
+                'cod': 'assembleia',
+                'nome': 'Assembleia Online',
+                'icon': 'fa-envelope-open'
+            },
+            'submenus': [
+                {
+                    'cod': 'assembleia',
+                    'nome': 'Assembleias'
+                }
+            ]
+        }
         // {
 	    //     'menu_principal': {
         //         'cod': 'contasPagar',

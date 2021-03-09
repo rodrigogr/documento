@@ -2,6 +2,7 @@
 angular.module('AppModule', [
         'ContasPagarModule',
         'ReservasModule',
+        'AssembleiaModule',
         'ui.router',
         'appServices',
         'appDirectives',

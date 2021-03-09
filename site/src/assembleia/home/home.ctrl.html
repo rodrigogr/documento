@@ -1,0 +1,120 @@
+<link rel="stylesheet" href="src/assembleia/home/home.ctrl.css">
+
+<div class="header">
+	<div header></div>
+</div>
+
+<div class="row container-fluid ba__body-content ba__full-width">
+	<div sidebar></div>
+	<div ng-init="ngOnInit()" class="col-xs-21 ba__admin-container">
+		<div class="col-xs-24 ba__admin-container-list">
+			<div class="row ba__admin-list">
+				<div class="row ba__margin-top-20">
+					<h3 class="col-md-15 Roboto-Light">
+						<strong>{{Itens.length}}</strong> Registros encontrados</h3>
+					<button type="button" ng-if="accessPagina.inserir" class="btn btn-success col-xs-offset-3 col-xs-6 uppercase" style="margin-top: 12px" ng-click="select = null;$('#novoTipo').modal('show')">
+						Novo
+					</button>
+				</div>
+				<div class="list-group ba__admin-table ba__margin-top-40" style="height: 85%">
+					<a class="list-group-item disabled">
+						<div class="row uppercase">
+							<div class="col-xs-2">ID
+								<i class="ba__margin-horizontal-5"></i>
+							</div>
+							<div class="col-xs-19">Nome do grupo
+								<i class="ba__margin-horizontal-5"></i>
+							</div>
+							<div class="col-xs-3 text-center"></div>
+						</div>
+					</a>
+					<div class="ba__admin-table-scroll" style="height: 85%;">
+						<a class="list-group-item ba__font-size-12 ba__pointer" ng-repeat="tipo in Itens">
+							<div class="row">
+								<div class="col-xs-2">{{tipo.id}}</div>
+								<div class="col-xs-19">{{tipo.descricao}}</div>
+								<div class="col-xs-3">
+									<i class="icon-ba-edit ba__margin-left-35" title="Editar" ng-if="accessPagina.editar" ng-click="setSelect(tipo);$('#novoTipo').modal('show');"></i>
+									<i class="icon-ba-trash ba__margin-left-20" title="Excluir" ng-if="accessPagina.excluir" ng-click="delete(tipo)"></i>
+								</div>
+							</div>
+						</a>
+					</div>
+					<div class="col-md-10 col-md-offset-9" ng-if="pageCount">
+						<nav class="">
+							<ul class="pagination text-center">
+								<li>
+									<a aria-label="Previous" ng-click="updateList(current_page - 1)" class="ba__margin-right-15">
+										<span aria-hidden="true">&laquo; ANTERIOR</span>
+									</a>
+								</li>
+								<li ng-click="updateList(page)" ng-repeat="page in pages">
+									<a ng-class="page == current_page ? 'selected' : ''">{{page}}</a>
+								</li>
+								<li ng-if="pageCount > 5">
+									<a>...</a>
+								</li>
+								<li ng-if="pageCount > 5" ng-click="updateList(pageCount)">
+									<a ng-class="pageCount == current_page ? 'selected' : ''">{{pageCount}}</a>
+								</li>
+								<li>
+									<a aria-label="Next" ng-click="updateList(current_page + 1)" style="margin-left: 15px">
+										<span aria-hidden="true">PRÓXIMA &raquo;</span>
+									</a>
+								</li>
+							</ul>
+						</nav>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!--MODAL CADASTRAR TIPO DE LANÇAMENTO-->
+<div class="modal fade" id="novoTipo" tabindex="-1" role="dialog">
+	<div class="modal-dialog ba__modal-novo-equipamento" role="document">
+		<div class="modal-content">
+			<div class="modal-header ba__no-padding-top">
+				<h4 class="col-xs-21 modal-title Roboto-Thin ba__font-size-25">
+					<i class="icon-ba-attention text-center text-primary ba__margin-horizontal-5"></i>
+					<span ng-if="!select">Novo</span>
+					<span ng-if="select">Editar</span>
+				</h4>
+			</div>
+			<div class="modal-body ba__margin-top-15">
+				<form>
+					<div class="row">
+						<div class="form-group col-xs-24">
+							<div class="row ba__margin-bottom-30" ng-if="select.id">
+								<div class="col-md-8">
+									<h5 class="text-right text-gray">Código</h5>
+								</div>
+								<div class="col-md-4 col-md-offset-1">
+									<input type="text" class="ba__input-modal" ng-model="select.id" style="text-transform:uppercase; height: 60px; margin-top: -10px"
+									  disabled>
+								</div>
+							</div>
+							<div class="row ba__margin-bottom-30 ba__margin-top-20">
+								<div class="col-md-8">
+									<h5 class="text-right text-gray">Descrição</h5>
+								</div>
+								<div class="col-md-10 col-md-offset-1">
+									<input type="text" class="ba__input-modal" maxlength="80" ng-model="select.descricao">
+								</div>
+							</div>
+						</div>
+					</div>
+				</form>
+			</div>
+			<div class="modal-footer">
+				<button data-dismiss="modal" type="button" class="btn btn-default btn-clear col-xs-8 col-xs-offset-6 btnVeiculo">
+					Cancelar
+				</button>
+				<button type="button" ng-click="saveOrUpdate(select)" class="btn btn-success col-xs-9 col-xs-push-1 btnFocus btnVeicul">
+					Salvar
+				</button>
+			</div>
+		</div>
+	</div>
+</div>

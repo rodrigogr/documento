@@ -12,10 +12,10 @@ angular.module('AssembleiasModule', [
 	])
 	.config(function ($stateProvider) {
 		$stateProvider
-			.state('assembleiaResumo', {
-				url: "/assembleias/resumo",
-				templateUrl: 'src/assembleias/resumo/resumoAssembleias.ctrl.html',
-				controller: 'ResumoAssembleiasCtrl',
+			.state('assembleia', {
+				url: "/assembleia",
+				templateUrl: 'src/assembleias/assembleia/assembleiaAssembleias.ctrl.html',
+				controller: 'AssembleiaAssembleiasCtrl',
 				resolve: {onEnter: () => window.stop()}
 			});
 	});

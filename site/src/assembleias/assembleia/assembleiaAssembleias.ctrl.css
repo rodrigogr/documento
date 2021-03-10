@@ -1,0 +1,20 @@
+.badge-style{
+    padding: 5px 15px;
+    border-radius: 20px;
+    font-size: 14px;
+}
+
+.badge-style.badge-agendada{
+    color: #4F4F4F;
+    background-color: #f2f2f3;
+}
+
+.badge-style.badge-em-andamento{
+    color: #219653;
+    background-color: #C8F5D7;
+}
+
+.badge-style.badge-encerrada{
+    color: #EB5757;
+    background-color: #FFECE5;
+}

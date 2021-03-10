@@ -92,11 +92,11 @@
                                     <div class="row">
                                         <span class="col-xs-4 periodo"><b>{{reserva.hora_ini}} - {{reserva.hora_fim}}</b><br>{{reserva.valor | currency}}</span>
                                         <span class="col-xs-13 col-xs-offset-1 status-local">
-                                            <button class="btn text-uppercase">{{reserva.reserva_status}}</button><br>
+                                            <button class="btn text-uppercase reserva-status">{{reserva.reserva_status}}</button><br>
                                             <p>{{'Qd '+reserva.imovel.quadra+' / Lt '+reserva.imovel.lote}} - {{reserva.imovel.logradouro}}</p>
                                             <p class="text-capitalize">{{reserva.pessoa.nome}}</p>
                                         </span>
-                                        <span class="col-xs-6 pull-right"><button class="btn btn-primary" style="width: 100%">ANALISAR</button></span>
+                                        <span class="col-xs-6 pull-right" style="margin-right: 33px"><button class="btn btn-primary" ng-click="analisar()" style="width: 100%">ANALISAR</button></span>
                                     </div>
                                 </div>
                             </div>
@@ -107,5 +107,57 @@
             </div>
 
         </div>
+
+        <div class="modal fade" id="analisarReserva" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="false">
+            <div class="modal-dialog modal-analisarReserva" role="document">
+                <div class="modal-content analisarReserva-content">
+                    <div class="modal-header analisarReserva-header">
+                        <div class="row">
+                            <h2 class="modal-title Roboto-Thin">
+                                <i class="icon-ba-calendar text-center text-primary ba__margin-horizontal-5 icon-modal-title"></i>
+                                <span>NOVA RESERVA</span>
+                            </h2>
+                        </div>
+                    </div>
+                    <div class="modal-body analisarReserva-body">
+                        <div class="row">
+                            <h3><i class="fa icon-ba-pin ba__margin-right-15 text-primary"></i> <span class="text-primary">Área Gourmet</span> / Alphaville Goyaz</h3>
+                        </div>
+                        <div class="row info-localReservavel">
+                            <div class="col-md-1"><i class="fa fa-group"></i></div>
+                            <div class="col-md-6 info-l"><b>CAPACIDADE</b><br>Sem limite definido</div>
+                            <div class="col-md-1 col-md-offset-2"><i class="fa icon-ba-cross" style="font-size: 26px;padding-left: 17px"></i></div>
+                            <div class="col-md-6 info-l"><b>CANCELAMENTO</b><br>A qualquer momento</div>
+                            <div class="col-md-1 col-md-offset-2"><i class="fa fa-dollar" style="padding-left: 20px"></i></div>
+                            <div class="col-md-4 info-l"><b>VALOR</b><br>R$ 10,00</div>
+                        </div>
+                        <div class="row reserva-periodo">
+                            <div class="col-md-7">
+                                <i class="fa fa-calendar-check-o text-primary"></i>
+                                <b>11/11/2021</b>
+                            </div>
+                            <div class="col-md-7 col-md-push-1">
+                                <i class="fa fa-clock-o text-primary"></i>
+                                <b>10:20 - 11:20</b>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="card">
+                                <span class="col-md-6">
+                                    <img src="../../../img/avatar.png">
+                                </span>
+                                <span class="col-md-16 ba__margin-top-13">
+                                    <h5><b>Nome da ailva sairo</b></h5><h6>(62) 95549-6245 / (62) 98547-6336</h6>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        footer
+                    </div>
+                </div>
+            </div>
+        </div>
+
     </div>
 </div>

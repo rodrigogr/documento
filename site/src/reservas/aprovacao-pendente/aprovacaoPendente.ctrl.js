@@ -65,4 +65,9 @@ angular.module('ReservasModule').controller('AprovacaoPendenteCtrl',
             }).finally(() => $scope.loadDiaPendente = false);
         }
 
+        $scope.analisar = function (index) {
+            let reserva = $scope.pendentes[index];
+            $("#analisarReserva").modal('show');
+        }
+
     });

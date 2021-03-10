@@ -91,6 +91,7 @@ ul.tabs-aprovacao {
     width: 148px;
     height: 28px;
     margin-bottom: 10px;
+    cursor: pointer;
 }
 .lista-reserva-dia .status-local p {
     margin-bottom: 0;
@@ -99,4 +100,62 @@ ul.tabs-aprovacao {
 .lista-pendentes {
     max-height: 465px;
     overflow-y: auto;
+}
+.modal-analisarReserva {
+    width: 65%;
+}
+.analisarReserva-content {
+    padding: 20px 0 ;
+}
+.analisarReserva-header {
+    padding: 10px 0 20px 30px;
+}
+.analisarReserva-header .modal-title{
+    font-weight: bold;
+}
+.analisarReserva-body {
+    padding: 10px 0;
+}
+.analisarReserva-body .row {
+    padding: 25px 80px;
+}
+.info-localReservavel {
+    background-color: #f5f2f2;
+}
+.info-localReservavel i {
+    width: 60px;
+    height: 60px;
+    background-color: #CCC;
+    border-radius: 32px;
+    font-size: 32px;
+    line-height: 60px;
+    padding-left: 13px;
+    color: #7f7f7f;
+}
+.info-localReservavel .info-l {
+    font-size: 19px;
+    padding-left: 46px;
+    padding-top: 6px;
+}
+.reserva-periodo {
+    font-size: 29px;
+    border-bottom: 3px solid #f3f3f3;
+    padding-bottom: 45px !important;
+}
+.reserva-periodo i {
+    margin-right: 20px;
+    margin-left: 10px;
+}
+.card {
+    box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.2);
+    border-radius: 6px;
+    padding: 10px;
+    height: 118px;
+    width: 533px;
+}
+.card img {
+    width: 94px;
+    height: 94px;
+    border-radius: 51px;
+    object-fit: cover;
 }

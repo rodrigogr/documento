@@ -36,8 +36,8 @@
                     <h3 class="col-md-17 Roboto-Light">
                         <strong>{{listAssembleias.length || 0}}</strong> Registros encontrados</h3>
                     <button type="button" class="btn btn-success col-xs-offset-3 col-xs-4 uppercase" style="margin-top: 12px"
-                            data-toggle="modal" ng-click="createNovoLocal()" ng-if="accessPagina.inserir">
-                        NOVA ASSEMBLEIA
+                            data-toggle="modal" ng-click="createNewAssembleia()" ng-if="accessPagina.inserir">
+                            NOVA ASSEMBLEIA
                     </button>
                 </div>
             </div>
@@ -90,6 +90,353 @@
             </div>
             <!-- Table List-->
 
+            <div class="modal fade" id="cadastroAssembleia" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="false">
+                <div class="modal-dialog assembleia-modal" role="document">
+                    <div class="modal-content assembleia-content">
+                        <!-- Header -->
+                        <div class="modal-header assembleia-header">
+                            <div class="row">
+                                <h4 class="modal-title Roboto-Thin ba__font-size-25" style="padding: 25px 25px 10px; font-weight: bold;">
+                                    <i class="icon-ba-building text-center text-primary ba__margin-horizontal-5 icon-modal-title"></i>
+                                    <span>{{ localReservavel.id ? 'Editar Assembleia' : 'Novo Assembleia'}}</span>
+                                </h4>
+                            </div>
+                            <div class="row check-assembleia">
+                                <span class="col-sm-7 col-sm-offset-1"><h4><b ng-class="{'step-selecionado': step == 1}" ng-click="goStep(1)">1</b> Dados Gerais</h4></span>
+                                <span class="col-sm-7 col-sm-offset-1"><h4><b ng-class="{'step-selecionado': step == 2}" ng-click="goStep(2)">2</b> Pautas</h4></span>
+                                <span class="col-sm-6 col-sm-offset-2"><h4><b ng-class="{'step-selecionado': step == 3}" ng-click="goStep(3)">3</b> Participantes</h4></span>
+                            </div>
+                        </div>
+                        <!-- Form Mean -->
+                        <div class="modal-body ba__modal-body-tipo-lancamento">
+                            <form name="formLocalidade">
+                                <div class="row">
+                                    <!--STEP 1 DADOS GERAIS-->
+                                    <div class="form-group col-xs-24 ba__margin-top-20" id="step1" ng-show="step === 1">
+
+                                        <div class="row ba__margin-bottom-30">
+                                            <div class="col-md-14">
+                                                <p>TIPO DE REUNIÃO</p>
+                                                <input type="radio" id="geral" name="tipo" value="geral">
+                                                <label for="geral">Assembleia geral</label><br>
+                                                <input type="radio" id="interna" name="tipo" value="interna">
+                                                <label for="interna">Reunião interna</label><br>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="row ba__margin-bottom-30">
+                                            <div class="col-md-14">
+                                                <div style="padding: 15px;">
+                                                    <div class="control-input">
+                                                        <input type="text" name="titulo" ng-model="conviteCadastroDescricao" placeholder=" " autocomplete="off" class="ng-pristine ng-valid ng-touched" aria-invalid="false">
+                                                        <span>TÍTULO</span>
+                                                    </div>
+                                                </div>   
+                                            </div>                                         
+                                        </div>
+
+                                        <div class="row ba__margin-bottom-30">
+                                            <div class="col-md-4">
+                                                <h5 class="text-right">Nome do local*</h5>
+                                            </div>
+                                            <div class="col-md-10 col-md-offset-1">
+                                                <input type="text" ng-model="localReservavel.nome" class="ba__input-modal"
+                                                       style="text-transform:uppercase"
+                                                       required>
+                                            </div>
+                                        </div>
+                                        <div class="row ba__margin-bottom-30">
+                                            <div class="col-md-4">
+                                                <h5 class="text-right">Descrição</h5>
+                                            </div>
+                                            <div class="col-md-10 col-md-offset-1">
+                                                <textarea ng-model="localReservavel.descricao" class="ba__input-modal"></textarea>
+                                            </div>
+                                        </div>
+                                        <div class="row ba__margin-bottom-30">
+                                            <div class="col-md-4">
+                                                <h5 class="text-right">Capacidade</h5>
+                                            </div>
+                                            <div class="col-md-1 col-md-offset-1 ba__margin-right-20">
+                                                <div class="onoffswitch">
+                                                    <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox"
+                                                           id="capacidade"
+                                                           checked
+                                                           ng-model="localReservavel.check_capacidade">
+                                                    <label class="onoffswitch-label" for="capacidade">
+                                                        <span class="onoffswitch-inner"></span>
+                                                        <span class="onoffswitch-switch"></span>
+                                                    </label>
+                                                </div>
+                                            </div>
+                                            <p ng-if="!localReservavel.check_capacidade" class="col-md-6 ba__margin-left-10 ba__font-size-15">sem limite definido</p>
+                                            <div ng-if="localReservavel.check_capacidade" class="col-md-18 col-md-offset-1 ba__margin-top-10">
+                                                <i ng-click="subNum('capacidade')" class="fa fa-minus-circle ba__font-size-25 pull-left" style="padding-top: 10px"></i>
+                                                <input ng-model="localReservavel.capacidade" type="number" class="ba__input-modal limite-pessoas">
+                                                <i ng-click="addNum('capacidade')" class="fa icon-ba-plus ba__font-size-25 pull-left" style="padding-top: 10px"></i>
+                                                <span class="label_pessoa">pessoas</span>
+                                            </div>
+                                        </div>
+                                        <div class="row ba__margin-bottom-30">
+                                            <div class="col-md-3 col-md-offset-1">
+                                                <h5 class="text-right">Regras de Utilização</h5>
+                                            </div>
+                                            <div class="col-md-10 col-md-offset-1">
+                                                <!--<button class="btn btn-default pull-left ba__margin-right-15">ANEXAR ARQUIVO</button>-->
+                                                <input class="ba__font-size-12 pull-left" type="file" id="inputRegra" name="regra_local" onchange="angular.element(this).scope().changeInputField(this, 'regra')">
+                                                <span class="ba__font-size-12 pull-left ba__font-color-gray ba__margin-top-10" style="clear: both;" >Arquivos de no max 10MB, nas extensões .PDF, .DOC, .DOCX, .XLS, .XLSX, .JPG ou .TXT</span>
+                                            </div>
+                                            <div class="col-md-8">
+                                                <a ng-if="localReservavel.regra_local && arquivoIcon" href="javascript:void(0)" ng-click="abreDocumento()">
+                                                    <img src="{{arquivoIcon}}">
+                                                    <i style="font-size: 17px;">{{arquivoNome}}</i>
+                                                </a>
+                                                <a ng-if="localReservavel.regra_local && !arquivoIcon" href="javascript:void(0)" ng-click="abreDocumento()">
+                                                    <img src="img/icons/icon_file.png">
+                                                    <i style="font-size: 17px;">arquivo regra</i>
+                                                </a>
+                                            </div>
+                                        </div>
+                                        <div class="row ba__margin-bottom-30">
+                                            <div class="col-md-3 col-md-offset-1">
+                                                <h5 class="text-right">Imagem do local</h5>
+                                            </div>
+                                            <div class="col-md-10 col-md-offset-1">
+                                                <input type="file" id="inputFoto" name="foto_local" class="hide" onchange="angular.element(this).scope().changeInputField(this, 'foto')">
+                                                <div class="input-group">
+                                                    <span style="display: inline-flex">
+                                                        <img src="img/ins_foto.jpg" ng-click="addFotoLocal()" class="imgAdd-localReservavel">
+                                                        <img src="{{localReservavel.foto_local}}" class="img-localReservavel">
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!--STEP 2 PARAMETRIZAÇÕES-->
+                                    <div class="form-group col-xs-24" id="step2" ng-show="step === 2">
+
+                                        <div class="row ba__margin-top-15 ba__margin-bottom-30">
+                                            <div class="col-md-6">
+                                                <div class="col-xs-5 pull-right">
+                                                    <div class="onoffswitch">
+                                                        <input type="checkbox" id="visibilidadeDadosUsuario" name="onoffswitch" class="onoffswitch-checkbox" enter ng-model="localReservavel.dadosVisiveis">
+                                                        <label class="onoffswitch-label" for="visibilidadeDadosUsuario">
+                                                            <span class="onoffswitch-inner" ng-show="localReservavel.dadosVisiveis"></span>
+                                                            <span class="onoffswitch-switch" ng-show="!localReservavel.dadosVisiveis"></span>
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-14 col-md-offset-1">
+                                                <h5 style="margin-top: 0">Deixar visível os dados de quem reservou para os outros usuários (somente nome e unidade)</h5>
+                                            </div>
+                                        </div>
+                                        <div class="row ba__margin-bottom-30">
+                                            <div class="col-md-5 col-md-push-1">
+                                                <h5 class="text-right">Antecedência máxima para reserva</h5>
+                                            </div>
+                                            <div class="col-md-17 col-md-offset-2">
+                                                <i ng-click="subNum('antecedenciaMaxReserva')" class="fa fa-minus-circle ba__font-size-25 pull-left text-gray" style="padding-top: 10px"></i>
+                                                <input type="number" min="0" ng-model="localReservavel.antecedenciaMaxReserva" class="ba__input-modal limite-pessoas color-padrao" style="margin: 0 10px 0 2px">
+                                                <i ng-click="addNum('antecedenciaMaxReserva')" class="fa icon-ba-plus ba__font-size-25 pull-left text-gray" style="padding-top: 10px"></i>
+                                                <select class="ba__input-select color-padrao" ng-model="localReservavel.antecedenciaMaxReservaTempo" style="width: 21%;margin-left: 10px;float: left;">
+                                                    <option value="horas">horas</option>
+                                                    <option value="dias">dias</option>
+                                                    <option value="semanas">semanas</option>
+                                                    <option value="mês">mês</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="row ba__margin-bottom-30">
+                                            <div class="col-md-5 col-md-push-1">
+                                                <h5 class="text-right">Antecedência mínima para reserva</h5>
+                                            </div>
+                                            <div class="col-md-17 col-md-offset-2">
+                                                <i ng-click="subNum('antecedenciaMinReserva')" class="fa fa-minus-circle ba__font-size-25 pull-left text-gray" style="padding-top: 10px"></i>
+                                                <input type="number" min="0" ng-model="localReservavel.antecedenciaMinReserva" class="ba__input-modal limite-pessoas color-padrao" style="margin: 0 10px 0 2px">
+                                                <i ng-click="addNum('antecedenciaMinReserva')" class="fa icon-ba-plus ba__font-size-25 pull-left text-gray" style="padding-top: 10px"></i>
+                                                <select class="ba__input-select color-padrao" ng-model="localReservavel.antecedenciaMinReservaTempo" style="width: 21%;margin-left: 10px;float: left;">
+                                                    <option value="horas">horas</option>
+                                                    <option value="dias">dias</option>
+                                                    <option value="semanas">semanas</option>
+                                                    <option value="mês">mês</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="row ba__margin-bottom-30">
+                                            <div class="col-md-5 col-md-push-1">
+                                                <h5 class="text-right">Antecedência mínima para cancelamento</h5>
+                                            </div>
+                                            <div class="col-md-17 col-md-offset-2">
+                                                <i ng-click="subNum('antecedenciaMinCancelamento')" class="fa fa-minus-circle ba__font-size-25 pull-left text-gray" style="padding-top: 10px"></i>
+                                                <input type="number" min="0" ng-model="localReservavel.antecedenciaMinCancelamento" class="ba__input-modal limite-pessoas color-padrao" style="margin: 0 10px 0 2px">
+                                                <i ng-click="addNum('antecedenciaMinCancelamento')" class="fa icon-ba-plus ba__font-size-25 pull-left text-gray" style="padding-top: 10px"></i>
+                                                <select class="ba__input-select color-padrao" ng-model="localReservavel.antecedenciaMinCancelamentoTempo" style="width: 21%;margin-left: 10px;float: left;">
+                                                    <option value="horas">horas</option>
+                                                    <option value="dias">dias</option>
+                                                    <option value="semanas">semanas</option>
+                                                    <option value="mês">mês</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="row ba__margin-bottom-30">
+                                            <div class="col-md-5 col-md-push-1">
+                                                <h5 class="text-right">Quantas reservas um morador pode fazer no mesmo dia?</h5>
+                                            </div>
+                                            <div class="col-md-17 col-md-offset-2">
+                                                <i ng-click="subNum('numMaxReserva')" class="fa fa-minus-circle ba__font-size-25 pull-left text-gray" style="padding-top: 10px"></i>
+                                                <input type="number" min="0" ng-model="localReservavel.numMaxReserva" class="ba__input-modal limite-pessoas color-padrao" style="margin: 0 10px 0 2px">
+                                                <i ng-click="addNum('numMaxReserva')" class="fa icon-ba-plus ba__font-size-25 pull-left text-gray" style="padding-top: 10px"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!--STEP 3 PERÍODOS-->
+                                    <div class="form-group col-xs-24" id="step3" ng-show="step === 3">
+                                        <div class="row ba__margin-bottom-30">
+                                            <ul class="reservaDiasSemana" style="margin-bottom: 0">
+                                                <li ng-click="escolhaDiaSemana('seg')" class="activeDia">SEG</li>
+                                                <li ng-click="escolhaDiaSemana('ter')">TER</li>
+                                                <li ng-click="escolhaDiaSemana('qua')">QUA</li>
+                                                <li ng-click="escolhaDiaSemana('qui')">QUI</li>
+                                                <li ng-click="escolhaDiaSemana('sex')">SEX</li>
+                                                <li ng-click="escolhaDiaSemana('sab')">SAB</li>
+                                                <li ng-click="escolhaDiaSemana('dom')">DOM</li>
+                                            </ul>
+                                        </div>
+
+                                        <div style="background-color: #FAFAFA; padding: 30px 10px;">
+                                            <div class="ba__margin-bottom-10 cardHorario">
+                                                <div class="col-md-20 unit" ng-repeat="periodo in objPeriodoAtual" ng-show="periodo.deleted == 0">
+                                                    <div class="form-inline">
+                                                        <div class="form-group">
+                                                            <i class="fa fa-clock-o ba__margin-horizontal-15 text-primary"></i>
+                                                            <input type="text" class="ba__input-modal form-control" ng-model="periodo.hora_ini" mask="99:99" placeholder="00:00">
+                                                            <span class="ba__margin-horizontal-15">até</span>
+                                                            <input type="text" class="ba__input-modal form-control" ng-model="periodo.hora_fim" mask="99:99" placeholder="00:00">
+
+                                                            <i class="fa fa-dollar text-primary" style="margin-left: 65px; margin-right: 15px"></i>
+                                                            <span>Valor &nbsp;</span>
+                                                            <input type="text" class="ba__input-modal form-control" ng-model="periodo.valor"
+                                                                   ui-money-mask=""
+                                                                   placeholder="R$ 0,00"
+                                                                   style="width: 22% !important;">
+
+                                                            <i class="fa fa-trash" style="margin-left: 65px" ng-click="excluirPeriodo(periodo, $index)"></i>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="row">
+                                                <button type="button" ng-click="adicionarPeriodo(periodoAtual)" class="btn btn-default btn-clear col-md-6 btn-addPeriodo">
+                                                    ADICIONAR PERÍODO
+                                                </button>
+                                            </div>
+
+                                            <div class="row ba__margin-top-15 ba__margin-bottom-30">
+                                                <div class="col-md-1" style="margin-left: 14px">
+                                                    <div class="onoffswitch">
+                                                        <input type="checkbox" id="checkManterHorarios" name="onoffswitch" class="onoffswitch-checkbox" enter ng-model="manterHorarios">
+                                                        <label class="onoffswitch-label" for="checkManterHorarios">
+                                                            <span class="onoffswitch-inner" ng-show="manterHorarios"></span>
+                                                            <span class="onoffswitch-switch" ng-show="!manterHorarios"></span>
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-14" style="margin-left: 30px">
+                                                    <h4 style="margin-top: 3px">Manter os mesmos horários para todos os dias da semana</h4>
+                                                </div>
+                                            </div>
+
+                                        </div>
+
+                                        <div class="row ba__admin-list">
+                                            <h3>Dias Inativos</h3>
+                                            <div class="list-group ba__admin-table ba__margin-top-20 col-md-24" style="height: 65%; overflow: hidden">
+                                                <a class="list-group-item disabled col-md-24">
+                                                    <div class="row uppercase">
+                                                        <div class="col-xs-4">Data
+                                                            <i class="ba__margin-horizontal-5"></i>
+                                                        </div>
+                                                        <div class="col-xs-12">Descrição
+                                                            <i class="ba__margin-horizontal-5"></i>
+                                                        </div>
+                                                        <div class="col-xs-5">Repetição
+                                                            <i class="ba__margin-horizontal-5"></i>
+                                                        </div>
+                                                        <div class="col-xs-3">
+                                                            <i class="ba__margin-horizontal-5"></i>
+                                                        </div>
+                                                    </div>
+                                                </a>
+                                                <div class="ba__admin-table-scroll col-md-24" style="overflow: auto">
+                                                    <a class="list-group-item ba__font-size-15 blocoDiaInativo" ng-repeat="inativo in localReservavel.dia_inativo"
+                                                       ng-show="inativo.deleted == 0">
+                                                        <div class="row">
+                                                            <div class="col-xs-4">
+                                                                <div class="col-xs-20">
+                                                                    <span>{{inativo.data}}</span>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-xs-12">
+                                                                <div class="col-xs-20">
+                                                                    <span>{{inativo.descricao}}</span>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-xs-5">
+                                                                <div class="col-xs-20">
+                                                                    <span>{{inativo.repetir}}</span>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-xs-3">
+                                                                <i class="fa fa-edit ba__margin-left-15" ng-click="abreEditarDiaInativo($index)" title="Editar"></i>
+                                                                <i class="fa fa-trash ba__margin-left-15" ng-click="excluirDiaInativo($index)" title="Excluir"></i>
+                                                            </div>
+                                                        </div>
+                                                    </a>
+                                                </div>
+
+                                                <div class="row">
+                                                    <button type="button" ng-click="adicionarDiaInativo()" class="btn btn-default btn-clear col-md-6 btn-addPeriodo">
+                                                        ADICIONAR DIA
+                                                    </button>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        <!-- Footer -->
+                        <div class="modal-footer" style="margin: 20px">
+                            <button ng-if="!localReservavel.id" type="button" class="btn btn-success col-md-5 pull-right" ng-show="step == 3"
+                                    ng-disabled="formLocalidade.$invalid"
+                                    style="margin-left: 5px"
+                                    ng-click="salvar()">
+                                Concluir
+                            </button>
+                            <button ng-if="localReservavel.id" type="button" class="btn btn-success col-md-5 pull-right" ng-show="step == 3"
+                                    ng-disabled="formLocalidade.$invalid"
+                                    style="margin-left: 5px"
+                                    ng-click="update()">
+                                Editar
+                            </button>
+                            <button type="button" ng-click="goStep('+')" class="btn btn-success col-md-5 col-md-offset-1 pull-right" ng-show="step < 3">
+                                Próximo passo
+                            </button>
+                            <button type="button" ng-click="goStep('-')" class="btn btn-default col-md-5 pull-right" ng-show="step > 1">
+                                Voltar
+                            </button>
+                            <button type="button" class="btn btn-default btn-clear col-md-5 pull-right" ng-click="closeModalAssembleia()">
+                                Cancelar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>

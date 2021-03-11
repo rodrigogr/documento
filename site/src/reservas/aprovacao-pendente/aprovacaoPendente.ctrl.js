@@ -25,6 +25,7 @@ angular.module('ReservasModule').controller('AprovacaoPendenteCtrl',
         $scope.open1 = function() {
             $scope.popup1.opened = true;
         };
+        $scope.analisandoReserva = [];
 
         // Disable weekend selection
         function disabled(data) {
@@ -66,8 +67,19 @@ angular.module('ReservasModule').controller('AprovacaoPendenteCtrl',
         }
 
         $scope.analisar = function (index) {
-            let reserva = $scope.pendentes[index];
+            $scope.analisandoReserva = $scope.pendentes[index];
             $("#analisarReserva").modal('show');
+        }
+
+        $scope.fecharAnalisando = function () {
+            $scope.analisandoReserva = [];
+            $("#analisarReserva").modal('hide');
+        }
+        
+        $scope.aprovarReserva = function () {
+            $http.get(`${config.apiUrl}api/aprovacao/pendentes/hoje`).then(function (result) {
+
+            });
         }
 
     });

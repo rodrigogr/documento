@@ -53,6 +53,8 @@ class Reserva extends Model
             ->where('periodo_local_reservavel.dia_semana', $dia_semana)
             ->orderBy('periodo_local_reservavel.hora_ini')
             ->select('periodo_local_reservavel.*',
+                'r.id as idReserva',
+                'r.data',
                 \DB::raw('date_format(periodo_local_reservavel.hora_ini,"%H:%i") as hora_ini'),
                 \DB::raw('date_format(periodo_local_reservavel.hora_fim,"%H:%i") as hora_fim'),
                 'r.id_imovel as reserva_idImovel',

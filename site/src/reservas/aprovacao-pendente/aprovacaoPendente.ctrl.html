@@ -91,12 +91,12 @@
                                     </div>
                                     <div class="row">
                                         <span class="col-xs-4 periodo"><b>{{reserva.hora_ini}} - {{reserva.hora_fim}}</b><br>{{reserva.valor | currency}}</span>
-                                        <span class="col-xs-13 col-xs-offset-1 status-local">
+                                        <span class="col-xs-12 col-xs-offset-1 status-local">
                                             <button class="btn text-uppercase reserva-status">{{reserva.reserva_status}}</button><br>
                                             <p>{{'Qd '+reserva.imovel.quadra+' / Lt '+reserva.imovel.lote}} - {{reserva.imovel.logradouro}}</p>
                                             <p class="text-capitalize">{{reserva.pessoa.nome}}</p>
                                         </span>
-                                        <span class="col-xs-6 pull-right" style="margin-right: 33px"><button class="btn btn-primary" ng-click="analisar()" style="width: 100%">ANALISAR</button></span>
+                                        <span class="col-xs-6 pull-right" style="margin-right: 33px"><button class="btn btn-primary" ng-click="analisar($index)" style="width: 100%">ANALISAR</button></span>
                                     </div>
                                 </div>
                             </div>
@@ -125,35 +125,66 @@
                         </div>
                         <div class="row info-localReservavel">
                             <div class="col-md-1"><i class="fa fa-group"></i></div>
-                            <div class="col-md-6 info-l"><b>CAPACIDADE</b><br>Sem limite definido</div>
+                            <div class="col-md-6 info-l"><b>CAPACIDADE</b><br>{{analisandoReserva.local_reservavel_capacidade || 'Sem limite definido' }}</div>
                             <div class="col-md-1 col-md-offset-2"><i class="fa icon-ba-cross" style="font-size: 26px;padding-left: 17px"></i></div>
-                            <div class="col-md-6 info-l"><b>CANCELAMENTO</b><br>A qualquer momento</div>
+                            <div class="col-md-6 info-l"><b>CANCELAMENTO</b><br>
+                                {{analisandoReserva.local_reservavel.antecedencia_cancel_num.length ? analisandoReserva.local_reservavel.antecedencia_cancel_num +' '+ analisandoReserva.local_reservavel.antecedencia_cancel_periodo : 'A qualquer momento'}}
+                            </div>
                             <div class="col-md-1 col-md-offset-2"><i class="fa fa-dollar" style="padding-left: 20px"></i></div>
-                            <div class="col-md-4 info-l"><b>VALOR</b><br>R$ 10,00</div>
+                            <div class="col-md-4 info-l"><b>VALOR</b><br>{{analisandoReserva.valor | currency}}</div>
                         </div>
                         <div class="row reserva-periodo">
                             <div class="col-md-7">
                                 <i class="fa fa-calendar-check-o text-primary"></i>
-                                <b>11/11/2021</b>
+                                <b>{{analisandoReserva.data | date}}</b>
                             </div>
                             <div class="col-md-7 col-md-push-1">
                                 <i class="fa fa-clock-o text-primary"></i>
-                                <b>10:20 - 11:20</b>
+                                <b>{{analisandoReserva.hora_ini}} - {{analisandoReserva.hora_fim}}</b>
                             </div>
                         </div>
                         <div class="row">
+                            <label>RESERVAR PARA</label>
                             <div class="card">
                                 <span class="col-md-6">
                                     <img src="../../../img/avatar.png">
                                 </span>
                                 <span class="col-md-16 ba__margin-top-13">
-                                    <h5><b>Nome da ailva sairo</b></h5><h6>(62) 95549-6245 / (62) 98547-6336</h6>
+                                    <h5><b class="text-capitalize">{{analisandoReserva.pessoa.nome}}</b></h5>
+                                    <h5>
+                                        {{
+                                            analisandoReserva.pessoa.tel1 && analisandoReserva.pessoa.tel2 ?
+                                            (analisandoReserva.pessoa.tel2 | formatTelephone) + ' / ' + (analisandoReserva.pessoa.tel1 | formatTelephone) :
+                                            analisandoReserva.pessoa.tel1 ? (analisandoReserva.pessoa.tel1 | formatTelephone) :
+                                            (analisandoReserva.pessoa.tel2 | formatTelephone)
+                                        }}
+                                    </h5>
                                 </span>
                             </div>
                         </div>
+                        <div class="row">
+                            <div class="col-md-20 unidade">
+                                <label>UNIDADE: </label>
+                                <h4>{{'Qd '+analisandoReserva.imovel.quadra+' Lt '+analisandoReserva.imovel.lote+' - '+analisandoReserva.imovel.logradouro}}</h4>
+                                <!--<select class="ba__input-select">
+                                    <option>Qd 01 Lt 05 - Rua Primavera</option>
+                                </select>-->
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-24 alert-warning alert-qtd-reserva">
+                                <i class="fa icon-ba-attention"></i>
+                                <span>Esta unidade já tem 05 reservas confirmadas.</span>
+                            </div>
+                        </div>
                     </div>
-                    <div class="modal-footer">
-                        footer
+
+                    <div class="modal-footer analisarReserva-footer">
+                        <button type="button" ng-click="aprovarReserva(analisandoReserva.id)" class="btn btn-success col-md-5 ba__margin-horizontal-40 pull-right">
+                            APROVAR
+                        </button>
+                        <span style="color:red" ng-click="recusarReserva()" class="col-md-5 pull-right">RECUSAR</span>
+                        <span style="color:#9C9C9C" ng-click="fecharAnalisando()" class="col-md-5 pull-left">FECHAR</span>
                     </div>
                 </div>
             </div>

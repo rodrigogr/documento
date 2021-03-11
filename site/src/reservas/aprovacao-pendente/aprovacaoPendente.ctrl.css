@@ -91,7 +91,7 @@ ul.tabs-aprovacao {
     width: 148px;
     height: 28px;
     margin-bottom: 10px;
-    cursor: pointer;
+    cursor: default;
 }
 .lista-reserva-dia .status-local p {
     margin-bottom: 0;
@@ -115,9 +115,23 @@ ul.tabs-aprovacao {
 }
 .analisarReserva-body {
     padding: 10px 0;
+    height: 653px;
 }
 .analisarReserva-body .row {
     padding: 25px 80px;
+}
+.analisarReserva-body .unidade label {
+    margin-right: 20px;
+    font-size: 18px;
+    float: left;
+    line-height: 62px;
+}
+.analisarReserva-body .unidade h4 {
+    background-color: #f1f1f1;
+    width: 65%;
+    padding: 10px 20px;
+    border-bottom: 6px solid #CCC;
+    float: left;
 }
 .info-localReservavel {
     background-color: #f5f2f2;
@@ -158,4 +172,26 @@ ul.tabs-aprovacao {
     height: 94px;
     border-radius: 51px;
     object-fit: cover;
+}
+.alert-qtd-reserva {
+    padding: 20px 30px;
+    border-radius: 4px;
+}
+.alert-qtd-reserva i {
+    float: left;
+    color: #F2994A;
+    font-size: 30px;
+}
+.alert-qtd-reserva span {
+    color: #94470e;
+    font-size: 20px;
+    margin-left: 40px;
+    float: left;
+    margin-top: 3px;
+}
+.analisarReserva-footer span {
+    text-decoration-line: underline;
+    height: 44px;
+    line-height: 38px;
+    font-size: 18px;
 }

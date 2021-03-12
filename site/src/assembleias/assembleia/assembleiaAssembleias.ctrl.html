@@ -112,10 +112,10 @@
                             <form name="formLocalidade">
                                 <div class="row">
                                     <!--STEP 1 DADOS GERAIS-->
-                                    <div class="form-group col-xs-24 ba__margin-top-20" id="step1" ng-show="step === 1">
+                                    <div class="form-group col-xs-14 ba__margin-top-20" id="step1" ng-show="step === 1">
 
                                         <div class="row ba__margin-bottom-30">
-                                            <div class="col-md-14">
+                                            <div class="col-md-24">
                                                 <p>TIPO DE REUNIÃO</p>
                                                 <input type="radio" id="geral" name="tipo" value="geral">
                                                 <label for="geral">Assembleia geral</label><br>
@@ -125,7 +125,7 @@
                                         </div>
                                         
                                         <div class="row ba__margin-bottom-30">
-                                            <div class="col-md-14">
+                                            <div class="col-md-24">
                                                 <div style="padding: 15px;">
                                                     <div class="control-input">
                                                         <input type="text" name="titulo" ng-model="conviteCadastroDescricao" placeholder=" " autocomplete="off" class="ng-pristine ng-valid ng-touched" aria-invalid="false">
@@ -133,6 +133,90 @@
                                                     </div>
                                                 </div>   
                                             </div>                                         
+                                        </div>
+
+                                        <div class="row ba__margin-bottom-30">
+                                            <p style="margin: 0;padding: 0 15px; text-transform: uppercase; font-size: 16px;">
+                                                TIPO DE REUNIÃO
+                                            </p>
+                                            <div class="col-md-12">
+                                                <div style="padding: 15px;">
+                                                    <div class="control-input">
+                                                        <input type="text" name="data_inicio" ng-model="conviteCadastroDescricao" placeholder=" " autocomplete="off" class="ng-pristine ng-valid ng-touched" aria-invalid="false">
+                                                        <span>DATA DO INICÍO</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-12">
+                                                <div style="padding: 15px;">
+                                                    <div class="control-input">
+                                                        <input 
+                                                            type="text" 
+                                                            name="titulo" 
+                                                            ng-model="conviteCadastroDescricao" 
+                                                            placeholder=" " 
+                                                            autocomplete="off" 
+                                                            class="ng-pristine ng-valid ng-touched" 
+                                                            aria-invalid="false">
+                                                        <span>HORA DO INICÍO</span>
+                                                    </div>
+                                                </div>   
+                                            </div> 
+                                            
+                                            <div class="col-md-12">
+                                                <div style="padding: 15px;">
+                                                    <div class="control-input">
+                                                        <input type="text" name="data_inicio" ng-model="conviteCadastroDescricao" placeholder=" " autocomplete="off" class="ng-pristine ng-valid ng-touched" aria-invalid="false">
+                                                        <span>DATA DO FIM</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-12">
+                                                <div style="padding: 15px;">
+                                                    <div class="control-input">
+                                                        <input type="text" name="titulo" ng-model="conviteCadastroDescricao" placeholder=" " autocomplete="off" class="ng-pristine ng-valid ng-touched" aria-invalid="false">
+                                                        <span>HORA DO FIM</span>
+                                                    </div>
+                                                </div>   
+                                            </div> 
+                                        </div>
+
+                                        <div class="row ba__margin-bottom-30">
+                                            <p style="margin: 0;padding: 0 15px; text-transform: uppercase; font-size: 16px;">
+                                                PERÍODO DA VOTAÇÃO
+                                            </p>
+
+                                            <div class="informativos info" role="alert">
+                                                <i class="fa fa-info-circle"></i>
+                                                <span>
+                                                    O inicio da votação devera ser manual, via painel administrativo.
+                                                    A data hora do fim definira abaixo podera ser editado posteriormente.
+                                                </span>
+                                            </div>
+
+                                            <div class="col-md-12">
+                                                <div style="padding: 15px;">
+                                                    <div class="control-input">
+                                                        <input type="text" name="data_inicio" ng-model="conviteCadastroDescricao" placeholder=" " autocomplete="off" class="ng-pristine ng-valid ng-touched" aria-invalid="false">
+                                                        <span>DATA DO FIM</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-12">
+                                                <div style="padding: 15px;">
+                                                    <div class="control-input">
+                                                        <input 
+                                                            type="text" 
+                                                            name="titulo" 
+                                                            ng-model="conviteCadastroDescricao" 
+                                                            placeholder=" " 
+                                                            autocomplete="off" 
+                                                            class="ng-pristine ng-valid ng-touched" 
+                                                            aria-invalid="false">
+                                                        <span>HORA DO FIM</span>
+                                                    </div>
+                                                </div>   
+                                            </div> 
                                         </div>
 
                                         <div class="row ba__margin-bottom-30">

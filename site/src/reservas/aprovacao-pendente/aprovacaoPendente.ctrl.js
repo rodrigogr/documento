@@ -36,9 +36,9 @@ angular.module('ReservasModule').controller('AprovacaoPendenteCtrl',
 
         $scope.contentActive = function(aba) {
             if (aba == 1) {
-
+                $scope.escolhaDia();
             } else {
-
+                recusados();
             }
         }
 
@@ -76,10 +76,40 @@ angular.module('ReservasModule').controller('AprovacaoPendenteCtrl',
             $("#analisarReserva").modal('hide');
         }
         
-        $scope.aprovarReserva = function () {
-            $http.get(`${config.apiUrl}api/aprovacao/pendentes/hoje`).then(function (result) {
-
+        $scope.aprovarReserva = function (id) {
+            var promisse = ($http.patch(`${config.apiUrl}api/aprovacao/`+id, 1));
+            promisse.then( function (result) {
+                let res = result.data.data;
+                $scope.escolhaDia();
+                $("#analisarReserva").modal('hide');
+                UtilsService.toastSuccess(res);
+            }).catch( function (e) {
+                UtilsService.openAlert(e.data.message);
             });
+        }
+
+        $scope.motivoRecusar = function (id) {
+            $scope.idRecusar = id;
+            $("#analisarReserva").modal('hide');
+        }
+
+        $scope.recusarReserva = function (id) {
+            var promisse = ($http.patch(`${config.apiUrl}api/aprovacao/recusar/`+id, 1));
+            promisse.then( function (result) {
+                let res = result.data.data;
+                $scope.escolhaDia();
+                $("#analisarReserva").modal('hide');
+                UtilsService.toastSuccess(res);
+            }).catch( function (e) {
+                UtilsService.openAlert(e.data.message);
+            });
+        }
+
+        function recusados() {
+            $scope.loadDiaPendente = true;
+            $http.get(`${config.apiUrl}api/aprovacao/recusadas`).then( function (result) {
+                $scope.recusados = result.data.data;
+            }).finally( () => $scope.loadDiaPendente = false);
         }
 
     });

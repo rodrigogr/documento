@@ -1,5 +1,6 @@
 <?php
 
+
 Route::group(['middleware' => 'jwt.auth'], function ()
 {
     Route::group(['prefix' => 'localreservavel'], function () {
@@ -25,7 +26,10 @@ Route::group(['middleware' => 'jwt.auth'], function ()
     });
 
     Route::group(['prefix' => 'aprovacao'], function () {
-        Route::get('/pendentes/hoje', 'reservas\AprovacaoController@hoje');
+        Route::get('/pendentes/hoje', 'reservas\AprovacaoController@pendentesHoje');
+        Route::patch('/{id}', 'reservas\AprovacaoController@aprovacao');
+        Route::patch('/recusar/{id}', 'reservas\AprovacaoController@recusar');
+        Route::get('/recusadas', 'reservas\AprovacaoController@recusados');
     });
 
     Route::group(['prefix' => 'localidades'], function () {

@@ -44,6 +44,7 @@ class Reserva extends Model
         return PeriodoLocalReservavel::join('reserva as r', function ($q) use($hoje) {
             $q->on('r.data',\DB::raw("'".$hoje."'"));
             $q->on('r.id_periodo','periodo_local_reservavel.id');
+            $q->where('r.status','pendente');
         })
             ->with(['imovel','pessoa','diaInativo'])
             ->with(['localReservavel' => function ($q) {
@@ -103,6 +104,33 @@ class Reserva extends Model
             ->where('id', $id)
             ->get();
     }
+
+    public function recusadas()
+    {
+        return PeriodoLocalReservavel::join('reserva as r', function ($q) {
+            $q->on('r.id_periodo','periodo_local_reservavel.id');
+            $q->where('r.status','recusada');
+        })
+            ->with(['imovel','pessoa','diaInativo'])
+            ->with(['localReservavel' => function ($q) {
+                $q->join('bioacesso_portaria.localidades','localidades.id','=','local_reservavel.id_localidade');
+                $q->select('bioacesso_portaria.localidades.descricao as localidade','local_reservavel.*');
+            }])
+            ->orderBy('r.data','desc')
+            ->select('periodo_local_reservavel.*',
+                'r.id as idReserva',
+                'r.data',
+                \DB::raw('date_format(periodo_local_reservavel.hora_ini,"%H:%i") as hora_ini'),
+                \DB::raw('date_format(periodo_local_reservavel.hora_fim,"%H:%i") as hora_fim'),
+                'r.id_imovel as reserva_idImovel',
+                'r.id_pessoa as reserva_idPessoa',
+                'r.status as reserva_status',
+                'r.id_imovel',
+                'r.id_pessoa')
+            ->get();
+    }
+
+    ## Relacionamentos ##
 
     public function localReservavel()
     {

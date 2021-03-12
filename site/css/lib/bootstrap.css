@@ -3790,7 +3790,7 @@ fieldset[disabled] .btn-primary.focus {
 .btn-success:hover {
   color: #ffffff;
   background-color: #82de7c;
-  border-color: rgba(0, 0, 0, 0);
+  /*border-color: rgba(0, 0, 0, 0);*/
 }
 .btn-success:active,
 .btn-success.active,

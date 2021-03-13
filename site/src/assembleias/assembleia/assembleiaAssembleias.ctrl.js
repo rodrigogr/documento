@@ -8,6 +8,20 @@ angular.module('AssembleiasModule').controller('AssembleiaAssembleiasCtrl',
         AuthService.aclPaginaService($state.$current.name, user.id).then(result => $scope.accessPagina = result.data);
 
 
+        $scope.assembleia = {
+            reuniao: '',
+            titulo: 'Mais um teste',
+            data_inicio: '',
+            data_fim: '',
+            hora_inicio: '',
+            hora_fim: '',
+            voto_data_inicio: '',
+            voto_hora_fim: '',
+            configuracao: true,
+            link_transmissao: '',
+            votacao_secreta: false
+        }
+
 
         moment.locale('pt-br');
         $scope.converteDateParaPtBR = function(date){
@@ -48,5 +62,18 @@ angular.module('AssembleiasModule').controller('AssembleiaAssembleiasCtrl',
 
         $scope.closeModalAssembleia = function () {
             $('#cadastroAssembleia').modal('hide');
+        }
+        //** Modal nova assembleia */
+
+
+        $scope.goStep = function (step) {
+            $('.ba__modal-body-assembleia').scrollTop(0);
+            if (typeof step == 'number') {
+                $scope.step = step;
+            } else if (step === '+') {
+                $scope.step = $scope.step + 1;
+            } else {
+                $scope.step = $scope.step - 1;
+            }
         }
     });

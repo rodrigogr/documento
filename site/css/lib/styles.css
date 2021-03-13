@@ -1765,7 +1765,8 @@ body {
     overflow-y: auto;
 }
 
-.ba__modal-body-tipo-lancamento {
+.ba__modal-body-tipo-lancamento, 
+.ba__modal-body-assembleia {
     min-height: 425px;
     height: 480px;
     max-height: 500px;

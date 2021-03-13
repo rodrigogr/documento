@@ -108,7 +108,10 @@
                             </div>
                         </div>
                         <!-- Form Mean -->
-                        <div class="modal-body ba__modal-body-tipo-lancamento">
+                        <div class="modal-body ba__modal-body-assembleia">
+                            <!-- <pre>
+                                {{ assembleia | json }}
+                            </pre> -->
                             <form name="formLocalidade">
                                 <div class="row">
                                     <!--STEP 1 DADOS GERAIS-->
@@ -116,11 +119,28 @@
 
                                         <div class="row ba__margin-bottom-30">
                                             <div class="col-md-24">
-                                                <p>TIPO DE REUNIÃO</p>
-                                                <input type="radio" id="geral" name="tipo" value="geral">
-                                                <label for="geral">Assembleia geral</label><br>
-                                                <input type="radio" id="interna" name="tipo" value="interna">
-                                                <label for="interna">Reunião interna</label><br>
+                                                <p style="margin: 0;padding: 0 15px 15px 15px; text-transform: uppercase; font-size: 16px;">
+                                                    TIPO DE REUNIÃO
+                                                </p>
+                                                <div class="col-md-24 format-radios">
+                                                    <label class="radio-inline">
+                                                        <input type="radio" 
+                                                        name="reuniao" 
+                                                        ng-model="assembleia.reuniao" 
+                                                        value="geral"
+                                                        checked
+                                                        title="*">
+                                                        Assembleia geral
+                                                    </label>
+                                                    <label class="radio-inline">
+                                                        <input type="radio" 
+                                                        name="reuniao" 
+                                                        ng-model="assembleia.reuniao" 
+                                                        value="interna" 
+                                                        title="*">
+                                                        Reunião interna
+                                                    </label>
+                                                </div>
                                             </div>
                                         </div>
                                         
@@ -128,7 +148,15 @@
                                             <div class="col-md-24">
                                                 <div style="padding: 15px;">
                                                     <div class="control-input">
-                                                        <input type="text" name="titulo" ng-model="conviteCadastroDescricao" placeholder=" " autocomplete="off" class="ng-pristine ng-valid ng-touched" aria-invalid="false">
+                                                        <input 
+                                                            type="text" 
+                                                            name="titulo"
+                                                            ng-model="assembleia.titulo"
+                                                            placeholder=" " 
+                                                            autocomplete="off" 
+                                                            class="ng-pristine ng-valid ng-touched"
+                                                            required
+                                                            aria-invalid="false">
                                                         <span>TÍTULO</span>
                                                     </div>
                                                 </div>   
@@ -142,7 +170,15 @@
                                             <div class="col-md-12">
                                                 <div style="padding: 15px;">
                                                     <div class="control-input">
-                                                        <input type="text" name="data_inicio" ng-model="conviteCadastroDescricao" placeholder=" " autocomplete="off" class="ng-pristine ng-valid ng-touched" aria-invalid="false">
+                                                        <input 
+                                                            type="text" 
+                                                            name="data_inicio" 
+                                                            ng-model="assembleia.data_inicio" 
+                                                            placeholder=" " 
+                                                            autocomplete="off" 
+                                                            mask="99/99/9999"
+                                                            class="ng-pristine ng-valid ng-touched" 
+                                                            aria-invalid="false">
                                                         <span>DATA DO INICÍO</span>
                                                     </div>
                                                 </div>
@@ -153,9 +189,10 @@
                                                         <input 
                                                             type="text" 
                                                             name="titulo" 
-                                                            ng-model="conviteCadastroDescricao" 
+                                                            ng-model="assembleia.hora_inicio" 
                                                             placeholder=" " 
                                                             autocomplete="off" 
+                                                            mask="99:99"
                                                             class="ng-pristine ng-valid ng-touched" 
                                                             aria-invalid="false">
                                                         <span>HORA DO INICÍO</span>
@@ -166,7 +203,15 @@
                                             <div class="col-md-12">
                                                 <div style="padding: 15px;">
                                                     <div class="control-input">
-                                                        <input type="text" name="data_inicio" ng-model="conviteCadastroDescricao" placeholder=" " autocomplete="off" class="ng-pristine ng-valid ng-touched" aria-invalid="false">
+                                                        <input 
+                                                            type="text" n
+                                                            ame="data_inicio" 
+                                                            ng-model="assembleia.data_fim" 
+                                                            placeholder=" " 
+                                                            autocomplete="off"
+                                                            mask="99/99/9999"
+                                                            class="ng-pristine ng-valid ng-touched" 
+                                                            aria-invalid="false">
                                                         <span>DATA DO FIM</span>
                                                     </div>
                                                 </div>
@@ -174,7 +219,15 @@
                                             <div class="col-md-12">
                                                 <div style="padding: 15px;">
                                                     <div class="control-input">
-                                                        <input type="text" name="titulo" ng-model="conviteCadastroDescricao" placeholder=" " autocomplete="off" class="ng-pristine ng-valid ng-touched" aria-invalid="false">
+                                                        <input 
+                                                            type="text" 
+                                                            name="titulo" 
+                                                            ng-model="assembleia.hora_fim" 
+                                                            placeholder=" " 
+                                                            autocomplete="off"
+                                                            mask="99:99"
+                                                            class="ng-pristine ng-valid ng-touched" 
+                                                            aria-invalid="false">
                                                         <span>HORA DO FIM</span>
                                                     </div>
                                                 </div>   
@@ -197,7 +250,15 @@
                                             <div class="col-md-12">
                                                 <div style="padding: 15px;">
                                                     <div class="control-input">
-                                                        <input type="text" name="data_inicio" ng-model="conviteCadastroDescricao" placeholder=" " autocomplete="off" class="ng-pristine ng-valid ng-touched" aria-invalid="false">
+                                                        <input 
+                                                            type="text" 
+                                                            name="data_inicio" 
+                                                            ng-model="assembleia.voto_data_inicio" 
+                                                            placeholder=" " 
+                                                            autocomplete="off"
+                                                            mask="99/99/9999"
+                                                            class="ng-pristine ng-valid ng-touched" 
+                                                            aria-invalid="false">
                                                         <span>DATA DO FIM</span>
                                                     </div>
                                                 </div>
@@ -208,9 +269,10 @@
                                                         <input 
                                                             type="text" 
                                                             name="titulo" 
-                                                            ng-model="conviteCadastroDescricao" 
+                                                            ng-model="assembleia.voto_hora_fim" 
                                                             placeholder=" " 
-                                                            autocomplete="off" 
+                                                            autocomplete="off"
+                                                            mask="99:99"
                                                             class="ng-pristine ng-valid ng-touched" 
                                                             aria-invalid="false">
                                                         <span>HORA DO FIM</span>
@@ -220,81 +282,69 @@
                                         </div>
 
                                         <div class="row ba__margin-bottom-30">
-                                            <div class="col-md-4">
-                                                <h5 class="text-right">Nome do local*</h5>
-                                            </div>
-                                            <div class="col-md-10 col-md-offset-1">
-                                                <input type="text" ng-model="localReservavel.nome" class="ba__input-modal"
-                                                       style="text-transform:uppercase"
-                                                       required>
-                                            </div>
-                                        </div>
-                                        <div class="row ba__margin-bottom-30">
-                                            <div class="col-md-4">
-                                                <h5 class="text-right">Descrição</h5>
-                                            </div>
-                                            <div class="col-md-10 col-md-offset-1">
-                                                <textarea ng-model="localReservavel.descricao" class="ba__input-modal"></textarea>
-                                            </div>
-                                        </div>
-                                        <div class="row ba__margin-bottom-30">
-                                            <div class="col-md-4">
-                                                <h5 class="text-right">Capacidade</h5>
-                                            </div>
-                                            <div class="col-md-1 col-md-offset-1 ba__margin-right-20">
+                                            <p style="margin: 0 0 15px; padding: 0 15px; text-transform: uppercase; font-size: 16px;">
+                                                CONFIGURAÇÕES
+                                            </p>  
+                                            
+                                            <div class="col-md-2 ba__margin-right-20" style="padding: 0 15px;">
                                                 <div class="onoffswitch">
-                                                    <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox"
-                                                           id="capacidade"
-                                                           checked
-                                                           ng-model="localReservavel.check_capacidade">
+                                                    <input type="checkbox" 
+                                                            name="onoffswitch"
+                                                            class="onoffswitch-checkbox"
+                                                            id="configuracao"
+                                                            checked
+                                                            ng-model="assembleia.configuracao">
+                                                    <label class="onoffswitch-label" for="configuracao">
+                                                        <span class="onoffswitch-inner"></span>
+                                                        <span class="onoffswitch-switch"></span>
+                                                    </label>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-10">
+                                                <h5 class="text-left"
+                                                    style="padding: 0; margin: 6px;">Transmissão online</h5>
+                                            </div>  
+                                            <div ng-if="assembleia.configuracao">
+                                                <div class="col-md-24">
+                                                    <div style="padding: 15px;">
+                                                        <div class="control-input">
+                                                            <input 
+                                                                type="text" 
+                                                                name="data_inicio" 
+                                                                ng-model="assembleia.link_transmissao" 
+                                                                placeholder=" "
+                                                                autocomplete="off" 
+                                                                class="ng-pristine ng-valid ng-touched" 
+                                                                aria-invalid="false">
+                                                            <span>Link da transmissão</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div> 
+                                        </div>  
+                                        
+                                        
+                                        <div class="row ba__margin-bottom-30">
+                                            <div class="col-md-2 ba__margin-right-20" style="padding: 0 15px;">
+                                                <div class="onoffswitch">
+                                                    <input type="checkbox" 
+                                                            name="onoffswitch"
+                                                            class="onoffswitch-checkbox"
+                                                            id="capacidade"
+                                                            checked
+                                                            ng-model="assembleia.votacao_secreta">
                                                     <label class="onoffswitch-label" for="capacidade">
                                                         <span class="onoffswitch-inner"></span>
                                                         <span class="onoffswitch-switch"></span>
                                                     </label>
                                                 </div>
                                             </div>
-                                            <p ng-if="!localReservavel.check_capacidade" class="col-md-6 ba__margin-left-10 ba__font-size-15">sem limite definido</p>
-                                            <div ng-if="localReservavel.check_capacidade" class="col-md-18 col-md-offset-1 ba__margin-top-10">
-                                                <i ng-click="subNum('capacidade')" class="fa fa-minus-circle ba__font-size-25 pull-left" style="padding-top: 10px"></i>
-                                                <input ng-model="localReservavel.capacidade" type="number" class="ba__input-modal limite-pessoas">
-                                                <i ng-click="addNum('capacidade')" class="fa icon-ba-plus ba__font-size-25 pull-left" style="padding-top: 10px"></i>
-                                                <span class="label_pessoa">pessoas</span>
-                                            </div>
+                                            <div class="col-md-10">
+                                                <h5 class="text-left"
+                                                    style="padding: 0; margin: 6px;">Votação secreta</h5>
+                                            </div>  
                                         </div>
-                                        <div class="row ba__margin-bottom-30">
-                                            <div class="col-md-3 col-md-offset-1">
-                                                <h5 class="text-right">Regras de Utilização</h5>
-                                            </div>
-                                            <div class="col-md-10 col-md-offset-1">
-                                                <!--<button class="btn btn-default pull-left ba__margin-right-15">ANEXAR ARQUIVO</button>-->
-                                                <input class="ba__font-size-12 pull-left" type="file" id="inputRegra" name="regra_local" onchange="angular.element(this).scope().changeInputField(this, 'regra')">
-                                                <span class="ba__font-size-12 pull-left ba__font-color-gray ba__margin-top-10" style="clear: both;" >Arquivos de no max 10MB, nas extensões .PDF, .DOC, .DOCX, .XLS, .XLSX, .JPG ou .TXT</span>
-                                            </div>
-                                            <div class="col-md-8">
-                                                <a ng-if="localReservavel.regra_local && arquivoIcon" href="javascript:void(0)" ng-click="abreDocumento()">
-                                                    <img src="{{arquivoIcon}}">
-                                                    <i style="font-size: 17px;">{{arquivoNome}}</i>
-                                                </a>
-                                                <a ng-if="localReservavel.regra_local && !arquivoIcon" href="javascript:void(0)" ng-click="abreDocumento()">
-                                                    <img src="img/icons/icon_file.png">
-                                                    <i style="font-size: 17px;">arquivo regra</i>
-                                                </a>
-                                            </div>
-                                        </div>
-                                        <div class="row ba__margin-bottom-30">
-                                            <div class="col-md-3 col-md-offset-1">
-                                                <h5 class="text-right">Imagem do local</h5>
-                                            </div>
-                                            <div class="col-md-10 col-md-offset-1">
-                                                <input type="file" id="inputFoto" name="foto_local" class="hide" onchange="angular.element(this).scope().changeInputField(this, 'foto')">
-                                                <div class="input-group">
-                                                    <span style="display: inline-flex">
-                                                        <img src="img/ins_foto.jpg" ng-click="addFotoLocal()" class="imgAdd-localReservavel">
-                                                        <img src="{{localReservavel.foto_local}}" class="img-localReservavel">
-                                                    </span>
-                                                </div>
-                                            </div>
-                                        </div>
+                                        
                                     </div>
 
                                     <!--STEP 2 PARAMETRIZAÇÕES-->

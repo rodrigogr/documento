@@ -1,0 +1,576 @@
+<link rel="stylesheet" href="src/assembleias/assembleia/assembleiaAssembleias.ctrl.css">
+
+<div class="header">
+    <div header></div>
+</div>
+
+<div class="row container-fluid ba__body-content ba__full-width">
+    <!--CONTAINER MENU-->
+    <div sidebar></div>
+    <!--CONTAINER SISTEMA-->
+    <div class="col-xs-21 ba__admin-container">
+        <!-- INICIO Tela CATEGORIA DE USUÁRIOS-->
+        
+        <div class="col-xs-24 ba__admin-container-list">
+
+            <!-- Search -->
+            <div class="row ba__admin-busca">
+                <div class="col-xs-24 input-group ba__admin-busca-input" style="float: left; border: none!important; height: 30px; margin-left: 20px">
+                    <span class="input-group-addon" style="height: 60px"></span>
+                    <select class="col-xs-3 ba__adminSelectBusca" ng-change="pesquisaChange()" ng-init="search.type = 'nome'" ng-model="search.type"
+                            style="height: 50px; border-bottom: 1px solid #cccccc;padding-left: 20px;">
+                        <option value="nome">Nome</option>
+                    </select>
+                    <input type="text" class="col-xs-4 ba__margin-left-15" ng-model="search.nome" style="height: 50px; border-bottom: 1px solid #cccccc;">
+                    <button type="button" class="btn btn-primary col-xs-3 col-xs-offset-1 uppercase" style="margin-top: 7px" ng-click="checkData(search) && pesquisar(search)">
+                        Pesquisar
+                        <i class="icon-ba-search"></i>
+                    </button>
+                </div>
+            </div>
+            <!-- Search -->
+
+            <!-- Nova Assembleia -->
+            <div class="row" style="height: auto; margin: 10px 2%">
+                <div class="row ba__margin-top-20">
+                    <h3 class="col-md-17 Roboto-Light">
+                        <strong>{{listAssembleias.length || 0}}</strong> Registros encontrados</h3>
+                    <button type="button" class="btn btn-success col-xs-offset-3 col-xs-4 uppercase" style="margin-top: 12px"
+                            data-toggle="modal" ng-click="createNewAssembleia()" ng-if="accessPagina.inserir">
+                            NOVA ASSEMBLEIA
+                    </button>
+                </div>
+            </div>
+            <!-- Nova Assembleia -->
+
+            <!-- Table List-->
+            <div class="ba__admin-table" style="margin: 20px">
+                <a class="list-group-item lista-head">
+                    <div class="row uppercase titulo-lista">
+                        <div class="col-xs-6" style="cursor: pointer;" ng-click="sort('id')"><b>Título</b> {{prop=='id'&&(reverse?'⬆':'⬇')||''}}
+                            <i class="ba__margin-horizontal-5"></i>
+                        </div>
+                        <div class="col-xs-4" style="cursor: pointer;" ng-click="sort('nome')"><b>status</b> {{prop == 'nome'&&(reverse?'⬆':'⬇')||''}}
+                            <i class="ba__margin-horizontal-5"></i>
+                        </div>
+                        <div class="col-xs-4" style="cursor: pointer;" ng-click="sort('descricao')"><b>Início</b> {{prop=='descricao'&&(reverse?'⬆':'⬇')||''}}
+                            <i class="ba__margin-horizontal-5"></i>
+                        </div>
+                        <div class="col-xs-4" style="cursor: pointer;" ng-click="sort('capacidade')"><b>Tipo</b> {{prop=='capacidade'&&(reverse?'⬆':'⬇')||''}}
+                            <i class="ba__margin-horizontal-5"></i>
+                        </div>
+                        <div class="col-xs-4" style="cursor: pointer;" ng-click="sort('capacidade')"><b>Local</b> {{prop=='capacidade'&&(reverse?'⬆':'⬇')||''}}
+                            <i class="ba__margin-horizontal-5"></i>
+                        </div>
+                        <div class="col-xs-2 text-right" style="cursor: pointer;"></div>
+
+                    </div>
+                </a>
+                <div class="list-group">
+                    <a href="javascript:void(0)" ng-click="editarLocal(local.id)" 
+                        class="list-group-item"
+                        ng-repeat="assembleia in listAssembleias">
+                        <h5 class="col-xs-6 list-group-item-heading">{{assembleia.titulo}}</h5>
+                        <h5 class="col-xs-4 list-group-item-heading">
+                            <span class="badge-style {{assembleia.status.toLowerCase() === 'agendada' ? ' badge-agendada' : assembleia.status.toLowerCase() === 'encerrada' ? ' badge-encerrada' : 'badge-em-andamento' }}">
+                                {{ assembleia.status }}
+                            </span>
+                        </h5>
+                        <h5 class="col-xs-4 list-group-item-heading">
+                            {{ converteDateParaPtBR(assembleia.date) }} ás {{ assembleia.hora }}
+                        </h5>
+                        <h5 class="col-xs-4 list-group-item-heading">{{assembleia.tipo}}</h5>
+                        <h5 class="col-xs-4 list-group-item-heading">{{assembleia.local}}</h5>
+                        <h5 class="col-xs-2 list-group-item-heading text-right">
+                            <i class="fa fa-eye"></i>
+                        </h5>
+                    </a>
+                </div>
+
+            </div>
+            <!-- Table List-->
+
+            <div class="modal fade" id="cadastroAssembleia" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="false">
+                <div class="modal-dialog assembleia-modal" role="document">
+                    <div class="modal-content assembleia-content">
+                        <!-- Header -->
+                        <div class="modal-header assembleia-header">
+                            <div class="row">
+                                <h4 class="modal-title Roboto-Thin ba__font-size-25" style="padding: 25px 25px 10px; font-weight: bold;">
+                                    <i class="icon-ba-building text-center text-primary ba__margin-horizontal-5 icon-modal-title"></i>
+                                    <span>{{ localReservavel.id ? 'Editar Assembleia' : 'Novo Assembleia'}}</span>
+                                </h4>
+                            </div>
+                            <div class="row check-assembleia">
+                                <span class="col-sm-7 col-sm-offset-1"><h4><b ng-class="{'step-selecionado': step == 1}" ng-click="goStep(1)">1</b> Dados Gerais</h4></span>
+                                <span class="col-sm-7 col-sm-offset-1"><h4><b ng-class="{'step-selecionado': step == 2}" ng-click="goStep(2)">2</b> Pautas</h4></span>
+                                <span class="col-sm-6 col-sm-offset-2"><h4><b ng-class="{'step-selecionado': step == 3}" ng-click="goStep(3)">3</b> Participantes</h4></span>
+                            </div>
+                        </div>
+                        <!-- Form Mean -->
+                        <div class="modal-body ba__modal-body-assembleia">
+                            <!-- <pre>
+                                {{ assembleia | json }}
+                            </pre> -->
+                            <form name="formLocalidade">
+                                <div class="row">
+                                    <!--STEP 1 DADOS GERAIS-->
+                                    <div class="form-group col-xs-14 ba__margin-top-20" id="step1" ng-show="step === 1">
+
+                                        <div class="row ba__margin-bottom-30">
+                                            <div class="col-md-24">
+                                                <p style="margin: 0;padding: 0 15px 15px 15px; text-transform: uppercase; font-size: 16px;">
+                                                    TIPO DE REUNIÃO
+                                                </p>
+                                                <div class="col-md-24 format-radios">
+                                                    <label class="radio-inline">
+                                                        <input type="radio" 
+                                                        name="reuniao" 
+                                                        ng-model="assembleia.reuniao" 
+                                                        value="geral"
+                                                        checked
+                                                        title="*">
+                                                        Assembleia geral
+                                                    </label>
+                                                    <label class="radio-inline">
+                                                        <input type="radio" 
+                                                        name="reuniao" 
+                                                        ng-model="assembleia.reuniao" 
+                                                        value="interna" 
+                                                        title="*">
+                                                        Reunião interna
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="row ba__margin-bottom-30">
+                                            <div class="col-md-24">
+                                                <div style="padding: 15px;">
+                                                    <div class="control-input">
+                                                        <input 
+                                                            type="text" 
+                                                            name="titulo"
+                                                            ng-model="assembleia.titulo"
+                                                            placeholder=" " 
+                                                            autocomplete="off" 
+                                                            class="ng-pristine ng-valid ng-touched"
+                                                            required
+                                                            aria-invalid="false">
+                                                        <span>TÍTULO</span>
+                                                    </div>
+                                                </div>   
+                                            </div>                                         
+                                        </div>
+
+                                        <div class="row ba__margin-bottom-30">
+                                            <p style="margin: 0;padding: 0 15px; text-transform: uppercase; font-size: 16px;">
+                                                TIPO DE REUNIÃO
+                                            </p>
+                                            <div class="col-md-12">
+                                                <div style="padding: 15px;">
+                                                    <div class="control-input">
+                                                        <input 
+                                                            type="text" 
+                                                            name="data_inicio" 
+                                                            ng-model="assembleia.data_inicio" 
+                                                            placeholder=" " 
+                                                            autocomplete="off" 
+                                                            mask="99/99/9999"
+                                                            class="ng-pristine ng-valid ng-touched" 
+                                                            aria-invalid="false">
+                                                        <span>DATA DO INICÍO</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-12">
+                                                <div style="padding: 15px;">
+                                                    <div class="control-input">
+                                                        <input 
+                                                            type="text" 
+                                                            name="titulo" 
+                                                            ng-model="assembleia.hora_inicio" 
+                                                            placeholder=" " 
+                                                            autocomplete="off" 
+                                                            mask="99:99"
+                                                            class="ng-pristine ng-valid ng-touched" 
+                                                            aria-invalid="false">
+                                                        <span>HORA DO INICÍO</span>
+                                                    </div>
+                                                </div>   
+                                            </div> 
+                                            
+                                            <div class="col-md-12">
+                                                <div style="padding: 15px;">
+                                                    <div class="control-input">
+                                                        <input 
+                                                            type="text" n
+                                                            ame="data_inicio" 
+                                                            ng-model="assembleia.data_fim" 
+                                                            placeholder=" " 
+                                                            autocomplete="off"
+                                                            mask="99/99/9999"
+                                                            class="ng-pristine ng-valid ng-touched" 
+                                                            aria-invalid="false">
+                                                        <span>DATA DO FIM</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-12">
+                                                <div style="padding: 15px;">
+                                                    <div class="control-input">
+                                                        <input 
+                                                            type="text" 
+                                                            name="titulo" 
+                                                            ng-model="assembleia.hora_fim" 
+                                                            placeholder=" " 
+                                                            autocomplete="off"
+                                                            mask="99:99"
+                                                            class="ng-pristine ng-valid ng-touched" 
+                                                            aria-invalid="false">
+                                                        <span>HORA DO FIM</span>
+                                                    </div>
+                                                </div>   
+                                            </div> 
+                                        </div>
+
+                                        <div class="row ba__margin-bottom-30">
+                                            <p style="margin: 0;padding: 0 15px; text-transform: uppercase; font-size: 16px;">
+                                                PERÍODO DA VOTAÇÃO
+                                            </p>
+
+                                            <div class="informativos info" role="alert">
+                                                <i class="fa fa-info-circle"></i>
+                                                <span>
+                                                    O inicio da votação devera ser manual, via painel administrativo.
+                                                    A data hora do fim definira abaixo podera ser editado posteriormente.
+                                                </span>
+                                            </div>
+
+                                            <div class="col-md-12">
+                                                <div style="padding: 15px;">
+                                                    <div class="control-input">
+                                                        <input 
+                                                            type="text" 
+                                                            name="data_inicio" 
+                                                            ng-model="assembleia.voto_data_inicio" 
+                                                            placeholder=" " 
+                                                            autocomplete="off"
+                                                            mask="99/99/9999"
+                                                            class="ng-pristine ng-valid ng-touched" 
+                                                            aria-invalid="false">
+                                                        <span>DATA DO FIM</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-12">
+                                                <div style="padding: 15px;">
+                                                    <div class="control-input">
+                                                        <input 
+                                                            type="text" 
+                                                            name="titulo" 
+                                                            ng-model="assembleia.voto_hora_fim" 
+                                                            placeholder=" " 
+                                                            autocomplete="off"
+                                                            mask="99:99"
+                                                            class="ng-pristine ng-valid ng-touched" 
+                                                            aria-invalid="false">
+                                                        <span>HORA DO FIM</span>
+                                                    </div>
+                                                </div>   
+                                            </div> 
+                                        </div>
+
+                                        <div class="row ba__margin-bottom-30">
+                                            <p style="margin: 0 0 15px; padding: 0 15px; text-transform: uppercase; font-size: 16px;">
+                                                CONFIGURAÇÕES
+                                            </p>  
+                                            
+                                            <div class="col-md-2 ba__margin-right-20" style="padding: 0 15px;">
+                                                <div class="onoffswitch">
+                                                    <input type="checkbox" 
+                                                            name="onoffswitch"
+                                                            class="onoffswitch-checkbox"
+                                                            id="configuracao"
+                                                            checked
+                                                            ng-model="assembleia.configuracao">
+                                                    <label class="onoffswitch-label" for="configuracao">
+                                                        <span class="onoffswitch-inner"></span>
+                                                        <span class="onoffswitch-switch"></span>
+                                                    </label>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-10">
+                                                <h5 class="text-left"
+                                                    style="padding: 0; margin: 6px;">Transmissão online</h5>
+                                            </div>  
+                                            <div ng-if="assembleia.configuracao">
+                                                <div class="col-md-24">
+                                                    <div style="padding: 15px;">
+                                                        <div class="control-input">
+                                                            <input 
+                                                                type="text" 
+                                                                name="data_inicio" 
+                                                                ng-model="assembleia.link_transmissao" 
+                                                                placeholder=" "
+                                                                autocomplete="off" 
+                                                                class="ng-pristine ng-valid ng-touched" 
+                                                                aria-invalid="false">
+                                                            <span>Link da transmissão</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div> 
+                                        </div>  
+                                        
+                                        
+                                        <div class="row ba__margin-bottom-30">
+                                            <div class="col-md-2 ba__margin-right-20" style="padding: 0 15px;">
+                                                <div class="onoffswitch">
+                                                    <input type="checkbox" 
+                                                            name="onoffswitch"
+                                                            class="onoffswitch-checkbox"
+                                                            id="capacidade"
+                                                            checked
+                                                            ng-model="assembleia.votacao_secreta">
+                                                    <label class="onoffswitch-label" for="capacidade">
+                                                        <span class="onoffswitch-inner"></span>
+                                                        <span class="onoffswitch-switch"></span>
+                                                    </label>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-10">
+                                                <h5 class="text-left"
+                                                    style="padding: 0; margin: 6px;">Votação secreta</h5>
+                                            </div>  
+                                        </div>
+                                        
+                                    </div>
+
+                                    <!--STEP 2 PARAMETRIZAÇÕES-->
+                                    <div class="form-group col-xs-24" id="step2" ng-show="step === 2">
+
+                                        <div class="row ba__margin-top-15 ba__margin-bottom-30">
+                                            <div class="col-md-6">
+                                                <div class="col-xs-5 pull-right">
+                                                    <div class="onoffswitch">
+                                                        <input type="checkbox" id="visibilidadeDadosUsuario" name="onoffswitch" class="onoffswitch-checkbox" enter ng-model="localReservavel.dadosVisiveis">
+                                                        <label class="onoffswitch-label" for="visibilidadeDadosUsuario">
+                                                            <span class="onoffswitch-inner" ng-show="localReservavel.dadosVisiveis"></span>
+                                                            <span class="onoffswitch-switch" ng-show="!localReservavel.dadosVisiveis"></span>
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-14 col-md-offset-1">
+                                                <h5 style="margin-top: 0">Deixar visível os dados de quem reservou para os outros usuários (somente nome e unidade)</h5>
+                                            </div>
+                                        </div>
+                                        <div class="row ba__margin-bottom-30">
+                                            <div class="col-md-5 col-md-push-1">
+                                                <h5 class="text-right">Antecedência máxima para reserva</h5>
+                                            </div>
+                                            <div class="col-md-17 col-md-offset-2">
+                                                <i ng-click="subNum('antecedenciaMaxReserva')" class="fa fa-minus-circle ba__font-size-25 pull-left text-gray" style="padding-top: 10px"></i>
+                                                <input type="number" min="0" ng-model="localReservavel.antecedenciaMaxReserva" class="ba__input-modal limite-pessoas color-padrao" style="margin: 0 10px 0 2px">
+                                                <i ng-click="addNum('antecedenciaMaxReserva')" class="fa icon-ba-plus ba__font-size-25 pull-left text-gray" style="padding-top: 10px"></i>
+                                                <select class="ba__input-select color-padrao" ng-model="localReservavel.antecedenciaMaxReservaTempo" style="width: 21%;margin-left: 10px;float: left;">
+                                                    <option value="horas">horas</option>
+                                                    <option value="dias">dias</option>
+                                                    <option value="semanas">semanas</option>
+                                                    <option value="mês">mês</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="row ba__margin-bottom-30">
+                                            <div class="col-md-5 col-md-push-1">
+                                                <h5 class="text-right">Antecedência mínima para reserva</h5>
+                                            </div>
+                                            <div class="col-md-17 col-md-offset-2">
+                                                <i ng-click="subNum('antecedenciaMinReserva')" class="fa fa-minus-circle ba__font-size-25 pull-left text-gray" style="padding-top: 10px"></i>
+                                                <input type="number" min="0" ng-model="localReservavel.antecedenciaMinReserva" class="ba__input-modal limite-pessoas color-padrao" style="margin: 0 10px 0 2px">
+                                                <i ng-click="addNum('antecedenciaMinReserva')" class="fa icon-ba-plus ba__font-size-25 pull-left text-gray" style="padding-top: 10px"></i>
+                                                <select class="ba__input-select color-padrao" ng-model="localReservavel.antecedenciaMinReservaTempo" style="width: 21%;margin-left: 10px;float: left;">
+                                                    <option value="horas">horas</option>
+                                                    <option value="dias">dias</option>
+                                                    <option value="semanas">semanas</option>
+                                                    <option value="mês">mês</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="row ba__margin-bottom-30">
+                                            <div class="col-md-5 col-md-push-1">
+                                                <h5 class="text-right">Antecedência mínima para cancelamento</h5>
+                                            </div>
+                                            <div class="col-md-17 col-md-offset-2">
+                                                <i ng-click="subNum('antecedenciaMinCancelamento')" class="fa fa-minus-circle ba__font-size-25 pull-left text-gray" style="padding-top: 10px"></i>
+                                                <input type="number" min="0" ng-model="localReservavel.antecedenciaMinCancelamento" class="ba__input-modal limite-pessoas color-padrao" style="margin: 0 10px 0 2px">
+                                                <i ng-click="addNum('antecedenciaMinCancelamento')" class="fa icon-ba-plus ba__font-size-25 pull-left text-gray" style="padding-top: 10px"></i>
+                                                <select class="ba__input-select color-padrao" ng-model="localReservavel.antecedenciaMinCancelamentoTempo" style="width: 21%;margin-left: 10px;float: left;">
+                                                    <option value="horas">horas</option>
+                                                    <option value="dias">dias</option>
+                                                    <option value="semanas">semanas</option>
+                                                    <option value="mês">mês</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="row ba__margin-bottom-30">
+                                            <div class="col-md-5 col-md-push-1">
+                                                <h5 class="text-right">Quantas reservas um morador pode fazer no mesmo dia?</h5>
+                                            </div>
+                                            <div class="col-md-17 col-md-offset-2">
+                                                <i ng-click="subNum('numMaxReserva')" class="fa fa-minus-circle ba__font-size-25 pull-left text-gray" style="padding-top: 10px"></i>
+                                                <input type="number" min="0" ng-model="localReservavel.numMaxReserva" class="ba__input-modal limite-pessoas color-padrao" style="margin: 0 10px 0 2px">
+                                                <i ng-click="addNum('numMaxReserva')" class="fa icon-ba-plus ba__font-size-25 pull-left text-gray" style="padding-top: 10px"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!--STEP 3 PERÍODOS-->
+                                    <div class="form-group col-xs-24" id="step3" ng-show="step === 3">
+                                        <div class="row ba__margin-bottom-30">
+                                            <ul class="reservaDiasSemana" style="margin-bottom: 0">
+                                                <li ng-click="escolhaDiaSemana('seg')" class="activeDia">SEG</li>
+                                                <li ng-click="escolhaDiaSemana('ter')">TER</li>
+                                                <li ng-click="escolhaDiaSemana('qua')">QUA</li>
+                                                <li ng-click="escolhaDiaSemana('qui')">QUI</li>
+                                                <li ng-click="escolhaDiaSemana('sex')">SEX</li>
+                                                <li ng-click="escolhaDiaSemana('sab')">SAB</li>
+                                                <li ng-click="escolhaDiaSemana('dom')">DOM</li>
+                                            </ul>
+                                        </div>
+
+                                        <div style="background-color: #FAFAFA; padding: 30px 10px;">
+                                            <div class="ba__margin-bottom-10 cardHorario">
+                                                <div class="col-md-20 unit" ng-repeat="periodo in objPeriodoAtual" ng-show="periodo.deleted == 0">
+                                                    <div class="form-inline">
+                                                        <div class="form-group">
+                                                            <i class="fa fa-clock-o ba__margin-horizontal-15 text-primary"></i>
+                                                            <input type="text" class="ba__input-modal form-control" ng-model="periodo.hora_ini" mask="99:99" placeholder="00:00">
+                                                            <span class="ba__margin-horizontal-15">até</span>
+                                                            <input type="text" class="ba__input-modal form-control" ng-model="periodo.hora_fim" mask="99:99" placeholder="00:00">
+
+                                                            <i class="fa fa-dollar text-primary" style="margin-left: 65px; margin-right: 15px"></i>
+                                                            <span>Valor &nbsp;</span>
+                                                            <input type="text" class="ba__input-modal form-control" ng-model="periodo.valor"
+                                                                   ui-money-mask=""
+                                                                   placeholder="R$ 0,00"
+                                                                   style="width: 22% !important;">
+
+                                                            <i class="fa fa-trash" style="margin-left: 65px" ng-click="excluirPeriodo(periodo, $index)"></i>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="row">
+                                                <button type="button" ng-click="adicionarPeriodo(periodoAtual)" class="btn btn-default btn-clear col-md-6 btn-addPeriodo">
+                                                    ADICIONAR PERÍODO
+                                                </button>
+                                            </div>
+
+                                            <div class="row ba__margin-top-15 ba__margin-bottom-30">
+                                                <div class="col-md-1" style="margin-left: 14px">
+                                                    <div class="onoffswitch">
+                                                        <input type="checkbox" id="checkManterHorarios" name="onoffswitch" class="onoffswitch-checkbox" enter ng-model="manterHorarios">
+                                                        <label class="onoffswitch-label" for="checkManterHorarios">
+                                                            <span class="onoffswitch-inner" ng-show="manterHorarios"></span>
+                                                            <span class="onoffswitch-switch" ng-show="!manterHorarios"></span>
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-14" style="margin-left: 30px">
+                                                    <h4 style="margin-top: 3px">Manter os mesmos horários para todos os dias da semana</h4>
+                                                </div>
+                                            </div>
+
+                                        </div>
+
+                                        <div class="row ba__admin-list">
+                                            <h3>Dias Inativos</h3>
+                                            <div class="list-group ba__admin-table ba__margin-top-20 col-md-24" style="height: 65%; overflow: hidden">
+                                                <a class="list-group-item disabled col-md-24">
+                                                    <div class="row uppercase">
+                                                        <div class="col-xs-4">Data
+                                                            <i class="ba__margin-horizontal-5"></i>
+                                                        </div>
+                                                        <div class="col-xs-12">Descrição
+                                                            <i class="ba__margin-horizontal-5"></i>
+                                                        </div>
+                                                        <div class="col-xs-5">Repetição
+                                                            <i class="ba__margin-horizontal-5"></i>
+                                                        </div>
+                                                        <div class="col-xs-3">
+                                                            <i class="ba__margin-horizontal-5"></i>
+                                                        </div>
+                                                    </div>
+                                                </a>
+                                                <div class="ba__admin-table-scroll col-md-24" style="overflow: auto">
+                                                    <a class="list-group-item ba__font-size-15 blocoDiaInativo" ng-repeat="inativo in localReservavel.dia_inativo"
+                                                       ng-show="inativo.deleted == 0">
+                                                        <div class="row">
+                                                            <div class="col-xs-4">
+                                                                <div class="col-xs-20">
+                                                                    <span>{{inativo.data}}</span>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-xs-12">
+                                                                <div class="col-xs-20">
+                                                                    <span>{{inativo.descricao}}</span>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-xs-5">
+                                                                <div class="col-xs-20">
+                                                                    <span>{{inativo.repetir}}</span>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-xs-3">
+                                                                <i class="fa fa-edit ba__margin-left-15" ng-click="abreEditarDiaInativo($index)" title="Editar"></i>
+                                                                <i class="fa fa-trash ba__margin-left-15" ng-click="excluirDiaInativo($index)" title="Excluir"></i>
+                                                            </div>
+                                                        </div>
+                                                    </a>
+                                                </div>
+
+                                                <div class="row">
+                                                    <button type="button" ng-click="adicionarDiaInativo()" class="btn btn-default btn-clear col-md-6 btn-addPeriodo">
+                                                        ADICIONAR DIA
+                                                    </button>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        <!-- Footer -->
+                        <div class="modal-footer" style="margin: 20px">
+                            <button ng-if="!localReservavel.id" type="button" class="btn btn-success col-md-5 pull-right" ng-show="step == 3"
+                                    ng-disabled="formLocalidade.$invalid"
+                                    style="margin-left: 5px"
+                                    ng-click="salvar()">
+                                Concluir
+                            </button>
+                            <button ng-if="localReservavel.id" type="button" class="btn btn-success col-md-5 pull-right" ng-show="step == 3"
+                                    ng-disabled="formLocalidade.$invalid"
+                                    style="margin-left: 5px"
+                                    ng-click="update()">
+                                Editar
+                            </button>
+                            <button type="button" ng-click="goStep('+')" class="btn btn-success col-md-5 col-md-offset-1 pull-right" ng-show="step < 3">
+                                Próximo passo
+                            </button>
+                            <button type="button" ng-click="goStep('-')" class="btn btn-default col-md-5 pull-right" ng-show="step > 1">
+                                Voltar
+                            </button>
+                            <button type="button" class="btn btn-default btn-clear col-md-5 pull-right" ng-click="closeModalAssembleia()">
+                                Cancelar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

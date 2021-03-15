@@ -14,7 +14,7 @@ class AddColumnObsTableReserva extends Migration
     public function up()
     {
         Schema::table('reserva', function (Blueprint $table) {
-            $table->text('obs');
+            $table->text('obs')->nullable()->default(null);
         });
     }
 

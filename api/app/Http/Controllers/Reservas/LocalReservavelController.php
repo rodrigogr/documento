@@ -87,6 +87,7 @@ class LocalReservavelController extends Controller
                     if (!isset($dados_dia["id"]) && $dados_dia["hora_ini"]) {
                         $dados_dia["id_local_reservavel"] = $id;
                         $dados_dia["dia_semana"] = $key;
+                        $dados_dia["valor"] = (float)$dados_dia["valor"];
                         PeriodoLocalReservavel::create($dados_dia);
                     }
                     if (isset($dados_dia["id"]) && $dados_dia["hora_ini"] && (isset($dados_dia["deleted"]) && !$dados_dia["deleted"])) {
@@ -95,7 +96,7 @@ class LocalReservavelController extends Controller
                         $periodoAlt->dia_semana = $key;
                         $periodoAlt->hora_ini = $dados_dia["hora_ini"];
                         $periodoAlt->hora_fim = $dados_dia["hora_fim"];
-                        $periodoAlt->valor = $dados_dia["valor"] == "" || $dados_dia["valor"] = "0.00"  ? 0.00 : $dados_dia["valor"];
+                        $periodoAlt->valor = (float)$dados_dia["valor"];
                         $periodoAlt->save();
                     }
                     if (isset($dados_dia["deleted"]) && $dados_dia["deleted"]) {

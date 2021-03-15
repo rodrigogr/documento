@@ -40,12 +40,12 @@
                         <span ng-if="!loadLocais"><i class="fa fa-spinner fa-spin ba__font-size-17"></i></span>
                         <div ng-if="loadLocais">
                             <dl>
-                                <dt class="list-localidade" ng-click="todosHoje()">Todos</dt>
+                                <dt class="list-localidade" ng-click="pendentesHoje()">Todos</dt>
                             </dl>
                             <dl ng-repeat="localidade in locaisReservaveis">
-                                <dt class="list-localidade">{{localidade.descricao}}</dt>
+                                <dt class="list-localidade" ng-click="pendentesHoje(false, localidade.id)">{{localidade.descricao}}</dt>
                                <dl>
-                                   <dd class="list-locaisReservaveis" ng-repeat="locais in localidade.locais_reservaveis">{{locais.nome}}</dd>
+                                   <dd class="list-locaisReservaveis" ng-click="pendentesHoje(locais.id)" ng-repeat="locais in localidade.locais_reservaveis">{{locais.nome}}</dd>
                                </dl>
                             </dl>
                         </div>
@@ -61,12 +61,8 @@
                                     Escolher dia
                                     
                                 </h4>-->
-                                <!--<input type="text" class="form-control" uib-datepicker-popup="{{format}}" ng-model="dt" is-open="popup1.opened" datepicker-options="dateOptions" ng-required="true" close-text="Close" alt-input-formats="altInputFormats" />
-                                <span class="input-group-btn">
-                                    <button type="button" class="btn btn-default" ng-click="open1()"><i class="fa fa-calendar"></i></button>
-                                </span>-->
 
-                                <div class="col-md-6">
+                                <!--<div class="col-md-6">
                                     <p class="input-group">
                                         <input type="text" class="form-control" uib-datepicker-popup="{{format}}"
                                                ng-model="dt" is-open="popup1.opened"
@@ -76,7 +72,7 @@
                                             <button type="button" class="btn btn-default" ng-click="open1()"><i class="fa fa-calendar"></i></button>
                                         </span>
                                     </p>
-                                </div>
+                                </div>-->
                             </div>
                             <div class="lista-reserva-dia" ng-if="!pendentes.length">
                                 <div class="row local">
@@ -108,6 +104,7 @@
 
         </div>
 
+        <!--MODAL APROVAÇÃO RESERVA-->
         <div class="modal fade" id="analisarReserva" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="false">
             <div class="modal-dialog modal-analisarReserva" role="document">
                 <div class="modal-content analisarReserva-content">

@@ -7,7 +7,7 @@ angular.module('ReservasModule').controller('AprovacaoPendenteCtrl',
         AuthService.aclPaginaService($state.$current.name, user.id).then(result => $scope.accessPagina = result.data);
 
         moment.locale('pt-br');
-        $scope.loadDiaPendente = true;
+
         $scope.loadLocais = false;
         $scope.idLocalidade = 'todas';
         $scope.idLocalReservavel = '';
@@ -46,14 +46,27 @@ angular.module('ReservasModule').controller('AprovacaoPendenteCtrl',
             .then((result) => $scope.locaisReservaveis = result.data.data)
             .finally(() => $scope.loadLocais = true);
 
-        $http.get(`${config.apiUrl}api/aprovacao/pendentes/hoje`).then( function (result) {
-            $scope.pendentes = result.data.data;
-            $scope.topicoData = {
-                dia: moment().format('D'),
-                mes: moment().format('MMMM'),
-                semana: moment().format('dddd')
+        $scope.pendentesHoje = function (localReservavel = false, localidade = false) {
+            $scope.loadDiaPendente = true;
+            var url = `${config.apiUrl}api/aprovacao/pendentes/hoje`;
+
+            if (localidade) {
+                url = `${config.apiUrl}api/aprovacao/pendentes/localidade/`+localidade;
+            } else if (localReservavel) {
+                url = `${config.apiUrl}api/aprovacao/pendentes/local/`+localReservavel;
             }
-        }).finally( () => $scope.loadDiaPendente = false);
+
+            $http.get(url).then(function (result) {
+                $scope.pendentes = result.data.data;
+                $scope.topicoData = {
+                    dia: moment().format('D'),
+                    mes: moment().format('MMMM'),
+                    semana: moment().format('dddd')
+                }
+            }).finally(() => $scope.loadDiaPendente = false);
+        }
+
+        $scope.pendentesHoje();
 
         $scope.escolhaDia = function () {
             $http.get(`${config.apiUrl}api/aprovacao/pendentes/hoje`).then(function (result) {

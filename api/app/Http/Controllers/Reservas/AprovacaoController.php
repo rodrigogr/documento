@@ -24,6 +24,28 @@ class AprovacaoController extends Controller
         return response()->error(trans('messages.crud.MAE', ['name' => $this->name]));
     }
 
+    public function pendentesHojeLocalReservavel($local)
+    {
+        $hoje = date('Y-m-d');
+        $dia_semana = ReservaService::diaSemana($hoje);
+        $Data = Reserva::aprovacaoPendenteHoje($hoje, $dia_semana, $local);
+        if ($Data) {
+            return response()->success($Data);
+        }
+        return response()->error(trans('messages.crud.MAE', ['name' => $this->name]));
+    }
+
+    public function pendentesHojeLocalidade($localidade)
+    {
+        $hoje = date('Y-m-d');
+        $dia_semana = ReservaService::diaSemana($hoje);
+        $Data = Reserva::aprovacaoPendenteHoje($hoje, $dia_semana, false, $localidade);
+        if ($Data) {
+            return response()->success($Data);
+        }
+        return response()->error(trans('messages.crud.MAE', ['name' => $this->name]));
+    }
+
     public function aprovacao($id, Request $request)
     {
         try {

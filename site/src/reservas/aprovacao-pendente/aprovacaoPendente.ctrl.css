@@ -36,12 +36,12 @@ ul.tabs-aprovacao {
 .list-localidade {
     font-size: 18px;
     padding: 10px 20px;
-    transition: all .15s ease-in-out;
+    /*transition: all .15s ease-in-out;*/
 }
 .list-locaisReservaveis {
     font-size: 17px;
     padding: 10px 30px;
-    transition: all .08s ease-in-out;
+    /*transition: all .08s ease-in-out;*/
 }
 .list-localidade:hover,.list-localidade-locaisReservaveis dd:hover {
     background: #ed6c44 url(../../../img/arrow-rigth-white.png) 100% center no-repeat;

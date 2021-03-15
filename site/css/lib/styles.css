@@ -130,11 +130,9 @@ body {
 }
 
 .ba__bioacesso-header-logo {
-    width: 177px;
-    height: 39px;
+    height: 80px;
     background-image: url("../../img/logo_ba_comunicacao.png");
     background-repeat: no-repeat;
-    margin: 8% auto!important;
 }
 
 .ba__logo-condominio {

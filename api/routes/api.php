@@ -13,6 +13,7 @@
 
 Route::post('auth/login', 'AuthController@login');
 Route::get('auth/checkAuth','AuthController@checkAuth');
+Route::get('condominio', 'CondominioConfiguracoesController@condominio');
 Route::get('auth/getLogin/{hash}','AuthController@getLogin');
 
 

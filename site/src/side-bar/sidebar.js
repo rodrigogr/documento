@@ -148,17 +148,17 @@ function sidebarCtrl($scope, LoginService, AuthService) {
         //     }
         // ]
         // },
-        {
-            'menu_principal': {
-                'cod': 'notificacoes',
-                'nome': 'Notificações',
-                'icon': 'fa-bell'
-            },
-            'submenus': [{
-                'cod': 'NotfEnvEmail',
-                'nome': 'Enviar E-mail'
-            }]
-        }
+        // {
+        //     'menu_principal': {
+        //         'cod': 'notificacoes',
+        //         'nome': 'Notificações',
+        //         'icon': 'fa-bell'
+        //     },
+        //     'submenus': [{
+        //         'cod': 'NotfEnvEmail',
+        //         'nome': 'Enviar E-mail'
+        //     }]
+        // }
     ];
 	let user = JSON.parse(localStorage.getItem("bioacs-uid"));
     $scope.loadingMenu = true;

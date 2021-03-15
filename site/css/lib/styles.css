@@ -2751,7 +2751,11 @@ input[type=checkbox].choose-day {
     overflow: hidden;
     text-overflow: ellipsis;
 }
-
+.truncate2 {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
 
 /*MENU PORTARIA*/
 

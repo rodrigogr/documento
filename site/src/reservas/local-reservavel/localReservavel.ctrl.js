@@ -51,7 +51,7 @@ angular.module('ReservasModule').controller('LocalReservavelCtrl',
 
         $scope.getLocaisReservaveis = function () {
             $(".loader").show();
-            var promisse = ($http.get(`${config.apiUrl}api/localreservavel/`));
+            var promisse = ($http.get(`${config.apiUrl}api/localreservavel`));
             promisse.then( function (result){
                 $scope.locaisReservaveis = result.data.data;
             }).finally(() => $(".loader").hide())
@@ -59,7 +59,7 @@ angular.module('ReservasModule').controller('LocalReservavelCtrl',
         $scope.getLocaisReservaveis();
 
         function getLocalidade() {
-            var promisse = ($http.get(`${config.apiUrl}api/localidades/`));
+            var promisse = ($http.get(`${config.apiUrl}api/localidades`));
             promisse.then(function (result) {
                 $scope.localidades = result.data.data;
             });
@@ -275,7 +275,7 @@ angular.module('ReservasModule').controller('LocalReservavelCtrl',
             $scope.localReservavel.restricao = $scope.localReservavel.restricao || null;
             $http({
                 method: "POST",
-                url: `${config.apiUrl}api/localreservavel/`,
+                url: `${config.apiUrl}api/localreservavel`,
                 data: $scope.localReservavel,
                 headers:{
                     'Authorization': 'Bearer '+ AuthService.getToken()
@@ -288,7 +288,7 @@ angular.module('ReservasModule').controller('LocalReservavelCtrl',
                 $scope.getLocaisReservaveis();
 
             }, function(error) {
-                UtilsService.openAlert(e.data.message);
+                UtilsService.openAlert(error.data.message);
 
             }).finally( () => { $("#loading").modal("hide") });
         }
@@ -331,17 +331,18 @@ angular.module('ReservasModule').controller('LocalReservavelCtrl',
                 delete $scope.localReservavel.periodo;
 
                 $scope.localReservavel.periodo = periodo;
-                $scope.objPeriodoAtual = $scope.localReservavel.periodo["seg"];
 
                 if ($scope.localReservavel.capacidade > 0) {
                     $scope.localReservavel.check_capacidade = true;
                 }
 
                 $scope.step = 1;
-                $scope.periodoAtual = 'seg';
                 $('#cadastroLocal').modal('show');
 
-            }).finally( () => $("#loading").modal("hide") );
+            }).finally( () => {
+                $scope.escolhaDiaSemana('seg');
+                $("#loading").modal("hide")
+            });
         }
 
         $scope.update = function () {

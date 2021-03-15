@@ -36,6 +36,9 @@ class LocalReservavelController extends Controller
                     foreach ($periodo as $item) {
                         $arrPeriodo = ['id_local_reservavel' => $local->id, 'dia_semana' => $key, 'hora_ini' => $item["hora_ini"], 'hora_fim' => $item["hora_fim"], 'valor' => $item["valor"]];
                         if ($item["hora_ini"]) {
+                            if ($arrPeriodo['valor'] == '') {
+                                $arrPeriodo['valor'] = 0.00;
+                            }
                             PeriodoLocalReservavel::insert($arrPeriodo);
                         }
                     }
@@ -92,7 +95,7 @@ class LocalReservavelController extends Controller
                         $periodoAlt->dia_semana = $key;
                         $periodoAlt->hora_ini = $dados_dia["hora_ini"];
                         $periodoAlt->hora_fim = $dados_dia["hora_fim"];
-                        $periodoAlt->valor = $dados_dia["valor"];
+                        $periodoAlt->valor = $dados_dia["valor"] == "" || $dados_dia["valor"] = "0.00"  ? 0.00 : $dados_dia["valor"];
                         $periodoAlt->save();
                     }
                     if (isset($dados_dia["deleted"]) && $dados_dia["deleted"]) {

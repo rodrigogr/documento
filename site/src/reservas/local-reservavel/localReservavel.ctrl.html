@@ -46,7 +46,7 @@
                         <div class="col-xs-5" style="cursor: pointer;" ng-click="sort('nome')"><b>Nome</b> {{prop == 'nome'&&(reverse?'⬆':'⬇')||''}}
                             <i class="ba__margin-horizontal-5"></i>
                         </div>
-                        <div class="col-xs-7" style="cursor: pointer;" ng-click="sort('descricao')"><b>Descrição</b> {{prop=='descricao'&&(reverse?'⬆':'⬇')||''}}
+                        <div class="col-xs-8" style="cursor: pointer;" ng-click="sort('descricao')"><b>Descrição</b> {{prop=='descricao'&&(reverse?'⬆':'⬇')||''}}
                             <i class="ba__margin-horizontal-5"></i>
                         </div>
                         <div class="col-xs-3" style="cursor: pointer;" ng-click="sort('capacidade')"><b>Capacidade</b> {{prop=='capacidade'&&(reverse?'⬆':'⬇')||''}}
@@ -59,8 +59,8 @@
                     <a href="javascript:void(0)" ng-click="editarLocal(local.id)" class="list-group-item" ng-repeat="local in locaisReservaveis">
                         <h5 class="col-xs-5 list-group-item-heading">{{local.localidade.descricao}}</h5>
                         <h5 class="col-xs-5 list-group-item-heading">{{local.nome}}</h5>
-                        <h5 class="col-xs-7 list-group-item-heading">{{local.descricao}}</h5>
-                        <h5 class="col-xs-7 list-group-item-heading">{{local.capacidade || '--'}}</h5>
+                        <h5 class="col-xs-8 list-group-item-heading truncate2">{{local.descricao}}</h5>
+                        <h5 class="col-xs-2 col-xs-offset-1 list-group-item-heading">{{local.capacidade || '--'}}</h5>
                     </a>
                 </div>
 

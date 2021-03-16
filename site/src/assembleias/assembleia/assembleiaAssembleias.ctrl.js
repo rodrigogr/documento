@@ -76,4 +76,29 @@ angular.module('AssembleiasModule').controller('AssembleiaAssembleiasCtrl',
                 $scope.step = $scope.step - 1;
             }
         }
+
+        $scope.alternativas = [{
+            id: 'alternativa1',
+            name: 'Alternativa'
+        },{
+            id: 'alternativa2',
+            name: 'Alternativa'
+        }];
+
+        $scope.addNewAlternativa = function() {
+            var newItemNo = $scope.alternativas.length+1;
+            $scope.alternativas.push({'id' : 'alternativa' + newItemNo, 'name' : 'Alternativa'});
+        };
+
+        $scope.removeNewAlternativas = function() {
+            var newItemNo = $scope.alternativas.length-1;
+            if (newItemNo !== 0) {
+                $scope.alternativas.pop();
+            }
+        };
+
+        $scope.showAddAlternativa = function(alternativa) {
+            return alternativa.id === $scope.alternativas[$scope.alternativas.length-1].id;
+        };
+        
     });

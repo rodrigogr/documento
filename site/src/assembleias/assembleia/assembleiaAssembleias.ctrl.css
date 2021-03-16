@@ -52,6 +52,7 @@
 }
 
 .control-input input,
+.control-input > textarea,
 .control-input > select{
     border: 0;
     border-bottom: 2px solid #999999 !important;
@@ -90,20 +91,30 @@
     font-size: 16px;
 }
 
+.control-input textarea:required:invalid + span,
 .control-input input:required:invalid + span{
     color: red;
 }
 
+.control-input textarea:focus:required:invalid,
 .control-input input:focus:required:invalid{
     border-bottom: 2px solid red;
 }
 
+.control-input textarea:required:invalid + span:before,
 .control-input input:required:invalid + span:before{
     content: '*';
 }
 
 .control-input input:focus + span,
 .control-input input:not(:placeholder-shown) + span{
+    font-size: 12px;
+    margin-top: 5px;
+    color: #ff6633;
+}
+
+.control-input textarea:focus + span,
+.control-input textarea:not(:placeholder-shown) + span{
     font-size: 12px;
     margin-top: 5px;
     color: #ff6633;

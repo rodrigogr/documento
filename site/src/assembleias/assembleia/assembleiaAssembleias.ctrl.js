@@ -77,28 +77,64 @@ angular.module('AssembleiasModule').controller('AssembleiaAssembleiasCtrl',
             }
         }
 
-        $scope.alternativas = [{
-            id: 'alternativa1',
-            name: 'Alternativa'
-        },{
-            id: 'alternativa2',
-            name: 'Alternativa'
-        }];
-
-        $scope.addNewAlternativa = function() {
-            var newItemNo = $scope.alternativas.length+1;
-            $scope.alternativas.push({'id' : 'alternativa' + newItemNo, 'name' : 'Alternativa'});
+        $scope.addNewAlternativa = function(index) {            
+            var newItemNo = $scope.pautas[index].alternativas.length+1;
+            $scope.pautas[index].alternativas.push({'id' : 'alternativa' + newItemNo, 'name' : 'Alternativa'});
         };
 
-        $scope.removeNewAlternativas = function() {
-            var newItemNo = $scope.alternativas.length-1;
+        $scope.removeNewAlternativas = function(indexPauta) {
+            debugger
+            var newItemNo = $scope.pautas[indexPauta].alternativas.length-1;
             if (newItemNo !== 0) {
-                $scope.alternativas.pop();
+                $scope.pautas[indexPauta].alternativas.pop();
             }
         };
 
-        $scope.showAddAlternativa = function(alternativa) {
-            return alternativa.id === $scope.alternativas[$scope.alternativas.length-1].id;
+        $scope.showAddAlternativa = function(alternativa, indexPauta) {
+            return alternativa.id === $scope.pautas[indexPauta].alternativas[$scope.pautas[indexPauta].alternativas.length-1].id;
+            // return pauta[index].alternativa.id === $scope.pautas.alternativas[$scope.pautas.alternativas.length-1].id;
+        };
+
+        $scope.pautas = [
+            {
+            id: 'pauta1',
+            name: 'pauta1',
+            alternativas: [{
+                    id: 'alternativa1',
+                    name: 'Alternativa'
+                },{
+                    id: 'alternativa2',
+                    name: 'Alternativa'
+                }]
+            },
+            {
+            id: 'pauta2',
+            name: 'pauta2',
+                alternativas: [{
+                    id: 'alternativa1',
+                    name: 'Alternativa'
+                }]
+            }
+        ];
+
+        $scope.addNewPauta = function(){
+            debugger
+            var newItemNo = $scope.pautas.length+1;
+            $scope.pautas.push({
+                id : 'pauta' + newItemNo, 
+                name : 'pauta', 
+                alternativas: [{
+                    id: 'alternativa1',
+                    name: 'Alternativa'
+                }]
+            });
+        }
+
+        $scope.removeNewPauta = function() {
+            var newItemNo = $scope.pautas.length-1;
+            if (newItemNo !== 0) {
+                $scope.pautas.pop();
+            }
         };
         
     });

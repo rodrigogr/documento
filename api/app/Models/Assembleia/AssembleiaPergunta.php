@@ -4,18 +4,19 @@ namespace App\models\Assembleia;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Usuario extends Model
+class AssembleiaPergunta extends Model
 {
     public $timestamps = true;
+    protected $table = 'assembleia_perguntas';
 
-    public function assembleiaThead()
+    public function assembleiaOpcoes()
     {
-        return $this->hasOne(AssembleiaThead::class);
+        return $this->hasMany(AssembleiaOpcao::class);
     }
 
-    public function assembleiaPost()
+    public function pauta()
     {
-        return $this->hasOne(AssembleiaPost::class);
+        return $this->hasOne(Pauta::class);
     }
 
     public function assembleiaVotacao()

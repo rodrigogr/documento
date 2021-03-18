@@ -1,13 +1,12 @@
 <?php
 
-namespace App\models\assembleia;
+namespace App\models\Assembleia;
 
 use Illuminate\Database\Eloquent\Model;
 
 class Pessoa extends Model
 {
     public $timestamp = true;
-    protected $table = 'pessoa';
 
     public function assembleia()
     {

@@ -4,13 +4,19 @@ namespace App\models\Assembleia;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Pauta extends Model
+class AssembleiaThead extends Model
 {
     public $timestamp = true;
+    protected $table = 'assembleia_theads';
 
-    public function assembleia()
+    public function assembleiaAnexos()
     {
-        return $this->belongsTo(Assembleia::class);
+        return $this->hasMany(AssembleiaAnexo::class);
+    }
+
+    public function assembleiaPosts()
+    {
+        return $this->hasMany(AssembleiaPost::class);
     }
 
     public function assembleiaEncaminhamento()
@@ -28,8 +34,8 @@ class Pauta extends Model
         return $this->hasOne(AssembleiaQuestaoOrdem::class);
     }
 
-    public function assembleiaPergunta()
+    public function usuario()
     {
-        return $this->hasOne(AssembleiaPergunta::class);
+        return $this->hasOne(Usuario::class);
     }
 }

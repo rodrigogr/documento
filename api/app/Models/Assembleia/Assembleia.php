@@ -1,13 +1,12 @@
 <?php
 
-namespace App\models\assembleia;
+namespace App\models\Assembleia;
 
 use Illuminate\Database\Eloquent\Model;
 
 class Assembleia extends Model
 {
     public $timestamps = true;
-    protected $table = 'assembleia';
     protected $fillable = [
         'tipo',
         'status',
@@ -23,19 +22,19 @@ class Assembleia extends Model
         return $this->hasMany(Participante::class);
     }
 
-    public function assem_encaminnhamentos()
+    public function assembleiaEncaminnhamentos()
     {
-        return $this->hasMany(Assem_Encaminhamento::class);
+        return $this->hasMany(AssembleiaEncaminhamento::class);
     }
 
-    public function assem_discussoes()
+    public function assembleiaDiscussoes()
     {
-        return $this->hasMany(Assem_Discussao::class);
+        return $this->hasMany(AssembleiaDiscussao::class);
     }
 
-    public function assem_questoes_ordens()
+    public function assembleiaQuestoesOrdens()
     {
-        return $this->hasMany(Assem_Questao_Ordem::class);
+        return $this->hasMany(AssembleiaQuestaoOrdem::class);
     }
 
     public function pautas()
@@ -43,8 +42,8 @@ class Assembleia extends Model
         return $this->hasMany(Pauta::class);
     }
 
-    public function assembleia_documentos()
+    public function assembleiaDocumentos()
     {
-        return $this->hasMany(Assembleia_Documento::class);
+        return $this->hasMany(AssembleiaDocumento::class);
     }
 }

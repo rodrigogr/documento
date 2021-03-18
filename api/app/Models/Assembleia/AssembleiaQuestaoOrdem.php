@@ -1,13 +1,13 @@
 <?php
 
-namespace App\models\assembleia;
+namespace App\models\Assembleia;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Assem_Encaminhamento extends Model
+class AssembleiaQuestaoOrdem extends Model
 {
     public $timestamp = true;
-    protected $table = 'assem_encaminhamento';
+    protected $table = 'assembleia_questoes_ordens';
 
     public function assembleia()
     {
@@ -19,8 +19,8 @@ class Assem_Encaminhamento extends Model
         return $this->hasOne(Pauta::class);
     }
 
-    public function assem_thead()
+    public function assembleiaThead()
     {
-        return $this->hasOne(Assem_Thead::class);
+        return $this->hasOne(AssembleiaThead::class);
     }
 }

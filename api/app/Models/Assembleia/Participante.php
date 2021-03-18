@@ -1,13 +1,12 @@
 <?php
 
-namespace App\models\assembleia;
+namespace App\models\Assembleia;
 
 use Illuminate\Database\Eloquent\Model;
 
 class Participante extends Model
 {
     public $timestamps = true;
-    protected $table = 'participante';
 
     public function assembleia()
     {
@@ -21,6 +20,6 @@ class Participante extends Model
 
     public function imovel()
     {
-        return $this->hasOne(Pessoa::class);
+        return $this->hasOne(Imovel::class);
     }
 }

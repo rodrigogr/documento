@@ -1,13 +1,13 @@
 <?php
 
-namespace App\models\assembleia;
+namespace App\models\Assembleia;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Assembleia_Documento extends Model
+class AssembleiaDocumento extends Model
 {
     public $timestamps = true;
-    protected $table = 'assembleia_documento';
+    protected $table = 'assembleia_documentos';
     protected $fillable = ['file'];
     public function assembleia()
     {

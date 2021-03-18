@@ -37,7 +37,7 @@ class AuthController extends Controller
 
         $check_modulo = false;
         foreach ($permissao_financeiro as $modulo) {
-            if ($modulo->nome === 'acesso_financeiro') {
+            if ($modulo->nome === 'acesso_portal') {
                 $check_modulo = true;
             }
         }

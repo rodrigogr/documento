@@ -104,6 +104,7 @@ angular.module('ReservasModule').controller('AprovacaoPendenteCtrl',
         $scope.motivoRecusar = function (id) {
             $scope.idRecusar = id;
             $("#analisarReserva").modal('hide');
+            $("#motivoRecusar").modal('show');
         }
 
         $scope.recusarReserva = function (id) {

@@ -187,5 +187,31 @@
             </div>
         </div>
 
+        <!--MODAL APROVAÇÃO RESERVA-->
+        <div class="modal fade" id="motivoRecusar" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="false">
+            <div class="modal-dialog modal-analisarReserva" role="document">
+                <div class="modal-content analisarReserva-content">
+                    <div class="modal-header analisarReserva-header">
+                        <div class="row">
+                            <h2 class="modal-title Roboto-Thin">
+                                <i class="fa fa-calendar text-center text-primary ba__margin-horizontal-5 icon-modal-title"></i>
+                                <span>RECUSAR RESERVA</span>
+                            </h2>
+                        </div>
+                    </div>
+                    <div class="modal-body analisarReserva-body">
+                        <label>Informe o motivo da recusada reserva:</label>
+                        <textarea ng-model="motivoRecusaReserva" class="ba__input-modal" aria-invalid="false"></textarea>
+                    </div>
+                    <div class="modal-footer analisarReserva-footer">
+                        <button type="button" ng-click="aprovarReserva(analisandoReserva.idReserva)" class="btn btn-danger col-md-5 ba__margin-horizontal-40 pull-right">
+                            Recusar
+                        </button>
+                        <span style="color:#9C9C9C" ng-click="fecharAnalisando()" class="col-md-5 pull-right">CANCELAR</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
     </div>
 </div>

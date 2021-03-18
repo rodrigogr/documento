@@ -19,6 +19,15 @@
     background-color: #FFECE5;
 }
 
+.badge-style.badge-participante-ativo{
+    color: #FFF;
+    background-color: #33CC66;
+}
+
+.badge-style.badge-participante-impedido{
+    color: #EB5757;
+    background-color: #FFECE5;
+}
 
 .assembleia-modal{
     width: 60%;
@@ -170,3 +179,7 @@
     color: #FFF;
     border: 1px solid #FF6633 !important;
 }
+
+.check-styled .checkbox{
+    margin-top: 0px !important;
+} 

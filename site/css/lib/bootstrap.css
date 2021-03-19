@@ -272,8 +272,8 @@ th {
 
 @font-face {
   font-family: 'Glyphicons Halflings';
-  src: url('../../bioacesso/public/fonts/glyphicons/glyphicons-halflings-regular.eot');
-  src: url('../../bioacesso/public/fonts/glyphicons/glyphicons-halflings-regular.eot?#iefix') format('embedded-opentype'), url('../../bioacesso/public/fonts/glyphicons/glyphicons-halflings-regular.woff2') format('woff2'), url('../../bioacesso/public/fonts/glyphicons-halflings-regular.woff') format('woff'), url('../../bioacesso/public/fonts/glyphicons/glyphicons-halflings-regular.ttf') format('truetype'), url('../../bioacesso/public/fonts/glyphicons/glyphicons-halflings-regular.svg#glyphicons_halflingsregular') format('svg');
+  src: url('../fonts/glyphicons-halflings-regular.eot');
+  src: url('../fonts/glyphicons-halflings-regular.eot?#iefix') format('embedded-opentype'), url('../fonts/glyphicons-halflings-regular.woff2') format('woff2'), url('../fonts-halflings-regular.woff') format('woff'), url('../fonts/glyphicons-halflings-regular.ttf') format('truetype'), url('../fonts/glyphicons-halflings-regular.svg#glyphicons_halflingsregular') format('svg');
 }
 
 .glyphicon {
@@ -3790,7 +3790,7 @@ fieldset[disabled] .btn-primary.focus {
 .btn-success:hover {
   color: #ffffff;
   background-color: #82de7c;
-  border-color: rgba(0, 0, 0, 0);
+  /*border-color: rgba(0, 0, 0, 0);*/
 }
 .btn-success:active,
 .btn-success.active,

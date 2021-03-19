@@ -28,10 +28,6 @@ function sidebarCtrl($scope, LoginService, AuthService) {
                     'nome': 'Locais Reserváveis'
                 },
                 {
-                    'cod': 'reservaCalendario',
-                    'nome': 'Calendário de Reservas'
-                },
-                {
                     'cod': 'reservaAprovacao',
                     'nome': 'Aprovações Pendentes'
                 }

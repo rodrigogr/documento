@@ -37,7 +37,7 @@ class AuthController extends Controller
 
         $check_modulo = false;
         foreach ($permissao_financeiro as $modulo) {
-            if ($modulo->nome === 'acesso_financeiro') {
+            if ($modulo->nome === 'acesso_portal') {
                 $check_modulo = true;
             }
         }
@@ -210,9 +210,6 @@ class AuthController extends Controller
     }
 
     public function userPermissoesFormata($dados) {
-        echo "<pre>";
-        print_r($dados);
-        exit();
         $permissoes = json_decode($dados);
         $res = [];
         foreach ($permissoes as $p){

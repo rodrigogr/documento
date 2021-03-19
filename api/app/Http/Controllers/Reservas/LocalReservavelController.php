@@ -27,7 +27,6 @@ class LocalReservavelController extends Controller
 
     public function store(LocalReservavelRequest $request)
     {
-        //$data = $request->except('_token');
         try {
             $data = $request->all();
             $local = LocalReservavel::create($data);
@@ -37,6 +36,9 @@ class LocalReservavelController extends Controller
                     foreach ($periodo as $item) {
                         $arrPeriodo = ['id_local_reservavel' => $local->id, 'dia_semana' => $key, 'hora_ini' => $item["hora_ini"], 'hora_fim' => $item["hora_fim"], 'valor' => $item["valor"]];
                         if ($item["hora_ini"]) {
+                            if ($arrPeriodo['valor'] == '') {
+                                $arrPeriodo['valor'] = 0.00;
+                            }
                             PeriodoLocalReservavel::insert($arrPeriodo);
                         }
                     }
@@ -85,6 +87,7 @@ class LocalReservavelController extends Controller
                     if (!isset($dados_dia["id"]) && $dados_dia["hora_ini"]) {
                         $dados_dia["id_local_reservavel"] = $id;
                         $dados_dia["dia_semana"] = $key;
+                        $dados_dia["valor"] = (float)$dados_dia["valor"];
                         PeriodoLocalReservavel::create($dados_dia);
                     }
                     if (isset($dados_dia["id"]) && $dados_dia["hora_ini"] && (isset($dados_dia["deleted"]) && !$dados_dia["deleted"])) {
@@ -93,7 +96,7 @@ class LocalReservavelController extends Controller
                         $periodoAlt->dia_semana = $key;
                         $periodoAlt->hora_ini = $dados_dia["hora_ini"];
                         $periodoAlt->hora_fim = $dados_dia["hora_fim"];
-                        $periodoAlt->valor = $dados_dia["valor"];
+                        $periodoAlt->valor = (float)$dados_dia["valor"];
                         $periodoAlt->save();
                     }
                     if (isset($dados_dia["deleted"]) && $dados_dia["deleted"]) {
@@ -134,5 +137,15 @@ class LocalReservavelController extends Controller
         }
     }
 
+    public function nomeLocalReservavel($nome_local)
+    {
+        try {
+            $Data = LocalReservavel::nomeLocalReservavel($nome_local);
+            return response()->success($Data);
+
+        } catch (\Exception $e) {
+            return response()->error(trans('messages.crud.MAE', ['name' => $this->name]));
+        }
+    }
 
 }

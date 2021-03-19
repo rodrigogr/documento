@@ -1,5 +1,4 @@
 <link rel="stylesheet" href="src/reservas/aprovacao-pendente/aprovacaoPendente.ctrl.css">
-
 <div class="header">
     <div header></div>
 </div>
@@ -41,12 +40,12 @@
                         <span ng-if="!loadLocais"><i class="fa fa-spinner fa-spin ba__font-size-17"></i></span>
                         <div ng-if="loadLocais">
                             <dl>
-                                <dt class="list-localidade" ng-click="todosHoje()">Todos</dt>
+                                <dt class="list-localidade" ng-click="pendentesHoje()">Todos</dt>
                             </dl>
                             <dl ng-repeat="localidade in locaisReservaveis">
-                                <dt class="list-localidade">{{localidade.descricao}}</dt>
+                                <dt class="list-localidade" ng-click="pendentesHoje(false, localidade.id)">{{localidade.descricao}}</dt>
                                <dl>
-                                   <dd class="list-locaisReservaveis" ng-repeat="locais in localidade.locais_reservaveis">{{locais.nome}}</dd>
+                                   <dd class="list-locaisReservaveis" ng-click="pendentesHoje(locais.id)" ng-repeat="locais in localidade.locais_reservaveis">{{locais.nome}}</dd>
                                </dl>
                             </dl>
                         </div>
@@ -56,26 +55,45 @@
                         <span ng-if="loadDiaPendente"><i class="fa fa-spinner fa-spin ba__font-size-17"></i></span>
                         <div ng-if="!loadDiaPendente" class="bloco-reservas">
                             <div class="row">
-                                <h3 class="titulo-dia-mes">Dia {{topicoData.dia}} de {{topicoData.mes}} <span class="titulo-semana">{{topicoData.semana}}</span></h3>
+                                <h3 class="col-md-11 titulo-dia-mes">Dia {{topicoData.dia}} de {{topicoData.mes}} <span class="titulo-semana">{{topicoData.semana}}</span></h3>
+                                <!--<h4 class="col-md-13 col-xs-offset-1" style="background-color: #1b6d85">
+                                    <i class="fa fa-calendar"></i>
+                                    Escolher dia
+                                    
+                                </h4>-->
+
+                                <!--<div class="col-md-6">
+                                    <p class="input-group">
+                                        <input type="text" class="form-control" uib-datepicker-popup="{{format}}"
+                                               ng-model="dt" is-open="popup1.opened"
+                                               current-text="Hoje"
+                                               close-text="Fechar" />
+                                        <span class="input-group-btn">
+                                            <button type="button" class="btn btn-default" ng-click="open1()"><i class="fa fa-calendar"></i></button>
+                                        </span>
+                                    </p>
+                                </div>-->
                             </div>
                             <div class="lista-reserva-dia" ng-if="!pendentes.length">
                                 <div class="row local">
                                     Nenhuma reserva para aprovação
                                 </div>
                             </div>
-                            <div class="lista-reserva-dia" ng-if="pendentes.length" ng-repeat="reserva in pendentes">
-                                <div class="row local">
-                                    <i class="fa icon-ba-pin"></i>
-                                    <label class="text-capitalize">{{reserva.local_reservavel.nome}}</label> / <span class="text-capitalize">{{reserva.local_reservavel.localidade}}</span>
-                                </div>
-                                <div class="row">
-                                    <span class="col-xs-4 periodo"><b>{{reserva.hora_ini}} - {{reserva.hora_fim}}</b><br>{{reserva.valor | currency}}</span>
-                                    <span class="col-xs-13 col-xs-offset-1 status-local">
-                                        <button class="btn text-uppercase">{{reserva.reserva_status}}</button><br>
-                                        <p>{{'Qd '+reserva.imovel.quadra+' / Lt '+reserva.imovel.lote}} - {{reserva.imovel.logradouro}}</p>
-                                        <p class="text-capitalize">{{reserva.pessoa.nome}}</p>
-                                    </span>
-                                    <span class="col-xs-6 pull-right"><button class="btn btn-primary" style="width: 100%">ANALISAR</button></span>
+                            <div class="lista-pendentes" ng-if="pendentes.length">
+                                <div class="lista-reserva-dia" ng-repeat="reserva in pendentes">
+                                    <div class="row local">
+                                        <i class="fa icon-ba-pin"></i>
+                                        <label class="text-capitalize">{{reserva.local_reservavel.nome}}</label> / <span class="text-capitalize">{{reserva.local_reservavel.localidade}}</span>
+                                    </div>
+                                    <div class="row">
+                                        <span class="col-xs-4 periodo"><b>{{reserva.hora_ini}} - {{reserva.hora_fim}}</b><br>{{reserva.valor | currency}}</span>
+                                        <span class="col-xs-12 col-xs-offset-1 status-local">
+                                            <button class="btn text-uppercase reserva-status">{{reserva.reserva_status}}</button><br>
+                                            <p>{{'Qd '+reserva.imovel.quadra+' / Lt '+reserva.imovel.lote}} - {{reserva.imovel.logradouro}}</p>
+                                            <p class="text-capitalize">{{reserva.pessoa.nome}}</p>
+                                        </span>
+                                        <span class="col-xs-6 pull-right" style="margin-right: 33px"><button class="btn btn-primary" ng-click="analisar($index)" style="width: 100%">ANALISAR</button></span>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -85,5 +103,115 @@
             </div>
 
         </div>
+
+        <!--MODAL APROVAÇÃO RESERVA-->
+        <div class="modal fade" id="analisarReserva" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="false">
+            <div class="modal-dialog modal-analisarReserva" role="document">
+                <div class="modal-content analisarReserva-content">
+                    <div class="modal-header analisarReserva-header">
+                        <div class="row">
+                            <h2 class="modal-title Roboto-Thin">
+                                <i class="icon-ba-calendar text-center text-primary ba__margin-horizontal-5 icon-modal-title"></i>
+                                <span>NOVA RESERVA</span>
+                            </h2>
+                        </div>
+                    </div>
+                    <div class="modal-body analisarReserva-body">
+                        <div class="row">
+                            <h3><i class="fa icon-ba-pin ba__margin-right-15 text-primary"></i> <span class="text-primary">Área Gourmet</span> / Alphaville Goyaz</h3>
+                        </div>
+                        <div class="row info-localReservavel">
+                            <div class="col-md-1"><i class="fa fa-group"></i></div>
+                            <div class="col-md-6 info-l"><b>CAPACIDADE</b><br>{{analisandoReserva.local_reservavel_capacidade || 'Sem limite definido' }}</div>
+                            <div class="col-md-1 col-md-offset-2"><i class="fa icon-ba-cross" style="font-size: 26px;padding-left: 17px"></i></div>
+                            <div class="col-md-6 info-l"><b>CANCELAMENTO</b><br>
+                                {{analisandoReserva.local_reservavel.antecedencia_cancel_num.length ? analisandoReserva.local_reservavel.antecedencia_cancel_num +' '+ analisandoReserva.local_reservavel.antecedencia_cancel_periodo : 'A qualquer momento'}}
+                            </div>
+                            <div class="col-md-1 col-md-offset-2"><i class="fa fa-dollar" style="padding-left: 20px"></i></div>
+                            <div class="col-md-4 info-l"><b>VALOR</b><br>{{analisandoReserva.valor | currency}}</div>
+                        </div>
+                        <div class="row reserva-periodo">
+                            <div class="col-md-7">
+                                <i class="fa fa-calendar-check-o text-primary"></i>
+                                <b>{{analisandoReserva.data | date}}</b>
+                            </div>
+                            <div class="col-md-7 col-md-push-1">
+                                <i class="fa fa-clock-o text-primary"></i>
+                                <b>{{analisandoReserva.hora_ini}} - {{analisandoReserva.hora_fim}}</b>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <label style="font-size: 16px">RESERVAR PARA</label>
+                            <div class="card">
+                                <span class="col-md-6">
+                                    <img src="../../../img/avatar.png">
+                                </span>
+                                <span class="col-md-16 ba__margin-top-13">
+                                    <h5><b class="text-capitalize">{{analisandoReserva.pessoa.nome}}</b></h5>
+                                    <h5>
+                                        {{
+                                            analisandoReserva.pessoa.tel1 && analisandoReserva.pessoa.tel2 ?
+                                            (analisandoReserva.pessoa.tel2 | formatTelephone) + ' / ' + (analisandoReserva.pessoa.tel1 | formatTelephone) :
+                                            analisandoReserva.pessoa.tel1 ? (analisandoReserva.pessoa.tel1 | formatTelephone) :
+                                            (analisandoReserva.pessoa.tel2 | formatTelephone)
+                                        }}
+                                    </h5>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-20 unidade">
+                                <label>UNIDADE: </label>
+                                <h4>{{'Qd '+analisandoReserva.imovel.quadra+' Lt '+analisandoReserva.imovel.lote+' - '+analisandoReserva.imovel.logradouro}}</h4>
+                                <!--<select class="ba__input-select">
+                                    <option>Qd 01 Lt 05 - Rua Primavera</option>
+                                </select>-->
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-24 alert-warning alert-qtd-reserva">
+                                <i class="fa icon-ba-attention"></i>
+                                <span>Esta unidade já tem 05 reservas confirmadas.</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="modal-footer analisarReserva-footer">
+                        <button type="button" ng-click="aprovarReserva(analisandoReserva.idReserva)" class="btn btn-success col-md-5 ba__margin-horizontal-40 pull-right">
+                            APROVAR
+                        </button>
+                        <span style="color:red" ng-click="motivoRecusar(analisandoReserva.idReserva)" class="col-md-5 pull-right">RECUSAR</span>
+                        <span style="color:#9C9C9C" ng-click="fecharAnalisando()" class="col-md-5 pull-left">FECHAR</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!--MODAL APROVAÇÃO RESERVA-->
+        <div class="modal fade" id="motivoRecusar" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="false">
+            <div class="modal-dialog modal-analisarReserva" role="document">
+                <div class="modal-content analisarReserva-content">
+                    <div class="modal-header analisarReserva-header">
+                        <div class="row">
+                            <h2 class="modal-title Roboto-Thin">
+                                <i class="fa fa-calendar text-center text-primary ba__margin-horizontal-5 icon-modal-title"></i>
+                                <span>RECUSAR RESERVA</span>
+                            </h2>
+                        </div>
+                    </div>
+                    <div class="modal-body analisarReserva-body">
+                        <label>Informe o motivo da recusada reserva:</label>
+                        <textarea ng-model="motivoRecusaReserva" class="ba__input-modal" aria-invalid="false"></textarea>
+                    </div>
+                    <div class="modal-footer analisarReserva-footer">
+                        <button type="button" ng-click="aprovarReserva(analisandoReserva.idReserva)" class="btn btn-danger col-md-5 ba__margin-horizontal-40 pull-right">
+                            Recusar
+                        </button>
+                        <span style="color:#9C9C9C" ng-click="fecharAnalisando()" class="col-md-5 pull-right">CANCELAR</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
     </div>
 </div>

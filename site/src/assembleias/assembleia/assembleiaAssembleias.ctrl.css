@@ -19,6 +19,15 @@
     background-color: #FFECE5;
 }
 
+.badge-style.badge-participante-ativo{
+    color: #FFF;
+    background-color: #33CC66;
+}
+
+.badge-style.badge-participante-impedido{
+    color: #EB5757;
+    background-color: #FFECE5;
+}
 
 .assembleia-modal{
     width: 60%;
@@ -52,6 +61,7 @@
 }
 
 .control-input input,
+.control-input > textarea,
 .control-input > select{
     border: 0;
     border-bottom: 2px solid #999999 !important;
@@ -90,20 +100,30 @@
     font-size: 16px;
 }
 
+.control-input textarea:required:invalid + span,
 .control-input input:required:invalid + span{
     color: red;
 }
 
+.control-input textarea:focus:required:invalid,
 .control-input input:focus:required:invalid{
     border-bottom: 2px solid red;
 }
 
+.control-input textarea:required:invalid + span:before,
 .control-input input:required:invalid + span:before{
     content: '*';
 }
 
 .control-input input:focus + span,
 .control-input input:not(:placeholder-shown) + span{
+    font-size: 12px;
+    margin-top: 5px;
+    color: #ff6633;
+}
+
+.control-input textarea:focus + span,
+.control-input textarea:not(:placeholder-shown) + span{
     font-size: 12px;
     margin-top: 5px;
     color: #ff6633;
@@ -159,3 +179,7 @@
     color: #FFF;
     border: 1px solid #FF6633 !important;
 }
+
+.check-styled .checkbox{
+    margin-top: 0px !important;
+} 

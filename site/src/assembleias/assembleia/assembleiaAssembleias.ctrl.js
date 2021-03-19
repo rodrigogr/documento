@@ -76,4 +76,98 @@ angular.module('AssembleiasModule').controller('AssembleiaAssembleiasCtrl',
                 $scope.step = $scope.step - 1;
             }
         }
+
+        $scope.addNewAlternativa = function(index) {            
+            var newItemNo = $scope.pautas[index].alternativas.length+1;
+            $scope.pautas[index].alternativas.push({'id' : 'alternativa' + newItemNo, 'name' : 'Alternativa'});
+        };
+
+        $scope.removeNewAlternativas = function(indexPauta) {
+            debugger
+            var newItemNo = $scope.pautas[indexPauta].alternativas.length-1;
+            if (newItemNo !== 0) {
+                $scope.pautas[indexPauta].alternativas.pop();
+            }
+        };
+
+        $scope.showAddAlternativa = function(alternativa, indexPauta) {
+            return alternativa.id === $scope.pautas[indexPauta].alternativas[$scope.pautas[indexPauta].alternativas.length-1].id;
+            // return pauta[index].alternativa.id === $scope.pautas.alternativas[$scope.pautas.alternativas.length-1].id;
+        };
+
+        $scope.pautas = [
+            {
+            id: 'pauta1',
+            name: 'pauta1',
+            alternativas: [{
+                    id: 'alternativa1',
+                    name: 'Alternativa'
+                },{
+                    id: 'alternativa2',
+                    name: 'Alternativa'
+                }]
+            },
+            {
+            id: 'pauta2',
+            name: 'pauta2',
+                alternativas: [{
+                    id: 'alternativa1',
+                    name: 'Alternativa'
+                }]
+            }
+        ];
+
+        $scope.addNewPauta = function(){
+            debugger
+            var newItemNo = $scope.pautas.length+1;
+            $scope.pautas.push({
+                id : 'pauta' + newItemNo, 
+                name : 'pauta', 
+                alternativas: [{
+                    id: 'alternativa1',
+                    name: 'Alternativa'
+                }]
+            });
+        }
+
+        $scope.removeNewPauta = function() {
+            var newItemNo = $scope.pautas.length-1;
+            if (newItemNo !== 0) {
+                $scope.pautas.pop();
+            }
+        };
+
+        /** List All Participantes  */
+        $scope.listParticipantes = [{
+                participar: true,
+                unidade: 'Qd 01 / Lt 03',
+                peso: 'x2',
+                status: 'Participando',
+                procurador: '5455 - Antônio Fonseca Salles de Abreu',
+            },{
+                participar: false,
+                unidade: 'Qd 01 / Lt 04',
+                peso: 'x1',
+                status: 'Impedido',
+                procurador: '',
+            },{
+                participar: true,
+                unidade: 'Qd 01 / Lt 03',
+                peso: 'x2',
+                status: 'Participando',
+                procurador: '',
+            },{
+                participar: false,
+                unidade: 'Qd 01 / Lt 06',
+                peso: 'x2',
+                status: 'Participando',
+                procurador: '',
+            },{
+                participar: false,
+                unidade: 'Qd 01 / Lt 12',
+                peso: 'x2',
+                status: 'Participando',
+                procurador: '',
+        }];
+        
     });

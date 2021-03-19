@@ -38,7 +38,7 @@ angular.module('ReservasModule').controller('AprovacaoPendenteCtrl',
             if (aba == 1) {
                 $scope.escolhaDia();
             } else {
-                recusados();
+                recusadas();
             }
         }
 
@@ -103,26 +103,41 @@ angular.module('ReservasModule').controller('AprovacaoPendenteCtrl',
 
         $scope.motivoRecusar = function (id) {
             $scope.idRecusar = id;
+            $scope.motivoRecusaReserva = '';
             $("#analisarReserva").modal('hide');
             $("#motivoRecusar").modal('show');
         }
 
+        $scope.fecharMotivo = function () {
+            $("#motivoRecusar").modal('hide');
+        }
+
         $scope.recusarReserva = function (id) {
-            var promisse = ($http.patch(`${config.apiUrl}api/aprovacao/recusar/`+id, 1));
+            $('.btnRecSalvar').prop('disabled', true);
+            $('#btnRecusar').button('loading');
+
+            var dados = {
+                id: id,
+                motivo: $scope.motivoRecusaReserva
+            }
+            var promisse = ($http.put(`${config.apiUrl}api/aprovacao/recusar/`, dados));
             promisse.then( function (result) {
                 let res = result.data.data;
-                $scope.escolhaDia();
-                $("#analisarReserva").modal('hide');
+                $("#motivoRecusar").modal('hide');
                 UtilsService.toastSuccess(res);
+                $scope.pendentesHoje();
             }).catch( function (e) {
                 UtilsService.openAlert(e.data.message);
+            }).finally( () => {
+                $('.btnRecSalvar').prop('disabled', false);
+                $('#btnRecusar').button('reset');
             });
         }
 
-        function recusados() {
+        function recusadas() {
             $scope.loadDiaPendente = true;
             $http.get(`${config.apiUrl}api/aprovacao/recusadas`).then( function (result) {
-                $scope.recusados = result.data.data;
+                $scope.recusadas = result.data.data;
             }).finally( () => $scope.loadDiaPendente = false);
         }
 

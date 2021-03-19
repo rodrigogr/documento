@@ -195,3 +195,20 @@ ul.tabs-aprovacao {
     line-height: 38px;
     font-size: 18px;
 }
+.modal-motivoRecusar {
+    width: 45%;
+    top: 20%;
+}
+.motivoRecusar-body {
+    padding: 20px 50px;
+    height: 220px;
+}
+.motivoRecusar-body label {
+    font-size: 18px;
+    color: #EB5757;
+}
+.motivoRecusar-body textarea {
+    min-height: 120px;
+    width: 78%;
+    margin-top: 10px;
+}

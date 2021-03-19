@@ -15,7 +15,8 @@ class Reserva extends Model
         'id_periodo',
         'status',
         'id_imovel',
-        'id_pessoa'
+        'id_pessoa',
+        'obs'
     ];
     public $timestamps = true;
 

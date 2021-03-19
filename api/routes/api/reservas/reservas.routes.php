@@ -30,8 +30,8 @@ Route::group(['middleware' => 'jwt.auth'], function ()
         Route::get('/pendentes/local/{local}', 'reservas\AprovacaoController@pendentesHojeLocalReservavel');
         Route::get('/pendentes/localidade/{localidade}', 'reservas\AprovacaoController@pendentesHojeLocalidade');
         Route::patch('/{id}', 'reservas\AprovacaoController@aprovacao');
-        Route::patch('/recusar/{id}', 'reservas\AprovacaoController@recusar');
-        Route::get('/recusadas', 'reservas\AprovacaoController@recusados');
+        Route::put('/recusar', 'reservas\AprovacaoController@recusar');
+        Route::get('/recusadas', 'reservas\AprovacaoController@recusadas');
     });
 
     Route::group(['prefix' => 'localidades'], function () {

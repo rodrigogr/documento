@@ -59,20 +59,22 @@ class AprovacaoController extends Controller
         }
     }
 
-    public function recusar($id, Request $request)
+    public function recusar(Request $request)
     {
         try {
-            $reserva = Reserva::find($id);
+            $Data = $request->all();
+            $reserva = Reserva::find($Data["id"]);
             $reserva->status = 'recusada';
+            $reserva->obs = $Data["motivo"];
             $reserva->update();
-            return response()->success(trans('messages.crud.MUS', ['name' => 'Reserva']));
+            return response()->success(trans('messages.crud.FUS', ['name' => 'Reserva ']));
 
         } catch(\Exception $e) {
             return response()->error($e->getMessage);
         }
     }
 
-    public function recusados()
+    public function recusadas()
     {
         $Data = Reserva::where('status','recusada')->orderBy('id', 'desc')->get();
         return response()->success($Data);

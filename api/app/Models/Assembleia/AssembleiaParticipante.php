@@ -4,9 +4,11 @@ namespace App\models\Assembleia;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Participante extends Model
+class AssembleiaParticipante extends Model
 {
     public $timestamps = true;
+    protected $table = 'assembleia_participantes';
+    protected $fillable = ['id_assembleia','id_imovel', 'id_procurador'];
 
     public function assembleia()
     {

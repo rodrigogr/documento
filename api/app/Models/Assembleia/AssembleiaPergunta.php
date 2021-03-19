@@ -9,9 +9,13 @@ class AssembleiaPergunta extends Model
     public $timestamps = true;
     protected $table = 'assembleia_perguntas';
 
+    protected $fillable = [
+        'pergunta'
+    ];
+
     public function assembleiaOpcoes()
     {
-        return $this->hasMany(AssembleiaOpcao::class);
+        return $this->hasMany(AssembleiaOpcao::class, 'pergunta_id');
     }
 
     public function pauta()

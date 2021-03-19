@@ -8,7 +8,9 @@ class AssembleiaOpcao extends Model
 {
     public $timestamps = true;
     protected $table = 'assembleia_opcoes';
-
+    protected $fillable = [
+        'opcao'
+    ];
     public function assembleiaPergunta()
     {
         return $this->belongsTo(AssembleiaPergunta::class);

@@ -2,11 +2,17 @@
 
 namespace App\models\Assembleia;
 
+use App\Helpers\DataHelper;
 use Illuminate\Database\Eloquent\Model;
 
 class Assembleia extends Model
 {
     public $timestamps = true;
+
+    static public $associations = [
+        'pautas '
+    ];
+
     protected $fillable = [
         'tipo',
         'status',
@@ -17,9 +23,29 @@ class Assembleia extends Model
         'votacao_secreta'
     ];
 
+//    public function setVotacaoSecretaAttribute($value)
+//    {
+//        return $this->attributes['votacao_secreta'] = $value;
+//    }
+//
+//    public function setLinkTransmissaoAttribute($value)
+//    {
+//        return $this->attributes['link_transmissao'] = $value;
+//    }
+
+    public function setDataHoraInicioAttribute($value)
+    {
+        return $this->attributes['data_hora_inicio'] = DataHelper::setDateUTCtoDateDB($value);
+    }
+
+    public function setDataHoraFimAttribute($value)
+    {
+        return $this->attributes['data_hora_fim'] = DataHelper::setDateUTCtoDateDB($value);
+    }
+
     public function participantes()
     {
-        return $this->hasMany(Participante::class);
+        return $this->hasMany(AssembleiaParticipante::class, 'id_assembleia');
     }
 
     public function assembleiaEncaminnhamentos()
@@ -39,7 +65,7 @@ class Assembleia extends Model
 
     public function pautas()
     {
-        return $this->hasMany(Pauta::class);
+        return $this->hasMany(Pauta::class, 'id_assembleia');
     }
 
     public function assembleiaDocumentos()

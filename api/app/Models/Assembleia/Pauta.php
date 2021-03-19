@@ -7,10 +7,16 @@ use Illuminate\Database\Eloquent\Model;
 class Pauta extends Model
 {
     public $timestamp = true;
+    protected $table = 'assembleia_pautas';
+    static public $associations = [
+        'assembleiaPergunta '
+    ];
+
+    protected $fillable = ['id_assembleia', 'id_pergunta'];
 
     public function assembleia()
     {
-        return $this->belongsTo(Assembleia::class);
+        return $this->belongsTo(Assembleia::class, 'id_assembleia');
     }
 
     public function assembleiaEncaminhamento()

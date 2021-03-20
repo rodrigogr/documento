@@ -19,7 +19,9 @@ angular.module('AssembleiasModule').controller('AssembleiaAssembleiasCtrl',
             voto_hora_fim: '',
             configuracao: true,
             link_transmissao: '',
-            votacao_secreta: false
+            votacao_secreta: false,
+            pautas: '',
+            participantes: ''
         }
 
 
@@ -78,24 +80,23 @@ angular.module('AssembleiasModule').controller('AssembleiaAssembleiasCtrl',
         }
 
         $scope.addNewAlternativa = function(index) {            
-            var newItemNo = $scope.pautas[index].alternativas.length+1;
-            $scope.pautas[index].alternativas.push({'id' : 'alternativa' + newItemNo, 'name' : 'Alternativa'});
+            var newItemNo = $scope.assembleia.pautas[index].alternativas.length+1;
+            $scope.assembleia.pautas[index].alternativas.push({'id' : 'alternativa' + newItemNo, 'name' : 'Alternativa'});
         };
 
         $scope.removeNewAlternativas = function(indexPauta) {
-            debugger
-            var newItemNo = $scope.pautas[indexPauta].alternativas.length-1;
+            var newItemNo = $scope.assembleia.pautas[indexPauta].alternativas.length-1;
             if (newItemNo !== 0) {
-                $scope.pautas[indexPauta].alternativas.pop();
+                $scope.assembleia.pautas[indexPauta].alternativas.pop();
             }
         };
 
         $scope.showAddAlternativa = function(alternativa, indexPauta) {
-            return alternativa.id === $scope.pautas[indexPauta].alternativas[$scope.pautas[indexPauta].alternativas.length-1].id;
+            return alternativa.id === $scope.assembleia.pautas[indexPauta].alternativas[$scope.assembleia.pautas[indexPauta].alternativas.length-1].id;
             // return pauta[index].alternativa.id === $scope.pautas.alternativas[$scope.pautas.alternativas.length-1].id;
         };
 
-        $scope.pautas = [
+        $scope.assembleia.pautas = [
             {
             id: 'pauta1',
             name: 'pauta1',
@@ -118,7 +119,6 @@ angular.module('AssembleiasModule').controller('AssembleiaAssembleiasCtrl',
         ];
 
         $scope.addNewPauta = function(){
-            debugger
             var newItemNo = $scope.pautas.length+1;
             $scope.pautas.push({
                 id : 'pauta' + newItemNo, 
@@ -138,7 +138,7 @@ angular.module('AssembleiasModule').controller('AssembleiaAssembleiasCtrl',
         };
 
         /** List All Participantes  */
-        $scope.listParticipantes = [{
+        $scope.assembleia.participantes = [{
                 participar: true,
                 unidade: 'Qd 01 / Lt 03',
                 peso: 'x2',

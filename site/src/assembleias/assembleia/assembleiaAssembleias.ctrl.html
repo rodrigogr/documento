@@ -354,7 +354,7 @@
                                             {{ pautas | json }}
                                         </pre> -->
 
-                                        <div ng-repeat="(pautaIndex, pauta) in pautas"
+                                        <div ng-repeat="(pautaIndex, pauta) in assembleia.pautas"
                                             style="border-bottom: solid 2px #d8d8d8; padding: 0 0 20px; margin: 0 0 20px;">
                                         
                                             <div class="row ba__margin-bottom-30">
@@ -446,6 +446,12 @@
                                     <div class="form-group col-xs-24" id="step3" ng-show="step === 3"
                                         style="background-color: #F2F2F2; padding: 60px 15px 30px 15px;">
 
+                                        <pre>
+                                            {{ 
+                                                assembleia | json
+                                            }}
+                                        </pre>                                        
+
                                         <div class="row">
                                             
                                             <div class="row uppercase titulo-lista"
@@ -468,7 +474,7 @@
 
                                             <ul class="list-group">
                                                 <li  class="list-group-item"
-                                                    ng-repeat="participante in listParticipantes">
+                                                    ng-repeat="participante in assembleia.participantes">
                                                     
                                                     <h5 class="col-xs-2 list-group-item-heading check-styled">
                                                         <div class="checkbox">

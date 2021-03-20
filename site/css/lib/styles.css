@@ -130,11 +130,9 @@ body {
 }
 
 .ba__bioacesso-header-logo {
-    width: 177px;
-    height: 39px;
+    height: 80px;
     background-image: url("../../img/logo_ba_comunicacao.png");
     background-repeat: no-repeat;
-    margin: 8% auto!important;
 }
 
 .ba__logo-condominio {
@@ -1272,6 +1270,10 @@ body {
     margin-top: 15px;
 }
 
+.ba__margin-top-13 {
+    margin-top: 13px;
+}
+
 .ba__margin-top-7 {
     margin-top: 7px;
 }
@@ -1515,7 +1517,6 @@ body {
 
 .btn-clear {
     background-color: transparent;
-    color: inherit;
 }
 
 .text-success {
@@ -2751,7 +2752,11 @@ input[type=checkbox].choose-day {
     overflow: hidden;
     text-overflow: ellipsis;
 }
-
+.truncate2 {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
 
 /*MENU PORTARIA*/
 
@@ -3361,7 +3366,7 @@ input.cmn-toggle-yes-no:checked+label:after {
 }
 
 .btn {
-    font-size: 20px;
+    font-size: 18px;
     border-radius: 4px;
 }
 
@@ -3731,9 +3736,9 @@ a.link-only {
     color: inherit !important;
 }
 
-span{
+/*span{
     color: #555555;
-}
+}*/
 
 .ba__textarea-modal{
     display: block;
@@ -3773,4 +3778,9 @@ span{
     height: 20px;
     font-size: 25px;
     margin-left: 80px;
+}
+.requer-restricao-local {
+    float: left;
+    margin-top: 8px;
+    margin-right: 10px;
 }

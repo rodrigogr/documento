@@ -28,10 +28,6 @@ function sidebarCtrl($scope, LoginService, AuthService) {
                     'nome': 'Locais Reserváveis'
                 },
                 {
-                    'cod': 'reservaCalendario',
-                    'nome': 'Calendário de Reservas'
-                },
-                {
                     'cod': 'reservaAprovacao',
                     'nome': 'Aprovações Pendentes'
                 }
@@ -47,7 +43,7 @@ function sidebarCtrl($scope, LoginService, AuthService) {
                 {
                     'cod': 'assembleia',
                     'nome': 'Assembleia'
-                }   
+                }
             ]
          },
         // {
@@ -177,7 +173,7 @@ function sidebarCtrl($scope, LoginService, AuthService) {
     $scope.loadingMenu = true;
 
     LoginService.userAccess(user.id).then( function(result ) {
-        
+
         $scope.objAccess = result.data;
         $scope.menuShow = [];
         $scope.acessoRapido = [];

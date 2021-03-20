@@ -37,7 +37,7 @@ class AuthController extends Controller
 
         $check_modulo = false;
         foreach ($permissao_financeiro as $modulo) {
-            if ($modulo->nome === 'acesso_financeiro') {
+            if ($modulo->nome === 'acesso_portal') {
                 $check_modulo = true;
             }
         }
@@ -48,12 +48,12 @@ class AuthController extends Controller
         $token = JWTAuth::fromUser($usuario);
         //$objectToken = JWTAuth::setToken($token);
         //$expiration = JWTAuth::decode($objectToken->getToken())->get('exp');
-
+        $primeiroNome = explode(" ", $usuario->nome);
         return response()->success([
             'token' => $token,
             'usr' => [
                 'id' => sha1($usuario->id),
-                'nome' => $usuario->nome
+                'nome' => $primeiroNome[0]
             ]
         ]);
     }
@@ -210,9 +210,6 @@ class AuthController extends Controller
     }
 
     public function userPermissoesFormata($dados) {
-        echo "<pre>";
-        print_r($dados);
-        exit();
         $permissoes = json_decode($dados);
         $res = [];
         foreach ($permissoes as $p){

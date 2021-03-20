@@ -1,5 +1,6 @@
 <?php
 
+
 Route::group(['middleware' => 'jwt.auth'], function ()
 {
     Route::group(['prefix' => 'localreservavel'], function () {
@@ -7,6 +8,7 @@ Route::group(['middleware' => 'jwt.auth'], function ()
         Route::post('/', 'reservas\LocalReservavelController@store');
         Route::get('/{id}', 'reservas\LocalReservavelController@show');
         Route::put('/{id}', 'reservas\LocalReservavelController@update');
+        Route::get('/nome/{nome_local}', 'reservas\LocalReservavelController@nomeLocalReservavel');
     });
 
     Route::group(['prefix' => 'reserva'], function () {
@@ -24,12 +26,18 @@ Route::group(['middleware' => 'jwt.auth'], function ()
     });
 
     Route::group(['prefix' => 'aprovacao'], function () {
-        Route::get('/pendentes/hoje', 'reservas\AprovacaoController@hoje');
+        Route::get('/pendentes/hoje', 'reservas\AprovacaoController@pendentesHoje');
+        Route::get('/pendentes/local/{local}', 'reservas\AprovacaoController@pendentesHojeLocalReservavel');
+        Route::get('/pendentes/localidade/{localidade}', 'reservas\AprovacaoController@pendentesHojeLocalidade');
+        Route::patch('/{id}', 'reservas\AprovacaoController@aprovacao');
+        Route::patch('/recusar/{id}', 'reservas\AprovacaoController@recusar');
+        Route::get('/recusadas', 'reservas\AprovacaoController@recusados');
     });
 
     Route::group(['prefix' => 'localidades'], function () {
         Route::get('/', 'LocalidadeController@index');
         Route::get('/locais_reservaveis', 'LocalidadeController@locaisReservaveis');
+        Route::get('/locais_reservaveis/pessoa/{id_pessoa}', 'LocalidadeController@locaisPermitidos');
     });
 
 });

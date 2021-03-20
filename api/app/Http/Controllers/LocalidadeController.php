@@ -108,4 +108,54 @@ class LocalidadeController extends Controller
             return response()->error(trans('messages.crud.FGE', ['name' => $this->name]));
         }
     }
+
+    public function locaisPermitidos($idPessoa)
+    {
+        $Data = Localidade::getLocaisReservaveis();
+
+        if ($Data) {
+            $permitidos = [];
+            foreach ($Data as $localidade) {
+                foreach ($localidade->locaisReservaveis as $local_reservavel) {
+                    if ($local_reservavel->restricao) {
+                        if ($local_reservavel->restricao == 'restricao_clube') {
+                            $verificaClube = $this->buscaPessoaClube($idPessoa);
+                            if ($verificaClube) {
+                                $permitidos[] = $local_reservavel;
+                            }
+                        } else {
+                            $verificaAcademia = $this->buscaPessoaAcademia($idPessoa);
+                            if ($verificaAcademia) {
+                                $permitidos[] = $local_reservavel;
+                            }
+                        }
+                    } else {
+                        $permitidos[] = $local_reservavel;
+                    }
+                }
+                if (!count($permitidos)) {
+                    unset($localidade);
+                } else {
+                    unset($localidade->locaisReservaveis);
+                    $localidade->locaisReservaveis = $permitidos;
+                    $permitidos = [];
+                }
+            }
+
+            return response()->success($Data);
+        }
+        return response()->error(trans('messages.crud.MAE', ['name' => $this->name]));
+    }
+
+    private function buscaPessoaClube($idPessoa)
+    {
+        return \DB::connection('portaria')
+            ->select('select id from clube where id_pessoa = '.$idPessoa.' and softdeleted = 0');
+    }
+
+    private function buscaPessoaAcademia($idPessoa)
+    {
+        return \DB::connection('portaria')
+            ->select('select id from academia where id_pessoa = '.$idPessoa.' and acesso_academia = 1');
+    }
 }

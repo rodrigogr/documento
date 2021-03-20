@@ -54,7 +54,7 @@ class DataHelper
 
     static public function setDateUTCtoDateDB($value,$time = null){
         $data = Carbon::createFromFormat('Y-m-d\TH:i:s.uO', $value);
-        return is_null($time) ? $data->format('Y-m-d') : $data->format('Y-m-d H:i') ;
+        return $data->format('Y-m-d H:i:s') ;
     }
 
     static public function getOnlyNumbers($value){

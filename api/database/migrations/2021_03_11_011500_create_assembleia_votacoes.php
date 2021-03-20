@@ -38,6 +38,6 @@ class CreateAssembleiaVotacoes extends Migration
      */
     public function down()
     {
-        //
+        Schema::drop('assembleia_votacoes');
     }
 }

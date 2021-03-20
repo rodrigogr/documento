@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateAssembleiaQuestoesEncaminhamentos extends Migration
+class CreateAssembleiaDiscussoes extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,9 @@ class CreateAssembleiaQuestoesEncaminhamentos extends Migration
      */
     public function up()
     {
-        if (!Schema::hasTable('assembleia_encaminhamentos'))
+        if (!Schema::hasTable('assembleia_dicussoes'))
         {
-            Schema::create('assembleia_encaminhamentos', function (Blueprint $table)
+            Schema::create('assembleia_dicussoes', function (Blueprint $table)
             {
                 $table->increments('id');
                 $table->unsignedInteger('id_assembleia');
@@ -37,6 +37,6 @@ class CreateAssembleiaQuestoesEncaminhamentos extends Migration
      */
     public function down()
     {
-        //
+        Schema::drop('assembleia_dicussoes');
     }
 }

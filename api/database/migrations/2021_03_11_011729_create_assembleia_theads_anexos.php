@@ -34,6 +34,6 @@ class CreateAssembleiaTheadsAnexos extends Migration
      */
     public function down()
     {
-        //
+        Schema::drop('assembleia_theads_anexos');
     }
 }

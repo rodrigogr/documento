@@ -36,6 +36,6 @@ class CreateAssembleiaPosts extends Migration
      */
     public function down()
     {
-        //
+        Schema::drop('assembleia_posts');
     }
 }

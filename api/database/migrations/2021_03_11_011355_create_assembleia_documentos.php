@@ -34,6 +34,6 @@ class CreateAssembleiaDocumentos extends Migration
      */
     public function down()
     {
-        //
+        Schema::drop('assembleia_documentos');
     }
 }

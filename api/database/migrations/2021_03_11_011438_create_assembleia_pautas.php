@@ -35,6 +35,6 @@ class CreateAssembleiaPautas extends Migration
      */
     public function down()
     {
-        //
+        Schema::drop('assembleia_pautas');
     }
 }

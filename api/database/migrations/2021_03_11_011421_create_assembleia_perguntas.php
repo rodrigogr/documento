@@ -32,6 +32,6 @@ class CreateAssembleiaPerguntas extends Migration
      */
     public function down()
     {
-        //
+        Schema::drop('assembleia_perguntas');
     }
 }

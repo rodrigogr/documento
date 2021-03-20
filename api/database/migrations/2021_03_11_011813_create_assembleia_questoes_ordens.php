@@ -37,6 +37,6 @@ class CreateAssembleiaQuestoesOrdens extends Migration
      */
     public function down()
     {
-        //
+        Schema::drop('assembleia_questoes_ordens');
     }
 }

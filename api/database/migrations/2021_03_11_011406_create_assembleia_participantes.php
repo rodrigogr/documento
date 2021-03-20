@@ -35,6 +35,6 @@ class CreateAssembleiaParticipantes extends Migration
      */
     public function down()
     {
-        //
+        Schema::drop('assembleia_participantes');
     }
 }

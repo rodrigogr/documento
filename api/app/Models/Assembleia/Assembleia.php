@@ -70,6 +70,6 @@ class Assembleia extends Model
 
     public function assembleiaDocumentos()
     {
-        return $this->hasMany(AssembleiaDocumento::class);
+        return $this->hasMany(AssembleiaDocumento::class, 'id_assembleia');
     }
 }

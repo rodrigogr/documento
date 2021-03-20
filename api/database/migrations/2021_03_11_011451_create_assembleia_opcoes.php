@@ -32,6 +32,6 @@ class CreateAssembleiaOpcoes extends Migration
      */
     public function down()
     {
-        //
+        Schema::drop('assembleia_opcoes');
     }
 }

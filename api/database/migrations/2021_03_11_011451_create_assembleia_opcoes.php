@@ -19,6 +19,8 @@ class CreateAssembleiaOpcoes extends Migration
             {
                 $table->increments('id');
                 $table->string('opcao');
+                $table->unsignedInteger('id_pergunta');
+                $table->foreign('id_pergunta')->references('id')->on('assembleia_perguntas');
                 $table->softDeletes();
                 $table->timestamps();
             });

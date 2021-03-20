@@ -17,8 +17,10 @@ class Assembleia extends Model
         'tipo',
         'status',
         'titulo',
-        'data_hora_inicio',
-        'data_hora_fim',
+        'data_inicio',
+        'hora_inicio',
+        'data_fim',
+        'hora_fim',
         'link_transmissao',
         'votacao_secreta'
     ];
@@ -35,12 +37,12 @@ class Assembleia extends Model
 
     public function setDataHoraInicioAttribute($value)
     {
-        return $this->attributes['data_hora_inicio'] = DataHelper::setDateUTCtoDateDB($value);
+        return $this->attributes['data_inicio'] = DataHelper::setDate($value);
     }
 
     public function setDataHoraFimAttribute($value)
     {
-        return $this->attributes['data_hora_fim'] = DataHelper::setDateUTCtoDateDB($value);
+        return $this->attributes['data_fim'] = DataHelper::setDate($value);
     }
 
     public function participantes()

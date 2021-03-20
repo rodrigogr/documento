@@ -15,7 +15,7 @@ class AssembleiaPergunta extends Model
 
     public function assembleiaOpcoes()
     {
-        return $this->hasMany(AssembleiaOpcao::class, 'pergunta_id');
+        return $this->hasMany(AssembleiaOpcao::class, 'id_pergunta');
     }
 
     public function pauta()

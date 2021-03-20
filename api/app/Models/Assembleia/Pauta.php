@@ -36,6 +36,6 @@ class Pauta extends Model
 
     public function assembleiaPergunta()
     {
-        return $this->hasOne(AssembleiaPergunta::class);
+        return $this->hasOne(AssembleiaPergunta::class, 'id_pergunta');
     }
 }

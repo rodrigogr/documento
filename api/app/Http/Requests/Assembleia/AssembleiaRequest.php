@@ -34,7 +34,8 @@ class AssembleiaRequest extends JsonRequest
                 $rules = [
                     'titulo' => 'required',
                     'tipo' => 'required',
-                    'data_hora_inicio' => 'required',
+                    'data_inicio' => 'required',
+                    'hora_inicio' => 'required'
                 ];
                 break;
             }
@@ -43,7 +44,8 @@ class AssembleiaRequest extends JsonRequest
                 $rules = [
                     'titulo' => 'required',
                     'tipo' => 'required',
-                    'dataHoraInicio' => 'required'
+                    'data_inicio' => 'required',
+                    'hora_inicio' => 'required'
                 ];
                 break;
             }

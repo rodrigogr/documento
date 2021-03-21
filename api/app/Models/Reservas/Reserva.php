@@ -40,12 +40,14 @@ class Reserva extends Model
             ->get();
     }
 
-    public static function aprovacaoPendenteHoje($hoje, $dia_semana, $localReservavel = '', $localidade = '')
+    public static function aprovacoes($data, $localReservavel = '', $localidade = '', $status = 'pendente')
     {
-        $busca = PeriodoLocalReservavel::join('reserva as r', function ($q) use($hoje) {
-            $q->on('r.data',\DB::raw("'".$hoje."'"));
+        $busca = PeriodoLocalReservavel::join('reserva as r', function ($q) use($data, $status) {
+            if ($data != 'todos') {
+                $q->on('r.data', \DB::raw("'" . $data . "'"));
+            }
             $q->on('r.id_periodo','periodo_local_reservavel.id');
-            $q->where('r.status','pendente');
+            $q->where('r.status', $status);
         });
 
         if ($localidade) {
@@ -66,7 +68,7 @@ class Reserva extends Model
             $q->join('bioacesso_portaria.localidades','localidades.id','=','local_reservavel.id_localidade');
             $q->select('bioacesso_portaria.localidades.descricao as localidade','local_reservavel.*');
         }])
-        ->where('periodo_local_reservavel.dia_semana', $dia_semana)
+//        ->where('periodo_local_reservavel.dia_semana', $dia_semana)
         ->orderBy('periodo_local_reservavel.hora_ini')
         ->select('periodo_local_reservavel.*',
             'r.id as idReserva',
@@ -77,7 +79,8 @@ class Reserva extends Model
             'r.id_pessoa as reserva_idPessoa',
             'r.status as reserva_status',
             'r.id_imovel',
-            'r.id_pessoa')
+            'r.id_pessoa',
+            'r.obs')
         ->get();
 
         return $result;

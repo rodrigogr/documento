@@ -51,7 +51,8 @@
                         </div>
                     </div>
 
-                    <div class="col-xs-14 col-xs-offset-1">
+                    <!--PENDENTES-->
+                    <div ng-if="!recusadas.length" class="col-xs-14 col-xs-offset-1">
                         <span ng-if="loadDiaPendente"><i class="fa fa-spinner fa-spin ba__font-size-17"></i></span>
                         <div ng-if="!loadDiaPendente" class="bloco-reservas">
                             <div class="row">
@@ -99,6 +100,39 @@
                         </div>
                     </div>
 
+                    <!--RECUSADAS-->
+                    <div ng-if="recusadas.length" class="col-xs-14 col-xs-offset-1">
+                        <span ng-if="loadRecusadas"><i class="fa fa-spinner fa-spin ba__font-size-17"></i></span>
+                        <div ng-if="!loadRecusadas" class="bloco-reservas">
+
+                            <div class="lista-reserva-dia" ng-if="!recusadas.length">
+                                <div class="row local">
+                                    Nenhuma resultado encontrado
+                                </div>
+                            </div>
+                            <div class="lista-pendentes">
+                                <div class="lista-reserva-dia" ng-repeat="recusada in recusadas">
+                                    <div class="row">
+                                        <h3 class="col-md-11 titulo-dia-mes">Dia {{recusada.data | formatOtherDate}} <span class="titulo-semana">semana</span></h3>
+                                    </div>
+                                    <div class="row local">
+                                        <i class="fa icon-ba-pin"></i>
+                                        <label class="text-capitalize">{{recusada.local_reservavel.nome}}</label> / <span class="text-capitalize">{{recusada.local_reservavel.localidade}}</span>
+                                    </div>
+                                    <div class="row">
+                                        <span class="col-xs-4 periodo"><b>{{recusada.hora_ini}} - {{recusada.hora_fim}}</b><br>{{recusada.valor | currency}}</span>
+                                        <span class="col-xs-12 col-xs-offset-1 status-local">
+                                            <button class="btn text-uppercase reserva-status">{{recusada.reserva_status}}</button><br>
+                                            <p>{{'Qd '+recusada.imovel.quadra+' / Lt '+recusada.imovel.lote}} - {{recusada.imovel.logradouro}}</p>
+                                            <p class="text-capitalize">{{recusada.pessoa.nome}}</p>
+                                        </span>
+                                        <span class="col-xs-6 pull-right" style="margin-right: 33px"><button class="btn btn-primary" ng-click="analisar($index)" style="width: 100%">ANALISAR</button></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
                 </div>
             </div>
 
@@ -118,7 +152,7 @@
                     </div>
                     <div class="modal-body analisarReserva-body">
                         <div class="row">
-                            <h3><i class="fa icon-ba-pin ba__margin-right-15 text-primary"></i> <span class="text-primary">Área Gourmet</span> / Alphaville Goyaz</h3>
+                            <h3><i class="fa icon-ba-pin ba__margin-right-15 text-primary"></i> <span class="text-primary text-capitalize">{{analisandoReserva.local_reservavel.nome}}</span> / {{analisandoReserva.local_reservavel.localidade}}</h3>
                         </div>
                         <div class="row info-localReservavel">
                             <div class="col-md-1"><i class="fa fa-group"></i></div>
@@ -180,8 +214,8 @@
                         <button type="button" ng-click="aprovarReserva(analisandoReserva.idReserva)" class="btn btn-success col-md-5 ba__margin-horizontal-40 pull-right">
                             APROVAR
                         </button>
-                        <span style="color:red" ng-click="motivoRecusar(analisandoReserva.idReserva)" class="col-md-5 pull-right">RECUSAR</span>
-                        <span style="color:#9C9C9C" ng-click="fecharAnalisando()" class="col-md-5 pull-left">FECHAR</span>
+                        <span style="color:red" ng-click="motivoRecusar(analisandoReserva.idReserva)" class="col-md-5 pull-right hoverDanger">RECUSAR</span>
+                        <span style="color:#9C9C9C" ng-click="fecharAnalisando()" class="col-md-5 col-md-offset-1 pull-left hoverDefault">FECHAR</span>
                     </div>
                 </div>
             </div>
@@ -213,7 +247,7 @@
                                 data-loading-text="Aguarde...">
                             Recusar
                         </button>
-                        <span style="color:#9C9C9C" ng-click="fecharMotivo()" class="col-md-5 pull-right">CANCELAR</span>
+                        <span style="color:#9C9C9C" ng-click="fecharMotivo()" class="col-md-5 hoverDefault pull-right">CANCELAR</span>
                     </div>
                 </div>
             </div>

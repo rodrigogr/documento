@@ -3783,3 +3783,15 @@ a.link-only {
     margin-top: 8px;
     margin-right: 10px;
 }
+.hoverDanger:hover {
+    border: 1px solid red;
+    box-shadow: 1px 1px 8px #f5acac9e;
+    border-radius: 5px;
+    padding: 1px 5px;
+}
+.hoverDefault:hover {
+    border: 1px solid #9C9C9C;
+    box-shadow: 1px 1px 8px #8a939c61;
+    border-radius: 5px;
+    padding: 1px 5px;
+}

@@ -31,7 +31,7 @@ Route::group(['middleware' => 'jwt.auth'], function ()
         Route::get('/pendentes/localidade/{localidade}', 'reservas\AprovacaoController@pendentesHojeLocalidade');
         Route::patch('/{id}', 'reservas\AprovacaoController@aprovacao');
         Route::put('/recusar', 'reservas\AprovacaoController@recusar');
-        Route::get('/recusadas', 'reservas\AprovacaoController@recusadas');
+        Route::get('/recusadas/{data}', 'reservas\AprovacaoController@recusadas');
     });
 
     Route::group(['prefix' => 'localidades'], function () {

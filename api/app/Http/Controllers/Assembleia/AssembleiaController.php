@@ -61,7 +61,9 @@ class AssembleiaController extends Controller
 
     public function show($id)
     {
+        $assembleia = Assembleia::where('id', $id)->with('documentos')->get();
 
+        return response()->success($assembleia);
     }
 
     public function resumo($id)

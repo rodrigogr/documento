@@ -90,7 +90,7 @@ class Pessoa extends Model {
         return $this->hasMany('App\Models\ImovelPermanente', 'id_pessoa');
     }
 
-    public function  morador()
+    public function  permanente()
     {
         return $this->hasOne('App\Models\PessoaPermanente', 'id_pessoa');
     }

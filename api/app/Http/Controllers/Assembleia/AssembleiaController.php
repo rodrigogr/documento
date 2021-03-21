@@ -6,7 +6,11 @@ namespace App\Http\Controllers\Assembleia;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Assembleia\AssembleiaRequest;
 use App\models\Assembleia\Assembleia;
+use App\models\Assembleia\AssembleiaDiscussao;
+use App\models\Assembleia\AssembleiaDocumento;
+use App\models\Assembleia\AssembleiaEncaminhamento;
 use App\models\Assembleia\AssembleiaPergunta;
+use App\models\Assembleia\AssembleiaQuestaoOrdem;
 use League\Flysystem\Exception;
 
 class AssembleiaController extends Controller
@@ -24,7 +28,7 @@ class AssembleiaController extends Controller
         {
             $assembleia = Assembleia::create($request->all());
 
-            $assembleia->assembleiaDocumentos()->createMany($data['documentos']);
+            $assembleia->documentos()->createMany($data['documentos']);
 
             foreach ($data['pautas'] as $pauta)
             {
@@ -54,5 +58,37 @@ class AssembleiaController extends Controller
     {
 
     }
+
+    public function show($id)
+    {
+
+    }
+
+    public function resumo($id)
+    {
+        $assembleia = Assembleia::where('id', $id)->with('documentos')->get();
+
+        $questoes = AssembleiaQuestaoOrdem::where('id_assembleia', $id)->count();
+
+        $encaminhamentos = AssembleiaEncaminhamento::where('id_assembleia', $id)->count();
+
+        $topicos = AssembleiaDiscussao::where('id_assembleia', $id)->with('theads')->count();
+
+        $result = [
+            'assembleia' => $assembleia,
+            'questoesOrdem'=> $questoes,
+            'encaminhamentos' => $encaminhamentos,
+            'topicos' => $topicos,
+            'comentarios' => 0,
+            'unidadesAptas' => 0,
+            'unidadesInteragiram' => 0,
+            'unidadesVotaram' => 0
+        ];
+
+        return response()->success($result);
+    }
+
+
+
 
 }

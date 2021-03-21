@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class AssembleiaDiscussao extends Model
 {
     public $timestamps = true;
-    protected $table = 'assembleia_discussoes';
+    protected $table = 'assembleia_dicussoes';
 
     public function assembleia()
     {
@@ -19,7 +19,7 @@ class AssembleiaDiscussao extends Model
         return $this->hasOne(Pauta::class);
     }
 
-    public function assembleiathead()
+    public function theads()
     {
         return $this->hasOne(AssembleiaThead::class);
     }

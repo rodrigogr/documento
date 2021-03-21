@@ -10,7 +10,8 @@ class Assembleia extends Model
     public $timestamps = true;
 
     static public $associations = [
-        'pautas '
+        'pautas ',
+        'documentos'
     ];
 
     protected $fillable = [
@@ -70,7 +71,7 @@ class Assembleia extends Model
         return $this->hasMany(Pauta::class, 'id_assembleia');
     }
 
-    public function assembleiaDocumentos()
+    public function documentos()
     {
         return $this->hasMany(AssembleiaDocumento::class, 'id_assembleia');
     }

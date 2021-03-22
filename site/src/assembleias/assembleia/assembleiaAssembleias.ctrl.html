@@ -47,40 +47,39 @@
             <div class="ba__admin-table" style="margin: 20px">
                 <a class="list-group-item lista-head">
                     <div class="row uppercase titulo-lista">
-                        <div class="col-xs-6" style="cursor: pointer;" ng-click="sort('id')"><b>Título</b> {{prop=='id'&&(reverse?'⬆':'⬇')||''}}
+                        <div class="col-xs-8" style="cursor: pointer;"><b>Título</b>
                             <i class="ba__margin-horizontal-5"></i>
                         </div>
-                        <div class="col-xs-4" style="cursor: pointer;" ng-click="sort('nome')"><b>status</b> {{prop == 'nome'&&(reverse?'⬆':'⬇')||''}}
+                        <div class="col-xs-4" style="cursor: pointer;"><b>status</b>
                             <i class="ba__margin-horizontal-5"></i>
                         </div>
-                        <div class="col-xs-4" style="cursor: pointer;" ng-click="sort('descricao')"><b>Início</b> {{prop=='descricao'&&(reverse?'⬆':'⬇')||''}}
+                        <div class="col-xs-4" style="cursor: pointer;"><b>Início</b>
                             <i class="ba__margin-horizontal-5"></i>
                         </div>
-                        <div class="col-xs-4" style="cursor: pointer;" ng-click="sort('capacidade')"><b>Tipo</b> {{prop=='capacidade'&&(reverse?'⬆':'⬇')||''}}
+                        <div class="col-xs-4" style="cursor: pointer;"><b>Tipo</b>
                             <i class="ba__margin-horizontal-5"></i>
                         </div>
-                        <div class="col-xs-4" style="cursor: pointer;" ng-click="sort('capacidade')"><b>Local</b> {{prop=='capacidade'&&(reverse?'⬆':'⬇')||''}}
+                        <div class="col-xs-2" style="cursor: pointer;"><b>Votação secreta</b>
                             <i class="ba__margin-horizontal-5"></i>
                         </div>
                         <div class="col-xs-2 text-right" style="cursor: pointer;"></div>
-
                     </div>
                 </a>
                 <div class="list-group">
                     <a href="javascript:void(0)" ng-click="editarLocal(local.id)" 
                         class="list-group-item"
                         ng-repeat="assembleia in listAssembleias">
-                        <h5 class="col-xs-6 list-group-item-heading">{{assembleia.titulo}}</h5>
+                        <h5 class="col-xs-8 list-group-item-heading">{{assembleia.titulo}}</h5>
                         <h5 class="col-xs-4 list-group-item-heading">
                             <span class="badge-style {{assembleia.status.toLowerCase() === 'agendada' ? ' badge-agendada' : assembleia.status.toLowerCase() === 'encerrada' ? ' badge-encerrada' : 'badge-em-andamento' }}">
                                 {{ assembleia.status }}
                             </span>
                         </h5>
                         <h5 class="col-xs-4 list-group-item-heading">
-                            {{ converteDateParaPtBR(assembleia.date) }} ás {{ assembleia.hora }}
+                            {{ converteDateParaPtBR(assembleia.date_inicio) }} ás {{ assembleia.hora_inicio }}
                         </h5>
                         <h5 class="col-xs-4 list-group-item-heading">{{assembleia.tipo}}</h5>
-                        <h5 class="col-xs-4 list-group-item-heading">{{assembleia.local}}</h5>
+                        <h5 class="col-xs-2 list-group-item-heading">{{assembleia.votacao_secreta}}</h5>
                         <h5 class="col-xs-2 list-group-item-heading text-right">
                             <i class="fa fa-eye"></i>
                         </h5>
@@ -125,8 +124,8 @@
                                                 <div class="col-md-24 format-radios">
                                                     <label class="radio-inline">
                                                         <input type="radio" 
-                                                        name="reuniao" 
-                                                        ng-model="assembleia.reuniao" 
+                                                        name="tipo" 
+                                                        ng-model="assembleia.tipo" 
                                                         value="geral"
                                                         checked
                                                         title="*">
@@ -252,8 +251,8 @@
                                                     <div class="control-input">
                                                         <input 
                                                             type="text" 
-                                                            name="data_inicio" 
-                                                            ng-model="assembleia.voto_data_inicio" 
+                                                            name="votacao_data_inicio" 
+                                                            ng-model="assembleia.votacao_data_inicio" 
                                                             placeholder=" " 
                                                             autocomplete="off"
                                                             mask="99/99/9999"
@@ -268,8 +267,8 @@
                                                     <div class="control-input">
                                                         <input 
                                                             type="text" 
-                                                            name="titulo" 
-                                                            ng-model="assembleia.voto_hora_fim" 
+                                                            name="votacao_hora_fim" 
+                                                            ng-model="assembleia.votacao_hora_fim" 
                                                             placeholder=" " 
                                                             autocomplete="off"
                                                             mask="99:99"

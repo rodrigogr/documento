@@ -16,7 +16,8 @@ class Reserva extends Model
         'status',
         'id_imovel',
         'id_pessoa',
-        'obs'
+        'obs',
+        'autor'
     ];
     public $timestamps = true;
 
@@ -42,12 +43,18 @@ class Reserva extends Model
 
     public static function aprovacoes($data, $localReservavel = '', $localidade = '', $status = 'pendente')
     {
+        $usuario = \Auth::user();
+
         $busca = PeriodoLocalReservavel::join('reserva as r', function ($q) use($data, $status) {
             if ($data != 'todos') {
                 $q->on('r.data', \DB::raw("'" . $data . "'"));
             }
             $q->on('r.id_periodo','periodo_local_reservavel.id');
             $q->where('r.status', $status);
+        });
+
+        $busca = $busca->leftJoin('bioacesso_portaria.pessoa as p', function ($q) use($usuario) {
+            $q->on('r.autor','p.id');
         });
 
         if ($localidade) {
@@ -73,6 +80,15 @@ class Reserva extends Model
         ->select('periodo_local_reservavel.*',
             'r.id as idReserva',
             'r.data',
+            \DB::raw('date_format(r.data, "%d/%m/%Y") as data_formatada'),
+            \DB::raw("(CASE dayofweek(r.data)
+               when 1 then 'Domingo'
+               when 2 then 'Segunda-feira'
+               when 3 then 'Terça-feira'
+               when 4 then 'Quarta-feira'
+               when 5 then 'Quinta-feira'
+               when 6 then 'Sexta-feira'
+               when 7 then 'Sábado' END) AS dia_semana"),
             \DB::raw('date_format(periodo_local_reservavel.hora_ini,"%H:%i") as hora_ini'),
             \DB::raw('date_format(periodo_local_reservavel.hora_fim,"%H:%i") as hora_fim'),
             'r.id_imovel as reserva_idImovel',
@@ -80,7 +96,10 @@ class Reserva extends Model
             'r.status as reserva_status',
             'r.id_imovel',
             'r.id_pessoa',
-            'r.obs')
+            'r.updated_at',
+            'r.obs',
+            'r.autor',
+            'p.nome as autor')
         ->get();
 
         return $result;

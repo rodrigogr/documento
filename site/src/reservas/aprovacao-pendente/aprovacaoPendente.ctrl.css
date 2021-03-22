@@ -43,9 +43,18 @@ ul.tabs-aprovacao {
     padding: 10px 30px;
     /*transition: all .08s ease-in-out;*/
 }
-.list-localidade:hover,.list-localidade-locaisReservaveis dd:hover {
+.list-localidade:hover, .list-localidade-locaisReservaveis dd:hover {
     background: #ed6c44 url(../../../img/arrow-rigth-white.png) 100% center no-repeat;
     background-size: 32px;
+    color: #FFFFFF;
+    font-weight: normal;
+    cursor: pointer;
+    transform: scale(1.01);
+}
+.itemSelecionado {
+    background: url(../../../img/arrow-rigth-white.png) 100% center no-repeat;
+    background-size: 32px;
+    background-color: #ed6c44 !important;
     color: #FFFFFF;
     font-weight: normal;
     cursor: pointer;
@@ -85,8 +94,7 @@ ul.tabs-aprovacao {
 }
 .lista-reserva-dia .status-local button {
     font-size: 12px;
-    color: #965216;
-    background: #F2C94C;
+
     border-radius: 17px;
     width: 148px;
     height: 28px;
@@ -211,4 +219,12 @@ ul.tabs-aprovacao {
     min-height: 120px;
     width: 78%;
     margin-top: 10px;
+}
+.reserva-status-pendente {
+    color: #965216;
+    background: #F2C94C;
+}
+.reserva-status-recusado {
+    color: #FFFFFF;
+    background: #d85050;
 }

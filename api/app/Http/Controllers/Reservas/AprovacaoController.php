@@ -16,8 +16,8 @@ class AprovacaoController extends Controller
     public function pendentesHoje()
     {
         $hoje = date('Y-m-d');
-        $dia_semana = ReservaService::diaSemana($hoje);
-        $Data = Reserva::aprovacoes($hoje, $dia_semana);
+        //$dia_semana = ReservaService::diaSemana($hoje);
+        $Data = Reserva::aprovacoes($hoje);
         if ($Data) {
             return response()->success($Data);
         }
@@ -27,8 +27,8 @@ class AprovacaoController extends Controller
     public function pendentesHojeLocalReservavel($local)
     {
         $hoje = date('Y-m-d');
-        $dia_semana = ReservaService::diaSemana($hoje);
-        $Data = Reserva::aprovacoes($hoje, $dia_semana, $local);
+        //$dia_semana = ReservaService::diaSemana($hoje);
+        $Data = Reserva::aprovacoes($hoje, $local);
         if ($Data) {
             return response()->success($Data);
         }
@@ -38,8 +38,8 @@ class AprovacaoController extends Controller
     public function pendentesHojeLocalidade($localidade)
     {
         $hoje = date('Y-m-d');
-        $dia_semana = ReservaService::diaSemana($hoje);
-        $Data = Reserva::aprovacoes($hoje, $dia_semana, false, $localidade);
+        //$dia_semana = ReservaService::diaSemana($hoje);
+        $Data = Reserva::aprovacoes($hoje,false, $localidade);
         if ($Data) {
             return response()->success($Data);
         }
@@ -61,11 +61,14 @@ class AprovacaoController extends Controller
 
     public function recusar(Request $request)
     {
+        $usuario = \Auth::user();
+
         try {
             $Data = $request->all();
             $reserva = Reserva::find($Data["id"]);
-            $reserva->status = 'recusada';
+            $reserva->status = 'recusado';
             $reserva->obs = $Data["motivo"];
+            $reserva->autor = $usuario->id_pessoa_bioacesso;
             $reserva->update();
             return response()->success(trans('messages.crud.FUS', ['name' => 'Reserva ']));
 
@@ -74,13 +77,13 @@ class AprovacaoController extends Controller
         }
     }
 
-    public function recusadas($data)
+    public function recusados($data)
     {
         if ($data == 'todos') {
-            $Data = Reserva::aprovacoes($data);
+            $Data = Reserva::aprovacoes($data,'','','recusado');
         } else {
-            $dia_semana = ReservaService::diaSemana($data);
-            $Data = Reserva::aprovacoes($data, $dia_semana);
+            //$dia_semana = ReservaService::diaSemana($data);
+            $Data = Reserva::aprovacoes($data);
         }
 
         if ($Data) {

@@ -9,40 +9,12 @@ angular.module('AssembleiasModule').controller('AssembleiaAssembleiasCtrl',
 
         $scope.listAssembleias = [];
         AssembleiaService.read().then(responseAssembleias => {
-            debugger
             $scope.listAssembleias = responseAssembleias.data;
-        });    
-
-        /** List All Reservas  */
-        // $scope.listAssembleias = [{
-        //     titulo: 'Assembleia Geral Ordinária',
-        //     status: 'Agendada',
-        //     date: '2021-01-20',
-        //     hora: '20:00',
-        //     tipo: 'Geral',
-        //     local: 'Somente online'
-        // }, 
-        // {
-        //     titulo: 'Assembleia Geral Extraordinária',
-        //     status: 'Em andamento',
-        //     date: '2021-02-16',
-        //     hora: '20:00',
-        //     tipo: 'Geral',
-        //     local: 'Online e presencial'
-        // },
-        // {
-        //     titulo: 'Assembleia Interna',
-        //     status: 'Encerrada',
-        //     date: '2021-03-09',
-        //     hora: '20:00',
-        //     tipo: 'Interna',
-        //     local: 'Somente online'
-        // }];
-
+        });
 
         $scope.assembleia = {
             tipo: '',
-            titulo: 'Mais um teste',
+            titulo: '',
             status: 'agendada',
             data_inicio: '',
             data_fim: '',
@@ -54,8 +26,8 @@ angular.module('AssembleiasModule').controller('AssembleiaAssembleiasCtrl',
             link_transmissao: '',
             votacao_secreta: false,
             documentos: [],
-            // pautas: '',
-            // participantes: ''
+            pautas: '',
+            participantes: ''
         }
 
         moment.locale('pt-br');
@@ -103,80 +75,70 @@ angular.module('AssembleiasModule').controller('AssembleiaAssembleiasCtrl',
             // return pauta[index].alternativa.id === $scope.pautas.alternativas[$scope.pautas.alternativas.length-1].id;
         };
 
-        $scope.assembleia.pautas = [
-            // {
-            // id: 'pauta1',
-            // name: 'pauta1',
-            // alternativas: [{
-            //         id: 'alternativa1',
-            //         name: 'Alternativa'
-            //     },{
-            //         id: 'alternativa2',
-            //         name: 'Alternativa'
-            //     }]
-            // },
-            // {
-            // id: 'pauta2',
-            // name: 'pauta2',
-            //     alternativas: [{
-            //         id: 'alternativa1',
-            //         name: 'Alternativa'
-            //     }]
-            // }
-        ];
+        $scope.assembleia.pautas = [{
+            id: 'pauta1',
+            perguntas: '',
+            alternativas: [{
+                id: 'alternativa1',
+                name: ''
+            },{
+                id: 'alternativa2',
+                name: ''
+            }]
+        }];
 
         $scope.addNewPauta = function(){
-            var newItemNo = $scope.pautas.length+1;
-            $scope.pautas.push({
+            var newItemNo = $scope.assembleia.pautas.length+1;
+            $scope.assembleia.pautas.push({
                 id : 'pauta' + newItemNo, 
-                name : 'pauta', 
+                name : '', 
                 alternativas: [{
                     id: 'alternativa1',
-                    name: 'Alternativa'
+                    name: ''
                 }]
             });
         }
 
         $scope.removeNewPauta = function() {
-            var newItemNo = $scope.pautas.length-1;
+            var newItemNo = $scope.assembleia.pautas.length-1;
             if (newItemNo !== 0) {
-                $scope.pautas.pop();
+                $scope.assembleia.pautas.pop();
             }
         };
 
         /** List All Participantes  */
         $scope.assembleia.participantes = [
-        //     {
-        //         participar: true,
-        //         unidade: 'Qd 01 / Lt 03',
-        //         peso: 'x2',
-        //         status: 'Participando',
-        //         procurador: '5455 - Antônio Fonseca Salles de Abreu',
-        //     },{
-        //         participar: false,
-        //         unidade: 'Qd 01 / Lt 04',
-        //         peso: 'x1',
-        //         status: 'Impedido',
-        //         procurador: '',
-        //     },{
-        //         participar: true,
-        //         unidade: 'Qd 01 / Lt 03',
-        //         peso: 'x2',
-        //         status: 'Participando',
-        //         procurador: '',
-        //     },{
-        //         participar: false,
-        //         unidade: 'Qd 01 / Lt 06',
-        //         peso: 'x2',
-        //         status: 'Participando',
-        //         procurador: '',
-        //     },{
-        //         participar: false,
-        //         unidade: 'Qd 01 / Lt 12',
-        //         peso: 'x2',
-        //         status: 'Participando',
-        //         procurador: '',
-        // }
+            {
+                participar: true,
+                unidade: 'Qd 01 / Lt 03',
+                peso: 'x2',
+                status: 'Participando',
+                procurador: '5455 - Antônio Fonseca Salles de Abreu',
+            },{
+                participar: false,
+                unidade: 'Qd 01 / Lt 04',
+                peso: 'x1',
+                status: 'Impedido',
+                procurador: '',
+            },{
+                participar: true,
+                unidade: 'Qd 01 / Lt 03',
+                peso: 'x2',
+                status: 'Participando',
+                procurador: '',
+            },{
+                participar: false,
+                unidade: 'Qd 01 / Lt 06',
+                peso: 'x2',
+                status: 'Participando',
+                procurador: '',
+            },{
+                participar: false,
+                unidade: 'Qd 01 / Lt 12',
+                peso: 'x2',
+                status: 'Participando',
+                procurador: '',
+        }
     ];
 
         $scope.validDataCreate = function(){
@@ -186,24 +148,24 @@ angular.module('AssembleiasModule').controller('AssembleiaAssembleiasCtrl',
             $scope.assembleia.data_inicio = formatDateInicioEn;
             $scope.assembleia.data_fim = formatDateFimEn;
             $scope.assembleia.votacao_data_inicio = formatDateVotacaoEn;
-        }   
-
-        $scope.salvar = function(){
-            $(".loader").show();
-            debugger
-            $scope.validDataCreate();
-            console.log($scope.assembleia);
-
-            AssembleiaService.create(JSON.stringify($scope.assembleia)).then((responseAssembleia) => {
-                debugger;
-                console.log(responseAssembleia);
-            }).catch(function (error) {
-                UtilsService.openAlert(error.responseJSON.message);
-            }).finally(function () {
-                $(".loader").hide();
-                $("#list").scrollTop(0);
-            });
-            $(".loader").hide();
         }
 
+        $scope.salvar = async function () {
+            $("#loading").modal("show");
+            $scope.validDataCreate();
+            $http({
+                method: "POST",
+                url: `${config.apiUrl}api/assembleias`,
+                data: $scope.assembleia,
+                headers:{
+                    'Authorization': 'Bearer '+ AuthService.getToken()
+                }
+            })
+            .then(function(response) {
+                UtilsService.toastSuccess("Assembleia salva com sucesso!");
+                $('#cadastroAssembleia').modal('hide');
+            }, function(error) {
+                UtilsService.openAlert(error.data.message);
+            }).finally( () => { $("#loading").modal("hide") });
+        }
     });

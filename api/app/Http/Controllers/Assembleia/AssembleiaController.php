@@ -17,7 +17,7 @@ class AssembleiaController extends Controller
 {
     public function index()
     {
-        return response()->success(Assembleia::all());
+        return response()->success(Assembleia::orderBy('id','DESC')->get());
     }
 
     public function store(AssembleiaRequest $request)
@@ -32,12 +32,9 @@ class AssembleiaController extends Controller
 
             foreach ($data['pautas'] as $pauta)
             {
-                $pergunta = $pauta['pergunta'];
-                $opcoes = $pergunta['alternativas'];
+                $pergunta = AssembleiaPergunta::create(['pergunta'=> $pauta['pergunta']]);
 
-                $pergunta = AssembleiaPergunta::create($pergunta);
-
-                $pergunta->assembleiaOpcoes()->createMany($opcoes);
+                $pergunta->assembleiaOpcoes()->createMany($pauta['alternativas']);
 
                 $assembleia->pautas()->create(['id_pergunta' => $pergunta->id]);
             }
@@ -54,9 +51,9 @@ class AssembleiaController extends Controller
 
     }
 
-    public function update()
+    public function update(AssembleiaRequest $request, $id)
     {
-
+        $data = $request->all();
     }
 
     public function show($id)

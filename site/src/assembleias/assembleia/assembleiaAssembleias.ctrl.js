@@ -77,13 +77,13 @@ angular.module('AssembleiasModule').controller('AssembleiaAssembleiasCtrl',
 
         $scope.assembleia.pautas = [{
             id: 'pauta1',
-            perguntas: '',
+            pergunta: '',
             alternativas: [{
                 id: 'alternativa1',
-                name: ''
+                opcao: ''
             },{
                 id: 'alternativa2',
-                name: ''
+                opcao: ''
             }]
         }];
 
@@ -91,10 +91,10 @@ angular.module('AssembleiasModule').controller('AssembleiaAssembleiasCtrl',
             var newItemNo = $scope.assembleia.pautas.length+1;
             $scope.assembleia.pautas.push({
                 id : 'pauta' + newItemNo, 
-                name : '', 
+                pergunta : '',
                 alternativas: [{
                     id: 'alternativa1',
-                    name: ''
+                    opcao: ''
                 }]
             });
         }
@@ -114,31 +114,41 @@ angular.module('AssembleiasModule').controller('AssembleiaAssembleiasCtrl',
                 peso: 'x2',
                 status: 'Participando',
                 procurador: '5455 - Antônio Fonseca Salles de Abreu',
+                id_imovel:1,
+                id_procurador: 0
             },{
                 participar: false,
                 unidade: 'Qd 01 / Lt 04',
                 peso: 'x1',
                 status: 'Impedido',
                 procurador: '',
+                id_imovel:2,
+                id_procurador: 0
             },{
                 participar: true,
                 unidade: 'Qd 01 / Lt 03',
                 peso: 'x2',
                 status: 'Participando',
                 procurador: '',
+                id_imovel:3,
+                id_procurador: 0
             },{
                 participar: false,
                 unidade: 'Qd 01 / Lt 06',
                 peso: 'x2',
                 status: 'Participando',
                 procurador: '',
+                id_imovel:4,
+                id_procurador: 0
             },{
                 participar: false,
                 unidade: 'Qd 01 / Lt 12',
                 peso: 'x2',
                 status: 'Participando',
                 procurador: '',
-        }
+                id_imovel:5,
+                id_procurador: 0
+            }
     ];
 
         $scope.validDataCreate = function(){

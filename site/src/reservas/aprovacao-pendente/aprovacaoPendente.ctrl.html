@@ -32,9 +32,9 @@
                         <li role="presentation"><a href="javascript:void(0)" data-toggle="tab" ng-click="contentActive(2)"><h3>RECUSADOS</h3></a></li>
                             <li role="presentation" class="pull-right">
                                 <div class="row" style="
-    width: 416px;
-    line-height: 44px;
-    margin-top: 20px;
+    width: 485px;
+    line-height: 37px;
+    margin-top: 21px;
 ">
     <span style="
     float: left;
@@ -42,19 +42,8 @@
     text-transform: uppercase;
     margin-right: 26px;
 ">Escolha o dia</span>
-                                        <span class="" style="
-    float: left;
-">
-                                            <input type="text" class="form-control ng-pristine ng-valid ng-isolate-scope ng-not-empty ng-valid-date ng-touched" uib-datepicker-popup="yyyy-MM-dd" ng-model="dt" is-open="popup1.opened" current-text="Hoje" close-text="Fechar" clear-text="Limpar" aria-invalid="false" style="
-    height: 41px;
-    font-size: 21px;
-    width: 163px;
-"></span>
+                                    <input type="date" id="dataBusca" data-date-format="DD/MM/YYYY" ng-model="dt">
 
-                                            <span class="input-group-btn">
-                                                    <button type="button" class="btn btn-default" ng-click="open1()"><i class="fa fa-calendar"></i></button>
-                                                </span>
-                                        </p>
                                 </div>
                             </li>
                     </ul>
@@ -67,12 +56,12 @@
                         <span ng-if="!loadLocais"><i class="fa fa-spinner fa-spin ba__font-size-17"></i></span>
                         <div ng-if="loadLocais">
                             <dl>
-                                <dt class="list-localidade" id="itemTodos" ng-click="escolhaDia()">Todos</dt>
+                                <dt class="list-localidade" id="itemTodos" ng-click="escolhaAprovacao()">Todos</dt>
                             </dl>
                             <dl ng-repeat="localidade in locaisReservaveis">
-                                <dt class="list-localidade" id="item{{$index}}" ng-click="escolhaDia(false, localidade.id, 'item'+$index)">{{localidade.descricao}}</dt>
+                                <dt class="list-localidade" id="item{{$index}}" ng-click="escolhaAprovacao(false, localidade.id, 'item'+$index)">{{localidade.descricao}}</dt>
                                <dl>
-                                   <dd class="list-locaisReservaveis" id="subItem{{locais.id}}" ng-click="escolhaDia(locais.id, false, 'subItem'+locais.id)" ng-repeat="locais in localidade.locais_reservaveis">{{locais.nome}}</dd>
+                                   <dd class="list-locaisReservaveis" id="subItem{{locais.id}}" ng-click="escolhaAprovacao(locais.id, false, 'subItem'+locais.id)" ng-repeat="locais in localidade.locais_reservaveis">{{locais.nome}}</dd>
                                </dl>
                             </dl>
                         </div>

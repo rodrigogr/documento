@@ -3708,7 +3708,7 @@ a.list-group-item {
     height: 95%;
 }
 
-input[type=date] {
+/*input[type=date] {
     width: 220px !important;
     text-transform: uppercase;
     height: 50px;
@@ -3722,7 +3722,7 @@ input[type=date] {
     border-bottom: 1px solid #c8d4dd;
     box-shadow: none;
     border-radius: 0;
-}
+}*/
 
 .list-group-item .row div {
     display: block;

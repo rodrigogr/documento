@@ -11,39 +11,20 @@ angular.module('ReservasModule').controller('AprovacaoPendenteCtrl',
         $scope.loadLocais = false;
         $scope.idLocalidade = 'todas';
         $scope.idLocalReservavel = '';
-        $scope.formats = ['dd-MM-yyyy', 'yyyy/MM/dd', 'dd.MM.yyyy', 'shortDate'];
-        $scope.format = $scope.formats[0];
-        $scope.altInputFormats = ['M!/d!/yyyy'];
-        $scope.dt = new Date();
-        $scope.dateOptions = {
-            formatYear: 'yy',
-            showWeeks:'false',
-            startingDay: 0
-        };
-        $scope.popup1 = { opened: false }
 
-        $scope.open1 = function() {
-            $scope.popup1.opened = true;
-        };
+        $scope.dt = new Date();
+
         $scope.analisandoReserva = [];
         $scope.pendentes = [];
         $scope.recusados = [];
 
-        // Disable weekend selection
-        function disabled(data) {
-            var date = data.date,
-                mode = data.mode;
-            return mode === 'day' && (date.getDay() === 0 || date.getDay() === 6);
-        }
-
         $scope.contentActive = function(aba) {
             if (aba == 1) {
-                $scope.escolhaDia();
                 $scope.busca = 'pendentes';
             } else {
                 $scope.busca = 'recusados';
-                recusados();
             }
+            $scope.escolhaAprovacao();
         }
 
         $http.get(`${config.apiUrl}api/localidades/locais_reservaveis`)
@@ -85,7 +66,7 @@ angular.module('ReservasModule').controller('AprovacaoPendenteCtrl',
 
         $scope.pendentesHoje();
 
-        $scope.escolhaDia = function (localReservavel = false, localidade = false, item = '') {
+        $scope.escolhaAprovacao = function (localReservavel = false, localidade = false, item = '') {
             $scope.loadPendente = true;
             $(".list-localidade").removeClass("itemSelecionado");
             $(".list-locaisReservaveis").removeClass("itemSelecionado");
@@ -94,18 +75,16 @@ angular.module('ReservasModule').controller('AprovacaoPendenteCtrl',
             } else {
                 $("#" + item).addClass("itemSelecionado");
             }
-            var url = '';
+            let url = '';
 
-            if ($scope.busca == 'pendentes') {
-                url = `${config.apiUrl}api/aprovacao/pendentes/hoje`;
-
-                if (localidade) {
-                    url = `${config.apiUrl}api/aprovacao/pendentes/localidade/`+localidade;
-                } else if (localReservavel) {
-                    url = `${config.apiUrl}api/aprovacao/pendentes/local/`+localReservavel;
-                }
+            if (localidade) {
+                url = `${config.apiUrl}api/aprovacao/${$scope.busca}/localidade/`+localidade;
+            } else if (localReservavel) {
+                url = `${config.apiUrl}api/aprovacao/${$scope.busca}/local/`+localReservavel;
+            } else if ($scope.busca == 'pendentes') {
+                url = `${config.apiUrl}api/aprovacao/${$scope.busca}/hoje`;
             } else {
-                url = config.apiUrl+'api/aprovacao/recusados';
+                url = `${config.apiUrl}api/aprovacao/${$scope.busca}/todos`;
             }
 
             $http.get(url).then(function (result) {
@@ -139,7 +118,7 @@ angular.module('ReservasModule').controller('AprovacaoPendenteCtrl',
             var promisse = ($http.patch(`${config.apiUrl}api/aprovacao/`+id, 1));
             promisse.then( function (result) {
                 let res = result.data.data;
-                $scope.escolhaDia();
+                $scope.escolhaAprovacao();
                 $("#analisarReserva").modal('hide');
                 UtilsService.toastSuccess(res);
             }).catch( function (e) {
@@ -180,7 +159,7 @@ angular.module('ReservasModule').controller('AprovacaoPendenteCtrl',
                 let res = result.data.data;
                 $("#motivoRecusar").modal('hide');
                 UtilsService.toastSuccess(res);
-                $scope.pendentesHoje();
+                $scope.escolhaAprovacao();
             }).catch( function (e) {
                 UtilsService.openAlert(e.data.message);
             }).finally( () => {
@@ -192,6 +171,9 @@ angular.module('ReservasModule').controller('AprovacaoPendenteCtrl',
         function recusados() {
             $scope.pendentes = [];
             $scope.loadPendente = true;
+            $(".list-localidade").removeClass("itemSelecionado");
+            $(".list-locaisReservaveis").removeClass("itemSelecionado");
+            $("#itemTodos").addClass("itemSelecionado");
 
             $http.get(`${config.apiUrl}api/aprovacao/recusados/todos`).then( function (result) {
                 $scope.recusados = result.data.data;
@@ -203,5 +185,11 @@ angular.module('ReservasModule').controller('AprovacaoPendenteCtrl',
             let mes = moment(data).format('MMMM');
             return "Dia "+dia+" de "+mes;
         }
+
+        $("#dataBusca").on("change", function() {
+            $scope.escolhaAprovacao('','','');
+            console.log(this.value);
+            console.log('teste: '+$scope.dt);
+        });
 
     });

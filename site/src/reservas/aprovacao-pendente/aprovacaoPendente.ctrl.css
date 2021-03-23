@@ -228,3 +228,17 @@ ul.tabs-aprovacao {
     color: #FFFFFF;
     background: #d85050;
 }
+input[type=date] {
+    font-size: 20px;
+    padding-left: 11px;
+    width: 209px;
+    border-radius: 6px;
+    border: 1px solid #999;
+}
+input::-webkit-calendar-picker-indicator {
+    position: relative;
+    right: 20px;
+    opacity: 1;
+    cursor:pointer;
+    font-size: 23px;
+}

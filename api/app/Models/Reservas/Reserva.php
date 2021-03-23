@@ -53,22 +53,22 @@ class Reserva extends Model
             $q->where('r.status', $status);
         });
 
-        $busca = $busca->leftJoin('bioacesso_portaria.pessoa as p', function ($q) use($usuario) {
-            $q->on('r.autor','p.id');
-        });
-
         if ($localidade) {
             $busca = $busca->join('local_reservavel as lr', function ($x) use($localidade) {
-                $x->on('lr.id', 'r.id_local_reservavel');
+                $x->on('lr.id', 'periodo_local_reservavel.id_local_reservavel');
                 $x->where('lr.id_localidade',$localidade);
             });
         }
         if ($localReservavel) {
             $busca = $busca->join('local_reservavel as lr', function ($x) use($localReservavel) {
-                $x->on('lr.id', 'r.id_local_reservavel');
+                $x->on('lr.id', 'periodo_local_reservavel.id_local_reservavel');
                 $x->where('lr.id',$localReservavel);
             });
         }
+
+        $busca = $busca->leftJoin('bioacesso_portaria.pessoa as p', function ($q) use($usuario) {
+            $q->on('r.autor','p.id');
+        });
 
         $result = $busca->with(['imovel','pessoa','diaInativo'])
         ->with(['localReservavel' => function ($q) {

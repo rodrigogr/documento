@@ -13,9 +13,9 @@ class AprovacaoController extends Controller
 {
     private $name = 'Aprovação';
 
-    public function pendentesHoje()
+    public function pendentesHoje($data = '')
     {
-        $hoje = date('Y-m-d');
+        $hoje = $data ? $data : date('Y-m-d');
         //$dia_semana = ReservaService::diaSemana($hoje);
         $Data = Reserva::aprovacoes($hoje);
         if ($Data) {
@@ -85,6 +85,26 @@ class AprovacaoController extends Controller
             //$dia_semana = ReservaService::diaSemana($data);
             $Data = Reserva::aprovacoes($data);
         }
+
+        if ($Data) {
+            return response()->success($Data);
+        }
+        return response()->error(trans('messages.crud.MAE', ['name' => $this->name]));
+    }
+
+    public function recusadosLocalReservavel($localReservavel)
+    {
+        $Data = Reserva::aprovacoes('todos',$localReservavel, '','recusado');
+
+        if ($Data) {
+            return response()->success($Data);
+        }
+        return response()->error(trans('messages.crud.MAE', ['name' => $this->name]));
+    }
+
+    public function recusadosLocalidade($localidade)
+    {
+        $Data = Reserva::aprovacoes('todos','' , $localidade,'recusado');
 
         if ($Data) {
             return response()->success($Data);

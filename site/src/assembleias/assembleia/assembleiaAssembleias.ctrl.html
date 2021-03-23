@@ -130,7 +130,7 @@
                                                         name="tipo" 
                                                         ng-model="assembleia.tipo" 
                                                         value="geral"
-                                                        checked />
+                                                        ng-checked="true" />
                                                         Assembleia geral
                                                     </label>
                                                     <label class="radio-inline">
@@ -166,7 +166,7 @@
 
                                         <div class="row ba__margin-bottom-30">
                                             <p style="margin: 0;padding: 0 15px; text-transform: uppercase; font-size: 16px;">
-                                                TIPO DE REUNIÃO
+                                                PERÍODO DA ASSEMBLEIA
                                             </p>
                                             <div class="col-md-12">
                                                 <div style="padding: 15px;">
@@ -294,7 +294,7 @@
                                                             name="onoffswitch"
                                                             class="onoffswitch-checkbox"
                                                             id="configuracao"
-                                                            checked
+
                                                             ng-model="assembleia.configuracao">
                                                     <label class="onoffswitch-label" for="configuracao">
                                                         <span class="onoffswitch-inner"></span>

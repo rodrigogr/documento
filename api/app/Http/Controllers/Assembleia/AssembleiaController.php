@@ -26,7 +26,7 @@ class AssembleiaController extends Controller
 
         try
         {
-            $assembleia = Assembleia::create($request->all());
+            $assembleia = Assembleia::create($data);
 
             $assembleia->documentos()->createMany($data['documentos']);
 

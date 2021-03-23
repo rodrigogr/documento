@@ -2,10 +2,9 @@
 
 namespace App\Http\Requests\Assembleia;
 
-use App\Http\Requests\JsonRequest;
-use App\models\Assembleia\Assembleia;
+use Illuminate\Foundation\Http\FormRequest;
 
-class AssembleiaRequest extends JsonRequest
+class AssembleiaRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.

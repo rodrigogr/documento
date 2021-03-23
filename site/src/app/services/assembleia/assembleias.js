@@ -1,61 +1,35 @@
-angular.module('appServices').service('AssembleiaService',
-    function ($q, config)
-    {
-        var self = this;
-        var mURL = config.apiUrl + 'api/assembleias';
+angular.module('appServices').service('AssembleiaService', ['$q', 'config', AssembleiaService]);
 
-        var mStatus;
+function AssembleiaService($q, config) {
+    var self = this;
 
-        this.getStatus = function()
-        {
-            return mStatus;
-        }
+	self.data = {
+		user: {}
+	};
 
-        this.setStatus = function(v)
-        {
-            mStatus = v;
-        }
+    self.read = function () {
+		return $q.when($.ajax({
+			type: 'GET',
+			url: config.apiUrl + 'api/assembleias',
+			header: {
+				'Content-Type': 'application/json'
+			},
+			data: {}
+		}).then(function(data) {
+			return data;
+		}));
+	};
 
-        this.read = function ()
-        {
-            return $q.when($.ajax({
-                'type': 'GET',
-                'url': mURL,
-                'header': {
-                    'Content-Type': 'application/json'
-                }
-            }));
-        };
-
-        this.create = function(model)
-        {
-            var method = 'POST';
-            var url = mURL;
-
-            return self.save(model, method, url);
-        };
-
-        this.update = function(model, id)
-        {
-            var method = 'PATCH';
-            var url = mURL + '/' + id;
-
-            return self.save(model, method, url);
-        };
-
-        this.save = function (model, method, url)
-        {
-            return $q.when($.ajax({
-                'type': method,
-                'url': url,
-                'header': {
-                    'Content-Type': 'application/json'
-                },
-                'data': model
-            }).then(function (data) {
-                return data;
-            }).catch(function (data) {
-                throw data;
-            }));
-        };
-    });
+    self.salvar = function (data) {
+		return $q.when($.ajax({
+			type: 'POST',
+			url: config.apiUrl + 'api/assembleias',
+			header: {
+				'Content-Type': 'application/json'
+			},
+			data: data
+		}).then(function(data) {
+			return data;
+		}));
+	};
+}

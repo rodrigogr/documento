@@ -79,7 +79,9 @@
                             {{ converteDateParaPtBR(assembleia.date_inicio) }} ás {{ assembleia.hora_inicio }}
                         </h5>
                         <h5 class="col-xs-4 list-group-item-heading">{{assembleia.tipo}}</h5>
-                        <h5 class="col-xs-2 list-group-item-heading">{{assembleia.votacao_secreta}}</h5>
+                        <h5 class="col-xs-2 list-group-item-heading">
+                            {{assembleia.votacao_secreta === 1 ? 'Sim' : 'Não' }}
+                        </h5>
                         <h5 class="col-xs-2 list-group-item-heading text-right">
                             <i class="fa fa-eye"></i>
                         </h5>
@@ -111,7 +113,7 @@
                             <!-- <pre>
                                 {{ assembleia | json }}
                             </pre> -->
-                            <form name="formLocalidade">
+                            <form name="formAssembleia">
                                 <div class="row">
                                     <!--STEP 1 DADOS GERAIS-->
                                     <div class="form-group col-xs-14 ba__margin-top-20" id="step1" ng-show="step === 1">
@@ -123,20 +125,20 @@
                                                 </p>
                                                 <div class="col-md-24 format-radios">
                                                     <label class="radio-inline">
-                                                        <input type="radio" 
+                                                        <input 
+                                                        type="radio" 
                                                         name="tipo" 
                                                         ng-model="assembleia.tipo" 
                                                         value="geral"
-                                                        checked
-                                                        title="*">
+                                                        checked />
                                                         Assembleia geral
                                                     </label>
                                                     <label class="radio-inline">
-                                                        <input type="radio" 
-                                                        name="reuniao" 
-                                                        ng-model="assembleia.reuniao" 
-                                                        value="interna" 
-                                                        title="*">
+                                                        <input 
+                                                        type="radio" 
+                                                        name="tipo" 
+                                                        ng-model="assembleia.tipo" 
+                                                        value="interna" />
                                                         Reunião interna
                                                     </label>
                                                 </div>
@@ -176,7 +178,8 @@
                                                             placeholder=" " 
                                                             autocomplete="off" 
                                                             mask="99/99/9999"
-                                                            class="ng-pristine ng-valid ng-touched" 
+                                                            class="ng-pristine ng-valid ng-touched"
+                                                            required
                                                             aria-invalid="false">
                                                         <span>DATA DO INICÍO</span>
                                                     </div>
@@ -350,7 +353,7 @@
                                     <div class="form-group col-xs-24" id="step2" ng-show="step === 2">
                                         
                                         <!-- <pre>
-                                            {{ pautas | json }}
+                                            {{ assembleia.pautas | json }}
                                         </pre> -->
 
                                         <div ng-repeat="(pautaIndex, pauta) in assembleia.pautas"
@@ -371,7 +374,7 @@
                                                                 rows="4"
                                                                 cols="33">
                                                             </textarea>
-                                                            <span>PAUTA {{pautaIndex}}</span>
+                                                            <span>PAUTA </span><!-- {{pautaIndex}} -->
                                                         </div>
                                                     </div>   
                                                 </div>
@@ -405,7 +408,7 @@
                                                                 class="ng-pristine ng-valid ng-touched"
                                                                 required
                                                                 aria-invalid="false">
-                                                            <span>Alternativa {{$index}}</span>
+                                                            <span>Alternativa</span> <!-- {{$index}} -->
                                                         </div>
                                                     </div>   
                                                 </div> 
@@ -505,13 +508,13 @@
                         <!-- Footer -->
                         <div class="modal-footer" style="margin: 20px">
                             <button ng-if="!localReservavel.id" type="button" class="btn btn-success col-md-5 pull-right" ng-show="step == 3"
-                                    ng-disabled="formLocalidade.$invalid"
+                                    ng-disabled="formAssembleia.$invalid"
                                     style="margin-left: 5px"
                                     ng-click="salvar()">
                                 Concluir
                             </button>
                             <button ng-if="localReservavel.id" type="button" class="btn btn-success col-md-5 pull-right" ng-show="step == 3"
-                                    ng-disabled="formLocalidade.$invalid"
+                                    ng-disabled="formAssembleia.$invalid"
                                     style="margin-left: 5px"
                                     ng-click="update()">
                                 Editar

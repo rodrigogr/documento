@@ -7,13 +7,18 @@ angular.module('AssembleiasModule').controller('AssembleiaAssembleiasCtrl',
         let user = JSON.parse(localStorage.getItem("bioacs-uid"));
         AuthService.aclPaginaService($state.$current.name, user.id).then(result => $scope.accessPagina = result.data);
 
-        $scope.listAssembleias = [];
-        AssembleiaService.read().then(responseAssembleias => {
-            $scope.listAssembleias = responseAssembleias.data;
-        });
+        $scope.listAssembleia = function(){
+            $scope.listAssembleias = [];
+            $(".loader").show();
+            var promisse = ($http.get(`${config.apiUrl}api/assembleias`));
+                promisse.then(function(result){
+                $scope.listAssembleias = result.data.data;
+            }).finally(() => $(".loader").hide());
+        }
+        $scope.listAssembleia();
 
         $scope.assembleia = {
-            tipo: '',
+            tipo: 'geral',
             titulo: '',
             status: 'agendada',
             data_inicio: '',
@@ -27,7 +32,7 @@ angular.module('AssembleiasModule').controller('AssembleiaAssembleiasCtrl',
             votacao_secreta: false,
             documentos: [],
             pautas: '',
-            participantes: ''
+            participantes: []
         }
 
         moment.locale('pt-br');
@@ -149,7 +154,7 @@ angular.module('AssembleiasModule').controller('AssembleiaAssembleiasCtrl',
                 id_imovel:5,
                 id_procurador: 0
             }
-    ];
+        ];
 
         $scope.validDataCreate = function(){
             let formatDateInicioEn = $filter('formatOtherDate')('yyyy/mm/dd', $scope.assembleia.data_inicio);
@@ -158,11 +163,27 @@ angular.module('AssembleiasModule').controller('AssembleiaAssembleiasCtrl',
             $scope.assembleia.data_inicio = formatDateInicioEn;
             $scope.assembleia.data_fim = formatDateFimEn;
             $scope.assembleia.votacao_data_inicio = formatDateVotacaoEn;
+
+            $scope.assembleia.participantes = $scope.listParticipanteCheckTrue($scope.assembleia.participantes);
+        }
+
+        $scope.listParticipanteCheckTrue = function(listParticipantes){  
+            let listParticipantesTrue = [];
+            listParticipantes.filter((item) => {
+                if(item.participar === true){
+                    listParticipantesTrue.push(item);
+                }
+            });
+            return listParticipantesTrue;
         }
 
         $scope.salvar = async function () {
             $("#loading").modal("show");
             $scope.validDataCreate();
+
+            debugger
+            console.log($scope.assembleia);
+            
             $http({
                 method: "POST",
                 url: `${config.apiUrl}api/assembleias`,
@@ -174,6 +195,7 @@ angular.module('AssembleiasModule').controller('AssembleiaAssembleiasCtrl',
             .then(function(response) {
                 UtilsService.toastSuccess("Assembleia salva com sucesso!");
                 $('#cadastroAssembleia').modal('hide');
+                $scope.listAssembleia();
             }, function(error) {
                 UtilsService.openAlert(error.data.message);
             }).finally( () => { $("#loading").modal("hide") });

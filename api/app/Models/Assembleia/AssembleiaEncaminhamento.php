@@ -8,7 +8,7 @@ class AssembleiaEncaminhamento extends Model
 {
     public $timestamp = true;
     protected $table = 'assembleia_encaminhamentos';
-    protected $fillable = ['status', 'apoio'];
+    protected $fillable = ['id_assembleia','id_pauta','id_thead','status', 'apoio'];
 
 
     public function assembleia()
@@ -21,7 +21,7 @@ class AssembleiaEncaminhamento extends Model
         return $this->hasOne(Pauta::class);
     }
 
-    public function assembleiaThead()
+    public function thead()
     {
         return $this->hasOne(AssembleiaThead::class);
     }

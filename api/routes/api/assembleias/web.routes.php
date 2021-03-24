@@ -9,3 +9,5 @@ Route::get('/assembleias/search/procurador/{nome}', 'assembleia\ParticipanteCont
 
 Route::get('/assembleias/get/encaminhamentos', 'assembleia\EncaminhamentoController@index');
 Route::post('/assembleias/encaminhamentos', 'assembleia\EncaminhamentoController@store');
+
+Route::post('/assembleias/respostas', 'assembleia\PostController@store');

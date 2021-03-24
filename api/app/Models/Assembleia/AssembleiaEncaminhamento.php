@@ -8,6 +8,8 @@ class AssembleiaEncaminhamento extends Model
 {
     public $timestamp = true;
     protected $table = 'assembleia_encaminhamentos';
+    protected $fillable = ['status', 'apoio'];
+
 
     public function assembleia()
     {
@@ -23,4 +25,9 @@ class AssembleiaEncaminhamento extends Model
     {
         return $this->hasOne(AssembleiaThead::class);
     }
+
+    /*public function usuario()
+    {
+        return $this->hasOne(Usuario::class);
+    }*/
 }

@@ -22,4 +22,9 @@ class Usuario extends Model
     {
         return $this->hasOne(AssembleiaVotacao::class);
     }
+
+    /*public function assembleiaEncaminhamento()
+    {
+        return $this->hasOne(AssembleiaEncaminhamento::class);
+    }*/
 }

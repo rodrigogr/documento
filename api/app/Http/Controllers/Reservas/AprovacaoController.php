@@ -7,17 +7,25 @@ use App\Models\Reservas\PeriodoLocalReservavel;
 use App\Models\Reservas\Reserva;
 use App\Services\Reservas\ReservaService;
 use Illuminate\Http\Request;
-use mysql_xdevapi\Exception;
 
 class AprovacaoController extends Controller
 {
     private $name = 'Aprovação';
 
-    public function pendentesHoje($data = '')
+    public function pendentes(Request $request)
     {
-        $hoje = $data ? $data : date('Y-m-d');
-        //$dia_semana = ReservaService::diaSemana($hoje);
-        $Data = Reserva::aprovacoes($hoje);
+        $dados = $request->all();
+
+        if ($dados["data"] && $dados["data"] != 'todos') {
+            $dataHoje = strtotime(date('Y-m-d'));
+            $dataBusca = strtotime(date($dados["data"]));
+            //echo "hoje: ".date('Y-m-d')." ## dataBusca: ".date($dados["data"])."<br>".$dataHoje.' ## '.$dataBusca;
+            if ($dataBusca < $dataHoje) {
+                return response()->success([]);
+            }
+        }
+        $Data = Reserva::aprovacoes($this->filtroBuscaAprovacoes($dados));
+
         if ($Data) {
             return response()->success($Data);
         }
@@ -110,5 +118,14 @@ class AprovacaoController extends Controller
             return response()->success($Data);
         }
         return response()->error(trans('messages.crud.MAE', ['name' => $this->name]));
+    }
+
+    private function filtroBuscaAprovacoes($dados){
+        return [
+            "data" => $dados["data"] ? $dados["data"] : '',
+            "localReservavel" => $dados["localReservavel"] ? $dados["localReservavel"] : '',
+            "localidade" => $dados["localidade"] ? $dados["localidade"] : '',
+            "status" => $dados["status"] ? $dados["status"] : '',
+        ];
     }
 }

@@ -41,12 +41,18 @@ class Reserva extends Model
             ->get();
     }
 
-    public static function aprovacoes($data, $localReservavel = '', $localidade = '', $status = 'pendente')
+    // public static function aprovacoes($data, $localReservavel = '', $localidade = '', $status = 'pendente')
+    public static function aprovacoes($filtros)
     {
-        $usuario = \Auth::user();
+        $data = $filtros["data"];
+        $status = $filtros["status"];
+        $localReservavel = $filtros["localReservavel"];
+        $localidade = $filtros["localidade"];
+
+        //$usuario = \Auth::user();
 
         $busca = PeriodoLocalReservavel::join('reserva as r', function ($q) use($data, $status) {
-            if ($data != 'todos') {
+            if (!empty($data) && $data != 'todos') {
                 $q->on('r.data', \DB::raw("'" . $data . "'"));
             }
             $q->on('r.id_periodo','periodo_local_reservavel.id');
@@ -66,7 +72,7 @@ class Reserva extends Model
             });
         }
 
-        $busca = $busca->leftJoin('bioacesso_portaria.pessoa as p', function ($q) use($usuario) {
+        $busca = $busca->leftJoin('bioacesso_portaria.pessoa as p', function ($q) {
             $q->on('r.autor','p.id');
         });
 

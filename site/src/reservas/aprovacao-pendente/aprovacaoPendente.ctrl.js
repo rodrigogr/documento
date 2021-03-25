@@ -153,18 +153,6 @@ angular.module('ReservasModule').controller('AprovacaoPendenteCtrl',
             });
         }
 
-        function recusados() {
-            $scope.pendentes = [];
-            $scope.loadPendente = true;
-            $(".list-localidade").removeClass("itemSelecionado");
-            $(".list-locaisReservaveis").removeClass("itemSelecionado");
-            $("#itemTodos").addClass("itemSelecionado");
-
-            $http.get(`${config.apiUrl}api/aprovacao/recusados/todos`).then( function (result) {
-                $scope.recusados = result.data.data;
-            }).finally( () => $scope.loadPendente = false);
-        }
-
         $scope.dataFormatTitulo = function (data) {
             let dia = moment(data).format('D');
             let mes = moment(data).format('MMMM');

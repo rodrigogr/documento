@@ -2,6 +2,8 @@
 
 namespace App\models\Assembleia;
 
+use App\Models\Imovel;
+use App\Models\Pessoa;
 use Illuminate\Database\Eloquent\Model;
 
 class AssembleiaParticipante extends Model

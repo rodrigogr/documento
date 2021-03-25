@@ -2,16 +2,18 @@
 
 namespace App\models\Assembleia;
 
+use App\Models\Pessoa;
 use Illuminate\Database\Eloquent\Model;
 
 class AssembleiaThead extends Model
 {
     public $timestamp = true;
     protected $table = 'assembleia_theads';
+    protected $fillable = ['titulo', 'texto', 'id_pessoa'];
 
-    public function assembleiaAnexos()
+    public function theadAnexos()
     {
-        return $this->hasMany(AssembleiaAnexo::class);
+        return $this->hasMany(TheadAnexo::class, 'id_thead');
     }
 
     public function assembleiaPosts()
@@ -32,10 +34,5 @@ class AssembleiaThead extends Model
     public function assembleiaQuestaoOrdem()
     {
         return $this->hasOne(AssembleiaQuestaoOrdem::class);
-    }
-
-    public function usuario()
-    {
-        return $this->hasOne(Usuario::class);
     }
 }

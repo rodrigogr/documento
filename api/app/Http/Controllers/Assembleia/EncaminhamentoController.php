@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Assembleia;
 
 use App\Http\Controllers\Controller;
 use App\models\Assembleia\AssembleiaEncaminhamento;
+use App\models\Assembleia\AssembleiaThead;
+use App\models\Assembleia\TheadAnexo;
 use Illuminate\Http\Request;
 
 class EncaminhamentoController extends Controller
@@ -14,8 +16,20 @@ class EncaminhamentoController extends Controller
         return response()->success(AssembleiaEncaminhamento::all());
     }
 
-    public function store(Request $request){
+    public function store(Request $request)
+    {
+        $data = $request->all();
+        $dataThead = $data['thead'];
 
-        return response()->json(AssembleiaEncaminhamento::create($request->all()),201);
+        $thead = AssembleiaThead::create($dataThead);
+        $thead->theadAnexos()->createMany($dataThead['anexos']);
+
+        $assembleiaEncaminhamento =  AssembleiaEncaminhamento::create([
+            'id_thead'=> $thead->id,
+            'id_pessoa' => $dataThead['id_pessoa'],
+            'id_assembleia'=>$data['id_assembleia'],
+            'id_pauta' => $data['id_pauta']
+        ]);
+        return response()->success($assembleiaEncaminhamento);
     }
 }

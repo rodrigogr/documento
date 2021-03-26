@@ -32,8 +32,12 @@ angular.module('AssembleiasModule').controller('AssembleiaAssembleiasCtrl',
             votacao_secreta: false,
             documentos: [],
             pautas: '',
-            participantes: []
+            participantes: [],
         }
+
+        //Download
+        $scope.arquivoIcon = '';
+        $scope.arquivoNome = '';
 
         moment.locale('pt-br');
         $scope.converteDateParaPtBR = function(date){
@@ -202,8 +206,79 @@ angular.module('AssembleiasModule').controller('AssembleiaAssembleiasCtrl',
         }
 
 
-        $scope.visualizarAssembleia = async function (id) {
+        //Save PDF
+        $scope.changeInputField = function (ele) {
+            debugger
+            var file = ele.files[0];
 
+            if (ele.files.length > 0) {
+                if (file > 10485760) {
+                    return UtilsService.openAlert('Tamanho máximo de anexos permitido foi atingido: 10MB');
+                }
+
+                $scope.assembleia.documentos = URL.createObjectURL(file);
+                iconArquivo(ele.files[0]);
+
+
+                // if (ele.name == 'foto_local') {
+                //     $scope.localReservavel.foto = URL.createObjectURL(file);
+                // } else {
+                //     $scope.localReservavel.regra = URL.createObjectURL(file);
+                //     iconArquivo(ele.files[0]);
+                // }
+
+                $scope.getbase64(file, ele.name);
+
+            }
         }
+
+        $scope.getbase64 = function (file, el) {
+            let f = file;
+            let r = new FileReader();
+
+            r.onloadend = function (e) {
+                $scope.assembleia[el] = e.target.result;
+                $scope.$apply();
+            };
+            r.readAsDataURL(f);
+        }
+
+        function iconArquivo(file) {
+            var tipoFile = file.name.split('.')[1];
+            var icon = 'file';
+            switch (tipoFile) {
+                case "jpeg":
+                case "jpg":
+                    icon = 'jpeg';
+                    break;
+                case "png":
+                    icon = 'png';
+                    break;
+                case "doc":
+                case "docx":
+                    icon = 'word';
+                    break;
+                case "xml":
+                case "xls":
+                case "xlsx":
+                    icon = 'excel';
+                    break;
+                case "pdf":
+                    icon = 'pdf';
+                    break;
+                case "txt":
+                    icon = 'txt'
+                    break;
+            }
+            debugger
+            $scope.arquivoIcon = 'img/icons/icon_'+icon+'.png';
+            $scope.arquivoNome = file.name;
+        }
+
+        $scope.abreDocumento = function () {
+            let file = $scope.assembleia.documentos ? $scope.assembleia.documentos : 'error url.';
+            window.open(file,'_blank');
+        }
+
 
     });

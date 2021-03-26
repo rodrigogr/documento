@@ -346,6 +346,23 @@
                                                     style="padding: 0; margin: 6px;">Votação secreta</h5>
                                             </div>  
                                         </div>
+
+                                        <div class="row ba__margin-bottom-30">
+                                            <p style="margin: 0 0 15px; padding: 0 15px; text-transform: uppercase; font-size: 16px;">
+                                                ANEXOS GERAIS
+                                            </p>
+                                            <div class="col-md-24" style="padding-left: 15px;" >
+                                                <!--<button class="btn btn-default pull-left ba__margin-right-15">ANEXAR ARQUIVO</button>-->
+                                                <input class="ba__font-size-12 pull-left" type="file" id="inputDocumentos" name="documentos_regras" onchange="angular.element(this).scope().changeInputField(this, 'documentos')">
+                                                <span class="ba__font-size-12 pull-left ba__font-color-gray ba__margin-top-10" style="clear: both;" >Arquivos de no max 10MB, nas extensões .PDF, .DOC, .DOCX, .XLS, .XLSX, .JPG ou .TXT</span>
+                                            </div>
+                                            <div class="col-md-8">
+                                                <a href="javascript:void(0)" ng-click="abreDocumento()">
+                                                    <img src="{{arquivoIcon}}">
+                                                    <i style="font-size: 17px;">{{arquivoNome}}</i>
+                                                </a>
+                                            </div>
+                                        </div>
                                         
                                     </div>
 

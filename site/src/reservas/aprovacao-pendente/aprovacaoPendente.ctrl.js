@@ -139,7 +139,7 @@ angular.module('ReservasModule').controller('AprovacaoPendenteCtrl',
                 id: id,
                 motivo: $scope.motivoRecusaReserva
             }
-            var promisse = ($http.put(`${config.apiUrl}api/aprovacao/recusar/`, dados));
+            var promisse = ($http.put(`${config.apiUrl}api/aprovacao/recusar`, dados));
             promisse.then( function (result) {
                 let res = result.data.data;
                 $("#motivoRecusar").modal('hide');

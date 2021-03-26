@@ -110,13 +110,13 @@ class LocalReservavelController extends Controller
                 if (!isset($dia_inativo["id"])) {
                     $dia_inativo["id_local_reservavel"] = $id;
                     unset($dia_inativo['deleted']);
-//                    $dataFormatada = Carbon::createFromFormat('d/m/Y', $dia_inativo["data"])->format('Y-m-d');
-//                    $dia_inativo["data"] = $dataFormatada;
+                    $dataFormatada = Carbon::createFromFormat('d/m/Y', $dia_inativo["data"])->format('Y-m-d');
+                    $dia_inativo["data"] = $dataFormatada;
                     DiaInativoLocalReservavel::insert($dia_inativo);
                 }
                 if (isset($dia_inativo["id"]) && !$dia_inativo["deleted"]) {
-//                    $dataFormatada = Carbon::createFromFormat('d/m/Y', $dia_inativo["data"])->format('Y-m-d');
-//                    $dia_inativo["data"] = $dataFormatada;
+                    $dataFormatada = Carbon::createFromFormat('d/m/Y', $dia_inativo["data"])->format('Y-m-d');
+                    $dia_inativo["data"] = $dataFormatada;
                     $diaAlt = DiaInativoLocalReservavel::find($dia_inativo["id"]);
                     $diaAlt->id_local_reservavel = $id;
                     $diaAlt->data = $dia_inativo["data"];

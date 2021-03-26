@@ -36,6 +36,11 @@ angular.module('appFilters', [])
 			}
 		};
 	})
+	.filter('formataData', function () {
+		return function (val) {
+			return new Date(val+' 00:00:00').toLocaleDateString('pt-BR')
+		}
+	})
 	.filter('formatQuadraLote', function () {
 		return function (object) {
 			return 'Qd. ' + object.quadra + ' Lt. ' + object.lote;

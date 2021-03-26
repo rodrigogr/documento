@@ -35,7 +35,11 @@ class LocalReservavel extends Model
 
     public static function complete($id)
     {
-        return self::where('id', $id)->with(['localidade','periodo','diaInativo'])->first();
+        return self::where('id', $id)->with(['localidade','periodo'])
+            ->with(['diaInativo' => function ($q) {
+                $q->select('id','id_local_reservavel','descricao','repetir',\DB::raw("date_format(data,'%d/%m/%Y') as data"));
+            }])
+            ->first();
     }
 
     public static function nomeLocalReservavel($nome_local)

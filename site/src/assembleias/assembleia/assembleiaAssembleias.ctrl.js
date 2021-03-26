@@ -200,4 +200,10 @@ angular.module('AssembleiasModule').controller('AssembleiaAssembleiasCtrl',
                 UtilsService.openAlert(error.data.message);
             }).finally( () => { $("#loading").modal("hide") });
         }
+
+
+        $scope.visualizarAssembleia = async function (id) {
+
+        }
+
     });

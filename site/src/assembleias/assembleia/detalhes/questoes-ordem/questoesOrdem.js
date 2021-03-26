@@ -1,5 +1,5 @@
 'use strict'
-angular.module('appDirectives').directive("questoes", function () {
+angular.module('appDirectives').directive("assembleiaquestoes", function () {
     return {
         restrict: 'A',
         replace: true,
@@ -7,11 +7,11 @@ angular.module('appDirectives').directive("questoes", function () {
             user: '='
         },
         templateUrl: 'src/assembleias/assembleia/detalhes/questoes-ordem/questoesOrdem.html',
-        controller: questoesOrdemCtrl
+        controller: assembleiaQuestoesOrdemCtrl
     }
 });
 
-function questoesOrdemCtrl ($scope, $state, $filter, UtilsService, config)
+function assembleiaQuestoesOrdemCtrl ($scope, $state, $filter, UtilsService, config)
 {
 
 }

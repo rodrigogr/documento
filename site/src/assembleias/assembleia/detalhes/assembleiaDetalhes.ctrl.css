@@ -1,0 +1,31 @@
+.tabs-assembleia li a
+{
+    text-align: center;
+    background: none;
+}
+
+.tabs-assembleia li a:hover
+{
+    background: none;
+}
+
+.tabs-assembleia li {
+    width: 19em;
+}
+
+.tabs-assembleia li.active a,.tabs-assembleia li.active a:hover
+{
+    background:none;
+}
+
+.btn-atualizar {
+    border: 1px solid #FF6633;
+    box-sizing: border-box;
+    border-radius: 3px;
+    background: none;
+    color: #FF6633;
+}
+
+.btn-atualizar:hover, .btn-atualizar:focus {
+    color: #FF6633;
+}

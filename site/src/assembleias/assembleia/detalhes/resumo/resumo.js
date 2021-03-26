@@ -1,5 +1,5 @@
 'use strict'
-angular.module('appDirectives').directive("resumo", function () {
+angular.module('appDirectives').directive("assembleiaresumo", function () {
     return {
         restrict: 'A',
         replace: true,
@@ -7,11 +7,11 @@ angular.module('appDirectives').directive("resumo", function () {
             user: '='
         },
         templateUrl: 'src/assembleias/assembleia/detalhes/resumo/resumo.html',
-        controller: headerCtrl
+        controller: assembleiaResumoCtrl
     }
 });
 
-function resumoCtrl ($scope, $state, $filter, UtilsService, config)
+function assembleiaResumoCtrl ($scope, $state, $filter, UtilsService, config)
 {
 
 }

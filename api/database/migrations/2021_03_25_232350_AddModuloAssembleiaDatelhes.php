@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class AddModuloMenuAssembleia extends Migration
+class AddModuloAssembleiaDatelhes extends Migration
 {
     /**
      * Run the migrations.
@@ -15,9 +15,9 @@ class AddModuloMenuAssembleia extends Migration
     {
         DB::connection('portaria')->table('modulo_sistema')->insert(
             array([
-                'nome' => 'assembleia',
-                'desc' => 'Assembleia',
-                'tipo_categoria' => 'p'
+                'nome' => 'assembleiaDetalhes',
+                'desc' => 'Assembleia Detalhes',
+                'tipo_categoria' => 's'
             ])
         );
     }
@@ -29,6 +29,6 @@ class AddModuloMenuAssembleia extends Migration
      */
     public function down()
     {
-
+        //
     }
 }

@@ -1,5 +1,5 @@
 'use strict'
-angular.module('appDirectives').directive("pautas", function () {
+angular.module('appDirectives').directive("assembleiapautas", function () {
     return {
         restrict: 'A',
         replace: true,
@@ -7,11 +7,11 @@ angular.module('appDirectives').directive("pautas", function () {
             user: '='
         },
         templateUrl: 'src/assembleias/assembleia/detalhes/pautas/pautas.html',
-        controller: pautasCtrl
+        controller: assembleiaPautasCtrl
     }
 });
 
-function pautasCtrl ($scope, $state, $filter, UtilsService, config)
+function assembleiaPautasCtrl ($scope, $state, $filter, UtilsService, config)
 {
 
 }

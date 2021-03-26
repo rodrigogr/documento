@@ -20,9 +20,9 @@ angular.module('AssembleiasModule', [
 			})
 
 			.state('assembleiaDetalhes', {
-					url: "/assembleia/detalhes/:id",
-					templateUrl: 'src/assembleias/assembleia/detalhes/assembleiaDetalhes.ctrl.html',
-					controller: 'AssembleiaDetalhesCtrl',
-					resolve: {onEnter: () => window.stop()}
+				url: "/assembleia/detalhes/:id",
+				templateUrl: 'src/assembleias/assembleia/detalhes/assembleiaDetalhes.ctrl.html',
+				controller: 'AssembleiaDetalhesCtrl',
+				resolve: {onEnter: () => window.stop()}
 			})
 	});

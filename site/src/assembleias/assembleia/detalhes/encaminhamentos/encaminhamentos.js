@@ -1,5 +1,5 @@
 'use strict'
-angular.module('appDirectives').directive("encaminhamentos", function () {
+angular.module('appDirectives').directive("assembleiaencaminhamentos", function () {
     return {
         restrict: 'A',
         replace: true,
@@ -7,11 +7,11 @@ angular.module('appDirectives').directive("encaminhamentos", function () {
             user: '='
         },
         templateUrl: 'src/assembleias/assembleia/detalhes/encaminhamentos/encaminhamentos.html',
-        controller: encaminhamentosCtrl
+        controller: assembleiaEncaminhamentosCtrl
     }
 });
 
-function encaminhamentosCtrl ($scope, $state, $filter, UtilsService, config)
+function assembleiaEncaminhamentosCtrl ($scope, $state, $filter, UtilsService, config)
 {
 
 }

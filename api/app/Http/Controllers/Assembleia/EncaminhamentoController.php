@@ -26,7 +26,6 @@ class EncaminhamentoController extends Controller
 
         $assembleiaEncaminhamento =  AssembleiaEncaminhamento::create([
             'id_thead'=> $thead->id,
-            'id_pessoa' => $dataThead['id_pessoa'],
             'id_assembleia'=>$data['id_assembleia'],
             'id_pauta' => $data['id_pauta']
         ]);

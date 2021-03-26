@@ -10,7 +10,7 @@ class AssembleiaEncaminhamento extends Model
     public $timestamp = true;
     protected $table = 'assembleia_encaminhamentos';
     protected $attributes = ['status'=>'pendente', 'apoio'=>0];
-    protected $fillable = ['id_assembleia','id_pauta','id_thead', 'id_pessoa'];
+    protected $fillable = ['id_assembleia','id_pauta','id_thead'];
 
     public function assembleia()
     {

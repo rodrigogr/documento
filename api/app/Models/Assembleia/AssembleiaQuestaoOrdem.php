@@ -8,6 +8,7 @@ class AssembleiaQuestaoOrdem extends Model
 {
     public $timestamp = true;
     protected $table = 'assembleia_questoes_ordens';
+    protected $fillable = ['id_assembleia','id_pauta','id_thead'];
 
     public function assembleia()
     {
@@ -19,7 +20,7 @@ class AssembleiaQuestaoOrdem extends Model
         return $this->hasOne(Pauta::class);
     }
 
-    public function assembleiaThead()
+    public function thead()
     {
         return $this->hasOne(AssembleiaThead::class);
     }

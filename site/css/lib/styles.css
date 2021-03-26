@@ -3709,7 +3709,7 @@ a.list-group-item {
     height: 95%;
 }
 
-input[type=date] {
+/*input[type=date] {
     width: 220px !important;
     text-transform: uppercase;
     height: 50px;
@@ -3723,7 +3723,7 @@ input[type=date] {
     border-bottom: 1px solid #c8d4dd;
     box-shadow: none;
     border-radius: 0;
-}
+}*/
 
 .list-group-item .row div {
     display: block;
@@ -3783,4 +3783,25 @@ a.link-only {
     float: left;
     margin-top: 8px;
     margin-right: 10px;
+}
+.hoverDanger:hover {
+    border: 1px solid red;
+    box-shadow: 1px 1px 8px #f5acac9e;
+    border-radius: 5px;
+    padding: 1px 5px;
+}
+.hoverDefault:hover {
+    border: 1px solid #9C9C9C;
+    box-shadow: 1px 1px 8px #8a939c61;
+    border-radius: 5px;
+    padding: 1px 5px;
+}
+.btn-clear2 {
+    background-color: transparent;
+    border: 1px solid #ccc9c8;
+    color: #9C9C9C;
+}
+.btn-clear2:hover {
+    box-shadow: 0px 1px 6px #cccc;
+    color: #5b5a5a;
 }

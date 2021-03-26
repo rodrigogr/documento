@@ -11,73 +11,83 @@ angular.module('ReservasModule').controller('AprovacaoPendenteCtrl',
         $scope.loadLocais = false;
         $scope.idLocalidade = 'todas';
         $scope.idLocalReservavel = '';
-        $scope.formats = ['dd-MMMM-yyyy', 'yyyy/MM/dd', 'dd.MM.yyyy', 'shortDate'];
-        $scope.format = $scope.formats[0];
-        $scope.altInputFormats = ['M!/d!/yyyy'];
+
         $scope.dt = new Date();
-        $scope.dateOptions = {
-            formatYear: 'yy',
-            showWeeks:'false',
-            startingDay: 0
-        };
-        $scope.popup1 = { opened: false }
 
-        $scope.open1 = function() {
-            $scope.popup1.opened = true;
-        };
         $scope.analisandoReserva = [];
-
-        // Disable weekend selection
-        function disabled(data) {
-            var date = data.date,
-                mode = data.mode;
-            return mode === 'day' && (date.getDay() === 0 || date.getDay() === 6);
-        }
+        $scope.pendentes = [];
+        $scope.recusados = [];
+        $scope.busca = 'pendente';
+        $scope.localReservavelSelecionado = false;
+        $scope.localidadeSelecionado = false;
 
         $scope.contentActive = function(aba) {
             if (aba == 1) {
-                $scope.escolhaDia();
+                $scope.busca = 'pendente';
             } else {
-                recusados();
+                $scope.busca = 'recusado';
             }
+            $scope.listaAprovacao($scope.dt);
         }
 
         $http.get(`${config.apiUrl}api/localidades/locais_reservaveis`)
             .then((result) => $scope.locaisReservaveis = result.data.data)
             .finally(() => $scope.loadLocais = true);
 
-        $scope.pendentesHoje = function (localReservavel = false, localidade = false) {
-            $scope.loadDiaPendente = true;
-            var url = `${config.apiUrl}api/aprovacao/pendentes/hoje`;
+        $scope.listaAprovacao = function (data = false, localReservavel = false, localidade = false, item = '') {
+            $scope.loadPendente = true;
+            $(".list-localidade").removeClass("itemSelecionado");
+            $(".list-locaisReservaveis").removeClass("itemSelecionado");
 
-            if (localidade) {
-                url = `${config.apiUrl}api/aprovacao/pendentes/localidade/`+localidade;
-            } else if (localReservavel) {
-                url = `${config.apiUrl}api/aprovacao/pendentes/local/`+localReservavel;
+            var dataBusca = 'todos';
+
+            if (!data && data != 'todos') {
+                $scope.topicoData = {
+                    dia: moment().format('D'),
+                    mes: moment().format('MMMM'),
+                    semana: moment().format('dddd')
+                }
+                dataBusca = moment(moment.now()).format("YYYY-MM-DD")
+
+            } else if (data && data != 'todos') {
+                $scope.topicoData = {
+                    dia: moment($scope.dt).format('D'),
+                    mes: moment($scope.dt).format('MMMM'),
+                    semana: moment($scope.dt).format('dddd')
+                }
+                dataBusca = moment($scope.dt).format("YYYY-MM-DD");
             }
 
-            $http.get(url).then(function (result) {
-                $scope.pendentes = result.data.data;
-                $scope.topicoData = {
-                    dia: moment().format('D'),
-                    mes: moment().format('MMMM'),
-                    semana: moment().format('dddd')
+            $scope.localReservavelSelecionado = localReservavel;
+            $scope.localidadeSelecionado = localidade;
+
+            var dados = {
+                data: dataBusca,
+                localReservavel: localReservavel,
+                localidade: localidade,
+                status: $scope.busca
+            }
+
+            $http.post(`${config.apiUrl}api/aprovacao`, dados).then(function (result) {
+                if ($scope.busca == 'pendente') {
+                    $scope.pendentes = result.data.data;
+                } else {
+                    $scope.recusados = result.data.data;
                 }
-            }).finally(() => $scope.loadDiaPendente = false);
+            }).catch( function (e) {
+                UtilsService.openAlert(e.data.message);
+            }).finally(() => {
+                if (!item) {
+                    $("#itemTodos").addClass("itemSelecionado");
+                    $(".list-localidade-locaisReservaveis").scrollTop(0);
+                } else {
+                    $("#" + item).addClass("itemSelecionado");
+                }
+                $scope.loadPendente = false;
+            });
         }
 
-        $scope.pendentesHoje();
-
-        $scope.escolhaDia = function () {
-            $http.get(`${config.apiUrl}api/aprovacao/pendentes/hoje`).then(function (result) {
-                $scope.pendentes = result.data.data;
-                $scope.topicoData = {
-                    dia: moment().format('D'),
-                    mes: moment().format('MMMM'),
-                    semana: moment().format('dddd')
-                }
-            }).finally(() => $scope.loadDiaPendente = false);
-        }
+        $scope.listaAprovacao();
 
         $scope.analisar = function (index) {
             $scope.analisandoReserva = $scope.pendentes[index];
@@ -93,7 +103,7 @@ angular.module('ReservasModule').controller('AprovacaoPendenteCtrl',
             var promisse = ($http.patch(`${config.apiUrl}api/aprovacao/`+id, 1));
             promisse.then( function (result) {
                 let res = result.data.data;
-                $scope.escolhaDia();
+                $scope.listaAprovacao();
                 $("#analisarReserva").modal('hide');
                 UtilsService.toastSuccess(res);
             }).catch( function (e) {
@@ -103,27 +113,54 @@ angular.module('ReservasModule').controller('AprovacaoPendenteCtrl',
 
         $scope.motivoRecusar = function (id) {
             $scope.idRecusar = id;
+            $scope.motivoRecusaReserva = '';
+            $scope.disabledText = false;
             $("#analisarReserva").modal('hide');
             $("#motivoRecusar").modal('show');
         }
 
+        $scope.verMotivo = function (index) {
+            $scope.motivoRecusaReserva = $scope.recusados[index].obs;
+            $scope.dataRecusa = moment($scope.recusados[index].updated_at).format('L')+' às '+ moment($scope.recusados[index].updated_at).format('HH:mm');
+            $scope.autor = $scope.recusados[index].autor;
+            $scope.disabledText = true;
+            $("#motivoRecusar").modal('show');
+        }
+
+        $scope.fecharMotivo = function () {
+            $("#motivoRecusar").modal('hide');
+        }
+
         $scope.recusarReserva = function (id) {
-            var promisse = ($http.patch(`${config.apiUrl}api/aprovacao/recusar/`+id, 1));
+            $('.btnRecSalvar').prop('disabled', true);
+            $('#btnRecusar').button('loading');
+
+            var dados = {
+                id: id,
+                motivo: $scope.motivoRecusaReserva
+            }
+            var promisse = ($http.put(`${config.apiUrl}api/aprovacao/recusar/`, dados));
             promisse.then( function (result) {
                 let res = result.data.data;
-                $scope.escolhaDia();
-                $("#analisarReserva").modal('hide');
+                $("#motivoRecusar").modal('hide');
                 UtilsService.toastSuccess(res);
+                $scope.listaAprovacao($scope.dt);
             }).catch( function (e) {
                 UtilsService.openAlert(e.data.message);
+            }).finally( () => {
+                $('.btnRecSalvar').prop('disabled', false);
+                $('#btnRecusar').button('reset');
             });
         }
 
-        function recusados() {
-            $scope.loadDiaPendente = true;
-            $http.get(`${config.apiUrl}api/aprovacao/recusadas`).then( function (result) {
-                $scope.recusados = result.data.data;
-            }).finally( () => $scope.loadDiaPendente = false);
+        $scope.dataFormatTitulo = function (data) {
+            let dia = moment(data).format('D');
+            let mes = moment(data).format('MMMM');
+            return "Dia "+dia+" de "+mes;
         }
+
+        $("#dataBusca").on("change", function() {
+            $scope.listaAprovacao(this.value);
+        });
 
     });

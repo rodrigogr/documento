@@ -12,7 +12,7 @@ class AssembleiaQuestaoOrdem extends Model
 
     public function assembleia()
     {
-        return $this->belongsTo(Assembleia::class);
+        return $this->belongsTo(Assembleia::class, 'id_assembleia');
     }
 
     public function pauta()

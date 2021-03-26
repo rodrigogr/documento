@@ -47,10 +47,7 @@ class AssembleiaController extends Controller
         {
             return response()->error($e->getMessage());
         }
-
-
     }
-
     public function update(AssembleiaRequest $request, $id)
     {
         $data = $request->all();

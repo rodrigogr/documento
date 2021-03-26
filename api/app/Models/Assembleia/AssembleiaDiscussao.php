@@ -8,10 +8,11 @@ class AssembleiaDiscussao extends Model
 {
     public $timestamps = true;
     protected $table = 'assembleia_dicussoes';
+    protected $fillable = ['id_assembleia', 'id_pauta', 'id_thead'];
 
     public function assembleia()
     {
-        return $this->belongsTo(Assembleia::class);
+        return $this->belongsTo(Assembleia::class,'id_assembleia');
     }
 
     public function pauta()

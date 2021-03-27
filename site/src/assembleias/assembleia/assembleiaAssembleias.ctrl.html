@@ -66,7 +66,7 @@
                     </div>
                 </a>
                 <div class="list-group">
-                    <a href="javascript:void(0)" ng-click="editarLocal(local.id)" 
+                    <a  ui-sref="assembleiaDetalhes({id: assembleia.id})"
                         class="list-group-item"
                         ng-repeat="assembleia in listAssembleias">
                         <h5 class="col-xs-8 list-group-item-heading">{{assembleia.titulo}}</h5>

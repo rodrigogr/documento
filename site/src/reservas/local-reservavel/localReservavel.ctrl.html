@@ -195,10 +195,10 @@
                                             <div class="col-md-6">
                                                 <div class="col-xs-5 pull-right">
                                                     <div class="onoffswitch">
-                                                        <input type="checkbox" id="visibilidadeDadosUsuario" name="onoffswitch" class="onoffswitch-checkbox" enter ng-model="localReservavel.dadosVisiveis">
+                                                        <input type="checkbox" id="visibilidadeDadosUsuario" name="onoffswitch" class="onoffswitch-checkbox" enter ng-model="localReservavel.visualizar_reversa_usuario">
                                                         <label class="onoffswitch-label" for="visibilidadeDadosUsuario">
-                                                            <span class="onoffswitch-inner" ng-show="localReservavel.dadosVisiveis"></span>
-                                                            <span class="onoffswitch-switch" ng-show="!localReservavel.dadosVisiveis"></span>
+                                                            <span class="onoffswitch-inner" ng-show="localReservavel.visualizar_reversa_usuario"></span>
+                                                            <span class="onoffswitch-switch" ng-show="!localReservavel.visualizar_reversa_usuario"></span>
                                                         </label>
                                                     </div>
                                                 </div>
@@ -212,10 +212,10 @@
                                                 <h5 class="text-right">Antecedência máxima para reserva</h5>
                                             </div>
                                             <div class="col-md-17 col-md-offset-2">
-                                                <i ng-click="subNum('antecedenciaMaxReserva')" class="fa fa-minus-circle ba__font-size-25 pull-left text-gray" style="padding-top: 10px"></i>
-                                                <input type="number" min="0" ng-model="localReservavel.antecedenciaMaxReserva" class="ba__input-modal limite-pessoas color-padrao" style="margin: 0 10px 0 2px">
-                                                <i ng-click="addNum('antecedenciaMaxReserva')" class="fa icon-ba-plus ba__font-size-25 pull-left text-gray" style="padding-top: 10px"></i>
-                                                <select class="ba__input-select color-padrao" ng-model="localReservavel.antecedenciaMaxReservaTempo" style="width: 21%;margin-left: 10px;float: left;">
+                                                <i ng-click="subNum('antecedencia_max_num')" class="fa fa-minus-circle ba__font-size-25 pull-left text-gray" style="padding-top: 10px"></i>
+                                                <input type="number" min="0" ng-model="localReservavel.antecedencia_max_num" class="ba__input-modal limite-pessoas color-padrao" style="margin: 0 10px 0 2px">
+                                                <i ng-click="addNum('antecedencia_max_num')" class="fa icon-ba-plus ba__font-size-25 pull-left text-gray" style="padding-top: 10px"></i>
+                                                <select class="ba__input-select color-padrao" ng-model="localReservavel.antecedencia_max_periodo" style="width: 21%;margin-left: 10px;float: left;">
                                                     <option value="horas">horas</option>
                                                     <option value="dias">dias</option>
                                                     <option value="semanas">semanas</option>
@@ -228,10 +228,10 @@
                                                 <h5 class="text-right">Antecedência mínima para reserva</h5>
                                             </div>
                                             <div class="col-md-17 col-md-offset-2">
-                                                <i ng-click="subNum('antecedenciaMinReserva')" class="fa fa-minus-circle ba__font-size-25 pull-left text-gray" style="padding-top: 10px"></i>
-                                                <input type="number" min="0" ng-model="localReservavel.antecedenciaMinReserva" class="ba__input-modal limite-pessoas color-padrao" style="margin: 0 10px 0 2px">
-                                                <i ng-click="addNum('antecedenciaMinReserva')" class="fa icon-ba-plus ba__font-size-25 pull-left text-gray" style="padding-top: 10px"></i>
-                                                <select class="ba__input-select color-padrao" ng-model="localReservavel.antecedenciaMinReservaTempo" style="width: 21%;margin-left: 10px;float: left;">
+                                                <i ng-click="subNum('antecedencia_min_num')" class="fa fa-minus-circle ba__font-size-25 pull-left text-gray" style="padding-top: 10px"></i>
+                                                <input type="number" min="0" ng-model="localReservavel.antecedencia_min_num" class="ba__input-modal limite-pessoas color-padrao" style="margin: 0 10px 0 2px">
+                                                <i ng-click="addNum('antecedencia_min_num')" class="fa icon-ba-plus ba__font-size-25 pull-left text-gray" style="padding-top: 10px"></i>
+                                                <select class="ba__input-select color-padrao" ng-model="localReservavel.antecedencia_min_periodo" style="width: 21%;margin-left: 10px;float: left;">
                                                     <option value="horas">horas</option>
                                                     <option value="dias">dias</option>
                                                     <option value="semanas">semanas</option>
@@ -244,10 +244,10 @@
                                                 <h5 class="text-right">Antecedência mínima para cancelamento</h5>
                                             </div>
                                             <div class="col-md-17 col-md-offset-2">
-                                                <i ng-click="subNum('antecedenciaMinCancelamento')" class="fa fa-minus-circle ba__font-size-25 pull-left text-gray" style="padding-top: 10px"></i>
-                                                <input type="number" min="0" ng-model="localReservavel.antecedenciaMinCancelamento" class="ba__input-modal limite-pessoas color-padrao" style="margin: 0 10px 0 2px">
-                                                <i ng-click="addNum('antecedenciaMinCancelamento')" class="fa icon-ba-plus ba__font-size-25 pull-left text-gray" style="padding-top: 10px"></i>
-                                                <select class="ba__input-select color-padrao" ng-model="localReservavel.antecedenciaMinCancelamentoTempo" style="width: 21%;margin-left: 10px;float: left;">
+                                                <i ng-click="subNum('antecedencia_cancel_num')" class="fa fa-minus-circle ba__font-size-25 pull-left text-gray" style="padding-top: 10px"></i>
+                                                <input type="number" min="0" ng-model="localReservavel.antecedencia_cancel_num" class="ba__input-modal limite-pessoas color-padrao" style="margin: 0 10px 0 2px">
+                                                <i ng-click="addNum('antecedencia_cancel_num')" class="fa icon-ba-plus ba__font-size-25 pull-left text-gray" style="padding-top: 10px"></i>
+                                                <select class="ba__input-select color-padrao" ng-model="localReservavel.antecedencia_cancel_periodo" style="width: 21%;margin-left: 10px;float: left;">
                                                     <option value="horas">horas</option>
                                                     <option value="dias">dias</option>
                                                     <option value="semanas">semanas</option>
@@ -260,9 +260,9 @@
                                                 <h5 class="text-right">Quantas reservas um morador pode fazer no mesmo dia?</h5>
                                             </div>
                                             <div class="col-md-17 col-md-offset-2">
-                                                <i ng-click="subNum('numMaxReserva')" class="fa fa-minus-circle ba__font-size-25 pull-left text-gray" style="padding-top: 10px"></i>
-                                                <input type="number" min="0" ng-model="localReservavel.numMaxReserva" class="ba__input-modal limite-pessoas color-padrao" style="margin: 0 10px 0 2px">
-                                                <i ng-click="addNum('numMaxReserva')" class="fa icon-ba-plus ba__font-size-25 pull-left text-gray" style="padding-top: 10px"></i>
+                                                <i ng-click="subNum('limit_reserva')" class="fa fa-minus-circle ba__font-size-25 pull-left text-gray" style="padding-top: 10px"></i>
+                                                <input type="number" min="0" ng-model="localReservavel.limit_reserva" class="ba__input-modal limite-pessoas color-padrao" style="margin: 0 10px 0 2px">
+                                                <i ng-click="addNum('limit_reserva')" class="fa icon-ba-plus ba__font-size-25 pull-left text-gray" style="padding-top: 10px"></i>
                                             </div>
                                         </div>
                                     </div>
@@ -352,7 +352,7 @@
                                                         <div class="row">
                                                             <div class="col-xs-4">
                                                                 <div class="col-xs-20">
-                                                                    <span>{{inativo.data}}</span>
+                                                                    <span>{{inativo.data | formataData}}</span>
                                                                 </div>
                                                             </div>
                                                             <div class="col-xs-12">

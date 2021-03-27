@@ -37,7 +37,7 @@ function sidebarCtrl($scope, LoginService, AuthService) {
             'menu_principal': {
                 'cod': 'assembleia',
                 'nome': 'Assembleia Online',
-                'icon': 'fa-area-chart'
+                'icon': 'fa-check-square'
             },
             'submenus': [
                 {

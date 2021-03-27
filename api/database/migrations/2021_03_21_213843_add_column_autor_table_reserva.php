@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class AddModuloMenuAssembleia extends Migration
+class AddColumnAutorTableReserva extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,9 @@ class AddModuloMenuAssembleia extends Migration
      */
     public function up()
     {
-        DB::connection('portaria')->table('modulo_sistema')->insert(
-            array([
-                'nome' => 'assembleia',
-                'desc' => 'Assembleia',
-                'tipo_categoria' => 'p'
-            ])
-        );
+        Schema::table('reserva', function (Blueprint $table) {
+            $table->integer('autor')->unsigned()->nullable()->default(null);
+        });
     }
 
     /**
@@ -29,6 +25,6 @@ class AddModuloMenuAssembleia extends Migration
      */
     public function down()
     {
-
+        //
     }
 }

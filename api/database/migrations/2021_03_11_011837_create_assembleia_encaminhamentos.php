@@ -21,6 +21,9 @@ class CreateAssembleiaEncaminhamentos extends Migration
                 $table->unsignedInteger('id_assembleia');
                 $table->unsignedInteger('id_pauta');
                 $table->unsignedInteger('id_thead');
+                $table->enum('status', ['respondido', 'pendente']);
+                $table->integer('apoio');
+
                 $table->foreign('id_assembleia')->references('id')->on('assembleias');
                 $table->foreign('id_pauta')->references('id')->on('assembleia_pautas');
                 $table->foreign('id_thead')->references('id')->on('assembleia_theads');

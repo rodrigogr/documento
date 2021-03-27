@@ -15,14 +15,14 @@ angular.module('ReservasModule').controller('LocalReservavelCtrl',
                 capacidade: 0,
                 regra_local: '',
                 foto_local: '',
-                dadosVisiveis: false,
-                antecedenciaMaxReserva: 0,
-                antecedenciaMaxReservaTempo: 'horas',
-                antecedenciaMinReserva: 0,
-                antecedenciaMinReservaTempo: 'horas',
-                antecedenciaMinCancelamento: 0,
-                antecedenciaMinCancelamentoTempo: 'horas',
-                numMaxReserva: 0,
+                visualizar_reversa_usuario: false,
+                antecedencia_max_num: 0,
+                antecedencia_max_periodo: 'horas',
+                antecedencia_min_num: 0,
+                antecedencia_min_periodo: 'horas',
+                antecedencia_cancel_num: 0,
+                antecedencia_cancel_periodo: 'horas',
+                limit_reserva: 0,
                 restricao: '',
                 periodo: {
                     seg: [],
@@ -149,16 +149,26 @@ angular.module('ReservasModule').controller('LocalReservavelCtrl',
         }
 
         $scope.excluirPeriodo = function (periodo, indexAtual) {
-            if (periodo.id) {
-                $scope.localReservavel.periodo[$scope.periodoAtual].map(item => {
-                    if (item.id == periodo.id) {
-                        item.deleted = 1;
+            if ($scope.manterHorarios) {
+                angular.forEach($scope.localReservavel.periodo, function (value, key) {
+                    if (value[indexAtual].id) {
+                        value[indexAtual].deleted = 1;
+                    } else {
+                        value.splice(indexAtual, 1);
                     }
-                    return item;
                 });
-
             } else {
-                $scope.objPeriodoAtual.splice(indexAtual, 1);
+                if (periodo.id) {
+                    $scope.localReservavel.periodo[$scope.periodoAtual].map(item => {
+                        if (item.id == periodo.id) {
+                            item.deleted = 1;
+                        }
+                        return item;
+                    });
+
+                } else {
+                    $scope.objPeriodoAtual.splice(indexAtual, 1);
+                }
             }
         }
 
@@ -331,6 +341,7 @@ angular.module('ReservasModule').controller('LocalReservavelCtrl',
                 delete $scope.localReservavel.periodo;
 
                 $scope.localReservavel.periodo = periodo;
+                $scope.localReservavel.visualizar_reversa_usuario = !!$scope.localReservavel.visualizar_reversa_usuario;
 
                 if ($scope.localReservavel.capacidade > 0) {
                     $scope.localReservavel.check_capacidade = true;

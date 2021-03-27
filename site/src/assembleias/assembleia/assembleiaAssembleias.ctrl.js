@@ -30,7 +30,12 @@ angular.module('AssembleiasModule').controller('AssembleiaAssembleiasCtrl',
             configuracao: false,
             link_transmissao: '',
             votacao_secreta: false,
-            documentos: [],
+            documentos: [{
+                id: 10,
+                file: "data:application/pdf;base64,JVBERi0xLjQNJeLjz9MNCj",
+                icon: "img/icons/icon_pdf.png",
+                name: "pdf_de_teste.pdf",
+            }],
             pautas: '',
             participantes: [],
         }
@@ -185,7 +190,6 @@ angular.module('AssembleiasModule').controller('AssembleiaAssembleiasCtrl',
             $("#loading").modal("show");
             $scope.validDataCreate();
 
-            debugger
             console.log($scope.assembleia);
             
             $http({
@@ -208,24 +212,15 @@ angular.module('AssembleiasModule').controller('AssembleiaAssembleiasCtrl',
 
         //Save PDF
         $scope.changeInputField = function (ele) {
-            debugger
             var file = ele.files[0];
 
             if (ele.files.length > 0) {
                 if (file > 10485760) {
                     return UtilsService.openAlert('Tamanho máximo de anexos permitido foi atingido: 10MB');
                 }
-
-                $scope.assembleia.documentos = URL.createObjectURL(file);
+                
+                $scope.assembleia.documentos_regras = URL.createObjectURL(file);
                 iconArquivo(ele.files[0]);
-
-
-                // if (ele.name == 'foto_local') {
-                //     $scope.localReservavel.foto = URL.createObjectURL(file);
-                // } else {
-                //     $scope.localReservavel.regra = URL.createObjectURL(file);
-                //     iconArquivo(ele.files[0]);
-                // }
 
                 $scope.getbase64(file, ele.name);
 
@@ -237,9 +232,17 @@ angular.module('AssembleiasModule').controller('AssembleiaAssembleiasCtrl',
             let r = new FileReader();
 
             r.onloadend = function (e) {
-                $scope.assembleia[el] = e.target.result;
+
+                let infoArquivo = {
+                    name:  $scope.arquivoNome,
+                    icon: $scope.arquivoIcon,
+                    file: e.target.result
+                }
+
+                $scope.assembleia[el].push(infoArquivo);
                 $scope.$apply();
             };
+            $("#inputDocumentos").val('');
             r.readAsDataURL(f);
         }
 
@@ -270,15 +273,18 @@ angular.module('AssembleiasModule').controller('AssembleiaAssembleiasCtrl',
                     icon = 'txt'
                     break;
             }
-            debugger
             $scope.arquivoIcon = 'img/icons/icon_'+icon+'.png';
             $scope.arquivoNome = file.name;
         }
 
         $scope.abreDocumento = function () {
-            let file = $scope.assembleia.documentos ? $scope.assembleia.documentos : 'error url.';
+            let file = $scope.assembleia.documentos_regras ? $scope.assembleia.documentos_regras : $scope.assembleia.documentos;
             window.open(file,'_blank');
         }
 
+        $scope.excluirArquivo = function(file, index){
+            console.log(file, index);
+            $scope.assembleia.documentos.splice(index, 1);
+        }
 
     });

@@ -216,16 +216,8 @@ angular.module('AssembleiasModule').controller('AssembleiaAssembleiasCtrl',
                     return UtilsService.openAlert('Tamanho máximo de anexos permitido foi atingido: 10MB');
                 }
                 
-                $scope.assembleia.documentos = URL.createObjectURL(file);
+                $scope.assembleia.documentos_regras = URL.createObjectURL(file);
                 iconArquivo(ele.files[0]);
-               
-               
-                // if (ele.name == 'foto_local') {
-                //     $scope.localReservavel.foto = URL.createObjectURL(file);
-                // } else {
-                //     $scope.localReservavel.regra = URL.createObjectURL(file);
-                //     iconArquivo(ele.files[0]);
-                // }
 
                 $scope.getbase64(file, ele.name);
 
@@ -236,10 +228,19 @@ angular.module('AssembleiasModule').controller('AssembleiaAssembleiasCtrl',
             let f = file;
             let r = new FileReader();
 
+            debugger
             r.onloadend = function (e) {
-                $scope.assembleia[el] = e.target.result;
+
+                let infoArquivo = {
+                    name:  $scope.arquivoNome,
+                    icon: $scope.arquivoIcon,
+                    files: e.target.result
+                }
+
+                $scope.assembleia[el].push(infoArquivo);
                 $scope.$apply();
             };
+            $("#inputDocumentos").val('');
             r.readAsDataURL(f);
         }
 
@@ -276,9 +277,13 @@ angular.module('AssembleiasModule').controller('AssembleiaAssembleiasCtrl',
         }
 
         $scope.abreDocumento = function () {
-            let file = $scope.assembleia.documentos ? $scope.assembleia.documentos : 'error url.';
+            let file = $scope.assembleia.documentos_regras ? $scope.assembleia.documentos_regras : $scope.assembleia.documentos;
             window.open(file,'_blank');
         }
 
+        $scope.excluirArquivo = function(){
+            console.log('excluir arquivo....')
+            alert('excluir aquivo com esse id');
+        }
 
     });

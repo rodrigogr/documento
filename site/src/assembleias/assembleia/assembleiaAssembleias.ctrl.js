@@ -185,7 +185,6 @@ angular.module('AssembleiasModule').controller('AssembleiaAssembleiasCtrl',
             $("#loading").modal("show");
             $scope.validDataCreate();
 
-            debugger
             console.log($scope.assembleia);
             
             $http({
@@ -208,7 +207,6 @@ angular.module('AssembleiasModule').controller('AssembleiaAssembleiasCtrl',
 
         //Save PDF
         $scope.changeInputField = function (ele) {
-            debugger
             var file = ele.files[0];
 
             if (ele.files.length > 0) {
@@ -228,7 +226,6 @@ angular.module('AssembleiasModule').controller('AssembleiaAssembleiasCtrl',
             let f = file;
             let r = new FileReader();
 
-            debugger
             r.onloadend = function (e) {
 
                 let infoArquivo = {
@@ -271,7 +268,6 @@ angular.module('AssembleiasModule').controller('AssembleiaAssembleiasCtrl',
                     icon = 'txt'
                     break;
             }
-            debugger
             $scope.arquivoIcon = 'img/icons/icon_'+icon+'.png';
             $scope.arquivoNome = file.name;
         }

@@ -8,7 +8,7 @@ class AddColummIdTheadTableAssembleiaTheadsAnexos extends Migration
 {
     public function up()
     {
-        Schema::connection('portal')->table('assembleia_theads_anexos', function (Blueprint $table) {
+        Schema::table('assembleia_theads_anexos', function (Blueprint $table) {
             $table->integer('id_thead');
         });
     }

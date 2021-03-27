@@ -8,8 +8,10 @@ class AddColummStatusTableAssembleiaEncaminhamentoss extends Migration
 {
     public function up()
     {
-        Schema::connection('portal')->table('assembleia_encaminhamentos', function (Blueprint $table) {
-            $table->enum('status', ['respondido', 'pendente']);
+        Schema::table('assembleia_encaminhamentos', function (Blueprint $table)
+        {
+            $table->integer('apoio');
+            $table->enum('status', ['respondido', 'pendente'])->default('pendente');
         });
     }
 

@@ -9,8 +9,17 @@ use App\models\Assembleia\AssembleiaDiscussao;
 
 class DiscussaoController extends Controller
 {
-    public function index(int $id)
+    public function index($id)
     {
-        return response()->success(AssembleiaDiscussao::all());
+        $assembleiaDicussoes = AssembleiaDiscussao::where('id_assembleia', $id)->group;
+        $resul = array();
+
+        foreach ($assembleiaDicussoes as $assembleiaDiscussao)
+        {
+            $resul = [
+                ''
+            ];
+        }
+        return response()->success();
     }
 }

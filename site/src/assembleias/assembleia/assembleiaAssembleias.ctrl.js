@@ -30,7 +30,12 @@ angular.module('AssembleiasModule').controller('AssembleiaAssembleiasCtrl',
             configuracao: false,
             link_transmissao: '',
             votacao_secreta: false,
-            documentos: [],
+            documentos: [{
+                id: 10,
+                file: "data:application/pdf;base64,JVBERi0xLjQNJeLjz9MNCj",
+                icon: "img/icons/icon_pdf.png",
+                name: "pdf_de_teste.pdf",
+            }],
             pautas: '',
             participantes: [],
         }
@@ -231,7 +236,7 @@ angular.module('AssembleiasModule').controller('AssembleiaAssembleiasCtrl',
                 let infoArquivo = {
                     name:  $scope.arquivoNome,
                     icon: $scope.arquivoIcon,
-                    files: e.target.result
+                    file: e.target.result
                 }
 
                 $scope.assembleia[el].push(infoArquivo);
@@ -277,9 +282,9 @@ angular.module('AssembleiasModule').controller('AssembleiaAssembleiasCtrl',
             window.open(file,'_blank');
         }
 
-        $scope.excluirArquivo = function(){
-            console.log('excluir arquivo....')
-            alert('excluir aquivo com esse id');
+        $scope.excluirArquivo = function(file, index){
+            console.log(file, index);
+            $scope.assembleia.documentos.splice(index, 1);
         }
 
     });

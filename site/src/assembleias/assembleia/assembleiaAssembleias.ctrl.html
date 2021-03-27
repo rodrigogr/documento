@@ -363,12 +363,12 @@
                                                 border-radius: 8px; 
                                                 margin-bottom: 15px;
                                                 margin-left: 15px;"
-                                                ng-repeat="doc in assembleia.documentos">
+                                                ng-repeat="(indexDoc, doc) in assembleia.documentos">
                                                 <a href="javascript:void(0)" ng-click="abreDocumento()">
                                                     <img width="45" height="45" src="{{doc.icon}}">
                                                     <i style="font-size: 17px; color: #666666 !important;">{{doc.name}}</i>                                                    
                                                 </a>
-                                                <i ng-click="excluirArquivo()" class="fa fa-trash pull-right"
+                                                <i ng-click="excluirArquivo(doc, indexDoc)" class="fa fa-trash pull-right"
                                                         style="font-size: 24px;
                                                         margin: 8px; color: #666;"></i>
                                             </div>

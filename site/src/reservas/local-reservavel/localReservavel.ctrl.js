@@ -41,8 +41,8 @@ angular.module('ReservasModule').controller('LocalReservavelCtrl',
             $scope.arquivoNome = '';
             $("#inputFoto").val('');
             $("#inputRegra").val('');
+            $scope.manterHorarios = false;
         }
-        $scope.manterHorarios = false;
         $scope.addNovoPeriodo = 0;
         $scope.search = {
             type: 'nome',
@@ -70,6 +70,7 @@ angular.module('ReservasModule').controller('LocalReservavelCtrl',
             getLocalidade();
             $scope.step = 1;
             $('#cadastroLocal').modal('show');
+            $scope.adicionarPeriodo('seg');
         }
 
         $scope.fecharModalLocalReserva = function () {
@@ -127,13 +128,13 @@ angular.module('ReservasModule').controller('LocalReservavelCtrl',
         }
 
         $scope.subNum = function (variavel) {
-            if ($scope.localReservavel[variavel] > 0) {
+            /*if ($scope.localReservavel[variavel] > 0) {
                 --$scope.localReservavel[variavel];
-            }
+            }*/
         }
 
         $scope.addNum = function (variavel) {
-            ++$scope.localReservavel[variavel];
+            //++$scope.localReservavel[variavel];
         }
 
         $('.reservaDiasSemana li').click(function() {

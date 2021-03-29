@@ -25,11 +25,21 @@ class AprovacaoController extends Controller
             }
         }
         $Data = Reserva::aprovacoes($this->filtroBuscaAprovacoes($dados));
+        $result = [];
+        $i = 0;
+        foreach ($Data as $key => $d) {
+            if (isset($Data[($key+1)]) && $d["data"] == $Data[($key+1)]["data"]) {
+                $result[$i][] = $d;
+            } else {
+                $result[$i][] = $d;
+                $i++;
+            }
+        }
 
         if ($Data) {
-            return response()->success($Data);
+            return response()->success($result);
         }
-        return response()->error(trans('messages.crud.MAE', ['name' => $this->name]));
+        return response()->error(trans('messages.crud.FAE', ['name' => $this->name]));
     }
 
     public function pendentesHojeLocalReservavel($local)

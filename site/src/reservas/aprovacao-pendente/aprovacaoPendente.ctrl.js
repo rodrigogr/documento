@@ -27,7 +27,7 @@ angular.module('ReservasModule').controller('AprovacaoPendenteCtrl',
             } else {
                 $scope.busca = 'recusado';
             }
-            $scope.listaAprovacao($scope.dt);
+            $scope.listaAprovacao('todos');
         }
 
         $http.get(`${config.apiUrl}api/localidades/locais_reservaveis`)
@@ -87,7 +87,7 @@ angular.module('ReservasModule').controller('AprovacaoPendenteCtrl',
             });
         }
 
-        $scope.listaAprovacao();
+        $scope.listaAprovacao('todos');
 
         $scope.analisar = function (index) {
             $scope.analisandoReserva = $scope.pendentes[index];

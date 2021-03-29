@@ -11,6 +11,7 @@ use App\models\Assembleia\AssembleiaDocumento;
 use App\models\Assembleia\AssembleiaEncaminhamento;
 use App\models\Assembleia\AssembleiaPergunta;
 use App\models\Assembleia\AssembleiaQuestaoOrdem;
+use Illuminate\Support\Facades\DB;
 use League\Flysystem\Exception;
 
 class AssembleiaController extends Controller
@@ -26,21 +27,17 @@ class AssembleiaController extends Controller
 
         try
         {
-            $assembleia = Assembleia::create($data);
-
-            $assembleia->documentos()->createMany($data['documentos']);
-
-            foreach ($data['pautas'] as $pauta)
-            {
-                $pergunta = AssembleiaPergunta::create(['pergunta'=> $pauta['pergunta']]);
-
-                $pergunta->assembleiaOpcoes()->createMany($pauta['alternativas']);
-
-                $assembleia->pautas()->create(['id_pergunta' => $pergunta->id]);
-            }
-
-            $assembleia->participantes()->createMany($data['participantes']);
-
+            DB::beginTransaction();
+                $assembleia = Assembleia::create($data);
+                $assembleia->documentos()->createMany($data['documentos']);
+                foreach ($data['pautas'] as $pauta)
+                {
+                    $pergunta = AssembleiaPergunta::create(['pergunta'=> $pauta['pergunta']]);
+                    $pergunta->assembleiaOpcoes()->createMany($pauta['alternativas']);
+                    $assembleia->pautas()->create(['id_pergunta' => $pergunta->id]);
+                }
+                $assembleia->participantes()->createMany($data['participantes']);
+            DB::commit();
             return response()->success($assembleia);
 
         } catch (\Exception $e)

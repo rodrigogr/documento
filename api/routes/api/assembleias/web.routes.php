@@ -2,21 +2,34 @@
 
 
 
-Route::resource('/assembleias', 'assembleia\AssembleiaController');
+
 Route::get('/assembleias/resumo/{id}', 'assembleia\AssembleiaController@resumo');
 
+Route::get('/assembleias/discussoes/{id}', 'assembleia\AssembleiaController@discussoes');
+
+Route::get('/assembleias/questoes-ordem/{id}', 'assembleia\AssembleiaController@questoesOrdem');
+
+Route::get('/assembleias/encaminhamentos/{id}', 'assembleia\AssembleiaController@encaminhamentos');
+
+Route::get('/assembleias/pautas/{id}', 'assembleia\AssembleiaController@pautas');
+
 Route::get('/assembleias/get/participantes','assembleia\ParticipanteController@index');
+
 Route::get('/assembleias/search/procurador/{nome}', 'assembleia\ParticipanteController@searchProcurador');
 
-Route::get('/assembleias/get/encaminhamentos', 'assembleia\EncaminhamentoController@index');
+Route::resource('/assembleias', 'assembleia\AssembleiaController');
+
+
+
+
 Route::post('/assembleias/encaminhamentos', 'assembleia\EncaminhamentoController@store');
 
 Route::post('/assembleias/respostas', 'assembleia\PostController@store');
 
-Route::get('/assembleias/questoes-ordem/{id}', 'assembleia\QuestaoOrdemController@index');
-Route::post('/assembleias/questoes_ordem', 'assembleia\QuestaoOrdemController@store');
 
-Route::get('/assembleias/pautas/{id}', 'assembleia\PautaController@index');
+Route::post('/assembleias/questoes-ordem', 'assembleia\QuestaoOrdemController@store');
 
-Route::get('/assembleias/discussoes/{id}', 'assembleia\DiscussaoController@index');
+
+
+
 

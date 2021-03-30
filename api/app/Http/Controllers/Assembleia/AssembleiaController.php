@@ -145,12 +145,30 @@ class AssembleiaController extends Controller
         // Create Query
 
         $result = [
-            'id_pauta' => 1,
-            'pauta' => '01',
-            'titulo' => 'Pauta 01',
-            'topicos' => 5,
-            'comentarios' => 32,
-            'ultima_interacao' => '2021-03-30 01:41'
+            [
+                'id_pauta' => 1,
+                'pauta' => '01',
+                'titulo' => 'Pauta 01',
+                'topicos' => 5,
+                'comentarios' => 32,
+                'ultima_interacao' => '2021-03-30 01:41'
+            ],
+            [
+                'id_pauta' => 1,
+                'pauta' => '01',
+                'titulo' => 'Pauta 02',
+                'topicos' => 3,
+                'comentarios' => 4,
+                'ultima_interacao' => '2021-03-30 01:41'
+            ],
+            [
+                'id_pauta' => 1,
+                'pauta' => '01',
+                'titulo' => 'Pauta 03',
+                'topicos' => 25,
+                'comentarios' => 350,
+                'ultima_interacao' => '2021-03-30 01:41'
+            ]
         ];
 
         return response()->success($result);
@@ -161,12 +179,30 @@ class AssembleiaController extends Controller
         // Create Query
 
         $result = [
-            'id'=> 1,
-            'data_hora' => '2021-03-30 01:41',
-            'status' => 'recurso pendente',
-            'associado' => 'Bruno Vinicius Moura da Silva',
-            'pauta' => 'Pauta 01',
-            'titulo' => 'Titulo Questao Ordem',
+            [
+                'id'=> 1,
+                'data_hora' => '2021-03-30 01:41',
+                'status' => 'recurso pendente',
+                'associado' => 'Bruno Vinicius Moura da Silva',
+                'pauta' => 'Pauta 01',
+                'titulo' => 'Titulo Questao Ordem'
+            ],
+            [
+                'id'=> 1,
+                'data_hora' => '2021-03-30 01:41',
+                'status' => 'recurso pendente',
+                'associado' => 'Bruno Vinicius Moura da Silva',
+                'pauta' => 'Pauta 01',
+                'titulo' => 'Titulo Questao Ordem'
+            ],
+            [
+                'id'=> 1,
+                'data_hora' => '2021-03-30 01:41',
+                'status' => 'recurso pendente',
+                'associado' => 'Bruno Vinicius Moura da Silva',
+                'pauta' => 'Pauta 01',
+                'titulo' => 'Titulo Questao Ordem'
+            ]
         ];
 
         return response()->success($result);
@@ -176,14 +212,34 @@ class AssembleiaController extends Controller
     {
         // Create Query
 
-        $result = [
-            'id'=> 1,
-            'data_hora' => '2021-03-30 01:41',
-            'status' => 'pendente',
-            'asspcoadp' => 'Bruno Vinicius Moura da Silva',
-            'pauta' => '01',
-            'titulo' => 'Pauta 01',
-            'apoio' => 12
+        $result =[
+            [
+                'id'=> 1,
+                'data_hora' => '2021-03-30 01:41',
+                'status' => 'pendente',
+                'asspcoadp' => 'Bruno Vinicius Moura da Silva',
+                'pauta' => '01',
+                'titulo' => 'Pauta 01',
+                'apoio' => 12
+            ],
+            [
+                'id'=> 1,
+                'data_hora' => '2021-03-30 01:41',
+                'status' => 'pendente',
+                'asspcoadp' => 'Bruno Vinicius Moura da Silva',
+                'pauta' => '01',
+                'titulo' => 'Pauta 01',
+                'apoio' => 12
+            ],
+            [
+                'id'=> 1,
+                'data_hora' => '2021-03-30 01:41',
+                'status' => 'pendente',
+                'asspcoadp' => 'Bruno Vinicius Moura da Silva',
+                'pauta' => '01',
+                'titulo' => 'Pauta 01',
+                'apoio' => 12
+            ]
         ];
 
         return response()->success($result);
@@ -194,11 +250,27 @@ class AssembleiaController extends Controller
         // Create Query
 
         $result = [
-            'id'=> 1,
-            'status' => 'aguardando inicio',
-            'pauta' => 'Pauta 01',
-            'alternativas' => 4,
-            'votos' => 0
+            [
+                'id'=> 1,
+                'status' => 'aguardando inicio',
+                'pauta' => 'Pauta 01',
+                'alternativas' => 4,
+                'votos' => 0
+            ],
+            [
+                'id'=> 1,
+                'status' => 'aguardando inicio',
+                'pauta' => 'Pauta 01',
+                'alternativas' => 4,
+                'votos' => 0
+            ],
+            [
+                'id'=> 1,
+                'status' => 'aguardando inicio',
+                'pauta' => 'Pauta 01',
+                'alternativas' => 4,
+                'votos' => 0
+            ]
         ];
 
         return response()->success($result);
@@ -209,10 +281,24 @@ class AssembleiaController extends Controller
         // Create Query
 
         $result = [
-            'id_imovel' => 1,
-            'quadra' => '00',
-            'lote' => '00',
-            'peso' => 0
+            [
+                'id_imovel' => 1,
+                'quadra' => '00',
+                'lote' => '00',
+                'peso' => 0
+            ],
+            [
+                'id_imovel' => 1,
+                'quadra' => '00',
+                'lote' => '00',
+                'peso' => 0
+            ],
+            [
+                'id_imovel' => 1,
+                'quadra' => '00',
+                'lote' => '00',
+                'peso' => 0
+            ]
         ];
 
         return response()->success($result);

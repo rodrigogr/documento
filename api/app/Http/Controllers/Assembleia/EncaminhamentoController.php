@@ -21,6 +21,9 @@ class EncaminhamentoController extends Controller
         return response()->success(AssembleiaEncaminhamento::all());
     }
 
+    /*
+    * Cria um encaminhamento da assembleia
+    * */
     public function store(Request $request)
     {
         $data = $request->all();
@@ -48,5 +51,14 @@ class EncaminhamentoController extends Controller
             return response()->error($e->getMessage());
         }
 
+    }
+
+    /*
+     *  Salva uma reposta do encaminhamento
+     *
+     * */
+    public function reply (Request $request)
+    {
+        $data = $request->all();
     }
 }

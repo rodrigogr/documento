@@ -13,6 +13,8 @@ Route::get('/assembleias/encaminhamentos/{id}', 'assembleia\AssembleiaController
 
 Route::get('/assembleias/pautas/{id}', 'assembleia\AssembleiaController@pautas');
 
+Route::get('/assembleias/participantes/{id}', 'assembleia\AssembleiaController@participantes');
+
 Route::get('/assembleias/get/participantes','assembleia\ParticipanteController@index');
 
 Route::get('/assembleias/search/procurador/{nome}', 'assembleia\ParticipanteController@searchProcurador');

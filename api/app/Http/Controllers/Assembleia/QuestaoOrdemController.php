@@ -19,6 +19,9 @@ class QuestaoOrdemController extends Controller
         return response()->success(AssembleiaQuestaoOrdem::all());
     }
 
+    /*
+    * Cria uma questão de ordem na assembleia
+    * */
     public function store(Request $request)
     {
         try {
@@ -43,7 +46,20 @@ class QuestaoOrdemController extends Controller
         }
     }
 
+    /*
+     *  Cria uma decisão da questão de ordem
+     *
+     * */
     public function createDecisao(Request $request)
+    {
+
+    }
+
+    /*
+     *  Recorre uma decisão da questão de ordem
+     *
+     * */
+    public function recorrerDecisao(Request $request)
     {
 
     }

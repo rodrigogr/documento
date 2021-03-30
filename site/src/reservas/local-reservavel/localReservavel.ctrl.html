@@ -55,7 +55,7 @@
 
                     </div>
                 </a>
-                <div class="list-group">
+                <div class="list-group" style="max-height: 545px;overflow-y: auto;">
                     <a href="javascript:void(0)" ng-click="editarLocal(local.id)" class="list-group-item" ng-repeat="local in locaisReservaveis">
                         <h5 class="col-xs-5 list-group-item-heading">{{local.localidade.descricao}}</h5>
                         <h5 class="col-xs-5 list-group-item-heading">{{local.nome}}</h5>
@@ -407,6 +407,9 @@
                             <button type="button" class="btn btn-default btn-clear col-md-5 pull-right" ng-click="fecharModalLocalReserva()">
                                 Cancelar
                             </button>
+                            <span style="color:red;font-size: 20px;text-decoration: underline;margin-top: 7px;" ng-click="confirmaExcluir(localReservavel.id)" class="col-md-5 pull-left hoverDanger" role="button">
+                                Excluir
+                            </span>
                         </div>
                     </div>
                 </div>

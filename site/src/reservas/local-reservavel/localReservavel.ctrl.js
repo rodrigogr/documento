@@ -417,4 +417,21 @@ angular.module('ReservasModule').controller('LocalReservavelCtrl',
             }
         }
 
+        $scope.confirmaExcluir = function (id) {
+            var confirm = UtilsService.confirmAlert3('Confirma excluir este local?',' <h4>As reservas deste local também serão excluídas.</h4>','Cancelar', 'Excluir', true, true);
+            confirm.then((result) => {
+                if (result) {
+                    $(".loader").show();
+                    var promisse = ($http.delete(`${config.apiUrl}api/localreservavel/`+id));
+                    promisse.then( function (result){
+                        UtilsService.openSuccessAlert(result.data.data);
+                        $scope.getLocaisReservaveis();
+                        $('#cadastroLocal').modal('hide');
+                    }).catch( function (e) {
+                        UtilsService.openAlert(e.data.message)
+                    }).finally(() => $(".loader").hide());
+                }
+            });
+        }
+
     });

@@ -3967,7 +3967,7 @@ fieldset[disabled] .btn-warning.focus {
 .btn-danger:hover {
   color: #FFFFFF;
   background-color: rgba(0, 0, 0, 0) !important;
-  border-color: rgba(0, 0, 0, 0) !important;
+  background-position: 0px !important;
 }
 .btn-danger:active,
 .btn-danger.active,

@@ -9,6 +9,7 @@ Route::group(['middleware' => 'jwt.auth'], function ()
         Route::get('/{id}', 'reservas\LocalReservavelController@show');
         Route::put('/{id}', 'reservas\LocalReservavelController@update');
         Route::get('/nome/{nome_local}', 'reservas\LocalReservavelController@nomeLocalReservavel');
+        Route::delete('/{id}', 'reservas\LocalReservavelController@excluirLocal');
     });
 
     Route::group(['prefix' => 'reserva'], function () {

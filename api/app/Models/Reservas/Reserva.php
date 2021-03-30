@@ -178,6 +178,10 @@ class Reserva extends Model
             ->get();
     }
 
+    public static function deleteByLocal($id) {
+        return self::where('id_local_reservavel', $id)->delete();
+    }
+
     ## Relacionamentos ##
 
     public function localReservavel()

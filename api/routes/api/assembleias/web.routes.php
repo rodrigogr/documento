@@ -7,6 +7,10 @@ Route::get('/assembleias/resumo/{id}', 'assembleia\AssembleiaController@resumo')
 
 Route::get('/assembleias/discussoes/{id}', 'assembleia\AssembleiaController@discussoes');
 
+Route::post('/assembleias/discussoes/topico', 'assembleia\DiscussaoController@createTopico');
+
+Route::post('/assembleias/discussoes/resposta', 'assembleia\DiscussaoController@replyTopico');
+
 Route::get('/assembleias/questoes-ordem/{id}', 'assembleia\AssembleiaController@questoesOrdem');
 
 Route::get('/assembleias/encaminhamentos/{id}', 'assembleia\AssembleiaController@encaminhamentos');
@@ -20,9 +24,6 @@ Route::get('/assembleias/get/participantes','assembleia\ParticipanteController@i
 Route::get('/assembleias/search/procurador/{nome}', 'assembleia\ParticipanteController@searchProcurador');
 
 Route::resource('/assembleias', 'assembleia\AssembleiaController');
-
-
-
 
 Route::post('/assembleias/encaminhamentos', 'assembleia\EncaminhamentoController@store');
 

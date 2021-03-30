@@ -23,7 +23,8 @@ class LocalReservavel extends Model
         'antecedencia_cancel_num',
         'antecedencia_cancel_periodo',
         'limit_reserva',
-        'restricao'
+        'restricao',
+        'manter_horario'
     ];
 
     public static function simples()

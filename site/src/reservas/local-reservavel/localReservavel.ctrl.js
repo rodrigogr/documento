@@ -33,7 +33,8 @@ angular.module('ReservasModule').controller('LocalReservavelCtrl',
                     sab: [],
                     dom: []
                 },
-                dia_inativo: []
+                dia_inativo: [],
+                manter_horario: false
             }
             $scope.periodoAtual = 'seg';
             $scope.objPeriodoAtual = [];
@@ -41,7 +42,6 @@ angular.module('ReservasModule').controller('LocalReservavelCtrl',
             $scope.arquivoNome = '';
             $("#inputFoto").val('');
             $("#inputRegra").val('');
-            $scope.manterHorarios = false;
         }
         $scope.addNovoPeriodo = 0;
         $scope.search = {
@@ -150,7 +150,7 @@ angular.module('ReservasModule').controller('LocalReservavelCtrl',
         }
 
         $scope.excluirPeriodo = function (periodo, indexAtual) {
-            if ($scope.manterHorarios) {
+            if ($scope.localReservavel.manter_horario) {
                 angular.forEach($scope.localReservavel.periodo, function (value, key) {
                     if (value[indexAtual].id) {
                         value[indexAtual].deleted = 1;
@@ -186,7 +186,7 @@ angular.module('ReservasModule').controller('LocalReservavelCtrl',
             $scope.objPeriodoAtual = $scope.localReservavel.periodo[diaSemana];
         }
 
-        $scope.$watch('manterHorarios', function(value, oldValue) {
+        $scope.$watch('localReservavel.manter_horario', function(value, oldValue) {
             if (value && !oldValue) {
                 $scope.localReservavel.periodo.seg = $scope.localReservavel.periodo[$scope.periodoAtual];
                 $scope.localReservavel.periodo.ter = $scope.localReservavel.periodo[$scope.periodoAtual];
@@ -342,6 +342,7 @@ angular.module('ReservasModule').controller('LocalReservavelCtrl',
                 delete $scope.localReservavel.periodo;
 
                 $scope.localReservavel.periodo = periodo;
+                $scope.localReservavel.manter_horario = !!$scope.localReservavel.manter_horario;
                 $scope.localReservavel.visualizar_reversa_usuario = !!$scope.localReservavel.visualizar_reversa_usuario;
 
                 if ($scope.localReservavel.capacidade > 0) {
@@ -353,6 +354,7 @@ angular.module('ReservasModule').controller('LocalReservavelCtrl',
 
             }).finally( () => {
                 $scope.escolhaDiaSemana('seg');
+                $('.reservaDiasSemana li:first').click();
                 $("#loading").modal("hide")
             });
         }

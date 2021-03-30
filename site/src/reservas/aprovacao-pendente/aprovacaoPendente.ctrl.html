@@ -96,7 +96,7 @@
                                                 <p>{{'Qd '+reserva.imovel.quadra+' / Lt '+reserva.imovel.lote}} - {{reserva.imovel.logradouro}}</p>
                                                 <p class="text-capitalize">{{reserva.pessoa.nome}}</p>
                                             </span>
-                                                <span class="col-xs-6 pull-right" style="margin-right: 33px"><button class="btn btn-primary" ng-click="analisar($index)" style="width: 100%">ANALISAR</button></span>
+                                                <span class="col-xs-6 pull-right" style="margin-right: 33px"><button class="btn btn-primary" ng-click="analisar($parent.$index, $index)" style="width: 100%">ANALISAR</button></span>
                                             </div>
                                         </div>
                                     </div>
@@ -128,7 +128,7 @@
                                                 <p>{{'Qd '+recusado.imovel.quadra+' / Lt '+recusado.imovel.lote}} - {{recusado.imovel.logradouro}}</p>
                                                 <p class="text-capitalize">{{recusado.pessoa.nome}}</p>
                                             </span>
-                                                <span class="col-xs-6 pull-right" style="margin-right: 33px"><button class="btn btn-clear2" ng-click="verMotivo($index)" style="width: 100%">VER DETALHES</button></span>
+                                                <span class="col-xs-6 pull-right" style="margin-right: 33px"><button class="btn btn-clear2" ng-click="verMotivo($parent.$index, $index)" style="width: 100%">VER DETALHES</button></span>
                                             </div>
                                         </div>
                                     </div>
@@ -258,7 +258,7 @@
                                 data-loading-text="Aguarde...">
                             Recusar
                         </button>
-                        <span style="color:#9C9C9C" ng-click="fecharMotivo()" class="col-md-5 hoverDefault pull-right">{{ analisandoReserva.reserva_status == 'recusado' ? 'FECHAR' : 'CANCELAR'}}</span>
+                        <span style="color:#9C9C9C; margin-right: 20px;" ng-click="fecharMotivo()" class="col-md-5 hoverDefault pull-right">{{ analisandoReserva.reserva_status == 'recusado' ? 'FECHAR' : 'CANCELAR'}}</span>
                     </div>
                 </div>
             </div>

@@ -89,8 +89,8 @@ angular.module('ReservasModule').controller('AprovacaoPendenteCtrl',
 
         $scope.listaAprovacao('todos');
 
-        $scope.analisar = function (index) {
-            $scope.analisandoReserva = $scope.pendentes[index];
+        $scope.analisar = function (indexParent,index) {
+            $scope.analisandoReserva = $scope.pendentes[indexParent][index];
             $("#analisarReserva").modal('show');
         }
 
@@ -112,17 +112,16 @@ angular.module('ReservasModule').controller('AprovacaoPendenteCtrl',
         }
 
         $scope.motivoRecusar = function (id) {
-            $scope.idRecusar = id;
             $scope.motivoRecusaReserva = '';
             $scope.disabledText = false;
             $("#analisarReserva").modal('hide');
             $("#motivoRecusar").modal('show');
         }
 
-        $scope.verMotivo = function (index) {
-            $scope.motivoRecusaReserva = $scope.recusados[index].obs;
-            $scope.dataRecusa = moment($scope.recusados[index].updated_at).format('L')+' às '+ moment($scope.recusados[index].updated_at).format('HH:mm');
-            $scope.autor = $scope.recusados[index].autor;
+        $scope.verMotivo = function (indexParent, index) {
+            $scope.motivoRecusaReserva = $scope.recusados[indexParent][index].obs;
+            $scope.dataRecusa = moment($scope.recusados[indexParent][index].updated_at).format('L')+' às '+ moment($scope.recusados[indexParent][index].updated_at).format('HH:mm');
+            $scope.autor = $scope.recusados[indexParent][index].autor;
             $scope.disabledText = true;
             $("#motivoRecusar").modal('show');
         }
@@ -144,12 +143,13 @@ angular.module('ReservasModule').controller('AprovacaoPendenteCtrl',
                 let res = result.data.data;
                 $("#motivoRecusar").modal('hide');
                 UtilsService.toastSuccess(res);
-                $scope.listaAprovacao($scope.dt);
+                $scope.listaAprovacao('todos');
             }).catch( function (e) {
                 UtilsService.openAlert(e.data.message);
             }).finally( () => {
                 $('.btnRecSalvar').prop('disabled', false);
                 $('#btnRecusar').button('reset');
+                $scope.analisandoReserva = [];
             });
         }
 

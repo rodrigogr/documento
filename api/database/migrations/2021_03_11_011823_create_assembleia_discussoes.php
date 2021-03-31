@@ -15,7 +15,7 @@ class CreateAssembleiaDiscussoes extends Migration
     {
         if (!Schema::hasTable('assembleia_dicussoes'))
         {
-            Schema::create('assembleia_dicussoes', function (Blueprint $table)
+            Schema::create('assembleia_discussoes', function (Blueprint $table)
             {
                 $table->increments('id');
                 $table->unsignedInteger('id_assembleia');

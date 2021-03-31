@@ -10,7 +10,9 @@ use App\models\Assembleia\AssembleiaDiscussao;
 use App\models\Assembleia\AssembleiaDocumento;
 use App\models\Assembleia\AssembleiaEncaminhamento;
 use App\models\Assembleia\AssembleiaPergunta;
+use App\models\Assembleia\AssembleiaPost;
 use App\models\Assembleia\AssembleiaQuestaoOrdem;
+use App\models\Assembleia\AssembleiaThead;
 use App\models\Assembleia\Pauta;
 use Illuminate\Support\Facades\DB;
 use League\Flysystem\Exception;
@@ -143,33 +145,34 @@ class AssembleiaController extends Controller
     public function discussoes ($id)
     {
         // Create Query
+        $pautasDiscutidas = AssembleiaDiscussao::
+            join('assembleia_pautas', 'assembleia_discussoes.id_pauta', '=', 'assembleia_pautas.id')
+            ->join('assembleia_perguntas', 'assembleia_pautas.id_pergunta', '=', 'assembleia_perguntas.id')
+            ->where('assembleia_discussoes.id_assembleia', $id)
+                        ->groupBy('assembleia_discussoes.id_pauta')->get();
 
-        $result = [
-            [
-                'id_pauta' => 1,
-                'pauta' => '01',
-                'titulo' => 'Pauta 01',
-                'topicos' => 5,
-                'comentarios' => 32,
+        $numeroPauta = 1;
+        $result = array();
+        foreach ($pautasDiscutidas as $pautaDiscutida)
+        {
+            $topicos = AssembleiaThead::join('assembleia_discussoes', 'assembleia_discussoes.id_thead', '=', 'assembleia_theads.id')
+                ->where('assembleia_discussoes.id_pauta', $pautaDiscutida->id_pauta)->count();
+
+            $comentarios = AssembleiaPost::join('assembleia_theads', 'assembleia_posts.id_thead', '=', 'assembleia_theads.id')
+                ->join('assembleia_discussoes', 'assembleia_discussoes.id_thead', '=', 'assembleia_theads.id')
+                ->where('assembleia_discussoes.id_pauta', $pautaDiscutida->id_pauta)->count();
+
+            $result[] = [
+                'id_pauta' => $pautaDiscutida->id_pauta,
+                'pauta' => $numeroPauta,
+                'titulo' => $pautaDiscutida->pergunta,
+                'topicos' => $topicos,
+                'comentarios' => $comentarios,
                 'ultima_interacao' => '2021-03-30 01:41'
-            ],
-            [
-                'id_pauta' => 1,
-                'pauta' => '01',
-                'titulo' => 'Pauta 02',
-                'topicos' => 3,
-                'comentarios' => 4,
-                'ultima_interacao' => '2021-03-30 01:41'
-            ],
-            [
-                'id_pauta' => 1,
-                'pauta' => '01',
-                'titulo' => 'Pauta 03',
-                'topicos' => 25,
-                'comentarios' => 350,
-                'ultima_interacao' => '2021-03-30 01:41'
-            ]
-        ];
+            ];
+
+            $numeroPauta ++;
+        }
 
         return response()->success($result);
     }

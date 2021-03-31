@@ -13,7 +13,7 @@ class AssembleiaDiscussao extends Model
         'theads'
     ];
 
-    protected $table = 'assembleia_dicussoes';
+    protected $table = 'assembleia_discussoes';
     protected $fillable = ['id_assembleia', 'id_pauta', 'id_thead'];
 
     public function assembleia()

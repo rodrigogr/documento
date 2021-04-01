@@ -69,8 +69,16 @@ class AprovacaoController extends Controller
         try {
             $reserva = Reserva::find($id);
             $reserva->status = 'aprovada';
-            $reserva->update();
-            return response()->success(trans('messages.crud.MUS', ['name' => 'Reserva']));
+            $result = $reserva->update();
+
+            if ($result) {
+                $titulo = 'Reserva aprovada';
+                $mensagem = 'Sua reserva foi aprovada!';
+                $idPessoa = $reserva->id_pessoa;
+                ReservaService::enviarNotificacao($titulo, $mensagem, $idPessoa);
+            }
+
+            return response()->success(trans('messages.crud.FUS', ['name' => 'Reserva']));
 
         } catch(\Exception $e) {
             return response()->error($e->getMessage);
@@ -87,7 +95,15 @@ class AprovacaoController extends Controller
             $reserva->status = 'recusado';
             $reserva->obs = $Data["motivo"];
             $reserva->autor = $usuario->id_pessoa_bioacesso;
-            $reserva->update();
+            $result = $reserva->update();
+
+            if ($result) {
+                $titulo = 'Reserva recusada';
+                $mensagem = 'Sua reserva não foi aprovada!';
+                $idPessoa = $reserva->id_pessoa;
+                ReservaService::enviarNotificacao($titulo, $mensagem, $idPessoa);
+            }
+
             return response()->success(trans('messages.crud.FUS', ['name' => 'Reserva ']));
 
         } catch(\Exception $e) {

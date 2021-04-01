@@ -100,14 +100,21 @@ angular.module('ReservasModule').controller('AprovacaoPendenteCtrl',
         }
         
         $scope.aprovarReserva = function (id) {
+            $('.btnAprovSalvar').prop('disabled', true);
+            $('#btnAprovar').button('loading');
+
             var promisse = ($http.patch(`${config.apiUrl}api/aprovacao/`+id, 1));
             promisse.then( function (result) {
                 let res = result.data.data;
-                $scope.listaAprovacao();
+                $scope.listaAprovacao('todos');
                 $("#analisarReserva").modal('hide');
                 UtilsService.toastSuccess(res);
             }).catch( function (e) {
                 UtilsService.openAlert(e.data.message);
+            }).finally( () => {
+                $('.btnAprovSalvar').prop('disabled', false);
+                $('#btnAprovar').button('reset');
+                $scope.analisandoReserva = [];
             });
         }
 

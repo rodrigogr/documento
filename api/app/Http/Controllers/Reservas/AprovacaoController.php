@@ -72,8 +72,9 @@ class AprovacaoController extends Controller
             $result = $reserva->update();
 
             if ($result) {
+                $dados = $request->all();
                 $titulo = 'Reserva aprovada';
-                $mensagem = 'Sua reserva foi aprovada!';
+                $mensagem = 'Sua solicitação de reserva foi aprovada no condomínio '.$dados["localidade"].' para '.$dados["local"].' no dia '.$dados["dia"].' de '.$dados["hora_ini"].' às '.$dados["hora_fim"].'.';
                 $idPessoa = $reserva->id_pessoa;
                 ReservaService::enviarNotificacao($titulo, $mensagem, $idPessoa);
             }
@@ -90,16 +91,16 @@ class AprovacaoController extends Controller
         $usuario = \Auth::user();
 
         try {
-            $Data = $request->all();
-            $reserva = Reserva::find($Data["id"]);
+            $dados = $request->all();
+            $reserva = Reserva::find($dados["id"]);
             $reserva->status = 'recusado';
-            $reserva->obs = $Data["motivo"];
+            $reserva->obs = $dados["motivo"];
             $reserva->autor = $usuario->id_pessoa_bioacesso;
             $result = $reserva->update();
 
             if ($result) {
                 $titulo = 'Reserva recusada';
-                $mensagem = 'Sua reserva não foi aprovada!';
+                $mensagem = 'Não foi aprovada a solicitação de reserva no condomínio '.$dados["localidade"].' para '.$dados["local"].' no dia '.$dados["dia"].' de '.$dados["hora_ini"].' às '.$dados["hora_fim"].'. Motivo: '.$dados["motivo"];
                 $idPessoa = $reserva->id_pessoa;
                 ReservaService::enviarNotificacao($titulo, $mensagem, $idPessoa);
             }

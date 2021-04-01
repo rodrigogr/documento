@@ -98,12 +98,20 @@ angular.module('ReservasModule').controller('AprovacaoPendenteCtrl',
             $scope.analisandoReserva = [];
             $("#analisarReserva").modal('hide');
         }
-        
+
         $scope.aprovarReserva = function (id) {
             $('.btnAprovSalvar').prop('disabled', true);
             $('#btnAprovar').button('loading');
 
-            var promisse = ($http.patch(`${config.apiUrl}api/aprovacao/`+id, 1));
+            let dados = {
+                localidade: $scope.analisandoReserva.local_reservavel.localidade,
+                local: $scope.analisandoReserva.local_reservavel.nome,
+                dia: $scope.analisandoReserva.data_formatada,
+                hora_ini: $scope.analisandoReserva.hora_ini,
+                hora_fim: $scope.analisandoReserva.hora_fim
+            }
+
+            var promisse = ($http.patch(`${config.apiUrl}api/aprovacao/`+id, dados));
             promisse.then( function (result) {
                 let res = result.data.data;
                 $scope.listaAprovacao('todos');
@@ -143,7 +151,12 @@ angular.module('ReservasModule').controller('AprovacaoPendenteCtrl',
 
             var dados = {
                 id: id,
-                motivo: $scope.motivoRecusaReserva
+                motivo: $scope.motivoRecusaReserva,
+                localidade: $scope.analisandoReserva.local_reservavel.localidade,
+                local: $scope.analisandoReserva.local_reservavel.nome,
+                dia: $scope.analisandoReserva.data_formatada,
+                hora_ini: $scope.analisandoReserva.hora_ini,
+                hora_fim: $scope.analisandoReserva.hora_fim
             }
             var promisse = ($http.put(`${config.apiUrl}api/aprovacao/recusar`, dados));
             promisse.then( function (result) {

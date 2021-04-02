@@ -7,10 +7,12 @@ use App\Http\Requests\Reservas\LocalReservavelRequest;
 use App\Models\Reservas\DiaInativoLocalReservavel;
 use App\Models\Reservas\LocalReservavel;
 use App\Models\Reservas\PeriodoLocalReservavel;
+use App\Models\Reservas\Reserva;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\DB;
+use League\Flysystem\Adapter\Local;
 
 class LocalReservavelController extends Controller
 {
@@ -148,4 +150,12 @@ class LocalReservavelController extends Controller
         }
     }
 
+    public function excluirLocal($id)
+    {
+        LocalReservavel::find($id)->delete();
+        Reserva::where('id_local_reservavel', $id)->delete();
+
+        return response()->success("Excluído com sucesso!");
+
+    }
 }

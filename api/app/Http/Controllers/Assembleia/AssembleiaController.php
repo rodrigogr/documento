@@ -7,15 +7,15 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Assembleia\AssembleiaRequest;
 use App\models\Assembleia\Assembleia;
 use App\models\Assembleia\AssembleiaDiscussao;
-use App\models\Assembleia\AssembleiaDocumento;
 use App\models\Assembleia\AssembleiaEncaminhamento;
+use App\models\Assembleia\AssembleiaParticipante;
+use App\models\Assembleia\AssembleiaPauta;
 use App\models\Assembleia\AssembleiaPergunta;
 use App\models\Assembleia\AssembleiaPost;
 use App\models\Assembleia\AssembleiaQuestaoOrdem;
 use App\models\Assembleia\AssembleiaThead;
-use App\models\Assembleia\Pauta;
+use App\models\Assembleia\AssembleiaVotacao;
 use Illuminate\Support\Facades\DB;
-use League\Flysystem\Exception;
 
 class AssembleiaController extends Controller
 {
@@ -85,7 +85,7 @@ class AssembleiaController extends Controller
                     }
                     else
                     {
-                        $pauta = Pauta::find($item['id']);
+                        $pauta = AssembleiaPauta::find($item['id']);
 
                         if($pauta)
                         {
@@ -126,15 +126,22 @@ class AssembleiaController extends Controller
 
         $encaminhamentos = AssembleiaEncaminhamento::where('id_assembleia', $id)->count();
 
-        $topicos = AssembleiaDiscussao::where('id_assembleia', $id)->with('theads')->count();
+        $topicos = AssembleiaThead::join('assembleia_discussoes', 'assembleia_discussoes.id_thead', '=', 'assembleia_theads.id')
+            ->where('assembleia_discussoes.id_assembleia', $id)->count();
+
+        $comentarios = AssembleiaPost::join('assembleia_theads', 'assembleia_posts.id_thead', '=', 'assembleia_theads.id')
+            ->join('assembleia_discussoes', 'assembleia_discussoes.id_thead', '=', 'assembleia_theads.id')
+            ->where('assembleia_discussoes.id_assembleia', $id)->count();
+
+        $participantes = AssembleiaParticipante::where('id_assembleia', $id)->count();
 
         $result = [
             'assembleia' => $assembleia,
             'questoesOrdem'=> $questoes,
             'encaminhamentos' => $encaminhamentos,
             'topicos' => $topicos,
-            'comentarios' => 0,
-            'unidadesAptas' => 0,
+            'comentarios' => $comentarios,
+            'unidadesAptas' => $participantes,
             'unidadesInteragiram' => 0,
             'unidadesVotaram' => 0
         ];
@@ -144,12 +151,10 @@ class AssembleiaController extends Controller
 
     public function discussoes ($id)
     {
-        // Create Query
-        $pautasDiscutidas = AssembleiaDiscussao::
-            join('assembleia_pautas', 'assembleia_discussoes.id_pauta', '=', 'assembleia_pautas.id')
+        $pautasDiscutidas = AssembleiaDiscussao::join('assembleia_pautas', 'assembleia_discussoes.id_pauta', '=', 'assembleia_pautas.id')
             ->join('assembleia_perguntas', 'assembleia_pautas.id_pergunta', '=', 'assembleia_perguntas.id')
             ->where('assembleia_discussoes.id_assembleia', $id)
-                        ->groupBy('assembleia_discussoes.id_pauta')->get();
+            ->groupBy('assembleia_discussoes.id_pauta')->get();
 
         $numeroPauta = 1;
         $result = array();
@@ -179,132 +184,64 @@ class AssembleiaController extends Controller
 
     public function questoesOrdem ($id)
     {
-        // Create Query
+        $questoesOrdem = AssembleiaQuestaoOrdem::join('assembleia_pautas', 'assembleia_questoes_ordens.id_pauta', '=', 'assembleia_pautas.id')
+            ->join('assembleia_perguntas', 'assembleia_pautas.id_pergunta', '=', 'assembleia_perguntas.id')
+            ->join('assembleia_theads', 'assembleia_questoes_ordens.id_thead', '=', 'assembleia_theads.id')
+            ->join('bioacesso_portaria.pessoa', 'assembleia_theads.id_usuario', '=', 'pessoa.id')
+            ->select('assembleia_questoes_ordens.id as id_questao','assembleia_questoes_ordens.created_at as data_hora',
+                    'assembleia_questoes_ordens.id as status', 'pessoa.nome', 'assembleia_perguntas.pergunta as pauta', 'assembleia_theads.titulo' )
+            ->where('assembleia_questoes_ordens.id_assembleia', $id)->get();
 
-        $result = [
-            [
-                'id'=> 1,
-                'data_hora' => '2021-03-30 01:41',
-                'status' => 'recurso pendente',
-                'associado' => 'Bruno Vinicius Moura da Silva',
-                'pauta' => 'Pauta 01',
-                'titulo' => 'Titulo Questao Ordem'
-            ],
-            [
-                'id'=> 1,
-                'data_hora' => '2021-03-30 01:41',
-                'status' => 'recurso pendente',
-                'associado' => 'Bruno Vinicius Moura da Silva',
-                'pauta' => 'Pauta 01',
-                'titulo' => 'Titulo Questao Ordem'
-            ],
-            [
-                'id'=> 1,
-                'data_hora' => '2021-03-30 01:41',
-                'status' => 'recurso pendente',
-                'associado' => 'Bruno Vinicius Moura da Silva',
-                'pauta' => 'Pauta 01',
-                'titulo' => 'Titulo Questao Ordem'
-            ]
-        ];
-
-        return response()->success($result);
+        return response()->success($questoesOrdem);
     }
 
     public function encaminhamentos ($id)
     {
-        // Create Query
+        $ecaminhamentos = AssembleiaEncaminhamento::join('assembleia_pautas', 'assembleia_encaminhamentos.id_pauta', '=', 'assembleia_pautas.id')
+            ->join('assembleia_perguntas', 'assembleia_pautas.id_pergunta', '=', 'assembleia_perguntas.id')
+            ->join('assembleia_theads', 'assembleia_encaminhamentos.id_thead', '=', 'assembleia_theads.id')
+            ->join('bioacesso_portaria.pessoa', 'assembleia_theads.id_usuario', '=', 'pessoa.id')
+            ->select('assembleia_encaminhamentos.id as id_encaminhamento','assembleia_encaminhamentos.created_at as data_hora',
+                'assembleia_encaminhamentos.status', 'pessoa.nome', 'assembleia_perguntas.pergunta as pauta', 'assembleia_theads.titulo', 'assembleia_encaminhamentos.apoio' )
+            ->where('assembleia_encaminhamentos.id_assembleia', $id)->get();
 
-        $result =[
-            [
-                'id'=> 1,
-                'data_hora' => '2021-03-30 01:41',
-                'status' => 'pendente',
-                'asspcoadp' => 'Bruno Vinicius Moura da Silva',
-                'pauta' => '01',
-                'titulo' => 'Pauta 01',
-                'apoio' => 12
-            ],
-            [
-                'id'=> 1,
-                'data_hora' => '2021-03-30 01:41',
-                'status' => 'pendente',
-                'asspcoadp' => 'Bruno Vinicius Moura da Silva',
-                'pauta' => '01',
-                'titulo' => 'Pauta 01',
-                'apoio' => 12
-            ],
-            [
-                'id'=> 1,
-                'data_hora' => '2021-03-30 01:41',
-                'status' => 'pendente',
-                'asspcoadp' => 'Bruno Vinicius Moura da Silva',
-                'pauta' => '01',
-                'titulo' => 'Pauta 01',
-                'apoio' => 12
-            ]
-        ];
-
-        return response()->success($result);
+        return response()->success($ecaminhamentos);
     }
 
     public function pautas ($id)
     {
-        // Create Query
+        $pautas = AssembleiaPauta::join('assembleia_perguntas', 'assembleia_pautas.id_pergunta', '=', 'assembleia_perguntas.id')
+            ->select('assembleia_pautas.id', 'assembleia_perguntas.pergunta', 'assembleia_pautas.id_pergunta')
+            ->where('id_assembleia', $id)->get();
 
-        $result = [
-            [
-                'id'=> 1,
+        $result = array();
+        foreach ($pautas as $pauta)
+        {
+
+            $opcoes = AssembleiaPergunta::find($pauta->id_pergunta)->assembleiaOpcoes()->count();
+            $votos = AssembleiaVotacao::where('id_pergunta', $pauta->id_pergunta)->count();
+
+            $result[] = [
+                'id'=> $pauta->id,
                 'status' => 'aguardando inicio',
-                'pauta' => 'Pauta 01',
-                'alternativas' => 4,
-                'votos' => 0
-            ],
-            [
-                'id'=> 1,
-                'status' => 'aguardando inicio',
-                'pauta' => 'Pauta 01',
-                'alternativas' => 4,
-                'votos' => 0
-            ],
-            [
-                'id'=> 1,
-                'status' => 'aguardando inicio',
-                'pauta' => 'Pauta 01',
-                'alternativas' => 4,
-                'votos' => 0
-            ]
-        ];
+                'pauta' => $pauta->pergunta,
+                'alternativas' => $opcoes,
+                'votos' => $votos
+            ];
+
+        }
 
         return response()->success($result);
     }
 
     public function participantes ($id)
     {
-        // Create Query
+        $participantes = AssembleiaParticipante::join('bioacesso_portaria.imovel','assembleia_participantes.id_imovel', '=','imovel.id')
+            ->leftJoin('bioacesso_portaria.pessoa','assembleia_participantes.id_procurador', '=', 'pessoa.id')
+            ->select('imovel.id as id_imovel', 'quadra', 'lote', 'logradouro', 'numero', 'peso', 'pessoa.nome as produrador', 'pessoa.id as id_procurador')
+            ->where('id_assembleia', $id)->get();
 
-        $result = [
-            [
-                'id_imovel' => 1,
-                'quadra' => '00',
-                'lote' => '00',
-                'peso' => 0
-            ],
-            [
-                'id_imovel' => 1,
-                'quadra' => '00',
-                'lote' => '00',
-                'peso' => 0
-            ],
-            [
-                'id_imovel' => 1,
-                'quadra' => '00',
-                'lote' => '00',
-                'peso' => 0
-            ]
-        ];
-
-        return response()->success($result);
+        return response()->success($participantes);
     }
 
 }

@@ -4,15 +4,19 @@ namespace App\models\Assembleia;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Pauta extends Model
+class AssembleiaPauta extends Model
 {
     public $timestamp = true;
     protected $table = 'assembleia_pautas';
+
     static public $associations = [
         'assembleiaPergunta '
     ];
 
-    protected $fillable = ['id_assembleia', 'id_pergunta'];
+    protected $fillable = [
+        'id_assembleia',
+        'id_pergunta'
+    ];
 
     public function assembleia()
     {
@@ -36,6 +40,6 @@ class Pauta extends Model
 
     public function assembleiaPergunta()
     {
-        return $this->hasOne(AssembleiaPergunta::class, 'id_pergunta');
+        return $this->belongsTo(AssembleiaPergunta::class, 'id');
     }
 }

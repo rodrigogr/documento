@@ -17,7 +17,7 @@ class AssembleiaQuestaoOrdem extends Model
 
     public function pauta()
     {
-        return $this->hasOne(Pauta::class);
+        return $this->hasOne(AssembleiaPauta::class);
     }
 
     public function thead()

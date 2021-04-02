@@ -9,6 +9,12 @@ class AssembleiaPergunta extends Model
     public $timestamps = true;
     protected $table = 'assembleia_perguntas';
 
+    static public $associations = [
+        'assembleiaOpcoes ',
+        'pauta',
+        'assembleiaVotacao'
+    ];
+
     protected $fillable = [
         'pergunta'
     ];
@@ -20,7 +26,7 @@ class AssembleiaPergunta extends Model
 
     public function pauta()
     {
-        return $this->hasOne(Pauta::class);
+        return $this->hasOne(AssembleiaPauta::class);
     }
 
     public function assembleiaVotacao()

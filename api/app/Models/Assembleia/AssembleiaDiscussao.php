@@ -23,7 +23,7 @@ class AssembleiaDiscussao extends Model
 
     public function pauta()
     {
-        return $this->hasOne(Pauta::class, 'id');
+        return $this->hasOne(AssembleiaPauta::class, 'id');
     }
 
     public function theads()

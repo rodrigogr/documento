@@ -20,8 +20,8 @@ class CreateAssembleiaTheads extends Migration
                 $table->increments('id');
                 $table->string('titulo');
                 $table->string('texto');
-                $table->unsignedInteger('id_pessoa');
-                $table->foreign('id_pessoa')->references('id')->on('pessoa');
+                $table->unsignedInteger('id_usuario');
+                //$table->foreign('id_usuario')->references('id')->on('usuario');
                 $table->softDeletes();
                 $table->timestamps();
             });

@@ -8,7 +8,7 @@ class AssembleiaPost extends Model
 {
     public $timestamp = true;
     protected $table = 'assembleia_posts';
-    protected $fillable = ['id_thead', 'id_usuario', 'resposta'];
+    protected $fillable = ['id_thead', 'id_pessoa', 'resposta'];
 
     public function assembleiaThead()
     {

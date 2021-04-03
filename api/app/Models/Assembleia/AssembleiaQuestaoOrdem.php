@@ -8,7 +8,7 @@ class AssembleiaQuestaoOrdem extends Model
 {
     public $timestamp = true;
     protected $table = 'assembleia_questoes_ordens';
-    protected $fillable = ['id_assembleia','id_pauta','id_thead'];
+    protected $fillable = ['id_assembleia','id_pauta','id_thead', 'status'];
 
     public function assembleia()
     {

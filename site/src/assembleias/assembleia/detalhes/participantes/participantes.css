@@ -1,0 +1,15 @@
+.badge-style{
+    padding: 5px 15px;
+    border-radius: 20px;
+    font-size: 14px;
+}
+
+.badge-style.badge-participante-ativo{
+    color: #FFF;
+    background-color: #33CC66;
+}
+
+.badge-style.badge-participante-impedido{
+    color: #EB5757;
+    background-color: #FFECE5;
+}

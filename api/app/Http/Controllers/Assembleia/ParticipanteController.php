@@ -24,6 +24,7 @@ class ParticipanteController extends Controller
         $pessoas = \DB::connection('portaria')->table('pessoa')
                     ->select('pessoa.id', 'nome', 'codigo' )
                     ->join('pessoa_permanente', 'pessoa.id', '=', 'pessoa_permanente.id_pessoa')
+                    ->where('nome','like', '%'. $nome . '%')
                     ->get();
         return response()->success($pessoas);
     }

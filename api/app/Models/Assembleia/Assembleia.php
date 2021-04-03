@@ -26,16 +26,6 @@ class Assembleia extends Model
         'votacao_secreta'
     ];
 
-//    public function setVotacaoSecretaAttribute($value)
-//    {
-//        return $this->attributes['votacao_secreta'] = $value;
-//    }
-//
-//    public function setLinkTransmissaoAttribute($value)
-//    {
-//        return $this->attributes['link_transmissao'] = $value;
-//    }
-
     public function setDataHoraInicioAttribute($value)
     {
         return $this->attributes['data_inicio'] = DataHelper::setDate($value);
@@ -68,7 +58,7 @@ class Assembleia extends Model
 
     public function pautas()
     {
-        return $this->hasMany(Pauta::class, 'id_assembleia');
+        return $this->hasMany(AssembleiaPauta::class, 'id_assembleia');
     }
 
     public function documentos()

@@ -27,7 +27,7 @@ angular.module('ReservasModule').controller('AprovacaoPendenteCtrl',
             } else {
                 $scope.busca = 'recusado';
             }
-            $scope.listaAprovacao($scope.dt);
+            $scope.listaAprovacao('todos');
         }
 
         $http.get(`${config.apiUrl}api/localidades/locais_reservaveis`)
@@ -87,10 +87,10 @@ angular.module('ReservasModule').controller('AprovacaoPendenteCtrl',
             });
         }
 
-        $scope.listaAprovacao();
+        $scope.listaAprovacao('todos');
 
-        $scope.analisar = function (index) {
-            $scope.analisandoReserva = $scope.pendentes[index];
+        $scope.analisar = function (indexParent,index) {
+            $scope.analisandoReserva = $scope.pendentes[indexParent][index];
             $("#analisarReserva").modal('show');
         }
 
@@ -98,31 +98,45 @@ angular.module('ReservasModule').controller('AprovacaoPendenteCtrl',
             $scope.analisandoReserva = [];
             $("#analisarReserva").modal('hide');
         }
-        
+
         $scope.aprovarReserva = function (id) {
-            var promisse = ($http.patch(`${config.apiUrl}api/aprovacao/`+id, 1));
+            $('.btnAprovSalvar').prop('disabled', true);
+            $('#btnAprovar').button('loading');
+
+            let dados = {
+                localidade: $scope.analisandoReserva.local_reservavel.localidade,
+                local: $scope.analisandoReserva.local_reservavel.nome,
+                dia: $scope.analisandoReserva.data_formatada,
+                hora_ini: $scope.analisandoReserva.hora_ini,
+                hora_fim: $scope.analisandoReserva.hora_fim
+            }
+
+            var promisse = ($http.patch(`${config.apiUrl}api/aprovacao/`+id, dados));
             promisse.then( function (result) {
                 let res = result.data.data;
-                $scope.listaAprovacao();
+                $scope.listaAprovacao('todos');
                 $("#analisarReserva").modal('hide');
                 UtilsService.toastSuccess(res);
             }).catch( function (e) {
                 UtilsService.openAlert(e.data.message);
+            }).finally( () => {
+                $('.btnAprovSalvar').prop('disabled', false);
+                $('#btnAprovar').button('reset');
+                $scope.analisandoReserva = [];
             });
         }
 
         $scope.motivoRecusar = function (id) {
-            $scope.idRecusar = id;
             $scope.motivoRecusaReserva = '';
             $scope.disabledText = false;
             $("#analisarReserva").modal('hide');
             $("#motivoRecusar").modal('show');
         }
 
-        $scope.verMotivo = function (index) {
-            $scope.motivoRecusaReserva = $scope.recusados[index].obs;
-            $scope.dataRecusa = moment($scope.recusados[index].updated_at).format('L')+' às '+ moment($scope.recusados[index].updated_at).format('HH:mm');
-            $scope.autor = $scope.recusados[index].autor;
+        $scope.verMotivo = function (indexParent, index) {
+            $scope.motivoRecusaReserva = $scope.recusados[indexParent][index].obs;
+            $scope.dataRecusa = moment($scope.recusados[indexParent][index].updated_at).format('L')+' às '+ moment($scope.recusados[indexParent][index].updated_at).format('HH:mm');
+            $scope.autor = $scope.recusados[indexParent][index].autor;
             $scope.disabledText = true;
             $("#motivoRecusar").modal('show');
         }
@@ -137,19 +151,25 @@ angular.module('ReservasModule').controller('AprovacaoPendenteCtrl',
 
             var dados = {
                 id: id,
-                motivo: $scope.motivoRecusaReserva
+                motivo: $scope.motivoRecusaReserva,
+                localidade: $scope.analisandoReserva.local_reservavel.localidade,
+                local: $scope.analisandoReserva.local_reservavel.nome,
+                dia: $scope.analisandoReserva.data_formatada,
+                hora_ini: $scope.analisandoReserva.hora_ini,
+                hora_fim: $scope.analisandoReserva.hora_fim
             }
-            var promisse = ($http.put(`${config.apiUrl}api/aprovacao/recusar/`, dados));
+            var promisse = ($http.put(`${config.apiUrl}api/aprovacao/recusar`, dados));
             promisse.then( function (result) {
                 let res = result.data.data;
                 $("#motivoRecusar").modal('hide');
                 UtilsService.toastSuccess(res);
-                $scope.listaAprovacao($scope.dt);
+                $scope.listaAprovacao('todos');
             }).catch( function (e) {
                 UtilsService.openAlert(e.data.message);
             }).finally( () => {
                 $('.btnRecSalvar').prop('disabled', false);
                 $('#btnRecusar').button('reset');
+                $scope.analisandoReserva = [];
             });
         }
 

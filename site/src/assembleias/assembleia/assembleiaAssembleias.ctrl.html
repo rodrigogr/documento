@@ -45,7 +45,7 @@
 
             <!-- Table List-->
             <div class="ba__admin-table" style="margin: 20px">
-                <a class="list-group-item lista-head">
+                <a class="list-group-item disabled">
                     <div class="row uppercase titulo-lista">
                         <div class="col-xs-8" style="cursor: pointer;"><b>Título</b>
                             <i class="ba__margin-horizontal-5"></i>
@@ -53,35 +53,29 @@
                         <div class="col-xs-4" style="cursor: pointer;"><b>status</b>
                             <i class="ba__margin-horizontal-5"></i>
                         </div>
-                        <div class="col-xs-4" style="cursor: pointer;"><b>Início</b>
+                        <div class="col-xs-6" style="cursor: pointer;"><b>Início</b>
                             <i class="ba__margin-horizontal-5"></i>
                         </div>
                         <div class="col-xs-4" style="cursor: pointer;"><b>Tipo</b>
                             <i class="ba__margin-horizontal-5"></i>
                         </div>
-                        <div class="col-xs-2" style="cursor: pointer;"><b>Votação secreta</b>
-                            <i class="ba__margin-horizontal-5"></i>
-                        </div>
                         <div class="col-xs-2 text-right" style="cursor: pointer;"></div>
                     </div>
                 </a>
-                <div class="list-group">
+                <div class="ba__admin-table-scroll">
                     <a  ui-sref="assembleiaDetalhes({id: assembleia.id})"
                         class="list-group-item"
                         ng-repeat="assembleia in listAssembleias">
                         <h5 class="col-xs-8 list-group-item-heading">{{assembleia.titulo}}</h5>
                         <h5 class="col-xs-4 list-group-item-heading">
-                            <span class="badge-style {{assembleia.status.toLowerCase() === 'agendada' ? ' badge-agendada' : assembleia.status.toLowerCase() === 'encerrada' ? ' badge-encerrada' : 'badge-em-andamento' }}">
+                            <span class=" uppercase badge-style {{assembleia.status.toLowerCase() === 'agendada' ? ' badge-agendada' : assembleia.status.toLowerCase() === 'encerrada' ? ' badge-encerrada' : 'badge-em-andamento' }}">
                                 {{ assembleia.status }}
                             </span>
                         </h5>
-                        <h5 class="col-xs-4 list-group-item-heading">
+                        <h5 class="col-xs-6 list-group-item-heading">
                             {{ converteDateParaPtBR(assembleia.date_inicio) }} ás {{ assembleia.hora_inicio }}
                         </h5>
-                        <h5 class="col-xs-4 list-group-item-heading">{{assembleia.tipo}}</h5>
-                        <h5 class="col-xs-2 list-group-item-heading">
-                            {{assembleia.votacao_secreta === 1 ? 'Sim' : 'Não' }}
-                        </h5>
+                        <h5 class="col-xs-4 list-group-item-heading uppercase">{{assembleia.tipo}}</h5>
                         <h5 class="col-xs-2 list-group-item-heading text-right">
                             <i class="fa fa-eye"></i>
                         </h5>

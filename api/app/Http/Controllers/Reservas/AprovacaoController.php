@@ -25,11 +25,21 @@ class AprovacaoController extends Controller
             }
         }
         $Data = Reserva::aprovacoes($this->filtroBuscaAprovacoes($dados));
+        $result = [];
+        $i = 0;
+        foreach ($Data as $key => $d) {
+            if (isset($Data[($key+1)]) && $d["data"] == $Data[($key+1)]["data"]) {
+                $result[$i][] = $d;
+            } else {
+                $result[$i][] = $d;
+                $i++;
+            }
+        }
 
         if ($Data) {
-            return response()->success($Data);
+            return response()->success($result);
         }
-        return response()->error(trans('messages.crud.MAE', ['name' => $this->name]));
+        return response()->error(trans('messages.crud.FAE', ['name' => $this->name]));
     }
 
     public function pendentesHojeLocalReservavel($local)
@@ -59,8 +69,17 @@ class AprovacaoController extends Controller
         try {
             $reserva = Reserva::find($id);
             $reserva->status = 'aprovada';
-            $reserva->update();
-            return response()->success(trans('messages.crud.MUS', ['name' => 'Reserva']));
+            $result = $reserva->update();
+
+            if ($result) {
+                $dados = $request->all();
+                $titulo = 'Reserva aprovada';
+                $mensagem = 'Sua solicitação de reserva foi aprovada no condomínio '.$dados["localidade"].' para '.$dados["local"].' no dia '.$dados["dia"].' de '.$dados["hora_ini"].' às '.$dados["hora_fim"].'.';
+                $idPessoa = $reserva->id_pessoa;
+                ReservaService::enviarNotificacao($titulo, $mensagem, $idPessoa);
+            }
+
+            return response()->success(trans('messages.crud.FUS', ['name' => 'Reserva']));
 
         } catch(\Exception $e) {
             return response()->error($e->getMessage);
@@ -72,12 +91,20 @@ class AprovacaoController extends Controller
         $usuario = \Auth::user();
 
         try {
-            $Data = $request->all();
-            $reserva = Reserva::find($Data["id"]);
+            $dados = $request->all();
+            $reserva = Reserva::find($dados["id"]);
             $reserva->status = 'recusado';
-            $reserva->obs = $Data["motivo"];
+            $reserva->obs = $dados["motivo"];
             $reserva->autor = $usuario->id_pessoa_bioacesso;
-            $reserva->update();
+            $result = $reserva->update();
+
+            if ($result) {
+                $titulo = 'Reserva recusada';
+                $mensagem = 'Não foi aprovada a solicitação de reserva no condomínio '.$dados["localidade"].' para '.$dados["local"].' no dia '.$dados["dia"].' de '.$dados["hora_ini"].' às '.$dados["hora_fim"].'. Motivo: '.$dados["motivo"];
+                $idPessoa = $reserva->id_pessoa;
+                ReservaService::enviarNotificacao($titulo, $mensagem, $idPessoa);
+            }
+
             return response()->success(trans('messages.crud.FUS', ['name' => 'Reserva ']));
 
         } catch(\Exception $e) {

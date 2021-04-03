@@ -54,6 +54,8 @@ class Reserva extends Model
         $busca = PeriodoLocalReservavel::join('reserva as r', function ($q) use($data, $status) {
             if (!empty($data) && $data != 'todos') {
                 $q->on('r.data', \DB::raw("'" . $data . "'"));
+            } elseif (!empty($data) && $data == 'todos') {
+                $q->on('r.data','>=', \DB::raw("CURDATE()"));
             }
             $q->on('r.id_periodo','periodo_local_reservavel.id');
             $q->where('r.status', $status);
@@ -82,6 +84,7 @@ class Reserva extends Model
             $q->select('bioacesso_portaria.localidades.descricao as localidade','local_reservavel.*');
         }])
 //        ->where('periodo_local_reservavel.dia_semana', $dia_semana)
+        ->orderBy('r.data')
         ->orderBy('periodo_local_reservavel.hora_ini')
         ->select('periodo_local_reservavel.*',
             'r.id as idReserva',
@@ -173,6 +176,10 @@ class Reserva extends Model
                 'r.id_imovel',
                 'r.id_pessoa')
             ->get();
+    }
+
+    public static function deleteByLocal($id) {
+        return self::where('id_local_reservavel', $id)->delete();
     }
 
     ## Relacionamentos ##

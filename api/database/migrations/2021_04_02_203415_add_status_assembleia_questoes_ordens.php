@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class AddModuloAssembleiaDatelhes extends Migration
+class AddStatusAssembleiaQuestoesOrdens extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,10 @@ class AddModuloAssembleiaDatelhes extends Migration
      */
     public function up()
     {
-        DB::connection('portaria')->table('modulo_sistema')->insert(
-            array([
-                'nome' => 'assembleiaDetalhes',
-                'desc' => 'Assembleia Detalhes',
-                'tipo_categoria' => 's'
-            ])
-        );
+        Schema::table('assembleia_questoes_ordens', function (Blueprint $table)
+        {
+            $table->enum('status', ['Recurso Pendente', 'Pendente de decisão', 'Deferida', 'Recurso indeferido', 'Indeferida'])->default('Recurso Pendente');
+        });
     }
 
     /**

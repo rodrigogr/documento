@@ -8,6 +8,12 @@ class AssembleiaOpcao extends Model
 {
     public $timestamps = true;
     protected $table = 'assembleia_opcoes';
+
+    static public $associations = [
+        'assembleiaPergunta ',
+        'assembleiaVotacao'
+    ];
+
     protected $fillable = [
         'opcao',
         'id_pergunta'

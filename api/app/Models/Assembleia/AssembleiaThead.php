@@ -35,4 +35,9 @@ class AssembleiaThead extends Model
     {
         return $this->hasOne(AssembleiaQuestaoOrdem::class);
     }
+
+    public function Pessoa()
+    {
+        return $this->hasOne(Pessoa::class, 'id_pessoa');
+    }
 }

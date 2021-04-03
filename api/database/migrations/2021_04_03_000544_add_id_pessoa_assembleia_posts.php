@@ -4,14 +4,19 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class AddColummStatusTableAssembleiaEncaminhamentoss extends Migration
+class AddIdPessoaAssembleiaPosts extends Migration
 {
+    /**
+     * Run the migrations.
+     *
+     * @return void
+     */
     public function up()
     {
-        Schema::table('assembleia_encaminhamentos', function (Blueprint $table)
+        Schema::table('assembleia_posts', function (Blueprint $table)
         {
-            $table->integer('apoio');
-            $table->enum('status', ['respondido', 'pendente'])->default('pendente');
+            $table->dropColumn('id_usuario');
+            $table->unsignedInteger('id_pessoa')->after('id_thead');
         });
     }
 

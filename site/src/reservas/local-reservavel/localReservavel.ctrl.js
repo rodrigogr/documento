@@ -33,7 +33,8 @@ angular.module('ReservasModule').controller('LocalReservavelCtrl',
                     sab: [],
                     dom: []
                 },
-                dia_inativo: []
+                dia_inativo: [],
+                manter_horario: false
             }
             $scope.periodoAtual = 'seg';
             $scope.objPeriodoAtual = [];
@@ -42,7 +43,6 @@ angular.module('ReservasModule').controller('LocalReservavelCtrl',
             $("#inputFoto").val('');
             $("#inputRegra").val('');
         }
-        $scope.manterHorarios = false;
         $scope.addNovoPeriodo = 0;
         $scope.search = {
             type: 'nome',
@@ -70,6 +70,7 @@ angular.module('ReservasModule').controller('LocalReservavelCtrl',
             getLocalidade();
             $scope.step = 1;
             $('#cadastroLocal').modal('show');
+            $scope.adicionarPeriodo('seg');
         }
 
         $scope.fecharModalLocalReserva = function () {
@@ -127,13 +128,13 @@ angular.module('ReservasModule').controller('LocalReservavelCtrl',
         }
 
         $scope.subNum = function (variavel) {
-            if ($scope.localReservavel[variavel] > 0) {
+            /*if ($scope.localReservavel[variavel] > 0) {
                 --$scope.localReservavel[variavel];
-            }
+            }*/
         }
 
         $scope.addNum = function (variavel) {
-            ++$scope.localReservavel[variavel];
+            //++$scope.localReservavel[variavel];
         }
 
         $('.reservaDiasSemana li').click(function() {
@@ -149,7 +150,7 @@ angular.module('ReservasModule').controller('LocalReservavelCtrl',
         }
 
         $scope.excluirPeriodo = function (periodo, indexAtual) {
-            if ($scope.manterHorarios) {
+            if ($scope.localReservavel.manter_horario) {
                 angular.forEach($scope.localReservavel.periodo, function (value, key) {
                     if (value[indexAtual].id) {
                         value[indexAtual].deleted = 1;
@@ -185,7 +186,7 @@ angular.module('ReservasModule').controller('LocalReservavelCtrl',
             $scope.objPeriodoAtual = $scope.localReservavel.periodo[diaSemana];
         }
 
-        $scope.$watch('manterHorarios', function(value, oldValue) {
+        $scope.$watch('localReservavel.manter_horario', function(value, oldValue) {
             if (value && !oldValue) {
                 $scope.localReservavel.periodo.seg = $scope.localReservavel.periodo[$scope.periodoAtual];
                 $scope.localReservavel.periodo.ter = $scope.localReservavel.periodo[$scope.periodoAtual];
@@ -341,6 +342,7 @@ angular.module('ReservasModule').controller('LocalReservavelCtrl',
                 delete $scope.localReservavel.periodo;
 
                 $scope.localReservavel.periodo = periodo;
+                $scope.localReservavel.manter_horario = !!$scope.localReservavel.manter_horario;
                 $scope.localReservavel.visualizar_reversa_usuario = !!$scope.localReservavel.visualizar_reversa_usuario;
 
                 if ($scope.localReservavel.capacidade > 0) {
@@ -352,6 +354,7 @@ angular.module('ReservasModule').controller('LocalReservavelCtrl',
 
             }).finally( () => {
                 $scope.escolhaDiaSemana('seg');
+                $('.reservaDiasSemana li:first').click();
                 $("#loading").modal("hide")
             });
         }
@@ -414,6 +417,23 @@ angular.module('ReservasModule').controller('LocalReservavelCtrl',
                     $scope.locaisReservaveis = result.data.data;
                 }).finally(() => $(".loader").hide());
             }
+        }
+
+        $scope.confirmaExcluir = function (id) {
+            var confirm = UtilsService.confirmAlert3('Confirma excluir este local?',' <h4>As reservas deste local também serão excluídas.</h4>','Cancelar', 'Excluir', true, true);
+            confirm.then((result) => {
+                if (result) {
+                    $(".loader").show();
+                    var promisse = ($http.delete(`${config.apiUrl}api/localreservavel/`+id));
+                    promisse.then( function (result){
+                        UtilsService.openSuccessAlert(result.data.data);
+                        $scope.getLocaisReservaveis();
+                        $('#cadastroLocal').modal('hide');
+                    }).catch( function (e) {
+                        UtilsService.openAlert(e.data.message)
+                    }).finally(() => $(".loader").hide());
+                }
+            });
         }
 
     });

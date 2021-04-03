@@ -4,12 +4,17 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class DropColummStatusTableAssembleiaEncaminhamentos extends Migration
+class AddColumnManterHorarioTableLocalReservavel extends Migration
 {
+    /**
+     * Run the migrations.
+     *
+     * @return void
+     */
     public function up()
     {
-        Schema::table('assembleia_encaminhamentos', function (Blueprint $table) {
-            $table->dropColumn('status');
+        Schema::table('local_reservavel', function (Blueprint $table) {
+            $table->tinyInteger('manter_horario')->default(0);
         });
     }
 

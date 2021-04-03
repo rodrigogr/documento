@@ -7,7 +7,13 @@ use Illuminate\Database\Eloquent\Model;
 class AssembleiaDiscussao extends Model
 {
     public $timestamps = true;
-    protected $table = 'assembleia_dicussoes';
+
+    static public $associations = [
+        'pauta ',
+        'theads'
+    ];
+
+    protected $table = 'assembleia_discussoes';
     protected $fillable = ['id_assembleia', 'id_pauta', 'id_thead'];
 
     public function assembleia()
@@ -17,7 +23,7 @@ class AssembleiaDiscussao extends Model
 
     public function pauta()
     {
-        return $this->hasOne(Pauta::class);
+        return $this->hasOne(AssembleiaPauta::class, 'id');
     }
 
     public function theads()

@@ -62,9 +62,13 @@ ul.tabs-aprovacao {
 }
 .bloco-reservas {
     background-color: #FFFFFF;
-    padding: 15px 30px;
+    padding: 15px 30px 0px;
     border-radius: 8px;
     margin-left: 20px;
+}
+.grupoDia {
+    margin-top: 30px;
+    margin-bottom: 15px;
 }
 .titulo-dia-mes {
     margin-top: 10px;
@@ -78,8 +82,8 @@ ul.tabs-aprovacao {
     margin-left: 10px;
 }
 .lista-reserva-dia {
-    padding: 20px 0;
     border-bottom: 1px solid #CCCCCC;
+    margin-bottom: 25px;
 }
 .lista-reserva-dia .local {
     font-size: 20px;
@@ -94,7 +98,7 @@ ul.tabs-aprovacao {
 }
 .lista-reserva-dia .status-local button {
     font-size: 12px;
-
+    line-height: 14px;
     border-radius: 17px;
     width: 148px;
     height: 28px;
@@ -106,7 +110,7 @@ ul.tabs-aprovacao {
     font-size: 17px;
 }
 .lista-pendentes {
-    max-height: 465px;
+    max-height: 490px;
     overflow-y: auto;
 }
 .modal-analisarReserva {

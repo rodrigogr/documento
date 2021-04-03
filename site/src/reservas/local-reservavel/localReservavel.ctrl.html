@@ -55,7 +55,7 @@
 
                     </div>
                 </a>
-                <div class="list-group">
+                <div class="list-group" style="max-height: 545px;overflow-y: auto;">
                     <a href="javascript:void(0)" ng-click="editarLocal(local.id)" class="list-group-item" ng-repeat="local in locaisReservaveis">
                         <h5 class="col-xs-5 list-group-item-heading">{{local.localidade.descricao}}</h5>
                         <h5 class="col-xs-5 list-group-item-heading">{{local.nome}}</h5>
@@ -189,13 +189,13 @@
                                     </div>
 
                                     <!--STEP 2 PARAMETRIZAÇÕES-->
-                                    <div class="form-group col-xs-24" id="step2" ng-show="step === 2">
+                                    <div class="form-group col-xs-24" id="step2" ng-show="step === 2" style="color: #CCC">
 
                                         <div class="row ba__margin-top-15 ba__margin-bottom-30">
                                             <div class="col-md-6">
                                                 <div class="col-xs-5 pull-right">
                                                     <div class="onoffswitch">
-                                                        <input type="checkbox" id="visibilidadeDadosUsuario" name="onoffswitch" class="onoffswitch-checkbox" enter ng-model="localReservavel.visualizar_reversa_usuario">
+                                                        <input disabled type="checkbox" id="visibilidadeDadosUsuario" name="onoffswitch" class="onoffswitch-checkbox" enter ng-model="localReservavel.visualizar_reversa_usuario">
                                                         <label class="onoffswitch-label" for="visibilidadeDadosUsuario">
                                                             <span class="onoffswitch-inner" ng-show="localReservavel.visualizar_reversa_usuario"></span>
                                                             <span class="onoffswitch-switch" ng-show="!localReservavel.visualizar_reversa_usuario"></span>
@@ -213,9 +213,9 @@
                                             </div>
                                             <div class="col-md-17 col-md-offset-2">
                                                 <i ng-click="subNum('antecedencia_max_num')" class="fa fa-minus-circle ba__font-size-25 pull-left text-gray" style="padding-top: 10px"></i>
-                                                <input type="number" min="0" ng-model="localReservavel.antecedencia_max_num" class="ba__input-modal limite-pessoas color-padrao" style="margin: 0 10px 0 2px">
+                                                <input disabled type="number" min="0" ng-model="localReservavel.antecedencia_max_num" class="ba__input-modal limite-pessoas color-padrao" style="margin: 0 10px 0 2px">
                                                 <i ng-click="addNum('antecedencia_max_num')" class="fa icon-ba-plus ba__font-size-25 pull-left text-gray" style="padding-top: 10px"></i>
-                                                <select class="ba__input-select color-padrao" ng-model="localReservavel.antecedencia_max_periodo" style="width: 21%;margin-left: 10px;float: left;">
+                                                <select disabled class="ba__input-select color-padrao" ng-model="localReservavel.antecedencia_max_periodo" style="width: 21%;margin-left: 10px;float: left;">
                                                     <option value="horas">horas</option>
                                                     <option value="dias">dias</option>
                                                     <option value="semanas">semanas</option>
@@ -229,9 +229,9 @@
                                             </div>
                                             <div class="col-md-17 col-md-offset-2">
                                                 <i ng-click="subNum('antecedencia_min_num')" class="fa fa-minus-circle ba__font-size-25 pull-left text-gray" style="padding-top: 10px"></i>
-                                                <input type="number" min="0" ng-model="localReservavel.antecedencia_min_num" class="ba__input-modal limite-pessoas color-padrao" style="margin: 0 10px 0 2px">
+                                                <input disabled type="number" min="0" ng-model="localReservavel.antecedencia_min_num" class="ba__input-modal limite-pessoas color-padrao" style="margin: 0 10px 0 2px">
                                                 <i ng-click="addNum('antecedencia_min_num')" class="fa icon-ba-plus ba__font-size-25 pull-left text-gray" style="padding-top: 10px"></i>
-                                                <select class="ba__input-select color-padrao" ng-model="localReservavel.antecedencia_min_periodo" style="width: 21%;margin-left: 10px;float: left;">
+                                                <select disabled class="ba__input-select color-padrao" ng-model="localReservavel.antecedencia_min_periodo" style="width: 21%;margin-left: 10px;float: left;">
                                                     <option value="horas">horas</option>
                                                     <option value="dias">dias</option>
                                                     <option value="semanas">semanas</option>
@@ -245,9 +245,9 @@
                                             </div>
                                             <div class="col-md-17 col-md-offset-2">
                                                 <i ng-click="subNum('antecedencia_cancel_num')" class="fa fa-minus-circle ba__font-size-25 pull-left text-gray" style="padding-top: 10px"></i>
-                                                <input type="number" min="0" ng-model="localReservavel.antecedencia_cancel_num" class="ba__input-modal limite-pessoas color-padrao" style="margin: 0 10px 0 2px">
+                                                <input disabled type="number" min="0" ng-model="localReservavel.antecedencia_cancel_num" class="ba__input-modal limite-pessoas color-padrao" style="margin: 0 10px 0 2px">
                                                 <i ng-click="addNum('antecedencia_cancel_num')" class="fa icon-ba-plus ba__font-size-25 pull-left text-gray" style="padding-top: 10px"></i>
-                                                <select class="ba__input-select color-padrao" ng-model="localReservavel.antecedencia_cancel_periodo" style="width: 21%;margin-left: 10px;float: left;">
+                                                <select disabled class="ba__input-select color-padrao" ng-model="localReservavel.antecedencia_cancel_periodo" style="width: 21%;margin-left: 10px;float: left;">
                                                     <option value="horas">horas</option>
                                                     <option value="dias">dias</option>
                                                     <option value="semanas">semanas</option>
@@ -261,7 +261,7 @@
                                             </div>
                                             <div class="col-md-17 col-md-offset-2">
                                                 <i ng-click="subNum('limit_reserva')" class="fa fa-minus-circle ba__font-size-25 pull-left text-gray" style="padding-top: 10px"></i>
-                                                <input type="number" min="0" ng-model="localReservavel.limit_reserva" class="ba__input-modal limite-pessoas color-padrao" style="margin: 0 10px 0 2px">
+                                                <input disabled type="number" min="0" ng-model="localReservavel.limit_reserva" class="ba__input-modal limite-pessoas color-padrao" style="margin: 0 10px 0 2px">
                                                 <i ng-click="addNum('limit_reserva')" class="fa icon-ba-plus ba__font-size-25 pull-left text-gray" style="padding-top: 10px"></i>
                                             </div>
                                         </div>
@@ -287,9 +287,9 @@
                                                     <div class="form-inline">
                                                         <div class="form-group">
                                                             <i class="fa fa-clock-o ba__margin-horizontal-15 text-primary"></i>
-                                                            <input type="text" class="ba__input-modal form-control" ng-model="periodo.hora_ini" mask="99:99" placeholder="00:00">
+                                                            <input type="text" class="ba__input-modal form-control" ng-model="periodo.hora_ini" mask="29:59" restrict="reject" placeholder="00:00">
                                                             <span class="ba__margin-horizontal-15">até</span>
-                                                            <input type="text" class="ba__input-modal form-control" ng-model="periodo.hora_fim" mask="99:99" placeholder="00:00">
+                                                            <input type="text" class="ba__input-modal form-control" ng-model="periodo.hora_fim" mask="29:59" restrict="reject" placeholder="00:00">
 
                                                             <i class="fa fa-dollar text-primary" style="margin-left: 65px; margin-right: 15px"></i>
                                                             <span>Valor &nbsp;</span>
@@ -313,10 +313,10 @@
                                             <div class="row ba__margin-top-15 ba__margin-bottom-30">
                                                 <div class="col-md-1" style="margin-left: 14px">
                                                     <div class="onoffswitch">
-                                                        <input type="checkbox" id="checkManterHorarios" name="onoffswitch" class="onoffswitch-checkbox" enter ng-model="manterHorarios">
+                                                        <input type="checkbox" id="checkManterHorarios" name="onoffswitch" class="onoffswitch-checkbox" enter ng-model="localReservavel.manter_horario">
                                                         <label class="onoffswitch-label" for="checkManterHorarios">
-                                                            <span class="onoffswitch-inner" ng-show="manterHorarios"></span>
-                                                            <span class="onoffswitch-switch" ng-show="!manterHorarios"></span>
+                                                            <span class="onoffswitch-inner" ng-show="localReservavel.manter_horario"></span>
+                                                            <span class="onoffswitch-switch" ng-show="!localReservavel.manter_horario"></span>
                                                         </label>
                                                     </div>
                                                 </div>
@@ -327,7 +327,7 @@
 
                                         </div>
 
-                                        <div class="row ba__admin-list">
+                                        <div class="row ba__admin-list hidden">
                                             <h3>Dias Inativos</h3>
                                             <div class="list-group ba__admin-table ba__margin-top-20 col-md-24" style="height: 65%; overflow: hidden">
                                                 <a class="list-group-item disabled col-md-24">
@@ -352,7 +352,7 @@
                                                         <div class="row">
                                                             <div class="col-xs-4">
                                                                 <div class="col-xs-20">
-                                                                    <span>{{inativo.data | formataData}}</span>
+                                                                    <span>{{inativo.data}}</span>
                                                                 </div>
                                                             </div>
                                                             <div class="col-xs-12">
@@ -407,6 +407,9 @@
                             <button type="button" class="btn btn-default btn-clear col-md-5 pull-right" ng-click="fecharModalLocalReserva()">
                                 Cancelar
                             </button>
+                            <span style="color:red;font-size: 20px;text-decoration: underline;margin-top: 7px;" ng-click="confirmaExcluir(localReservavel.id)" class="col-md-5 pull-left hoverDanger" role="button">
+                                Excluir
+                            </span>
                         </div>
                     </div>
                 </div>

@@ -10,6 +10,7 @@ use App\models\Assembleia\AssembleiaEncaminhamento;
 use App\models\Assembleia\AssembleiaQuestaoOrdem;
 use App\models\Assembleia\AssembleiaThead;
 use Illuminate\Http\Request;
+use mysql_xdevapi\Exception;
 
 class QuestaoOrdemController extends Controller
 {
@@ -18,23 +19,47 @@ class QuestaoOrdemController extends Controller
         return response()->success(AssembleiaQuestaoOrdem::all());
     }
 
+    /*
+    * Cria uma questão de ordem na assembleia
+    * */
     public function store(Request $request)
     {
-        $data = $request->all();
-        $dataThead = $data['thead'];
+        try {
+            DB::beginTransaction();
+            $data = $request->all();
+            $dataThead = $data['thead'];
 
-        $thead = AssembleiaThead::create($dataThead);
-        $thead->theadAnexos()->createMany($dataThead['anexos']);
+            $thead = AssembleiaThead::create($dataThead);
+            $thead->theadAnexos()->createMany($dataThead['anexos']);
 
-        $assembleiaQuestaoOrdem =  AssembleiaQuestaoOrdem::create([
-            'id_thead'=> $thead->id,
-            'id_assembleia'=>$request->id_assembleia,
-            'id_pauta' => $data['id_pauta']
-        ]);
-        return response()->success($assembleiaQuestaoOrdem);
+            $assembleiaQuestaoOrdem =  AssembleiaQuestaoOrdem::create([
+                'id_thead'=> $thead->id,
+                'id_assembleia'=>$request->id_assembleia,
+                'id_pauta' => $data['id_pauta']
+            ]);
+            DB::commit();
+            return response()->success($assembleiaQuestaoOrdem);
+        }
+        catch (Exception $e)
+        {
+            return response()->error($e->getMessage());
+        }
     }
 
+    /*
+     *  Cria uma decisão da questão de ordem
+     *
+     * */
     public function createDecisao(Request $request)
+    {
+
+    }
+
+    /*
+     *  Recorre uma decisão da questão de ordem
+     *
+     * */
+    public function recorrerDecisao(Request $request)
     {
 
     }

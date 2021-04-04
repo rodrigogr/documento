@@ -1,1 +1,121 @@
-<div>DISCUSSOES</div>
+<div class="row">
+    <!-- Table List-->
+    <div class="ba__admin-table" style="margin: 60px 0 20px 0">
+        <a class="list-group-item disabled">
+            <div class="row uppercase titulo-lista">
+                <div class="col-xs-2" style="cursor: pointer;"><b>Pauta</b>
+                    <i class="ba__margin-horizontal-5"></i>
+                </div>
+                <div class="col-xs-10" style="cursor: pointer;"><b>Título</b>
+                    <i class="ba__margin-horizontal-5"></i>
+                </div>
+                <div class="col-xs-2" style="cursor: pointer;"><b>TÓPICOS</b>
+                    <i class="ba__margin-horizontal-5"></i>
+                </div>
+                <div class="col-xs-2" style="cursor: pointer;"><b>Comentários</b>
+                    <i class="ba__margin-horizontal-5"></i>
+                </div>
+                <div class="col-xs-5" style="cursor: pointer;"><b>ÚLTIMA INTERAÇÃO</b>
+                    <i class="ba__margin-horizontal-5"></i>
+                </div>
+                <div class="col-xs-3 text-right" style="cursor: pointer;"></div>
+            </div>
+        </a>
+        <div class="ba__admin-table-scroll">
+            <a class="list-group-item" 
+                ng-repeat="(index, discussoes) in listaDeDiscussoes"
+                ng-click="abreDiscussao(discussoes.id)"
+                style="cursor: pointer;"
+                >
+                <h5 class="col-xs-2 list-group-item-heading">{{discussoes.pauta}}</h5>
+                <h5 class="col-xs-10 list-group-item-heading">{{discussoes.titulo}}</h5>
+                <h5 class="col-xs-2 list-group-item-heading">{{discussoes.topicos}}</h5>
+                <h5 class="col-xs-2 list-group-item-heading uppercase">{{discussoes.comentarios}}</h5>
+                <h5 class="col-xs-5 list-group-item-heading">
+                    ás {{discussoes.interacao_hora}} de {{ converteDateParaPtBR(discussoes.interacao_data) }} </h5>
+                <h5 class="col-xs-3 list-group-item-heading text-right">
+                    <i class="fa fa-eye"></i>
+                </h5>
+            </a>
+        </div>
+
+    </div>
+    <!-- Table List-->
+
+    <!-- Modal Discussão -->
+    <div class="modal fade" id="abreDiscussao" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="false">
+        <div class="modal-dialog assembleia-modal" role="document">
+            <div class="modal-content assembleia-content">
+                <!-- Header -->
+                <div class="modal-header assembleia-header">
+                    <div class="row">
+                        <h4 class="modal-title Roboto-Thin ba__font-size-25"
+                            style="padding: 25px 25px 10px; font-weight: bold;">
+                            <i class="fa fa-weixin cff6633"></i>
+                            <span>TÓPICOS DE DISCUSSÃO</span>
+                        </h4>
+                    </div>
+                </div>
+                <!-- Form Mean -->
+                <div class="modal-body ba__modal-body-assembleia"
+                    style="background-color: #F2F2F2; padding: 0px !important">
+    
+                    <header class="discussoes" >
+                        <p>PAUTA 01 DE 02</p>
+                        <h5>
+                            Você acha necessário a reforma imediata do parquinho e brinquedoteca do residencial?
+                        </h5>
+                    </header>
+
+                    <article class="box-discussao">
+                        <section class="bgc-fff bs br8px">
+                            <div class="pessoa">
+                                <img class="" src="../../../../../img/avatar.png" alt="" />
+                                <div>
+                                    <span>Joaquim Almeida</span>
+                                    <span>Há 32 minutos</span>
+                                </div>
+                            </div>
+                            <h6>
+                                Há outras prioridades no momento, como discutido em outra assembleia Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
+                            </h6>
+                            <div class="likes">
+                                <i class="fa fa-thumbs-up">&nbsp;&nbsp; 12</i>
+                                <i class="fa fa-thumbs-down ">&nbsp;&nbsp; 22</i>
+                                <i class="fa fa-weixin ">&nbsp;&nbsp; 32 comentários</i>
+                            </div>
+                        </section>
+
+                        <section class="bgc-fff bs br8px">
+                            <div class="pessoa">
+                                <img class="" src="../../../../../img/avatar.png" alt="" />
+                                <div>
+                                    <span>Joaquim Almeida</span>
+                                    <span>Há 32 minutos</span>
+                                </div>
+                            </div>
+                            <h6>
+                                Há outras prioridades no momento, como discutido em outra assembleia Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
+                            </h6>
+                            <div class="likes">
+                                <i class="fa fa-thumbs-up">&nbsp;&nbsp; 12</i>
+                                <i class="fa fa-thumbs-down ">&nbsp;&nbsp; 22</i>
+                                <i class="fa fa-weixin ">&nbsp;&nbsp; 32 comentários</i>
+                            </div>
+                        </section>
+                    </article>
+    
+                </div>
+                <!-- Footer -->
+                <div class="modal-footer" style="padding-right: 15px !important;">
+                    <button type="button" class="btn btn-default btn-clear col-md-5 pull-right" 
+                        ng-click="fechaDiscussao()">
+                        Fechar
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Modal Discussão -->
+</div>
+

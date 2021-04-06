@@ -30,7 +30,7 @@
                 <h5 class="col-xs-2 list-group-item-heading">{{discussoes.pauta}}</h5>
                 <h5 class="col-xs-10 list-group-item-heading">{{discussoes.titulo}}</h5>
                 <h5 class="col-xs-2 list-group-item-heading">{{discussoes.topicos}}</h5>
-                <h5 class="col-xs-2 list-group-item-heading uppercase">{{discussoes.comentarios}}</h5>
+                <h5 class="col-xs-2 list-group-item-heading uppercase">{{discussoes.count_comentarios}}</h5>
                 <h5 class="col-xs-5 list-group-item-heading">
                     ás {{discussoes.interacao_hora}} de {{ converteDateParaPtBR(discussoes.interacao_data) }} </h5>
                 <h5 class="col-xs-3 list-group-item-heading text-right">
@@ -68,43 +68,27 @@
                     </header>
 
                     <article class="box-discussao">
-                        <section class="bgc-fff bs br8px">
-                            <div class="pessoa">
-                                <img class="" src="../../../../../img/avatar.png" alt="" />
-                                <div>
-                                    <span>Joaquim Almeida</span>
-                                    <span>Há 32 minutos</span>
-                                </div>
-                            </div>
-                            <h6>
-                                Há outras prioridades no momento, como discutido em outra assembleia Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
-                            </h6>
-                            <div class="likes">
-                                <i class="fa fa-thumbs-up">&nbsp;&nbsp; 12</i>
-                                <i class="fa fa-thumbs-down ">&nbsp;&nbsp; 22</i>
-                                <i class="fa fa-weixin ">&nbsp;&nbsp; 32 comentários</i>
-                            </div>
-                        </section>
 
-                        <section class="bgc-fff bs br8px">
+                        <section 
+                             class="bgc-fff bs br8px"
+                             ng-repeat="topicos in selectDiscussao">
                             <div class="pessoa">
-                                <img class="" src="../../../../../img/avatar.png" alt="" />
+                                <img class="" src="{{ topicos.foto }}" alt="" />
                                 <div>
-                                    <span>Joaquim Almeida</span>
+                                    <span>{{ topicos.nome }}</span>
                                     <span>Há 32 minutos</span>
                                 </div>
                             </div>
                             <h6>
-                                Há outras prioridades no momento, como discutido em outra assembleia Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
+                                {{ topicos.titulo }}
                             </h6>
                             <div class="likes">
-                                <i class="fa fa-thumbs-up">&nbsp;&nbsp; 12</i>
-                                <i class="fa fa-thumbs-down ">&nbsp;&nbsp; 22</i>
-                                <i class="fa fa-weixin ">&nbsp;&nbsp; 32 comentários</i>
+                                <i class="fa fa-thumbs-up">&nbsp;&nbsp; {{ topicos.like }}</i> 
+                                <i class="fa fa-thumbs-down ">&nbsp;&nbsp; {{ topicos.deslike }}</i>
+                                <i class="fa fa-weixin ">&nbsp;&nbsp; {{ topicos.number }} comentários</i> 
                             </div>
-                        </section>
-                    </article>
-    
+                        </section>                        
+                    </article>    
                 </div>
                 <!-- Footer -->
                 <div class="modal-footer" style="padding-right: 15px !important;">

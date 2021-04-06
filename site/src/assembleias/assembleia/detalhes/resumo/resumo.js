@@ -11,8 +11,25 @@ angular.module('appDirectives').directive("assembleiaresumo", function () {
     }
 });
 
-function assembleiaResumoCtrl ($scope, $state, $filter, UtilsService, config)
-{   
+function assembleiaResumoCtrl ($scope, $state, $filter, $http, UtilsService, config)
+{
+
+    $scope.getResumo = function ()
+    {
+        $("#loading").modal("show");
+
+        var promisse = ($http.get(`${config.apiUrl}api/assembleias/resumo/`+ $state.params.id));
+        promisse.then( function (result){
+            $scope.resumo = result.data.data;
+
+            $scope.assembleiaResumo = $scope.resumo.assembleia;
+
+        }).finally( () => {
+            $("#loading").modal("hide")
+        });
+    }
+
+    $scope.getResumo();
 
     $scope.assembleia = {
         tipo: 'geral',

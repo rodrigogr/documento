@@ -30,12 +30,7 @@ angular.module('AssembleiasModule').controller('AssembleiaAssembleiasCtrl',
             configuracao: false,
             link_transmissao: '',
             votacao_secreta: false,
-            documentos: [{
-                id: 10,
-                file: "data:application/pdf;base64,JVBERi0xLjQNJeLjz9MNCj",
-                icon: "img/icons/icon_pdf.png",
-                name: "pdf_de_teste.pdf",
-            }],
+            documentos: [],
             pautas: '',
             participantes: [],
         }
@@ -52,6 +47,7 @@ angular.module('AssembleiasModule').controller('AssembleiaAssembleiasCtrl',
         //** Modal nova assembleia */
         $scope.createNewAssembleia = function () {
             $scope.step = 1;
+            $scope.listarParticipantes();
             $('#cadastroAssembleia').modal('show');
         }
 
@@ -60,6 +56,16 @@ angular.module('AssembleiasModule').controller('AssembleiaAssembleiasCtrl',
         }
         //** Modal nova assembleia */
 
+        $scope.listarParticipantes = function()
+        {
+            $scope.assembleia.participantes = [];
+            $(".loader").show();
+            var promisse = ($http.get(`${config.apiUrl}api/assembleias/get/participantes`));
+            promisse.then(function(result)
+            {
+                $scope.assembleia.participantes = result.data.data;
+            }).finally(() => $(".loader").hide());
+        }
 
         $scope.goStep = function (step) {
             $('.ba__modal-body-assembleia').scrollTop(0);
@@ -176,10 +182,17 @@ angular.module('AssembleiasModule').controller('AssembleiaAssembleiasCtrl',
             $scope.assembleia.participantes = $scope.listParticipanteCheckTrue($scope.assembleia.participantes);
         }
 
-        $scope.listParticipanteCheckTrue = function(listParticipantes){  
+        $scope.listParticipanteCheckTrue = function(listParticipantes){
             let listParticipantesTrue = [];
             listParticipantes.filter((item) => {
-                if(item.participar === true){
+
+                if(item.participar === true)
+                {
+                    if(!item.id_procurador)
+                    {
+                        item['id_procurador'] = null;
+                    }
+
                     listParticipantesTrue.push(item);
                 }
             });
@@ -287,4 +300,15 @@ angular.module('AssembleiasModule').controller('AssembleiaAssembleiasCtrl',
             $scope.assembleia.documentos.splice(index, 1);
         }
 
+        $scope.addProcurador = function(participante)
+        {
+            participante['id_procurador'] = 10;
+            participante['procurador'] = '5455 - Antônio Fonseca Salles de Abreu';
+        }
+
+        $scope.remProcurador = function(participante)
+        {
+            participante['id_procurador'] = null;
+            participante['procurador'] = '';
+        }
     });

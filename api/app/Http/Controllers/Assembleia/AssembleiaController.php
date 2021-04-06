@@ -120,7 +120,7 @@ class AssembleiaController extends Controller
 
     public function resumo($id)
     {
-        $assembleia = Assembleia::where('id', $id)->with('documentos')->get();
+        $assembleia = Assembleia::find($id);
 
         $questoes = AssembleiaQuestaoOrdem::where('id_assembleia', $id)->count();
 

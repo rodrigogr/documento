@@ -24,7 +24,6 @@ class CreateAssembleias extends Migration
                 $table->addColumn('time','hora_inicio');
                 $table->date('data_fim')->nullable();
                 $table->addColumn('time','hora_fim')->nullable();
-                $table->dateTime('data_hora_fim')->nullable();
                 $table->string('link_transmissao')->nullable();
                 $table->boolean('votacao_secreta')->default(false);
                 $table->softDeletes();

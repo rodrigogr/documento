@@ -5,15 +5,19 @@
             <div class="cart-infor w100pc br-8px bgc-fff bs px-16px py-20px my-16px">
 
                 <div class="header">
-                    <span ng-if="assembleia.tipo == 'geral' ">ASSEMBLEIA GERAL</span>
-                    <h2>{{ assembleia.titulo }}</h2>
+                    <span ng-if="assembleiaResumo.tipo == 'geral' ">ASSEMBLEIA GERAL</span>
+                    <h2>{{ assembleiaResumo.titulo }}</h2>
 
-                    <!-- <p class="col-xs-8 status finalizada">
+                    <p ng-if="assembleiaResumo.status == 'finalizada'" class="col-xs-8 status finalizada">
                         <b>ASSEMBLEIA EM FINALIZADA</b>
-                    </p> -->
+                    </p>
                     
-                    <p nf-if="assembleia.status == 'agendada' " class="col-xs-8 status andamento">
+                    <p ng-if="assembleiaResumo.status == 'andamento' " class="col-xs-8 status andamento">
                         <b>ASSEMBLEIA EM ANDAMENTO</b>
+                    </p>
+
+                    <p ng-if="assembleiaResumo.status == 'agendada' " class="col-xs-8 status agendada">
+                        <b>ASSEMBLEIA AGENDADA</b>
                     </p>
 
                     <!-- <p  class="col-xs-8 status encerrada">
@@ -38,15 +42,15 @@
                             <div class="item">
                                 <i class="fa fa-calendar"></i>
                                 <span>
-                                    de {{ assembleia.data_inicio }} {{ assembleia.hora_inicio }}
-                                    até {{ assembleia.data_fim }} {{ assembleia.hora_fim }}
+                                    de {{ assembleiaResumo.data_inicio }} {{ assembleiaResumo.hora_inicio }}
+                                    até {{ assembleiaResumo.data_fim }} {{ assembleiaResumo.hora_fim }}
                                 </span>
                             </div>
                             <div class="item">
                                 <i class="fa fa-check"></i>
                                 <span>
                                     início pendente
-                                    até {{ assembleia.votacao_data_inicio }} {{ assembleia.votacao_hora_fim }}
+                                    até {{ assembleiaResumo.votacao_data_inicio }} {{ assembleiaResumo.votacao_hora_fim }}
                                 </span>
                             </div>
                             <div class="item">
@@ -58,7 +62,7 @@
                             <div class="item">
                                 <i class="fa fa-camera"></i>
                                 <span>
-                                    <a href="{{ assembleia.link_transmissao }}" target="_blank" class="link">Link da transmissão</a>
+                                    <a href="{{ assembleiaResumo.link_transmissao }}" target="_blank" class="link">Link da transmissão</a>
                                 </span>
                             </div>
                         </div>
@@ -134,8 +138,8 @@
                         <i class="fa fa-gavel"></i>
                         <span class="text">Questões de ordem</span>
                         <p class="text">
-                            <b>14</b>
-                            <span>/de 71</span>
+                            <b>{{ resumo.questoesOrdem }}</b>
+                            <span>/de {{ resumo.questoesOrdem }}</span>
                         </p>
                     </div>
                 </div>
@@ -144,17 +148,17 @@
                         <i class="fa fa-hand-paper-o"></i>
                         <span class="text">Encaminhamentos</span>
                         <p class="text">
-                            <b>3</b>
-                            <span>/de 12</span>
+                            <b>{{ resumo.encaminhamentos }}</b>
+                            <span>/de {{ resumo.encaminhamentos }}</span>
                         </p>
                     </div>
                 </div>
                 <div class="col-md-7 col-md-offset-1">
                     <div class="cart-info bgc-fff bs">
                         <i class="fa fa-weixin"></i>
-                        <span class="text"><strong>21</strong> tópicos</span>
-                        <span class="text"><strong>87</strong> comentários</span>
-                        <span class="text text-slim"><strong>21</strong> tópicos</span>
+                        <span class="text"><strong>{{ resumo.topicos }}</strong> tópicos</span>
+                        <span class="text"><strong>{{ resumo.comentarios }}</strong> comentários</span>
+<!--                        <span class="text text-slim"><strong>21</strong> tópicos</span>-->
                     </div>
                 </div>
             </div>
@@ -168,13 +172,13 @@
                         </div>
                         <div class="body">
                             <div>
-                                <b>892</b><span>aptas</span>
+                                <b>{{ resumo.unidadesAptas }}</b><span>aptas</span>
                             </div>
                             <div>
-                                <b>32</b><span>interagiram</span>
+                                <b>{{ resumo.unidadesInteragiram }}</b><span>interagiram</span>
                             </div>
                             <div>
-                                <b>0</b><span>votaram</span>
+                                <b>{{ resumo.unidadesVotaram }}</b><span>votaram</span>
                             </div>
                         </div>
                     </div>

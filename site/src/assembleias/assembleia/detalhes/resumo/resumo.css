@@ -39,6 +39,11 @@
     font-size: 14px;
 }
 
+.status.agendada {
+    background: #F2F2F2;
+    color: #4F4F4F;
+}
+
 .status.andamento{
     background: rgba(45, 156, 219, 0.1);
     color: #219653;

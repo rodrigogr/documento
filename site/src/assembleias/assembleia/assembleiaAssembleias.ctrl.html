@@ -93,7 +93,7 @@
                             <div class="row">
                                 <h4 class="modal-title Roboto-Thin ba__font-size-25" style="padding: 25px 25px 10px; font-weight: bold;">
                                     <i class="icon-ba-building text-center text-primary ba__margin-horizontal-5 icon-modal-title"></i>
-                                    <span>{{ localReservavel.id ? 'Editar Assembleia' : 'Novo Assembleia'}}</span>
+                                    <span>{{ assembleia.id ? 'Editar Assembleia' : 'Novo Assembleia'}}</span>
                                 </h4>
                             </div>
                             <div class="row check-assembleia">
@@ -189,6 +189,7 @@
                                                             placeholder=" " 
                                                             autocomplete="off" 
                                                             mask="99:99"
+                                                            required
                                                             class="ng-pristine ng-valid ng-touched" 
                                                             aria-invalid="false">
                                                         <span>HORA DO INICÍO</span>
@@ -200,12 +201,13 @@
                                                 <div style="padding: 15px;">
                                                     <div class="control-input">
                                                         <input 
-                                                            type="text" n
-                                                            ame="data_inicio" 
+                                                            type="text"
+                                                            name="data_fim"
                                                             ng-model="assembleia.data_fim" 
                                                             placeholder=" " 
                                                             autocomplete="off"
                                                             mask="99/99/9999"
+                                                            required
                                                             class="ng-pristine ng-valid ng-touched" 
                                                             aria-invalid="false">
                                                         <span>DATA DO FIM</span>
@@ -221,6 +223,7 @@
                                                             ng-model="assembleia.hora_fim" 
                                                             placeholder=" " 
                                                             autocomplete="off"
+                                                            required
                                                             mask="99:99"
                                                             class="ng-pristine ng-valid ng-touched" 
                                                             aria-invalid="false">
@@ -238,8 +241,8 @@
                                             <div class="informativos info" role="alert">
                                                 <i class="fa fa-info-circle"></i>
                                                 <span>
-                                                    O inicio da votação devera ser manual, via painel administrativo.
-                                                    A data hora do fim definira abaixo podera ser editado posteriormente.
+                                                    O início da votação deverá ser manual, via painel administrativo.
+                                                    A data/horário do fim definida abaixo poderá ser editada posteriormente.
                                                 </span>
                                             </div>
 
@@ -253,6 +256,7 @@
                                                             placeholder=" " 
                                                             autocomplete="off"
                                                             mask="99/99/9999"
+                                                            required
                                                             class="ng-pristine ng-valid ng-touched" 
                                                             aria-invalid="false">
                                                         <span>DATA DO FIM</span>
@@ -269,6 +273,7 @@
                                                             placeholder=" " 
                                                             autocomplete="off"
                                                             mask="99:99"
+                                                            required
                                                             class="ng-pristine ng-valid ng-touched" 
                                                             aria-invalid="false">
                                                         <span>HORA DO FIM</span>
@@ -347,7 +352,7 @@
                                             </p>
                                             <div class="col-md-24" style="padding-left: 15px;" >
                                                 <!--<button class="btn btn-default pull-left ba__margin-right-15">ANEXAR ARQUIVO</button>-->
-                                                <input class="ba__font-size-12 pull-left" type="file" id="inputDocumentos" name="documentos" onchange="angular.element(this).scope().changeInputField(this, 'documentos_regras')">
+                                                <input class="ba__font-size-12 pull-left" type="file" id="inputDocumentos" accept="image/*,.pdf,.doc,.docs,.xls,.xlsx,.txt" name="documentos" onchange="angular.element(this).scope().changeInputField(this, 'documentos_regras')">
                                                 <span class="ba__font-size-12 pull-left ba__font-color-gray ba__margin-top-10" style="width: 70%; margin-bottom: 15px; clear: both;" >Arquivos de no max 10MB, nas extensões .PDF, .DOC, .DOCX, .XLS, .XLSX, .JPG ou .TXT</span>
                                             </div>
                                             <div class="col-md-18"
@@ -360,7 +365,7 @@
                                                 ng-repeat="(indexDoc, doc) in assembleia.documentos">
                                                 <a href="javascript:void(0)" ng-click="abreDocumento()">
                                                     <img width="45" height="45" src="{{doc.icon}}">
-                                                    <i style="font-size: 17px; color: #666666 !important;">{{doc.name}}</i>                                                    
+                                                    <i style="font-size: 17px; color: #666666 !important;">{{doc.name}}</i>
                                                 </a>
                                                 <i ng-click="excluirArquivo(doc, indexDoc)" class="fa fa-trash pull-right"
                                                         style="font-size: 24px;
@@ -468,13 +473,6 @@
                                     <!--STEP 3 PERÍODOS-->
                                     <div class="form-group col-xs-24" id="step3" ng-show="step === 3"
                                         style="background-color: #F2F2F2; padding: 60px 15px 30px 15px;">
-
-                                        <pre>
-                                            {{ 
-                                                assembleia | json
-                                            }}
-                                        </pre>                                        
-
                                         <div class="row">
                                             
                                             <div class="row uppercase titulo-lista"
@@ -506,35 +504,45 @@
                                                             </label>
                                                         </div>
                                                     </h5>
-                                                    <h5 class="col-xs-4 list-group-item-heading">Qd 01 Lt. 02</h5>
-                                                    <h5 class="col-xs-2 list-group-item-heading">{{participante.peso}}</h5>
+                                                    <h5 class="col-xs-4 list-group-item-heading">Qd {{participante.quadra}} Lt. {{participante.lote}}</h5>
+                                                    <h5 class="col-xs-2 list-group-item-heading">x{{participante.peso}}</h5>
                                                     
                                                     <h5 class="col-xs-4 list-group-item-heading">
-                                                        <span class="badge-style {{participante.status.toLowerCase() === 'participando' ? ' badge-participante-ativo' : ' badge-participante-impedido' }}">
-                                                            {{ participante.status }}
+                                                        <span class="badge-style {{participante.participar ? ' badge-participante-ativo' : ' badge-participante-impedido' }}">
+                                                            {{ participante.participar ? 'Participando' : 'Impedido' }}
                                                         </span>
                                                     </h5>
-                                                    <h5 class="col-xs-8 list-group-item-heading">
+                                                    <h5 class="col-xs-8 list-group-item-heading" ng-if="!participante.id_procurador">
+                                                       <span ng-click="addProcurador(participante)" class="text-gray underline"><i class="fa fa-plus-circle"></i> Add.procurador</span>
+                                                    </h5>
+                                                    <h5 class="col-xs-8 list-group-item-heading" ng-if="participante.id_procurador">
                                                         {{ participante.procurador }}
                                                     </h5>
-                                                    <h5 class="col-xs-4 list-group-item-heading text-right"></h5>
+                                                    <h5 class="col-xs-4 list-group-item-heading text-right" ng-if="participante.id_procurador">
+                                                        <span ng-click="remProcurador(participante)" class="text-gray underline" ><i class="fa fa-trash"></i> Rem.procurador</span>
+                                                    </h5>
                                                 </li>
                                             </ul>
                                         </div>
 
+                                        <pre>
+                                            {{
+                                            assembleia | json
+                                            }}
+                                        </pre>
                                     </div>
                                 </div>
                             </form>
                         </div>
                         <!-- Footer -->
                         <div class="modal-footer" style="margin: 20px">
-                            <button ng-if="!localReservavel.id" type="button" class="btn btn-success col-md-5 pull-right" ng-show="step == 3"
+                            <button ng-if="!assembleia.id" type="button" class="btn btn-success col-md-5 pull-right" ng-show="step == 3"
                                     ng-disabled="formAssembleia.$invalid"
                                     style="margin-left: 5px"
                                     ng-click="salvar()">
                                 Concluir
                             </button>
-                            <button ng-if="localReservavel.id" type="button" class="btn btn-success col-md-5 pull-right" ng-show="step == 3"
+                            <button ng-if="assembleia.id" type="button" class="btn btn-success col-md-5 pull-right" ng-show="step == 3"
                                     ng-disabled="formAssembleia.$invalid"
                                     style="margin-left: 5px"
                                     ng-click="update()">

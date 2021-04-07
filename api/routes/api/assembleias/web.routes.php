@@ -29,8 +29,12 @@ Route::post('/assembleias/encaminhamentos', 'assembleia\EncaminhamentoController
 
 Route::post('/assembleias/respostas', 'assembleia\PostController@store');
 
-
 Route::post('/assembleias/questoes-ordem', 'assembleia\QuestaoOrdemController@store');
+
+Route::get('/assembleias/documentos/{id}', 'assembleia\DocumentoController@index');
+
+Route::delete('/assembleias/documentos/{id}', 'assembleia\DocumentoController@destroy');
+
 
 
 

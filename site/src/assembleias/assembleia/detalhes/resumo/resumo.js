@@ -77,10 +77,6 @@ function assembleiaResumoCtrl ($scope, $state, $filter, $http, UtilsService, con
             $scope.assembleia.votacao_data_fim = UtilsService.toDate(editAssembleia.votacao_data_fim);
             $scope.assembleia.transmissao = !!editAssembleia.link_transmissao;
             $scope.assembleia.votacao_secreta = !!editAssembleia.votacao_secreta;
-            debugger
-            // $scope.assembleia.data_inicio = UtilsService.toDateFormat($scope.assembleia.data_inicio);
-            // $scope.assembleia.data_fim = UtilsService.toDateFormat($scope.assembleia.data_fim);
-            // $scope.assembleia.votacao_data_fim = UtilsService.toDateFormat($scope.assembleia.data_inicio);
             $scope.step = 1;
             $('#editarAssembleia').modal('show');
         }).finally( () => {

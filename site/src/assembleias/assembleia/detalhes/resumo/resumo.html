@@ -561,13 +561,6 @@
                                 <!--STEP 3 PERÍODOS-->
                                 <div class="form-group col-xs-24" id="step3" ng-show="step === 3"
                                     style="background-color: #F2F2F2; padding: 60px 15px 30px 15px;">
-
-                                    <pre>
-                                        {{ 
-                                            assembleia | json
-                                        }}
-                                    </pre>                                        
-
                                     <div class="row">
                                         
                                         <div class="row uppercase titulo-lista"
@@ -599,8 +592,8 @@
                                                         </label>
                                                     </div>
                                                 </h5>
-                                                <h5 class="col-xs-4 list-group-item-heading">Qd 01 Lt. 02</h5>
-                                                <h5 class="col-xs-2 list-group-item-heading">{{participante.peso}}</h5>
+                                                <h5 class="col-xs-4 list-group-item-heading">Qd {{participante.quadra}} Lt. {{participante.lote}}</h5>
+                                                <h5 class="col-xs-2 list-group-item-heading">x{{participante.peso}}</h5>
                                                 
                                                 <h5 class="col-xs-4 list-group-item-heading">
                                                     <span class="badge-style {{participante.status.toLowerCase() === 'participando' ? ' badge-participante-ativo' : ' badge-participante-impedido' }}">
@@ -614,7 +607,11 @@
                                             </li>
                                         </ul>
                                     </div>
-
+                                    <pre>
+                                        {{
+                                        assembleia | json
+                                        }}
+                                    </pre>
                                 </div>
                             </div>
                         </form>

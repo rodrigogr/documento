@@ -8,6 +8,7 @@ use App\Http\Requests\Assembleia\AssembleiaRequest;
 use App\models\Assembleia\Assembleia;
 use App\models\Assembleia\AssembleiaDiscussao;
 use App\models\Assembleia\AssembleiaEncaminhamento;
+use App\models\Assembleia\AssembleiaOpcao;
 use App\models\Assembleia\AssembleiaParticipante;
 use App\models\Assembleia\AssembleiaPauta;
 use App\models\Assembleia\AssembleiaPergunta;
@@ -113,7 +114,23 @@ class AssembleiaController extends Controller
 
     public function show($id)
     {
-        $assembleia = Assembleia::where('id', $id)->with('documentos')->get();
+       // $assembleia = Assembleia::where('id', $id)->with('documentos')->with('pautas')->with('participantes')->get()->first();
+
+        $assembleia = Assembleia::find($id);
+//        $assembleia['pautas'] = $assembleia->pautas()->with(['assembleiaPergunta' => function($q){
+//            $q->join('assembleia_opcoes', 'assembleia_perguntas.id','assembleia_opcoes.id_pergunta' );
+//        }])
+//            ->get();
+
+        $assembleia['pautas'] = $assembleia->pautas()
+            ->join('assembleia_perguntas', 'assembleia_pautas.id_pergunta', '=', 'assembleia_perguntas.id')
+            ->get();
+
+        foreach ($assembleia['pautas'] as $key => $pauta)
+        {
+            $opcoes = AssembleiaOpcao::where('id_pergunta', $pauta['id_pergunta'])->get();
+            $assembleia['pautas'][$key]['alternativas'] = $opcoes;
+        }
 
         return response()->success($assembleia);
     }

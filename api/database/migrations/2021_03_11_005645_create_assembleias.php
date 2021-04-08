@@ -21,9 +21,9 @@ class CreateAssembleias extends Migration
                 $table->enum('status', ['agendada', 'andamento', 'encerrada'])->comment('Define o status da assembleia');
                 $table->enum('tipo', ['geral', 'interna'])->comment('Define o tipo de assembleia');
                 $table->date('data_inicio');
-                $table->addColumn('time','hora_inicio');
+                $table->time('hora_inicio');
                 $table->date('data_fim')->nullable();
-                $table->addColumn('time','hora_fim')->nullable();
+                $table->time('hora_fim')->nullable();
                 $table->string('link_transmissao')->nullable();
                 $table->boolean('votacao_secreta')->default(false);
                 $table->softDeletes();

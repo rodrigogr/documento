@@ -16,7 +16,7 @@ function assembleiaResumoCtrl ($scope, $state, $filter, $http, UtilsService, con
 
     $scope.getResumo = function ()
     {
-        $("#loading").modal("show");
+        $(".loader").show();
 
         var promisse = ($http.get(`${config.apiUrl}api/assembleias/resumo/`+ $state.params.id));
         promisse.then( function (result){
@@ -25,48 +25,68 @@ function assembleiaResumoCtrl ($scope, $state, $filter, $http, UtilsService, con
             $scope.assembleiaResumo = $scope.resumo.assembleia;
 
         }).finally( () => {
-            $("#loading").modal("hide")
+            $(".loader").hide();
         });
     }
 
     $scope.getResumo();
 
-    $scope.assembleia = {
-        tipo: 'geral',
-        titulo: 'Assembleia Geral Extraordinária de Segurança',
-        status: 'agendada',
-        data_inicio: '02/04/2021',
-        data_fim: '10/05/2021',
-        hora_inicio: '09:00',
-        hora_fim: '23:59',
-        votacao_data_inicio: '02/04/2021',
-        votacao_hora_fim: '23:59',
-        configuracao: false,
-        link_transmissao: 'http://youtube.com',
-        votacao_secreta: false,
-        documentos: [
-            {
-                id: 11,
-                file: "data:application/pdf;base64,JVBERi0xLjQNJeLjz9MNCj",
-                icon: "img/icons/icon_pdf.png",
-                name: "pdf_de_teste-1.pdf",
-            },
-            {
-                id: 10,
-                file: "data:application/pdf;base64,JVBERi0xLjQNJeLjz9MNCj",
-                icon: "img/icons/icon_pdf.png",
-                name: "pdf_de_teste.pdf",
-            }
-        ],
-        pautas: '',
-        participantes: [],
-    }
+    // $scope.assembleia = {
+    //     tipo: 'geral',
+    //     titulo: 'Assembleia Geral Extraordinária de Segurança',
+    //     status: 'agendada',
+    //     data_inicio: '02/04/2021',
+    //     data_fim: '10/05/2021',
+    //     hora_inicio: '09:00',
+    //     hora_fim: '23:59',
+    //     votacao_data_fim: '02/04/2021',
+    //     votacao_hora_fim: '23:59',
+    //     configuracao: false,
+    //     link_transmissao: 'http://youtube.com',
+    //     votacao_secreta: false,
+    //     documentos: [
+    //         {
+    //             id: 11,
+    //             file: "data:application/pdf;base64,JVBERi0xLjQNJeLjz9MNCj",
+    //             icon: "img/icons/icon_pdf.png",
+    //             name: "pdf_de_teste-1.pdf",
+    //         },
+    //         {
+    //             id: 10,
+    //             file: "data:application/pdf;base64,JVBERi0xLjQNJeLjz9MNCj",
+    //             icon: "img/icons/icon_pdf.png",
+    //             name: "pdf_de_teste.pdf",
+    //         }
+    //     ],
+    //     pautas: '',
+    //     participantes: [],
+    // }
 
 
     //** Modal nova assembleia */
-    $scope.editarAssembleia = function () {
-        $scope.step = 1;
-        $('#editarAssembleia').modal('show');
+    $scope.editarAssembleia = function (id)
+    {
+        $("#loading").modal("show");
+
+        var promisse = ($http.get(`${config.apiUrl}api/assembleias/`+id));
+        promisse.then( function (result) {
+            let editAssembleia = result.data.data;
+            $scope.assembleia = editAssembleia;
+            $scope.assembleia.data_inicio = UtilsService.toDate(editAssembleia.data_inicio);
+            $scope.assembleia.data_fim = UtilsService.toDate(editAssembleia.data_fim);
+            $scope.assembleia.votacao_data_fim = UtilsService.toDate(editAssembleia.votacao_data_fim);
+            $scope.assembleia.transmissao = !!editAssembleia.link_transmissao;
+            $scope.assembleia.votacao_secreta = !!editAssembleia.votacao_secreta;
+            debugger
+            // $scope.assembleia.data_inicio = UtilsService.toDateFormat($scope.assembleia.data_inicio);
+            // $scope.assembleia.data_fim = UtilsService.toDateFormat($scope.assembleia.data_fim);
+            // $scope.assembleia.votacao_data_fim = UtilsService.toDateFormat($scope.assembleia.data_inicio);
+            $scope.step = 1;
+            $('#editarAssembleia').modal('show');
+        }).finally( () => {
+            $("#loading").modal("hide")
+        });
+
     }
 
     $scope.closeEditarAssembleia = function () {
@@ -102,17 +122,17 @@ function assembleiaResumoCtrl ($scope, $state, $filter, $http, UtilsService, con
         // return pauta[index].alternativa.id === $scope.pautas.alternativas[$scope.pautas.alternativas.length-1].id;
     };
 
-    $scope.assembleia.pautas = [{
-        id: 'pauta1',
-        pergunta: '',
-        alternativas: [{
-            id: 'alternativa1',
-            opcao: ''
-        },{
-            id: 'alternativa2',
-            opcao: ''
-        }]
-    }];
+    // $scope.assembleia.pautas = [{
+    //     id: 'pauta1',
+    //     pergunta: '',
+    //     alternativas: [{
+    //         id: 'alternativa1',
+    //         opcao: ''
+    //     },{
+    //         id: 'alternativa2',
+    //         opcao: ''
+    //     }]
+    // }];
 
     $scope.addNewPauta = function(){
         var newItemNo = $scope.assembleia.pautas.length+1;
@@ -133,58 +153,58 @@ function assembleiaResumoCtrl ($scope, $state, $filter, $http, UtilsService, con
         }
     };
 
-    /** List All Participantes  */
-    $scope.assembleia.participantes = [
-        {
-            participar: true,
-            unidade: 'Qd 01 / Lt 03',
-            peso: 'x2',
-            status: 'Participando',
-            procurador: '5455 - Antônio Fonseca Salles de Abreu',
-            id_imovel:1,
-            id_procurador: 0
-        },{
-            participar: false,
-            unidade: 'Qd 01 / Lt 04',
-            peso: 'x1',
-            status: 'Impedido',
-            procurador: '',
-            id_imovel:2,
-            id_procurador: 0
-        },{
-            participar: true,
-            unidade: 'Qd 01 / Lt 03',
-            peso: 'x2',
-            status: 'Participando',
-            procurador: '',
-            id_imovel:3,
-            id_procurador: 0
-        },{
-            participar: false,
-            unidade: 'Qd 01 / Lt 06',
-            peso: 'x2',
-            status: 'Participando',
-            procurador: '',
-            id_imovel:4,
-            id_procurador: 0
-        },{
-            participar: false,
-            unidade: 'Qd 01 / Lt 12',
-            peso: 'x2',
-            status: 'Participando',
-            procurador: '',
-            id_imovel:5,
-            id_procurador: 0
-        }
-    ];
+    // /** List All Participantes  */
+    // $scope.assembleia.participantes = [
+    //     {
+    //         participar: true,
+    //         unidade: 'Qd 01 / Lt 03',
+    //         peso: 'x2',
+    //         status: 'Participando',
+    //         procurador: '5455 - Antônio Fonseca Salles de Abreu',
+    //         id_imovel:1,
+    //         id_procurador: 0
+    //     },{
+    //         participar: false,
+    //         unidade: 'Qd 01 / Lt 04',
+    //         peso: 'x1',
+    //         status: 'Impedido',
+    //         procurador: '',
+    //         id_imovel:2,
+    //         id_procurador: 0
+    //     },{
+    //         participar: true,
+    //         unidade: 'Qd 01 / Lt 03',
+    //         peso: 'x2',
+    //         status: 'Participando',
+    //         procurador: '',
+    //         id_imovel:3,
+    //         id_procurador: 0
+    //     },{
+    //         participar: false,
+    //         unidade: 'Qd 01 / Lt 06',
+    //         peso: 'x2',
+    //         status: 'Participando',
+    //         procurador: '',
+    //         id_imovel:4,
+    //         id_procurador: 0
+    //     },{
+    //         participar: false,
+    //         unidade: 'Qd 01 / Lt 12',
+    //         peso: 'x2',
+    //         status: 'Participando',
+    //         procurador: '',
+    //         id_imovel:5,
+    //         id_procurador: 0
+    //     }
+    // ];
 
     $scope.validDataCreate = function(){
         let formatDateInicioEn = $filter('formatOtherDate')('yyyy/mm/dd', $scope.assembleia.data_inicio);
         let formatDateFimEn = $filter('formatOtherDate')('yyyy/mm/dd', $scope.assembleia.data_fim);
-        let formatDateVotacaoEn = $filter('formatOtherDate')('yyyy/mm/dd', $scope.assembleia.votacao_data_inicio);
+        let formatDateVotacaoEn = $filter('formatOtherDate')('yyyy/mm/dd', $scope.assembleia.votacao_data_fim);
         $scope.assembleia.data_inicio = formatDateInicioEn;
         $scope.assembleia.data_fim = formatDateFimEn;
-        $scope.assembleia.votacao_data_inicio = formatDateVotacaoEn;
+        $scope.assembleia.votacao_data_fim = formatDateVotacaoEn;
 
         $scope.assembleia.participantes = $scope.listParticipanteCheckTrue($scope.assembleia.participantes);
     }

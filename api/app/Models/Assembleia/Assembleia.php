@@ -10,8 +10,9 @@ class Assembleia extends Model
     public $timestamps = true;
 
     static public $associations = [
-        'pautas ',
-        'documentos'
+        'pautas',
+        'documentos',
+        'participantes'
     ];
 
     protected $fillable = [
@@ -23,8 +24,15 @@ class Assembleia extends Model
         'data_fim',
         'hora_fim',
         'link_transmissao',
-        'votacao_secreta'
+        'votacao_secreta',
+        'votacao_data_fim',
+        'votacao_hora_fim'
+
     ];
+    static public function complete($id = NULL)
+    {
+        return ($id != NULL) ? self::where('id', $id)->with(self::$associations)->first() : self::with(self::$associations)->get();
+    }
 
     public function setDataHoraInicioAttribute($value)
     {
@@ -34,6 +42,26 @@ class Assembleia extends Model
     public function setDataHoraFimAttribute($value)
     {
         return $this->attributes['data_fim'] = DataHelper::setDate($value);
+    }
+
+    public function getDataInicioAttribute($value)
+    {
+        return DataHelper::getPrettyDate($value);
+    }
+
+    public function getDataFimAttribute($value)
+    {
+        return DataHelper::getPrettyDate($value);
+    }
+
+    public function getVotacaoDataInicioAttribute($value)
+    {
+        return DataHelper::getPrettyDate($value);
+    }
+
+    public function getVotacaoDataFimAttribute($value)
+    {
+        return DataHelper::getPrettyDate($value);
     }
 
     public function participantes()

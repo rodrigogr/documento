@@ -24,7 +24,7 @@
                         <b>ASSEMBLEIA EM ANDAMENTO</b>
                     </p> -->
 
-                    <div ng-click="editarAssembleia()" class="pull-right"
+                    <div ng-click="editarAssembleia(assembleiaResumo.id)" class="pull-right"
                          style="position: absolute; 
                         right: 15px; 
                         color: #828282; 
@@ -47,20 +47,20 @@
                                 </span>
                             </div>
                             <div class="item">
-                                <i class="fa fa-check"></i>
+                                <i class="fa fa-check-square"></i>
                                 <span>
-                                    início pendente
-                                    até {{ assembleiaResumo.votacao_data_inicio }} {{ assembleiaResumo.votacao_hora_fim }}
+                                    {{assembleiaresumo.votacao_data_inicio ? 'de' + assembleiaresumo.votacao_data_inicio : 'início pendente' }}
+                                    até {{ assembleiaResumo.votacao_data_fim }} {{ assembleiaResumo.votacao_hora_fim }}
                                 </span>
                             </div>
+<!--                            <div class="item">-->
+<!--                                <i class="fa fa-map"></i>-->
+<!--                                <span>-->
+<!--                                    Somente online-->
+<!--                                </span>-->
+<!--                            </div>-->
                             <div class="item">
-                                <i class="fa fa-map"></i>
-                                <span>
-                                    Somente online
-                                </span>
-                            </div>
-                            <div class="item">
-                                <i class="fa fa-camera"></i>
+                                <i class="fa fa-video-camera"></i>
                                 <span>
                                     <a href="{{ assembleiaResumo.link_transmissao }}" target="_blank" class="link">Link da transmissão</a>
                                 </span>
@@ -197,7 +197,7 @@
                         <div class="row">
                             <h4 class="modal-title Roboto-Thin ba__font-size-25" style="padding: 25px 25px 10px; font-weight: bold;">
                                 <i class="icon-ba-building text-center text-primary ba__margin-horizontal-5 icon-modal-title"></i>
-                                <span>{{ localReservavel.id ? 'Editar Assembleia' : 'Novo Assembleia'}}</span>
+                                <span>{{ assembleia.id ? 'Editar Assembleia' : 'Novo Assembleia'}}</span>
                             </h4>
                         </div>
                         <div class="row check-assembleia">
@@ -270,16 +270,13 @@
                                             <div style="padding: 15px;">
                                                 <div class="control-input">
                                                     <input 
-                                                        type="text" 
-                                                        name="data_inicio" 
-                                                        ng-model="assembleia.data_inicio" 
-                                                        placeholder=" " 
-                                                        autocomplete="off" 
-                                                        mask="99/99/9999"
-                                                        class="ng-pristine ng-valid ng-touched"
+                                                        type="date"
+
+                                                        ng-model="assembleia.data_inicio"
                                                         required
-                                                        aria-invalid="false">
+                                                        >
                                                     <span>DATA DO INICÍO</span>
+
                                                 </div>
                                             </div>
                                         </div>
@@ -304,12 +301,8 @@
                                             <div style="padding: 15px;">
                                                 <div class="control-input">
                                                     <input 
-                                                        type="text" n
-                                                        ame="data_inicio" 
-                                                        ng-model="assembleia.data_fim" 
-                                                        placeholder=" " 
-                                                        autocomplete="off"
-                                                        mask="99/99/9999"
+                                                        type="date"
+                                                        ng-model="assembleia.data_fim"
                                                         class="ng-pristine ng-valid ng-touched" 
                                                         aria-invalid="false">
                                                     <span>DATA DO FIM</span>
@@ -351,12 +344,8 @@
                                             <div style="padding: 15px;">
                                                 <div class="control-input">
                                                     <input 
-                                                        type="text" 
-                                                        name="votacao_data_inicio" 
-                                                        ng-model="assembleia.votacao_data_inicio" 
-                                                        placeholder=" " 
-                                                        autocomplete="off"
-                                                        mask="99/99/9999"
+                                                        type="date"
+                                                        ng-model="assembleia.votacao_data_fim"
                                                         class="ng-pristine ng-valid ng-touched" 
                                                         aria-invalid="false">
                                                     <span>DATA DO FIM</span>
@@ -391,10 +380,10 @@
                                                 <input type="checkbox" 
                                                         name="onoffswitch"
                                                         class="onoffswitch-checkbox"
-                                                        id="configuracao"
+                                                        id="transmissao"
 
-                                                        ng-model="assembleia.configuracao">
-                                                <label class="onoffswitch-label" for="configuracao">
+                                                        ng-model="assembleia.transmissao">
+                                                <label class="onoffswitch-label" for="transmissao">
                                                     <span class="onoffswitch-inner"></span>
                                                     <span class="onoffswitch-switch"></span>
                                                 </label>
@@ -404,7 +393,7 @@
                                             <h5 class="text-left"
                                                 style="padding: 0; margin: 6px;">Transmissão online</h5>
                                         </div>  
-                                        <div ng-if="assembleia.configuracao">
+                                        <div ng-if="assembleia.transmissao">
                                             <div class="col-md-24">
                                                 <div style="padding: 15px;">
                                                     <div class="control-input">
@@ -657,5 +646,20 @@
                 </div>
             </div>
         </div>
+
+        <!--MODAL LOADING-->
+        <div class="modal" id="loading" role="dialog" data-backdrop="static" style="background: rgba(0, 0, 0, 0.1)!important">
+            <div class="modal-dialog" role="document">
+                <div style="padding: 20px;background:#FFF;width:14%;margin: 15% auto;position: relative;background-clip: padding-box;text-align: center;">
+                    <div class="row">
+                        <i class="col-md-5 fa fa-spinner fa-spin ba__font-size-50 text-center"></i>
+                        <h5 class="col-md-13 col-md-offset-1 text-gray ba__margin-top-20">
+                            <b>aguarde...</b>
+                        </h5>
+                    </div>
+                </div>
+            </div>
+        </div>
+
     </div>
 </div>

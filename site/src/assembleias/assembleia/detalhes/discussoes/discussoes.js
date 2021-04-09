@@ -138,14 +138,24 @@ function assembleiaDiscussoesCtrl($scope, $state, $filter, UtilsService, config)
 
 
     //** Modal Detalhe do tópico */
-    $scope.respodenrComentario = function (id) {
-        console.log(id);  
+    $scope.responderComentario = function (id) {
+        console.log(id);
+        
+        $scope.respostaDoComentario = '';
         $('#responderComentario').modal('show');
     }
 
-    $scope.fechaRespodenrComentario = function () {
+    $scope.fechaResponderComentario = function () {
         $('#responderComentario').modal('hide');
     }
     //** Modal Detalhe do tópico */
+
+    /** Cadastrar comentario */
+    $scope.cadastrarComentario = function(idComentario){
+        console.log(`id: ${idComentario}, comentario: ${$scope.respostaDoComentario}`);
+        $scope.fechaResponderComentario();
+    }
+    /** Cadastrar comentario */
+
 
 }

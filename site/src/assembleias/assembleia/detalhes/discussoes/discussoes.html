@@ -22,11 +22,8 @@
             </div>
         </a>
         <div class="ba__admin-table-scroll">
-            <a class="list-group-item" 
-                ng-repeat="(index, discussoes) in listaDeDiscussoes"
-                ng-click="abreDiscussao(discussoes.id)"
-                style="cursor: pointer;"
-                >
+            <a class="list-group-item" ng-repeat="(index, discussoes) in listaDeDiscussoes"
+                ng-click="abreDiscussao(discussoes.id)" style="cursor: pointer;">
                 <h5 class="col-xs-2 list-group-item-heading">{{discussoes.pauta}}</h5>
                 <h5 class="col-xs-10 list-group-item-heading">{{discussoes.titulo}}</h5>
                 <h5 class="col-xs-2 list-group-item-heading">{{discussoes.topicos}}</h5>
@@ -59,8 +56,8 @@
                 <!-- Form Mean -->
                 <div class="modal-body ba__modal-body-assembleia"
                     style="background-color: #F2F2F2; padding: 0px !important">
-    
-                    <header class="discussoes" >
+
+                    <header class="discussoes">
                         <p>PAUTA 01 DE 02</p>
                         <h5>
                             Você acha necessário a reforma imediata do parquinho e brinquedoteca do residencial?
@@ -69,9 +66,8 @@
 
                     <article class="box-discussao">
 
-                        <section 
-                             class="bgc-fff bs br8px"
-                             ng-repeat="topicos in selectDiscussao">
+                        <section class="bgc-fff bs br8px" ng-repeat="topicos in selectDiscussao"
+                            ng-click="detalheTopico(topicos.id)">
                             <div class="pessoa">
                                 <img class="" src="{{ topicos.foto }}" alt="" />
                                 <div>
@@ -83,16 +79,16 @@
                                 {{ topicos.titulo }}
                             </h6>
                             <div class="likes">
-                                <i class="fa fa-thumbs-up">&nbsp;&nbsp; {{ topicos.like }}</i> 
+                                <i class="fa fa-thumbs-up">&nbsp;&nbsp; {{ topicos.like }}</i>
                                 <i class="fa fa-thumbs-down ">&nbsp;&nbsp; {{ topicos.deslike }}</i>
-                                <i class="fa fa-weixin ">&nbsp;&nbsp; {{ topicos.number }} comentários</i> 
+                                <i class="fa fa-weixin ">&nbsp;&nbsp; {{ topicos.number }} comentários</i>
                             </div>
-                        </section>                        
-                    </article>    
+                        </section>
+                    </article>
                 </div>
                 <!-- Footer -->
                 <div class="modal-footer" style="padding-right: 15px !important;">
-                    <button type="button" class="btn btn-default btn-clear col-md-5 pull-right" 
+                    <button type="button" class="btn btn-default btn-clear col-md-5 pull-right"
                         ng-click="fechaDiscussao()">
                         Fechar
                     </button>
@@ -101,5 +97,159 @@
         </div>
     </div>
     <!-- Modal Discussão -->
-</div>
 
+
+    <!-- Modal Detalhe do Tópico -->
+    <div class="modal fade" id="detalheTopico" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="false">
+        <div class="modal-dialog assembleia-modal-50pc" role="document">
+            <div class="modal-content assembleia-content">
+                <!-- Header -->
+                <div class="modal-header assembleia-header">
+                    <div class="row">
+                        <h4 class="modal-title Roboto-Thin ba__font-size-25"
+                            style="padding: 25px 25px 10px; font-weight: bold;">
+                            <i class="fa fa-weixin cff6633"></i>
+                            <span>DETALHES DO TÓPICO</span>
+                        </h4>
+                    </div>
+                </div>
+                <!-- Form Mean -->
+                <div class="modal-body ba__modal-body-assembleia"
+                    style="background-color: #F2F2F2; padding: 0px !important">
+
+                    <header class="discussoes">
+                        <div class="pessoa">
+                            <img class="" src="{{ listDetalheTopico.foto }}" alt="" />
+                            <div>
+                                <span>{{ listDetalheTopico.nome }}</span>
+                                <span>Há 32 minutos</span>
+                            </div>
+                        </div>
+
+                        <h5>
+                            {{ listDetalheTopico.titulo }}
+                        </h5>
+
+                        <h6>
+                            {{ listDetalheTopico.descricao }}
+                        </h6>
+                    </header>
+
+                    <article class="box-discussao">
+                        <section class="bgc-fff bs br8px" ng-repeat="topicoDetalhe in listDetalheTopico.comentarios">
+                            <div class="pessoa">
+                                <img class="" src="{{ topicoDetalhe.foto }}" alt="" />
+                                <div>
+                                    <span>{{ topicoDetalhe.nome }}</span>
+                                    <span>Há 32 minutos</span>
+                                </div>
+                            </div>
+                            <h6>
+                                {{ topicoDetalhe.comentario }}
+                            </h6>
+                            <div 
+                                ng-click="responderComentario(topicoDetalhe.id)"
+                                class="comentar" >
+                                <i class="fa fa-reply-all" aria-hidden="true">&nbsp;&nbsp; Responder</i>
+                            </div>
+                        </section>
+                    </article>
+                </div>
+                <!-- Footer -->
+                <div class="modal-footer" style="padding-right: 15px !important;">
+                    <button ng-click="responderComentario(1)" type="button" class="btn btn-success col-md-5 pull-right"
+                        style="margin-left: 5px">
+                        Comentar
+                    </button>
+
+                    <button type="button" class="btn btn-default btn-clear col-md-5 pull-right"
+                        ng-click="fechaDetalheTopico()">
+                        Cancelar
+                    </button>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Modal Detalhe do Tópico -->
+
+    <!-- Modal  -->
+    <div class="modal fade" id="responderComentario" tabindex="-1" role="dialog" data-backdrop="static"
+        data-keyboard="false">
+        <div class="modal-dialog assembleia-modal-50pc" role="document">
+            <div class="modal-content assembleia-content">
+                <!-- Header -->
+                <div class="modal-header assembleia-header">
+                    <div class="row">
+                        <h4 class="modal-title Roboto-Thin ba__font-size-25"
+                            style="padding: 25px 25px 10px; font-weight: bold;">
+                            <i class="fa fa-pencil-square-o cff6633"></i>
+                            <span>COMENTÁRIO</span>
+                        </h4>
+                    </div>
+                </div>
+                <!-- Form Mean -->
+                <div class="modal-body ba__modal-body-assembleia"
+                    style="background-color: #ffffff; padding: 0px !important">
+
+                    <header class="discussoes">
+                        <div class="pessoa">
+                            <img class="" src="{{ listDetalheTopico.foto }}" alt="" />
+                            <div>
+                                <span>{{ listDetalheTopico.nome }}</span>
+                                <span>Há 32 minutos</span>
+                            </div>
+                        </div>
+
+                        <h5>
+                            {{ listDetalheTopico.titulo }}
+                        </h5>
+                    </header>
+
+                    <form name="formResponder">
+
+                        <div class="row ba__margin-bottom-30">
+                            <div class="col-md-24">
+                                <div style="padding: 15px;">
+                                    <div class="control-input">
+                                        <textarea 
+                                            name="respostaDoComentario" 
+                                            ng-model="respostaDoComentario" 
+                                            placeholder=" "
+                                            class="ng-pristine ng-valid ng-touched" 
+                                            required 
+                                            aria-invalid="false"
+                                            rows="7"
+                                            cols="33">
+                                        </textarea>
+                                        <span>RESPONDER </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </form>
+
+                </div>
+                <!-- Footer -->
+                <div class="modal-footer" style="padding-right: 15px !important;">
+                    <button
+                        type="button" 
+                        class="btn btn-success col-md-5 pull-right" 
+                        style="margin-left: 5px"
+                        ng-show="respostaDoComentario"
+                        ng-click="cadastrarComentario(11)">
+                        Enviar
+                    </button>
+
+                    <button type="button" class="btn btn-default btn-clear col-md-5 pull-right"
+                        ng-click="fechaResponderComentario()">
+                        Cancelar
+                    </button>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Modal Detalhe do Tópico -->
+</div>

@@ -98,4 +98,64 @@ function assembleiaDiscussoesCtrl($scope, $state, $filter, UtilsService, config)
     }
     //** Modal Discussão */
 
+
+    //** Modal Detalhe do tópico */
+    $scope.detalheTopico = function (id) {
+        console.log(id);
+
+        $scope.listDetalheTopico = {        
+            id: 1,
+            foto: '../../../../../img/avatar.png',
+            nome: 'Joaquim Almeida',
+            titulo: 'Há outras prioridades no momento, como discutido em outra assembleia Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+            descricao: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla ac cursus mauris, ut porta tellus. Nulla molestie imperdiet enim vel cursus. Nullam dictum vitae quam ut sollicitudin. Nulla iaculis pharetra orci ut efficitur. Sed ut orci fringilla, sagittis nunc et, consequat neque. Phasellus in dignissim risus, ut laoreet massa. Praesent volutpat, quam eu suscipit volutpat, nulla enim finibus ante, vitae venenatis mauris erat in purus. Nulla facilisi.',
+            like: '12',
+            comentarios: [{
+                id: 64,
+                foto: '../../../../../img/avatar.png',
+                nome: 'Joaquim Almeida',
+                comentario: 'Pellentesque a ultrices neque, in facilisis ipsum. Vestibulum rutrum nisl nec purus malesuada vehicula. Phasellus nec lobortis nisi. Curabitur id nulla consequat felis lacinia auctor. Sed sed lorem purus. Nulla facilisi.'
+            },{
+                id: 65,
+                foto: '../../../../../img/avatar.png',
+                nome: 'Joaquim Almeida',
+                comentario: 'Pellentesque a ultrices neque, in facilisis ipsum. Vestibulum rutrum nisl nec purus malesuada vehicula. Phasellus nec lobortis nisi. Curabitur id nulla consequat felis lacinia auctor. Sed sed lorem purus. Nulla facilisi.'
+            },{
+                id: 66,
+                foto: '../../../../../img/avatar.png',
+                nome: 'Joaquim Almeida',
+                comentario: 'Pellentesque a ultrices neque, in facilisis ipsum. Vestibulum rutrum nisl nec purus malesuada vehicula. Phasellus nec lobortis nisi. Curabitur id nulla consequat felis lacinia auctor. Sed sed lorem purus. Nulla facilisi.'
+            }],
+        }
+
+        $('#detalheTopico').modal('show');
+    }
+
+    $scope.fechaDetalheTopico = function () {
+        $('#detalheTopico').modal('hide');
+    }
+    //** Modal Detalhe do tópico */
+
+
+    //** Modal Detalhe do tópico */
+    $scope.responderComentario = function (id) {
+        console.log(id);
+        
+        $scope.respostaDoComentario = '';
+        $('#responderComentario').modal('show');
+    }
+
+    $scope.fechaResponderComentario = function () {
+        $('#responderComentario').modal('hide');
+    }
+    //** Modal Detalhe do tópico */
+
+    /** Cadastrar comentario */
+    $scope.cadastrarComentario = function(idComentario){
+        console.log(`id: ${idComentario}, comentario: ${$scope.respostaDoComentario}`);
+        $scope.fechaResponderComentario();
+    }
+    /** Cadastrar comentario */
+
+
 }

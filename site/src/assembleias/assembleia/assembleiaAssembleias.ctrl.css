@@ -54,6 +54,10 @@
     width: 60%;
 }
 
+.assembleia-modal-50pc{
+    width: 50%;
+}
+
 .assembleia-content,
 .assembleia-header{
     padding: 0px;

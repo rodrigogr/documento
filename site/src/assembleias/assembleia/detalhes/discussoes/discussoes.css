@@ -54,6 +54,13 @@ article.box-discussao > section h6{
     object-fit: cover;
 }
 
+.pessoa h6{
+    font-size: 14px;
+    font-weight: 400;
+    color: #333;
+    margin: 15px 0 0 15px;
+}
+
 .pessoa > div{
     display: flex;
     flex-direction: column;
@@ -74,4 +81,15 @@ article.box-discussao > section h6{
 
 .likes i{
     margin-right: 15px;
+}
+
+.comentar{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-end;
+    
+    font-size: 14px;
+    color: #999;
+    margin-right: 8px;
 }

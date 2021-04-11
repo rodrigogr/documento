@@ -11,10 +11,10 @@ angular.module('appDirectives').directive("assembleiadiscussoes", function () {
     }
 });
 
-function assembleiaDiscussoesCtrl($scope, $state, $filter, UtilsService, config)
+function assembleiaDiscussoesCtrl($scope, $http, $state, $filter, UtilsService, config)
 {
 
-    $scope.listaDeDiscussoes = [{
+    $scope.listaDeDiscussoesAuxiliar = [{
             id: 1,
             pauta: '01',
             titulo: 'Qual empresa de segurança devemos contratar?',
@@ -72,9 +72,32 @@ function assembleiaDiscussoesCtrl($scope, $state, $filter, UtilsService, config)
             comentarios: []                                                    
     }];
 
+
+    let url_api = 'http://localhost:8001/';
+    $scope.listaDeDiscussoes = [];
+    let idAssembleia = '2'; //Verificar como vou pegar o id da assembleia aberta
+
+    function buscaDiscussoes()
+    {
+        console.log(idAssembleia);
+        var promise = $http.get(url_api+'api/assembleias/discussoes/'+idAssembleia);
+        promise.then(function (retorno) {
+            $scope.listaDeDiscussoes = retorno.data.data;
+            console.log($scope.listaDeDiscussoes);
+        });
+    }
+
+    buscaDiscussoes();
+
     moment.locale('pt-br');
+
     $scope.converteDateParaPtBR = function(date){
         return moment(date).format('L');
+    }
+
+    $scope.extractHorario = function(horario){
+        let time = (moment(horario).hour()+":"+moment(horario).minute());
+        return time;
     }
 
     //** Modal Discussão */
@@ -83,7 +106,10 @@ function assembleiaDiscussoesCtrl($scope, $state, $filter, UtilsService, config)
 
         $scope.selectDiscussao = []
         $scope.listaDeDiscussoes.find((item, index) => {
-            if(item.id === id){
+            console.log(item);
+            console.log(index);
+            if(item.id_pauta === id){
+                console.log("entrou no if");
                 $scope.selectDiscussao = $scope.listaDeDiscussoes[index].comentarios;
                 return $scope.selectDiscussao;
             } 

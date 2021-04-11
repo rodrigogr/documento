@@ -23,13 +23,13 @@
         </a>
         <div class="ba__admin-table-scroll">
             <a class="list-group-item" ng-repeat="(index, discussoes) in listaDeDiscussoes"
-                ng-click="abreDiscussao(discussoes.id)" style="cursor: pointer;">
+                ng-click="abreDiscussao(discussoes.id_pauta)" style="cursor: pointer;">
                 <h5 class="col-xs-2 list-group-item-heading">{{discussoes.pauta}}</h5>
                 <h5 class="col-xs-10 list-group-item-heading">{{discussoes.titulo}}</h5>
                 <h5 class="col-xs-2 list-group-item-heading">{{discussoes.topicos}}</h5>
-                <h5 class="col-xs-2 list-group-item-heading uppercase">{{discussoes.count_comentarios}}</h5>
+                <h5 class="col-xs-2 list-group-item-heading uppercase">{{discussoes.comentarios}}</h5>
                 <h5 class="col-xs-5 list-group-item-heading">
-                    ás {{discussoes.interacao_hora}} de {{ converteDateParaPtBR(discussoes.interacao_data) }} </h5>
+                    às {{extractHorario(discussoes.ultima_interacao)}} de {{ converteDateParaPtBR(discussoes.ultima_interacao) }} </h5>
                 <h5 class="col-xs-3 list-group-item-heading text-right">
                     <i class="fa fa-eye"></i>
                 </h5>

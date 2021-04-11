@@ -34,12 +34,12 @@ class Assembleia extends Model
         return ($id != NULL) ? self::where('id', $id)->with(self::$associations)->first() : self::with(self::$associations)->get();
     }
 
-    public function setDataHoraInicioAttribute($value)
+    public function setDataInicioAttribute($value)
     {
         return $this->attributes['data_inicio'] = DataHelper::setDate($value);
     }
 
-    public function setDataHoraFimAttribute($value)
+    public function setDataFimAttribute($value)
     {
         return $this->attributes['data_fim'] = DataHelper::setDate($value);
     }
@@ -54,9 +54,18 @@ class Assembleia extends Model
         return DataHelper::getPrettyDate($value);
     }
 
+    public function setVotacaoDataInicioAttribute($value)
+    {
+        return $this->attributes['votacao_data_inicio'] = DataHelper::setDate($value);
+    }
     public function getVotacaoDataInicioAttribute($value)
     {
         return DataHelper::getPrettyDate($value);
+    }
+
+    public function setVotacaoDataFimAttribute($value)
+    {
+        return $this->attributes['votacao_data_fim'] = DataHelper::setDate($value);
     }
 
     public function getVotacaoDataFimAttribute($value)

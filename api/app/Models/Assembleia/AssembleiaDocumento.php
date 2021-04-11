@@ -9,7 +9,7 @@ class AssembleiaDocumento extends Model
 {
     public $timestamps = true;
     protected $table = 'assembleia_documentos';
-    protected $fillable = ['file'];
+    protected $fillable = ['name','file'];
     use SoftDeletes;
 
     public function assembleia()

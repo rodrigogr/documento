@@ -11,7 +11,7 @@ angular.module('appDirectives').directive("assembleiaresumo", function () {
     }
 });
 
-function assembleiaResumoCtrl ($scope, $state, $filter, $http, UtilsService, config)
+function assembleiaResumoCtrl ($scope, $state, $filter, $http, AuthService, UtilsService, config)
 {
 
     $scope.getResumo = function ()
@@ -23,6 +23,14 @@ function assembleiaResumoCtrl ($scope, $state, $filter, $http, UtilsService, con
             $scope.resumo = result.data.data;
 
             $scope.assembleiaResumo = $scope.resumo.assembleia;
+            $scope.assembleiaResumo.documentos  = [];
+            var promisse = ($http.get(`${config.apiUrl}api/assembleias/documentos/`+$scope.assembleiaResumo.id));
+            promisse.then( function (result) {
+                $scope.assembleiaResumo.documentos =  result.data.data;
+                // angular.forEach($scope.assembleiaResumo.documentos, function(obj) {
+                //     obj.icon = iconArquivo(obj.file);
+                // });
+            });
 
         }).finally( () => {
             $(".loader").hide();
@@ -77,6 +85,7 @@ function assembleiaResumoCtrl ($scope, $state, $filter, $http, UtilsService, con
             $scope.assembleia.votacao_data_fim = UtilsService.toDate(editAssembleia.votacao_data_fim);
             $scope.assembleia.transmissao = !!editAssembleia.link_transmissao;
             $scope.assembleia.votacao_secreta = !!editAssembleia.votacao_secreta;
+            $scope.getDocumentosAssembleia($scope.assembleia.id);
             $scope.step = 1;
             $('#editarAssembleia').modal('show');
         }).finally( () => {
@@ -85,7 +94,18 @@ function assembleiaResumoCtrl ($scope, $state, $filter, $http, UtilsService, con
 
     }
 
-    $scope.closeEditarAssembleia = function () {
+    $scope.getDocumentosAssembleia = function (idAssembleia)
+    {
+        $scope.assembleia.documentos  = [];
+        var promisse = ($http.get(`${config.apiUrl}api/assembleias/documentos/`+idAssembleia));
+        promisse.then( function (result) {
+            $scope.assembleia.documentos =  result.data.data;
+        });
+    }
+
+    $scope.closeEditarAssembleia = function ()
+    {
+        $scope.getResumo();
         $('#editarAssembleia').modal('hide');
     }
     //** Modal nova assembleia */
@@ -288,4 +308,32 @@ function assembleiaResumoCtrl ($scope, $state, $filter, $http, UtilsService, con
         window.open(file,'_blank');
     }
 
+    $scope.update = async function ()
+    {
+        $("#loading").modal("show");
+
+        $scope.assembleia.data_inicio = UtilsService.utcToDate($scope.assembleia.data_inicio);
+        $scope.assembleia.data_fim = UtilsService.utcToDate($scope.assembleia.data_fim);
+        $scope.assembleia.votacao_data_fim = UtilsService.utcToDate($scope.assembleia.votacao_data_fim);
+        console.log($scope.assembleia);
+
+        $http({
+            method: "PUT",
+            url: `${config.apiUrl}api/assembleias/`+ $scope.assembleia.id,
+            data: $scope.assembleia,
+            headers:{
+                'Authorization': 'Bearer '+ AuthService.getToken()
+            }
+        })
+            .then(function(response) {
+                UtilsService.toastSuccess("Assembleia salva com sucesso!");
+                //$scope.limpar();
+                $scope.getResumo();
+                $('#editarAssembleia').modal('hide');
+
+
+            }, function(error) {
+                UtilsService.openAlert(error.data.message);
+            }).finally( () => { $("#loading").modal("hide") });
+    }
 }

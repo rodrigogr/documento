@@ -11,7 +11,22 @@ angular.module('appDirectives').directive("assembleiaparticipantes", function ()
     }
 });
 
-function assembleiaParticipantesCtrl ($scope, $state, $filter, UtilsService, config)
+function assembleiaParticipantesCtrl ($scope, $state, $filter,$http, AuthService, UtilsService, config)
 {
+    $scope.getParticipantes = function ()
+    {
+        $(".loader").show();
 
+        var promisse = ($http.get(`${config.apiUrl}api/assembleias/participantes/`+ $state.params.id));
+        promisse.then( function (result){
+            $scope.listParticipantes = result.data.data;
+            angular.forEach($scope.listParticipantes, function(obj) {
+                obj.participar = true;
+            });
+        }).finally( () => {
+            $(".loader").hide();
+        });
+    }
+
+    $scope.getParticipantes();
 }

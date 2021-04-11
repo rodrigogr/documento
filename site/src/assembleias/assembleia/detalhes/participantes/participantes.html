@@ -21,22 +21,24 @@
             </div>
         </a>
         <div class="ba__admin-table-scroll" style="height: 85%;">
-            <a class="list-group-item ba__font-size-12 ba__pointer" >
+            <a class="list-group-item ba__font-size-12 ba__pointer"
+               ng-repeat="participante in listParticipantes"
+            >
                 <div class="row">
                     <div class="col-xs-2 check-styled">
                         <label>
-                            <input type="checkbox" checked>
+                            <input type="checkbox" ng-model="participante.participar">
                         </label>
                     </div>
-                    <div class="col-xs-4">Qd 01 / Lt 02/</div>
-                    <div class="col-xs-2">x1</div>
+                    <div class="col-xs-4">Qd {{participante.quadra}} / Lt. {{participante.lote}} / {{participante.logradouro}}</div>
+                    <div class="col-xs-2">x{{participante.peso}}</div>
                     <div class="col-xs-4">
                         <span class="badge-style badge-participante-ativo">
                             Participando
                         </span>
                     </div>
                     <div class="col-xs-8">
-                        5455 - Antônio Fonseca Salles de Abreu
+                        {{participante.procurador}}
                     </div>
                     <div class="col-xs-4">
                         <i class="fa fa-plus-circle ba__margin-left-20" title="Excluir"  ng-click=""></i>

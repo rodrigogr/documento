@@ -78,7 +78,7 @@
                         border-radius: 8px; 
                         margin-bottom: 15px;
                         margin-left: 15px;"
-                        ng-repeat="(indexDoc, doc) in assembleia.documentos">
+                        ng-repeat="(indexDoc, doc) in assembleiaResumo.documentos">
                         <a href="javascript:void(0)" ng-click="abreDocumento()">
                             <img width="45" height="45" src="{{doc.icon}}">
                             <i style="font-size: 17px; color: #666666 !important;">{{doc.name}}</i>
@@ -596,8 +596,8 @@
                                                 <h5 class="col-xs-2 list-group-item-heading">x{{participante.peso}}</h5>
                                                 
                                                 <h5 class="col-xs-4 list-group-item-heading">
-                                                    <span class="badge-style {{participante.status.toLowerCase() === 'participando' ? ' badge-participante-ativo' : ' badge-participante-impedido' }}">
-                                                        {{ participante.status }}
+                                                    <span class="badge-style {{participante.participar ? ' badge-participante-ativo' : ' badge-participante-impedido' }}">
+                                                        {{ participante.participar ? 'Participando' : 'Impedido' }}
                                                     </span>
                                                 </h5>
                                                 <h5 class="col-xs-8 list-group-item-heading">
@@ -618,13 +618,7 @@
                     </div>
                     <!-- Footer -->
                     <div class="modal-footer" style="margin: 20px">
-                        <button ng-if="!localReservavel.id" type="button" class="btn btn-success col-md-5 pull-right" ng-show="step == 3"
-                                ng-disabled="formAssembleia.$invalid"
-                                style="margin-left: 5px"
-                                ng-click="salvar()">
-                            Concluir
-                        </button>
-                        <button ng-if="localReservavel.id" type="button" class="btn btn-success col-md-5 pull-right" ng-show="step == 3"
+                        <button ng-if="assembleia.id" type="button" class="btn btn-success col-md-5 pull-right" ng-show="step == 3"
                                 ng-disabled="formAssembleia.$invalid"
                                 style="margin-left: 5px"
                                 ng-click="update()">
@@ -643,7 +637,6 @@
                 </div>
             </div>
         </div>
-
         <!--MODAL LOADING-->
         <div class="modal" id="loading" role="dialog" data-backdrop="static" style="background: rgba(0, 0, 0, 0.1)!important">
             <div class="modal-dialog" role="document">
@@ -657,6 +650,5 @@
                 </div>
             </div>
         </div>
-
     </div>
 </div>

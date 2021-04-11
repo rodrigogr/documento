@@ -25,13 +25,23 @@ angular.module('AssembleiasModule').controller('AssembleiaAssembleiasCtrl',
             data_fim: '',
             hora_inicio: '',
             hora_fim: '',
-            votacao_data_inicio: '',
+            votacao_data_fim: '',
             votacao_hora_fim: '',
             configuracao: false,
             link_transmissao: '',
             votacao_secreta: false,
             documentos: [],
-            pautas: '',
+            pautas: [{
+                id: 'pauta1',
+                pergunta: '',
+                alternativas: [{
+                    id: 'alternativa1',
+                    opcao: ''
+                },{
+                    id: 'alternativa2',
+                    opcao: ''
+                }]
+            }],
             participantes: [],
         }
 
@@ -53,18 +63,19 @@ angular.module('AssembleiasModule').controller('AssembleiaAssembleiasCtrl',
 
         $scope.closeModalAssembleia = function () {
             $('#cadastroAssembleia').modal('hide');
+            $scope.limpar();
         }
         //** Modal nova assembleia */
 
         $scope.listarParticipantes = function()
         {
             $scope.assembleia.participantes = [];
-            $(".loader").show();
+            $("#loading").modal("show");
             var promisse = ($http.get(`${config.apiUrl}api/assembleias/get/participantes`));
             promisse.then(function(result)
             {
                 $scope.assembleia.participantes = result.data.data;
-            }).finally(() => $(".loader").hide());
+            }).finally(() => $("#loading").modal("hide"));
         }
 
         $scope.goStep = function (step) {
@@ -95,17 +106,6 @@ angular.module('AssembleiasModule').controller('AssembleiaAssembleiasCtrl',
             // return pauta[index].alternativa.id === $scope.pautas.alternativas[$scope.pautas.alternativas.length-1].id;
         };
 
-        $scope.assembleia.pautas = [{
-            id: 'pauta1',
-            pergunta: '',
-            alternativas: [{
-                id: 'alternativa1',
-                opcao: ''
-            },{
-                id: 'alternativa2',
-                opcao: ''
-            }]
-        }];
 
         $scope.addNewPauta = function(){
             var newItemNo = $scope.assembleia.pautas.length+1;
@@ -174,10 +174,10 @@ angular.module('AssembleiasModule').controller('AssembleiaAssembleiasCtrl',
         $scope.validDataCreate = function(){
             let formatDateInicioEn = $filter('formatOtherDate')('yyyy/mm/dd', $scope.assembleia.data_inicio);
             let formatDateFimEn = $filter('formatOtherDate')('yyyy/mm/dd', $scope.assembleia.data_fim);
-            let formatDateVotacaoEn = $filter('formatOtherDate')('yyyy/mm/dd', $scope.assembleia.votacao_data_inicio);
+            let formatDateVotacaoEn = $filter('formatOtherDate')('yyyy/mm/dd', $scope.assembleia.votacao_data_fim);
             $scope.assembleia.data_inicio = formatDateInicioEn;
             $scope.assembleia.data_fim = formatDateFimEn;
-            $scope.assembleia.votacao_data_inicio = formatDateVotacaoEn;
+            $scope.assembleia.votacao_data_fim = formatDateVotacaoEn;
 
             $scope.assembleia.participantes = $scope.listParticipanteCheckTrue($scope.assembleia.participantes);
         }
@@ -199,7 +199,8 @@ angular.module('AssembleiasModule').controller('AssembleiaAssembleiasCtrl',
             return listParticipantesTrue;
         }
 
-        $scope.salvar = async function () {
+        $scope.salvar = async function ()
+        {
             $("#loading").modal("show");
             $scope.validDataCreate();
 
@@ -216,6 +217,7 @@ angular.module('AssembleiasModule').controller('AssembleiaAssembleiasCtrl',
             .then(function(response) {
                 UtilsService.toastSuccess("Assembleia salva com sucesso!");
                 $('#cadastroAssembleia').modal('hide');
+                $scope.limpar();
                 $scope.listAssembleia();
             }, function(error) {
                 UtilsService.openAlert(error.data.message);
@@ -310,5 +312,36 @@ angular.module('AssembleiasModule').controller('AssembleiaAssembleiasCtrl',
         {
             participante['id_procurador'] = null;
             participante['procurador'] = '';
+        }
+
+        $scope.limpar = function()
+        {
+            $scope.assembleia = {
+                tipo: 'geral',
+                titulo: '',
+                status: 'agendada',
+                data_inicio: '',
+                data_fim: '',
+                hora_inicio: '',
+                hora_fim: '',
+                votacao_data_fim: '',
+                votacao_hora_fim: '',
+                configuracao: false,
+                link_transmissao: '',
+                votacao_secreta: false,
+                documentos: [],
+                pautas: [{
+                    id: 'pauta1',
+                    pergunta: '',
+                    alternativas: [{
+                        id: 'alternativa1',
+                        opcao: ''
+                    },{
+                        id: 'alternativa2',
+                        opcao: ''
+                    }]
+                }],
+                participantes: [],
+            }
         }
     });

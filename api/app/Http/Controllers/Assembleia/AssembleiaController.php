@@ -125,10 +125,18 @@ class AssembleiaController extends Controller
         $assembleia['pautas'] = $assembleia->pautas()
             ->join('assembleia_perguntas', 'assembleia_pautas.id_pergunta', '=', 'assembleia_perguntas.id')
             ->get();
-        $assembleia['participantes'] = AssembleiaParticipante::join('bioacesso_portaria.imovel','assembleia_participantes.id_imovel', '=','imovel.id')
+        $participantes = AssembleiaParticipante::join('bioacesso_portaria.imovel','assembleia_participantes.id_imovel', '=','imovel.id')
             ->leftJoin('bioacesso_portaria.pessoa','assembleia_participantes.id_procurador', '=', 'pessoa.id')
             ->select('imovel.id as id_imovel', 'quadra', 'lote', 'logradouro', 'numero', 'peso', 'pessoa.nome as produrador', 'pessoa.id as id_procurador')
             ->where('id_assembleia', $id)->get();
+
+        foreach ($participantes as $participante)
+        {
+            $participante['participar'] = true;
+        }
+
+        $assembleia['participantes'] = $participantes;
+
         foreach ($assembleia['pautas'] as $key => $pauta)
         {
             $opcoes = AssembleiaOpcao::where('id_pergunta', $pauta['id_pergunta'])->get();

@@ -53,6 +53,11 @@ class EncaminhamentoController extends Controller
 
     }
 
+    public function detalhar()
+    {
+        // TODO Detalhar encaminhamento
+    }
+
     /*
      *  Salva uma reposta do encaminhamento
      *

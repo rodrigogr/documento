@@ -47,12 +47,21 @@ class QuestaoOrdemController extends Controller
     }
 
     /*
+     *  Detalhar a questão de ordem
+     *
+     * */
+    public function detalhar ($id)
+    {
+        // TODO Detalhar questão de ordem
+    }
+
+    /*
      *  Cria uma decisão da questão de ordem
      *
      * */
     public function createDecisao(Request $request)
     {
-
+        // TODO Decisão da questão de ordem
     }
 
     /*
@@ -61,6 +70,6 @@ class QuestaoOrdemController extends Controller
      * */
     public function recorrerDecisao(Request $request)
     {
-
+        // TODO Recorre uma decisão da questão de ordem
     }
 }

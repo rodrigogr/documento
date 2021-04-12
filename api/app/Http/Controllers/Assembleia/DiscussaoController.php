@@ -81,4 +81,14 @@ class DiscussaoController extends Controller
             return response()->error($e->getMessage());
         }
     }
+
+    public function listTopicosPorPauta($idPauta)
+    {
+        // TODO Get todos os topicos dicutido pela pauta;
+    }
+
+    public function detalharTopico($idTopico)
+    {
+        // TODO Get detalhes do topico e comentarios;
+    }
 }

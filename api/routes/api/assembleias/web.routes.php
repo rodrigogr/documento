@@ -7,11 +7,22 @@ Route::get('/assembleias/resumo/{id}', 'assembleia\AssembleiaController@resumo')
 
 Route::get('/assembleias/discussoes/{id}', 'assembleia\AssembleiaController@discussoes');
 
+Route::get('/assembleias/discussoes/topicos/pauta/{id}', 'assembleia\DiscussaoController@listTopicosPorPauta');
+
+Route::get('/assembleias/discussoes/topico/comentarios/{idTopico}', 'assembleia\DiscussaoController@detalharTopico');
+
 Route::post('/assembleias/discussoes/topico', 'assembleia\DiscussaoController@createTopico');
 
 Route::post('/assembleias/discussoes/resposta', 'assembleia\DiscussaoController@replyTopico');
 
 Route::get('/assembleias/questoes-ordem/{id}', 'assembleia\AssembleiaController@questoesOrdem');
+
+Route::get('/assembleias/questoes-ordem/detalhar/{id}', 'assembleia\QuestaoOrdemController@detalhar');
+
+Route::post('/assembleias/questoes-ordem/decisao/', 'assembleia\QuestaoOrdemController@createDecisao');
+
+Route::get('/assembleias/questoes-ordem/recorrer/', 'assembleia\QuestaoOrdemController@recorrerDecisao');
+
 
 Route::get('/assembleias/encaminhamentos/{id}', 'assembleia\AssembleiaController@encaminhamentos');
 

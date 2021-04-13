@@ -1,0 +1,32 @@
+.docs{
+    display: flex;
+    flex-direction: row;
+}
+
+.docs > div{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 15px;
+    width: 120px;
+    height: 160px;
+    margin-right: 12px;
+    word-break: break-word;
+}
+
+.docs > div i{
+    color: #ff6633;
+    font-size: 24px;
+    margin-bottom: 8px;
+}
+
+.questao-de-ordem{
+    width: 20%;
+    text-align: center;
+    text-transform: uppercase;
+    padding: 10px 15px;
+    border-radius: 20px;
+    margin-top: -30px;
+    margin-bottom: 30px;
+}

@@ -86,18 +86,22 @@ class DiscussaoController extends Controller
     {
         $topicosDaPautaDiscutida = AssembleiaDiscussao::join('assembleia_theads', 'assembleia_discussoes.id_thead', 'assembleia_theads.id')
             ->join('assembleia_pautas', 'assembleia_discussoes.id_pauta', 'assembleia_pautas.id')
-            ->where('assembleia_discussoes.id_pauta', $idPauta)
-            ->groupBy('assembleia_discussoes.id_thead')->get()->first();
+            ->where('assembleia_discussoes.id_pauta', $idPauta)->get();
 
-        $topicos[] =
-            [
-                "autor" => $topicosDaPautaDiscutida->id_pessoa,
-                "ulr_foto_autor" => "",
-                "titulo" => $topicosDaPautaDiscutida->titulo,
-                "like" => 10,
-                "deslike" => 2,
-                "comentarios" => 5
-            ];
+        $topicos = array();
+
+        foreach ($topicosDaPautaDiscutida as $topico)
+        {
+            $topicos[] =
+                [
+                    "autor" => $topico->id_pessoa,
+                    "ulr_foto_autor" => "",
+                    "titulo" => $topico->texto,
+                    "like" => 10,
+                    "deslike" => 2,
+                    "comentarios" => 5
+                ];
+        }
 
         $result[] = [
             'id_pauta' => $idPauta,
@@ -113,6 +117,33 @@ class DiscussaoController extends Controller
     public function detalharTopico($idTopico)
     {
         // TODO Get detalhes do topico e comentarios;
-        $detalhesTopico = "";
+
+        $detalhesTopico = Assembleiathead::join('assembleia_posts', 'assembleia_posts.id_thead', 'assembleia_theads.id')
+        ->where('assembleia_theads.id', $idTopico)->get()->first();
+
+        $comentarios = AssembleiaPost::join('assembleia_theads', 'assembleia_posts.id_thead', 'assembleia_theads.id')->get();
+
+        $comentarios_result = array();
+
+        foreach ($comentarios as $comentario)
+        {
+            $comentarios_result [] = [
+                'id_comentario'=>"",
+                'autor'=>$comentario->id_usuario,
+                'url_foto_autor'=>"",
+                'comentario'=>$comentario->resposta
+            ];
+        }
+
+        $result [] = [
+            'id_topico'=>$idTopico,
+            'autor' => $detalhesTopico->id_pessoa,
+            'url_foto_autor'=> "",
+            'titulo' => $detalhesTopico->titulo,
+            'descricao'=>$detalhesTopico->texto,
+            'comentarios'=>$comentarios_result
+        ];
+
+        return response()->success($result);
     }
 }

@@ -84,11 +84,35 @@ class DiscussaoController extends Controller
 
     public function listTopicosPorPauta($idPauta)
     {
-        // TODO Get todos os topicos dicutido pela pauta;
+        $topicosDaPautaDiscutida = AssembleiaDiscussao::join('assembleia_theads', 'assembleia_discussoes.id_thead', 'assembleia_theads.id')
+            ->join('assembleia_pautas', 'assembleia_discussoes.id_pauta', 'assembleia_pautas.id')
+            ->where('assembleia_discussoes.id_pauta', $idPauta)
+            ->groupBy('assembleia_discussoes.id_thead')->get()->first();
+
+        $topicos[] =
+            [
+                "autor" => $topicosDaPautaDiscutida->id_pessoa,
+                "ulr_foto_autor" => "",
+                "titulo" => $topicosDaPautaDiscutida->titulo,
+                "like" => 10,
+                "deslike" => 2,
+                "comentarios" => 5
+            ];
+
+        $result[] = [
+            'id_pauta' => $idPauta,
+            'numero_pauta' => 1,
+            'total_pauta' => 2,
+            'título' => "Pauta 01",
+            'topicos' => $topicos
+        ];
+
+        return response()->success($result);
     }
 
     public function detalharTopico($idTopico)
     {
         // TODO Get detalhes do topico e comentarios;
+        $detalhesTopico = "";
     }
 }

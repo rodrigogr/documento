@@ -50,7 +50,7 @@ class QuestaoOrdemController extends Controller
      *  Detalhar a questão de ordem
      *
      * */
-    public function detalhar ($id)
+    public function detalhar ($idQuestaoOrdem)
     {
         // TODO Detalhar questão de ordem
     }

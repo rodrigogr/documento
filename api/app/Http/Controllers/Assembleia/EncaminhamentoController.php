@@ -53,7 +53,7 @@ class EncaminhamentoController extends Controller
 
     }
 
-    public function detalhar()
+    public function detalhar($idEncaminhamento)
     {
         // TODO Detalhar encaminhamento
     }

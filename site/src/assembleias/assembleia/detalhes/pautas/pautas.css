@@ -31,3 +31,8 @@ button#abrirVotacaos {
     background: rgba(204, 51, 51, 0.1);
     color: #EB5757;
 }
+
+.link-button{
+    color: #FF6633;
+    text-decoration: underline;
+}

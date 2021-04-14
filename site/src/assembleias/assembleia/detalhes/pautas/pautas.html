@@ -140,7 +140,7 @@
                             <div class="col-md-24" style="padding-left: 15px;" >
                                 <!--<button class="btn btn-default pull-left ba__margin-right-15">ANEXAR ARQUIVO</button>-->
                                 <div style="float:left;width: 30%;">
-                                    <label for="documentos" class="pull-left btn btn-atualizar col-xs-4 uppercase right" style="float: right"
+                                    <label for="documentos" class="pull-left btn btn-atualizar col-xs-4 uppercase right" style="float: right;width: 100%;"
                                            data-toggle="modal" type="file"
                                            name="documentos" onchange="angular.element(this).scope().changeInputField(this, 'documentos_regras')">
                                         ANEXAR ARQUIVO
@@ -174,9 +174,16 @@
                     <!-- Footer -->
                     <div class="modal-footer" style="padding-right: 15px !important;">
                         <button type="button" class="btn btn-default btn-clear col-md-5 pull-right"
-                                ng-click="fechaPauta()">
-                            Fechar
+                                >
+                            Salvar
                         </button>
+                        <!--<button ng-click="fechaPauta()" class="pull-right"
+                        style="border:none;">
+                            Suspender Pauta
+                        </button>-->
+                        <span class="pull-right">
+                            <a href="{{ assembleiaResumo.link_transmissao }}" target="_blank" class="link-button">Suspender Pauta</a>
+                        </span>
                     </div>
                 </div>
             </div>

@@ -135,11 +135,22 @@
                         </div>
                         <div class="row ba__margin-bottom-30">
                             <p style="margin: 0 0 15px; padding: 0 15px; text-transform: uppercase; font-size: 16px;">
-                                ANEXOS PAUTAS
+                                ANEXOS
                             </p>
                             <div class="col-md-24" style="padding-left: 15px;" >
                                 <!--<button class="btn btn-default pull-left ba__margin-right-15">ANEXAR ARQUIVO</button>-->
-                                <input class="ba__font-size-12 pull-left" type="file" id="inputDocumentos" name="documentos" onchange="angular.element(this).scope().changeInputField(this, 'documentos_regras')">
+                                <div style="float:left;width: 30%;">
+                                    <label for="documentos" class="pull-left btn btn-atualizar col-xs-4 uppercase right" style="float: right"
+                                           data-toggle="modal" type="file"
+                                           name="documentos" onchange="angular.element(this).scope().changeInputField(this, 'documentos_regras')">
+                                        ANEXAR ARQUIVO
+                                    </label>
+                                    <input  class="pull-left btn btn-atualizar col-xs-4 uppercase right" style="float: right; display: none;"
+                                            data-toggle="modal" type="file"
+                                            name="documentos" id="documentos" onchange="angular.element(this).scope().changeInputField(this, 'documentos_regras')">
+                                </div>
+
+                                <!--<input class="ba__font-size-12 pull-left" type="file" id="inputDocumentos" name="documentos" onchange="angular.element(this).scope().changeInputField(this, 'documentos_regras')">-->
                                 <span class="ba__font-size-12 pull-left ba__font-color-gray ba__margin-top-10" style="width: 70%; margin-bottom: 15px; clear: both;" >Arquivos de no max 10MB, nas extensões .PDF, .DOC, .DOCX, .XLS, .XLSX, .JPG ou .TXT</span>
                             </div>
                             <div class="col-md-18"

@@ -118,14 +118,14 @@ class DiscussaoController extends Controller
     {
         // TODO Get detalhes do topico e comentarios;
 
-        $topico = Assembleiathead::join('bioacesso_portaria.pessoa', 'assembleia_theads.id_pessoa', '=', 'pessoa.id')
+        $topico = Assembleiathead::join('bioacesso_portaria.pessoa', 'assembleia_theads.id_pessoa', 'pessoa.id')
             ->where('assembleia_theads.id', $idTopico)
             ->select('assembleia_theads.id as id_topico', 'assembleia_theads.titulo', 'assembleia_theads.texto as descricao',
                 'pessoa.nome as autor', 'pessoa.url_foto as ulr_foto_autor')
             ->get()
             ->first();
 
-       $topico['comentarios'] = AssembleiaPost::join('bioacesso_portaria.pessoa', 'assembleia_posts.id_usuario', '=', 'pessoa.id')
+       $topico['comentarios'] = AssembleiaPost::join('bioacesso_portaria.pessoa', 'assembleia_posts.id_usuario', 'pessoa.id')
             ->where('assembleia_posts.id_thead', $idTopico)->select('assembleia_posts.id as id_comentario',
                'assembleia_posts.resposta as comentario', 'pessoa.url_foto as ulr_foto_autor', 'pessoa.nome as autor')
            ->get();

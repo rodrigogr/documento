@@ -10,7 +10,7 @@ class ProcessoQuestaoOrdem extends Model
 {
     public $timestamps = true;
     protected $table = 'processos_questao_ordem';
-    protected $fillable = ['id_questao_ordem', 'id_thead', 'tipo', 'status_decisao'];
+    protected $fillable = ['id_questao_ordem', 'id_thead', 'tipo', 'status'];
 
     public function thead()
     {

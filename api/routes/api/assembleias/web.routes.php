@@ -37,7 +37,7 @@ Route::resource('/assembleias', 'assembleia\AssembleiaController');
 
 Route::post('/assembleias/encaminhamentos', 'assembleia\EncaminhamentoController@store');
 
-Route::post('/assembleias/encaminhamento/detalhar/{id}', 'assembleia\EncaminhamentoController@detalhar');
+Route::get('/assembleias/encaminhamento/detalhar/{id}', 'assembleia\EncaminhamentoController@detalhar');
 
 Route::post('/assembleias/respostas', 'assembleia\PostController@store');
 

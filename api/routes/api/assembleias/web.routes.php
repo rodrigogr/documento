@@ -23,7 +23,6 @@ Route::post('/assembleias/questoes-ordem/decisao/', 'assembleia\QuestaoOrdemCont
 
 Route::get('/assembleias/questoes-ordem/recorrer/', 'assembleia\QuestaoOrdemController@recorrerDecisao');
 
-
 Route::get('/assembleias/encaminhamentos/{id}', 'assembleia\AssembleiaController@encaminhamentos');
 
 Route::get('/assembleias/pautas/{id}', 'assembleia\AssembleiaController@pautas');
@@ -37,6 +36,8 @@ Route::get('/assembleias/search/procurador/{nome}', 'assembleia\ParticipanteCont
 Route::resource('/assembleias', 'assembleia\AssembleiaController');
 
 Route::post('/assembleias/encaminhamentos', 'assembleia\EncaminhamentoController@store');
+
+Route::post('/assembleias/encaminhamento/detalhar/{id}', 'assembleia\EncaminhamentoController@detalhar');
 
 Route::post('/assembleias/respostas', 'assembleia\PostController@store');
 

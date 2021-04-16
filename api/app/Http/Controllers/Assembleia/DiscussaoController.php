@@ -6,6 +6,7 @@ namespace App\Http\Controllers\Assembleia;
 
 use App\Http\Controllers\Controller;
 use App\models\Assembleia\AssembleiaDiscussao;
+use App\models\Assembleia\AssembleiaPauta;
 use App\models\Assembleia\AssembleiaThead;
 use App\models\Assembleia\AssembleiaPost;
 use Illuminate\Http\Request;
@@ -84,34 +85,22 @@ class DiscussaoController extends Controller
 
     public function listTopicosPorPauta($idPauta)
     {
-        $topicosDaPautaDiscutida = AssembleiaDiscussao::join('assembleia_theads', 'assembleia_discussoes.id_thead', 'assembleia_theads.id')
-            ->join('assembleia_pautas', 'assembleia_discussoes.id_pauta', 'assembleia_pautas.id')
-            ->where('assembleia_discussoes.id_pauta', $idPauta)->get();
+        // TODO Get todos os topicos dicutido pela pauta
 
-        $topicos = array();
+        // falta numero_pauta e total_pauta
+        $pautaDiscutida = AssembleiaPauta::join('assembleia_perguntas', 'assembleia_pautas.id_pergunta', 'assembleia_perguntas.id')
+        ->where('assembleia_pautas.id', $idPauta)
+        ->select('assembleia_pautas.id as id_pauta','assembleia_perguntas.pergunta')
+        ->get()->first();
 
-        foreach ($topicosDaPautaDiscutida as $topico)
-        {
-            $topicos[] =
-                [
-                    "autor" => $topico->id_pessoa,
-                    "ulr_foto_autor" => "",
-                    "titulo" => $topico->texto,
-                    "like" => 10,
-                    "deslike" => 2,
-                    "comentarios" => 5
-                ];
-        }
+        // falta os campos like, deslikes e quantidade de comentarios
+       $pautaDiscutida['comentarios']= AssembleiaThead::join('bioacesso_portaria.pessoa', 'assembleia_theads.id_pessoa', 'pessoa.id')
+            ->join('assembleia_discussoes', 'assembleia_discussoes.id_thead', 'assembleia_theads.id')
+            ->where('assembleia_discussoes.id_pauta', $idPauta)
+            ->select('pessoa.nome as autor', 'pessoa.url_foto as ulr_foto_autor', 'assembleia_theads.texto as titulo' )
+            ->get();
 
-        $result[] = [
-            'id_pauta' => $idPauta,
-            'numero_pauta' => 1,
-            'total_pauta' => 2,
-            'título' => "Pauta 01",
-            'topicos' => $topicos
-        ];
-
-        return response()->success($result);
+        return response()->success($pautaDiscutida);
     }
 
     public function detalharTopico($idTopico)

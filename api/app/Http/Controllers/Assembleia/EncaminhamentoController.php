@@ -61,6 +61,7 @@ class EncaminhamentoController extends Controller
         $encaminhamento = DB::table('assembleia_encaminhamentos', 'assembleia_encaminhamentos.id', $idEncaminhamento)
             ->get()->first();
 
+        // Falta os campos numero_pauta | total_pauta
         $pautaDiscutida = AssembleiaPauta::join('assembleia_perguntas', 'assembleia_pautas.id_pergunta', 'assembleia_perguntas.id')
             ->where('assembleia_pautas.id', $encaminhamento->id_pauta)
             ->select('assembleia_pautas.id as id_pauta','assembleia_perguntas.pergunta')
@@ -71,9 +72,10 @@ class EncaminhamentoController extends Controller
         ->select('file')
         ->get();
 
+        // Inclui o campo ulr_foto_autor
         $pautaDiscutida['encaminhamento'] = Assembleiathead::join('bioacesso_portaria.pessoa', 'assembleia_theads.id_pessoa', 'pessoa.id')
         ->where('assembleia_theads.id', $encaminhamento->id_thead)
-        ->select( 'pessoa.nome as autor', 'pessoa.url_foto as ulr_foto_autor', 'assembleia_theads.titulo')
+        ->select('assembleia_theads.created_at as data_hora', 'pessoa.nome as autor', 'pessoa.url_foto as ulr_foto_autor', 'assembleia_theads.titulo', 'assembleia_theads.texto')
         ->get();
 
         $pautaDiscutida['encaminhamento']['anexos'] = $anexos;

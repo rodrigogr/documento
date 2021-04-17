@@ -21,7 +21,7 @@ Route::get('/assembleias/questoes-ordem/detalhar/{id}', 'assembleia\QuestaoOrdem
 
 Route::post('/assembleias/questoes-ordem/decisao/', 'assembleia\QuestaoOrdemController@createDecisao');
 
-Route::get('/assembleias/questoes-ordem/recorrer/', 'assembleia\QuestaoOrdemController@recorrerDecisao');
+Route::post('/assembleias/questoes-ordem/recorrer/', 'assembleia\QuestaoOrdemController@recorrerDecisao');
 
 Route::get('/assembleias/encaminhamentos/{id}', 'assembleia\AssembleiaController@encaminhamentos');
 

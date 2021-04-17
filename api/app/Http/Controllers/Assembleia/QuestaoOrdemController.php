@@ -10,6 +10,8 @@ use App\models\Assembleia\AssembleiaEncaminhamento;
 use App\models\Assembleia\AssembleiaPauta;
 use App\models\Assembleia\AssembleiaQuestaoOrdem;
 use App\models\Assembleia\AssembleiaThead;
+use App\models\Assembleia\ProcessoQuestaoOrdem;
+use App\models\Assembleia\TheadAnexo;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use mysql_xdevapi\Exception;
@@ -117,6 +119,33 @@ class QuestaoOrdemController extends Controller
     public function createDecisao(Request $request)
     {
         // TODO Decisão da questão de ordem
+        $data = $request->all();
+
+        $usuario = DB::table('bioacesso_portaria.pessoa')
+            ->where('pessoa.id', $data['id_pessoa'])
+            ->get()
+            ->first();
+
+        try {
+            DB::beginTransaction();
+            $novaThead = AssembleiaThead::create([
+                'titulo' => "Decisão",
+                'texto' => $data['fundamentacao'],
+                'id_pessoa' => $usuario->id
+            ]);
+
+            $decisao = ProcessoQuestaoOrdem::create([
+                'id_thead' => $novaThead->id,
+                'id_questao_ordem' => $data['id_questao_ordem'],
+                'tipo'=>'decisao',
+                'status' => $data['status']
+            ]);
+            DB::commit();
+        }
+        catch (Exception $e) {
+            return response()->error($e->getMessage);
+        }
+        return response()->success($decisao, $novaThead->texto);
     }
 
     /*
@@ -126,5 +155,39 @@ class QuestaoOrdemController extends Controller
     public function recorrerDecisao(Request $request)
     {
         // TODO Recorre uma decisão da questão de ordem
+        $data = $request->all();
+
+        $usuario = DB::table('bioacesso_portaria.pessoa')
+            ->where('pessoa.id', $data['id_pessoa'])
+            ->get()
+            ->first();
+
+        try {
+            DB::beginTransaction();
+            $novaThead = AssembleiaThead::create([
+                'titulo' => "Recurso",
+                'texto' => $data['fundamentacao'],
+                'id_pessoa' => $usuario->id
+            ]);
+
+            foreach ($data['anexos'] as $anexo)
+            {
+                TheadAnexo::create([
+                    'file' => $anexo['file'],
+                    'id_thead' => $novaThead->id
+                ]);
+            }
+            $decisao = ProcessoQuestaoOrdem::create([
+                'id_thead' => $novaThead->id,
+                'id_questao_ordem' => $data['id_questao_ordem'],
+                'tipo'=>'decisao',
+                'status' => 'em_analise'
+            ]);
+            DB::commit();
+        }
+        catch (Exception $e) {
+            return response()->error($e->getMessage);
+        }
+        return response()->success($decisao);
     }
 }

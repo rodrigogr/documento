@@ -85,8 +85,6 @@ class DiscussaoController extends Controller
 
     public function listTopicosPorPauta($idPauta)
     {
-        // TODO Get todos os topicos dicutido pela pauta
-
         // falta numero_pauta e total_pauta
         $pautaDiscutida = AssembleiaPauta::join('assembleia_perguntas', 'assembleia_pautas.id_pergunta', 'assembleia_perguntas.id')
         ->where('assembleia_pautas.id', $idPauta)
@@ -94,11 +92,19 @@ class DiscussaoController extends Controller
         ->get()->first();
 
         // falta os campos like, deslikes e quantidade de comentarios
-       $pautaDiscutida['comentarios']= AssembleiaThead::join('bioacesso_portaria.pessoa', 'assembleia_theads.id_pessoa', 'pessoa.id')
+       $topicos = AssembleiaThead::join('bioacesso_portaria.pessoa', 'assembleia_theads.id_pessoa', 'pessoa.id')
             ->join('assembleia_discussoes', 'assembleia_discussoes.id_thead', 'assembleia_theads.id')
             ->where('assembleia_discussoes.id_pauta', $idPauta)
-            ->select('pessoa.nome as autor', 'pessoa.url_foto as ulr_foto_autor', 'assembleia_theads.texto as titulo' )
+            ->select('assembleia_theads.id','pessoa.nome as autor', 'pessoa.url_foto as ulr_foto_autor', 'assembleia_theads.titulo', 'assembleia_theads.created_at', 'assembleia_theads.id_pessoa as likes' )
             ->get();
+
+
+       foreach ($topicos as $topico)
+       {
+            $topico['comentarios'] = $topico->posts()->count();
+       }
+
+        $pautaDiscutida['topicos'] = $topicos;
 
         return response()->success($pautaDiscutida);
     }
@@ -109,14 +115,14 @@ class DiscussaoController extends Controller
 
         $topico = Assembleiathead::join('bioacesso_portaria.pessoa', 'assembleia_theads.id_pessoa', 'pessoa.id')
             ->where('assembleia_theads.id', $idTopico)
-            ->select('assembleia_theads.id as id_topico', 'assembleia_theads.titulo', 'assembleia_theads.texto as descricao',
+            ->select('assembleia_theads.id', 'assembleia_theads.titulo', 'assembleia_theads.texto as descricao',
                 'pessoa.nome as autor', 'pessoa.url_foto as ulr_foto_autor')
             ->get()
             ->first();
 
-       $topico['comentarios'] = AssembleiaPost::join('bioacesso_portaria.pessoa', 'assembleia_posts.id_usuario', 'pessoa.id')
+       $topico['comentarios'] = AssembleiaPost::join('bioacesso_portaria.pessoa', 'assembleia_posts.id_pessoa', 'pessoa.id')
             ->where('assembleia_posts.id_thead', $idTopico)->select('assembleia_posts.id as id_comentario',
-               'assembleia_posts.resposta as comentario', 'pessoa.url_foto as ulr_foto_autor', 'pessoa.nome as autor')
+               'assembleia_posts.resposta', 'pessoa.url_foto as ulr_foto_autor', 'pessoa.nome as autor')
            ->get();
 
         return response()->success($topico);

@@ -9,16 +9,24 @@ class AssembleiaThead extends Model
 {
     public $timestamp = true;
     protected $table = 'assembleia_theads';
-    protected $fillable = ['titulo', 'texto', 'id_pessoa'];
+
+    static public $associations = [
+        'posts '
+    ];
+    protected $fillable = [
+        'titulo',
+        'texto',
+        'id_pessoa'
+    ];
 
     public function theadAnexos()
     {
         return $this->hasMany(TheadAnexo::class, 'id_thead');
     }
 
-    public function assembleiaPosts()
+    public function posts()
     {
-        return $this->hasMany(AssembleiaPost::class);
+        return $this->hasMany(AssembleiaPost::class, 'id_thead');
     }
 
     public function assembleiaEncaminhamento()

@@ -9,7 +9,7 @@ Route::get('/assembleias/discussoes/{id}', 'assembleia\AssembleiaController@disc
 
 Route::get('/assembleias/discussoes/topicos/pauta/{id}', 'assembleia\DiscussaoController@listTopicosPorPauta');
 
-Route::get('/assembleias/discussoes/topico/comentarios/{idTopico}', 'assembleia\DiscussaoController@detalharTopico');
+Route::get('/assembleias/discussoes/topicos/{idTopico}', 'assembleia\DiscussaoController@detalharTopico');
 
 Route::post('/assembleias/discussoes/topico', 'assembleia\DiscussaoController@createTopico');
 

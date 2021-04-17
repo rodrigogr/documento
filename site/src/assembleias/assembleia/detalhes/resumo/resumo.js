@@ -27,9 +27,36 @@ function assembleiaResumoCtrl ($scope, $state, $filter, $http, AuthService, Util
             var promisse = ($http.get(`${config.apiUrl}api/assembleias/documentos/`+$scope.assembleiaResumo.id));
             promisse.then( function (result) {
                 $scope.assembleiaResumo.documentos =  result.data.data;
-                // angular.forEach($scope.assembleiaResumo.documentos, function(obj) {
-                //     obj.icon = iconArquivo(obj.file);
-                // });
+                angular.forEach($scope.assembleiaResumo.documentos, function(obj) {
+                    var tipoFile = obj.name.split('.')[1];
+                    var icon = 'file';
+                    switch (tipoFile) {
+                        case "jpeg":
+                        case "jpg":
+                            icon = 'jpeg';
+                            break;
+                        case "png":
+                            icon = 'png';
+                            break;
+                        case "doc":
+                        case "docx":
+                            icon = 'word';
+                            break;
+                        case "xml":
+                        case "xls":
+                        case "xlsx":
+                            icon = 'excel';
+                            break;
+                        case "pdf":
+                            icon = 'pdf';
+                            break;
+                        case "txt":
+                            icon = 'txt'
+                            break;
+                    }
+
+                    obj.icon = 'img/icons/icon_'+icon+'.png';
+                });
             });
 
         }).finally( () => {

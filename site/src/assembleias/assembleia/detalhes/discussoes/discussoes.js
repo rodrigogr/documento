@@ -73,14 +73,13 @@ function assembleiaDiscussoesCtrl($scope, $http, $state, $filter, UtilsService, 
     }];
 
 
-    let url_api = 'http://localhost:8001/';
+
     $scope.listaDeDiscussoes = [];
-    let idAssembleia = '2'; //Verificar como vou pegar o id da assembleia aberta
 
     function buscaDiscussoes()
     {
         $(".loader").show();
-        console.log(idAssembleia);
+
         var promisse = ($http.get(`${config.apiUrl}api/assembleias/discussoes/`+ $state.params.id));
         promisse.then(function (retorno) {
             $scope.listaDeDiscussoes = retorno.data.data;
@@ -106,23 +105,24 @@ function assembleiaDiscussoesCtrl($scope, $http, $state, $filter, UtilsService, 
     //** Modal Discussão */
     $scope.abreDiscussao = function (id) {
         console.log('id discussão', id);
+        $(".loader").show();
 
-        $scope.selectDiscussao = []
-        $scope.listaDeDiscussoes.find((item, index) => {
-            console.log(item);
-            console.log(index);
-            if(item.id_pauta === id){
-                console.log("entrou no if");
-                $scope.selectDiscussao = $scope.listaDeDiscussoes[index].comentarios;
-                return $scope.selectDiscussao;
-            } 
-        })
+        var promisse = ($http.get(`${config.apiUrl}api/assembleias/discussoes/topicos/pauta/`+ id));
 
-        console.log($scope.selectDiscussao);
+        promisse.then(function (retorno)
+        {
+            $scope.discussaoPauta = retorno.data.data;
+
+        }).finally( () =>
+        {
+            $(".loader").hide();
+        });
+
         $('#abreDiscussao').modal('show');
     }
 
     $scope.fechaDiscussao = function () {
+        $scope.discussaoPauta = [];
         $('#abreDiscussao').modal('hide');
     }
     //** Modal Discussão */
@@ -131,36 +131,25 @@ function assembleiaDiscussoesCtrl($scope, $http, $state, $filter, UtilsService, 
     //** Modal Detalhe do tópico */
     $scope.detalheTopico = function (id) {
         console.log(id);
+        $(".loader").show();
 
-        $scope.listDetalheTopico = {        
-            id: 1,
-            foto: '../../../../../img/avatar.png',
-            nome: 'Joaquim Almeida',
-            titulo: 'Há outras prioridades no momento, como discutido em outra assembleia Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-            descricao: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla ac cursus mauris, ut porta tellus. Nulla molestie imperdiet enim vel cursus. Nullam dictum vitae quam ut sollicitudin. Nulla iaculis pharetra orci ut efficitur. Sed ut orci fringilla, sagittis nunc et, consequat neque. Phasellus in dignissim risus, ut laoreet massa. Praesent volutpat, quam eu suscipit volutpat, nulla enim finibus ante, vitae venenatis mauris erat in purus. Nulla facilisi.',
-            like: '12',
-            comentarios: [{
-                id: 64,
-                foto: '../../../../../img/avatar.png',
-                nome: 'Joaquim Almeida',
-                comentario: 'Pellentesque a ultrices neque, in facilisis ipsum. Vestibulum rutrum nisl nec purus malesuada vehicula. Phasellus nec lobortis nisi. Curabitur id nulla consequat felis lacinia auctor. Sed sed lorem purus. Nulla facilisi.'
-            },{
-                id: 65,
-                foto: '../../../../../img/avatar.png',
-                nome: 'Joaquim Almeida',
-                comentario: 'Pellentesque a ultrices neque, in facilisis ipsum. Vestibulum rutrum nisl nec purus malesuada vehicula. Phasellus nec lobortis nisi. Curabitur id nulla consequat felis lacinia auctor. Sed sed lorem purus. Nulla facilisi.'
-            },{
-                id: 66,
-                foto: '../../../../../img/avatar.png',
-                nome: 'Joaquim Almeida',
-                comentario: 'Pellentesque a ultrices neque, in facilisis ipsum. Vestibulum rutrum nisl nec purus malesuada vehicula. Phasellus nec lobortis nisi. Curabitur id nulla consequat felis lacinia auctor. Sed sed lorem purus. Nulla facilisi.'
-            }],
-        }
+        var promisse = ($http.get(`${config.apiUrl}api/assembleias/discussoes/topicos/`+ id));
+
+        promisse.then(function (retorno)
+        {
+            $scope.topico = retorno.data.data;
+
+        }).finally( () =>
+        {
+            $(".loader").hide();
+        });
 
         $('#detalheTopico').modal('show');
     }
 
-    $scope.fechaDetalheTopico = function () {
+    $scope.fechaDetalheTopico = function ()
+    {
+        $scope.topico = '';
         $('#detalheTopico').modal('hide');
     }
     //** Modal Detalhe do tópico */
@@ -170,6 +159,13 @@ function assembleiaDiscussoesCtrl($scope, $http, $state, $filter, UtilsService, 
     $scope.responderComentario = function (id) {
         console.log(id);
         
+        $scope.respostaDoComentario = '';
+        $('#responderComentario').modal('show');
+    }
+
+    $scope.comentar = function (id) {
+        console.log(id);
+
         $scope.respostaDoComentario = '';
         $('#responderComentario').modal('show');
     }

@@ -66,6 +66,11 @@
     cursor: pointer;
 }
 
+.btn-votacao.iniciar-assembleia {
+    background-color: #33CC66;
+    border: 1px solid #33CC66;
+}
+
 .btn-votacao.inicial {
     background-color: #FF6633;
     border: 1px solid #FF6633;

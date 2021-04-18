@@ -25,6 +25,6 @@ class AssembleiaOpcao extends Model
 
     public function assembleiaVotacao()
     {
-        return $this->hasOne(AssembleiaVotacao::class);
+        return $this->hasOne(AssembleiaVotacao::class, 'id_opcao');
     }
 }

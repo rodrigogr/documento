@@ -79,11 +79,14 @@ function assembleiaDiscussoesCtrl($scope, $http, $state, $filter, UtilsService, 
 
     function buscaDiscussoes()
     {
+        $(".loader").show();
         console.log(idAssembleia);
-        var promise = $http.get(url_api+'api/assembleias/discussoes/'+idAssembleia);
-        promise.then(function (retorno) {
+        var promisse = ($http.get(`${config.apiUrl}api/assembleias/discussoes/`+ $state.params.id));
+        promisse.then(function (retorno) {
             $scope.listaDeDiscussoes = retorno.data.data;
             console.log($scope.listaDeDiscussoes);
+        }).finally( () => {
+            $(".loader").hide();
         });
     }
 

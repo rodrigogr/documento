@@ -17,6 +17,7 @@ use App\models\Assembleia\AssembleiaQuestaoOrdem;
 use App\models\Assembleia\AssembleiaThead;
 use App\models\Assembleia\AssembleiaVotacao;
 use Illuminate\Support\Facades\DB;
+use function foo\func;
 
 class AssembleiaController extends Controller
 {
@@ -114,13 +115,7 @@ class AssembleiaController extends Controller
 
     public function show($id)
     {
-       // $assembleia = Assembleia::where('id', $id)->with('documentos')->with('pautas')->with('participantes')->get()->first();
-
         $assembleia = Assembleia::find($id);
-//        $assembleia['pautas'] = $assembleia->pautas()->with(['assembleiaPergunta' => function($q){
-//            $q->join('assembleia_opcoes', 'assembleia_perguntas.id','assembleia_opcoes.id_pergunta' );
-//        }])
-//            ->get();
 
         $assembleia['pautas'] = $assembleia->pautas()
             ->join('assembleia_perguntas', 'assembleia_pautas.id_pergunta', '=', 'assembleia_perguntas.id')
@@ -272,4 +267,49 @@ class AssembleiaController extends Controller
         return response()->success($participantes);
     }
 
+    public function listaAssembleiasUsuario()
+    {
+        $assembleias = Assembleia::withCount('pautas')->get();
+
+        return $assembleias;
+    }
+
+    public function getAssembleiaDetalhadaUsuario ($id)
+    {
+        $assembleia = Assembleia::find($id);
+
+        if(!$assembleia)
+        {
+            return response()->error('Assembleia não encontrada');
+        }
+
+        $assembleia['pautas'] = $assembleia->pautas()
+            ->join('assembleia_perguntas', 'assembleia_pautas.id_pergunta', '=', 'assembleia_perguntas.id')
+            ->select('assembleia_pautas.id', 'pergunta', 'assembleia_perguntas.id as id_pergunta' )
+            ->get();
+
+        foreach ($assembleia['pautas'] as $key => $pauta)
+        {
+            $opcoes = AssembleiaOpcao::where('assembleia_opcoes.id_pergunta', $pauta['id_pergunta'])
+                ->leftJoin('assembleia_votacoes','assembleia_votacoes.id_opcao', '=', 'assembleia_opcoes.id')
+                ->select('assembleia_opcoes.id','opcao', DB::raw('(CASE WHEN assembleia_votacoes.id  THEN 1 ELSE 0 END) AS value'))
+                ->get();
+            $assembleia['pautas'][$key]['alternativas'] = $opcoes;
+        }
+
+        $assembleia['imoveis'] = [
+            [
+                'id_imovel' => 1,
+                'imovel' => 'QD 01 / Lt 02',
+                'complemento'=> 'Peso x1'
+            ],
+            [
+                'id_imovel' => 1,
+                'imovel' => 'QD 01 / Lt 02',
+                'complemento'=> 'Peso x1'
+            ]
+        ];
+
+        return $assembleia;
+    }
 }

@@ -6,6 +6,7 @@ namespace App\Http\Controllers\Assembleia;
 
 use App\Http\Controllers\Controller;
 use App\models\Assembleia\AssembleiaDiscussao;
+use App\models\Assembleia\AssembleiaPauta;
 use App\models\Assembleia\AssembleiaThead;
 use App\models\Assembleia\AssembleiaPost;
 use Illuminate\Http\Request;
@@ -80,5 +81,44 @@ class DiscussaoController extends Controller
         {
             return response()->error($e->getMessage());
         }
+    }
+
+    public function listTopicosPorPauta($idPauta)
+    {
+        // TODO Get todos os topicos dicutido pela pauta
+
+        // falta numero_pauta e total_pauta
+        $pautaDiscutida = AssembleiaPauta::join('assembleia_perguntas', 'assembleia_pautas.id_pergunta', 'assembleia_perguntas.id')
+        ->where('assembleia_pautas.id', $idPauta)
+        ->select('assembleia_pautas.id as id_pauta','assembleia_perguntas.pergunta')
+        ->get()->first();
+
+        // falta os campos like, deslikes e quantidade de comentarios
+       $pautaDiscutida['comentarios']= AssembleiaThead::join('bioacesso_portaria.pessoa', 'assembleia_theads.id_pessoa', 'pessoa.id')
+            ->join('assembleia_discussoes', 'assembleia_discussoes.id_thead', 'assembleia_theads.id')
+            ->where('assembleia_discussoes.id_pauta', $idPauta)
+            ->select('pessoa.nome as autor', 'pessoa.url_foto as ulr_foto_autor', 'assembleia_theads.texto as titulo' )
+            ->get();
+
+        return response()->success($pautaDiscutida);
+    }
+
+    public function detalharTopico($idTopico)
+    {
+        // TODO Get detalhes do topico e comentarios;
+
+        $topico = Assembleiathead::join('bioacesso_portaria.pessoa', 'assembleia_theads.id_pessoa', 'pessoa.id')
+            ->where('assembleia_theads.id', $idTopico)
+            ->select('assembleia_theads.id as id_topico', 'assembleia_theads.titulo', 'assembleia_theads.texto as descricao',
+                'pessoa.nome as autor', 'pessoa.url_foto as ulr_foto_autor')
+            ->get()
+            ->first();
+
+       $topico['comentarios'] = AssembleiaPost::join('bioacesso_portaria.pessoa', 'assembleia_posts.id_usuario', 'pessoa.id')
+            ->where('assembleia_posts.id_thead', $idTopico)->select('assembleia_posts.id as id_comentario',
+               'assembleia_posts.resposta as comentario', 'pessoa.url_foto as ulr_foto_autor', 'pessoa.nome as autor')
+           ->get();
+
+        return response()->success($topico);
     }
 }

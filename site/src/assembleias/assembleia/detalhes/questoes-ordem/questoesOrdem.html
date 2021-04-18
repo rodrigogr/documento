@@ -1,8 +1,10 @@
 <div class="row ba__admin-list">
     <div class="row ba__margin-top-20">
         <h3 class="col-md-15 Roboto-Light">
-            <strong>5</strong> resultados</h3>
-        <button type="button"  class="btn btn-encerrarenvios col-xs-offset-3 col-xs-6 uppercase" style="margin-top: 12px" ng-click="select = null;$('#novoTipo').modal('show')">
+            <strong>5</strong> resultados
+        </h3>
+        <button type="button" class="btn btn-encerrarenvios col-xs-offset-3 col-xs-6 uppercase" style="margin-top: 12px"
+            ng-click="select = null;$('#novoTipo').modal('show')">
             Encerrar Envios
         </button>
     </div>
@@ -29,7 +31,8 @@
             </div>
         </a>
         <div class="ba__admin-table-scroll" style="height: 85%;">
-            <a class="list-group-item ba__font-size-12 ba__pointer" >
+            <a class="list-group-item ba__font-size-12 ba__pointer"
+                ng-click="abreQuestaoOrdem(1)">
                 <div class="row">
                     <div class="col-xs-3">22/02/2021 às 18:43</div>
                     <div class="col-xs-3">Recurso pendente</div>
@@ -37,10 +40,88 @@
                     <div class="col-xs-3">Pauta 01</div>
                     <div class="col-xs-9">Há outras prioridades no momento, como...</div>
                     <div class="col-xs-2">
-                        <i class="fa fa-eye ba__margin-left-35" title="Visualizar"  ng-click=""></i>
+                        <i class="fa fa-eye ba__margin-left-35" title="Visualizar" ng-click=""></i>
                     </div>
                 </div>
             </a>
         </div>
     </div>
+
+
+    <!-- Modal Questões de Ordem -->
+    <div class="modal fade" id="abreQuestaoOrdem" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="false">
+        <div class="modal-dialog assembleia-modal" role="document">
+            <div class="modal-content assembleia-content">
+                <!-- Header -->
+                <div class="modal-header assembleia-header">
+                    <div class="row">
+                        <h4 class="modal-title Roboto-Thin ba__font-size-25"
+                            style="padding: 25px 25px 10px; font-weight: bold;">
+                            <i class="fa fa-gavel cff6633"></i>
+                            <span>QUESTÃO DE ORDEM</span>
+                        </h4>
+                    </div>
+                </div>
+                <!-- Form Mean -->
+                <div class="modal-body ba__modal-body-assembleia"
+                    style="background-color: #F2F2F2; padding: 0px !important">
+
+                    <header class="discussoes">
+                        <p>PAUTA 01 DE 02</p>
+                        <h5>
+                            Você acha necessário a reforma imediata do parquinho e brinquedoteca do residencial?
+                        </h5>
+                    </header>
+
+                    <article class="box-discussao">
+
+                        <section class="bgc-fff bs br8px" ng-repeat="topicos in selectDiscussao"
+                            ng-click="detalheTopico(topicos.id)" style="margin-bottom: 40px;">
+                            <span class="questao-de-ordem bs bgc-fff" >Questão de ordem</span>
+
+                            <div class="pessoa">
+                                <img class="" src="{{ topicos.foto }}" alt="" />
+                                <div>
+                                    <span>{{ topicos.nome }}</span>
+                                    <span>Há 32 minutos</span>
+                                </div>
+                            </div>
+                            <h6>
+                                {{ topicos.titulo }}
+                            </h6>
+                            <div class="docs">
+                                <div class="bgc-fff bs br8px">
+                                    <i class="fa fa-file-text"></i>
+                                    <span>documentos_as_assembleia</span>
+                                </div>
+                                <div class="bgc-fff bs br8px">
+                                    <i class="fa fa-file-text"></i>
+                                    <span>documentos_as_assembleia</span>
+                                </div>
+                                <div class="bgc-fff bs br8px">
+                                    <i class="fa fa-file-text"></i>
+                                    <span>documentos_as_assembleia</span>
+                                </div>
+                            </div>
+                        </section>
+                    </article>
+                </div>
+                <!-- Footer -->
+                <div class="modal-footer" style="padding-right: 15px !important;">
+                    <button ng-click="responderComentario(1)" type="button" 
+                        class="btn btn-success col-md-5 pull-right" 
+                        style="margin-left: 5px">
+                        Comentar
+                    </button>
+
+                    <button type="button" class="btn btn-default btn-clear col-md-5 pull-right" 
+                        ng-click="fechaQuestaoOrdem()">
+                        Cancelar
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Modal Questões de Ordem -->
+
 </div>

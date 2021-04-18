@@ -9,6 +9,7 @@ class AssembleiaQuestaoOrdem extends Model
     public $timestamp = true;
     protected $table = 'assembleia_questoes_ordens';
     protected $fillable = ['id_assembleia','id_pauta','id_thead', 'status'];
+    static public $associations = ['processos_questao_ordem'];
 
     public function assembleia()
     {
@@ -23,5 +24,10 @@ class AssembleiaQuestaoOrdem extends Model
     public function thead()
     {
         return $this->hasOne(AssembleiaThead::class);
+    }
+
+    public function processosQuestaoOrdem()
+    {
+        return $this->hasMany(ProcessoQuestaoOrdem::class);
     }
 }

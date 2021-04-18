@@ -103,9 +103,15 @@
             </div> 
             -->
             
-            <div class="row ba__margin-top-20">
+            <div ng-if="assembleiaResumo.status == 'andamento'" class="row ba__margin-top-20">
                 <button type="button" class="btn btn-votacao inicial uppercase right" data-toggle="modal" ng-click="">
                     INICIAR VOTAÇÃO
+                </button>
+            </div>
+
+            <div ng-if="assembleiaResumo.status == 'agendada'" class="row ba__margin-top-20">
+                <button type="button" class="btn btn-votacao iniciar-assembleia uppercase right" data-toggle="modal" ng-click="iniciarAssembleia(assembleiaResumo.id)">
+                    INICIAR Assembleia
                 </button>
             </div>
 

@@ -14,3 +14,4 @@ site/bower_components
 site/package-lock.json
 site/src/app/config/urlConfig.js
 .gitignore
+/site/src/app/config/urlConfig-sample - Copia.js

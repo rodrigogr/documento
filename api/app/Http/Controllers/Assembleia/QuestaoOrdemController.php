@@ -56,8 +56,7 @@ class QuestaoOrdemController extends Controller
      * */
     public function detalhar ($idQuestaoOrdem)
     {
-//        $questaoOrdem = DB::table('assembleia_questoes_ordens', 'assembleia_questoes_ordens.id', $idQuestaoOrdem)
-//            ->get()->first();
+
         $questaoOrdem = AssembleiaQuestaoOrdem::join('assembleia_theads', 'assembleia_theads.id',
             'assembleia_questoes_ordens.id_thead')
             ->join('bioacesso_portaria.pessoa', 'assembleia_theads.id_pessoa', 'pessoa.id')

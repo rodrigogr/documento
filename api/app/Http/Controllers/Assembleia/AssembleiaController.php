@@ -224,7 +224,7 @@ class AssembleiaController extends Controller
             ->join('assembleia_perguntas', 'assembleia_pautas.id_pergunta', '=', 'assembleia_perguntas.id')
             ->join('assembleia_theads', 'assembleia_encaminhamentos.id_thead', '=', 'assembleia_theads.id')
             ->join('bioacesso_portaria.pessoa', 'assembleia_theads.id_pessoa', '=', 'pessoa.id')
-            ->select('assembleia_encaminhamentos.id as id_encaminhamento','assembleia_encaminhamentos.created_at as data_hora',
+            ->select('assembleia_encaminhamentos.id','assembleia_encaminhamentos.created_at as data_hora',
                 'assembleia_encaminhamentos.status', 'pessoa.nome', 'assembleia_perguntas.pergunta as pauta', 'assembleia_theads.titulo', 'assembleia_encaminhamentos.apoio' )
             ->where('assembleia_encaminhamentos.id_assembleia', $id)->get();
 

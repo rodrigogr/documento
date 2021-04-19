@@ -26,7 +26,7 @@
             </div>
         </a>
         <div class="ba__admin-table-scroll">
-            <a class="list-group-item" ng-repeat="(index, discussoes) in listaDeDiscussoes"
+            <a class="list-group-item" ng-repeat="discussoes in listaDeDiscussoes"
                 ng-click="abreDiscussao(discussoes.id_pauta)" style="cursor: pointer;">
                 <h5 class="col-xs-1 list-group-item-heading">{{discussoes.pauta}}</h5>
                 <h5 class="col-xs-15 list-group-item-heading">{{discussoes.titulo}}</h5>

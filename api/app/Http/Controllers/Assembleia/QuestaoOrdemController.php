@@ -56,60 +56,42 @@ class QuestaoOrdemController extends Controller
      * */
     public function detalhar ($idQuestaoOrdem)
     {
-        // TODO Detalhar questão de ordem
+//        $questaoOrdem = DB::table('assembleia_questoes_ordens', 'assembleia_questoes_ordens.id', $idQuestaoOrdem)
+//            ->get()->first();
+        $questaoOrdem = AssembleiaQuestaoOrdem::join('assembleia_theads', 'assembleia_theads.id',
+            'assembleia_questoes_ordens.id_thead')
+            ->join('bioacesso_portaria.pessoa', 'assembleia_theads.id_pessoa', 'pessoa.id')
+            ->select('assembleia_questoes_ordens.id', 'assembleia_theads.titulo','assembleia_theads.texto', 'pessoa.url_foto as foto',
+            'pessoa.nome as autor', 'assembleia_theads.id as id_thead', 'assembleia_questoes_ordens.id_pauta')
+            ->where('assembleia_questoes_ordens.id', $idQuestaoOrdem)->get()->first();
 
-        $questaoOrdem = DB::table('assembleia_questoes_ordens', 'assembleia_questoes_ordens.id', $idQuestaoOrdem)
-            ->get()->first();
-
-        // Falta os campos numero_pauta | total_pauta
-        $pautaDiscutida = AssembleiaPauta::join('assembleia_perguntas', 'assembleia_pautas.id_pergunta', 'assembleia_perguntas.id')
-            ->where('assembleia_pautas.id', $questaoOrdem->id_pauta)
-            ->select('assembleia_pautas.id as id_pauta','assembleia_perguntas.pergunta')
-            ->get()->first();
-
-        $anexos = DB::table('assembleia_theads_anexos')
+        $questaoOrdem['anexos'] = DB::table('assembleia_theads_anexos')
             ->where('assembleia_theads_anexos.id_thead', $questaoOrdem->id_thead)
             ->select('file')
             ->get();
 
-        $pautaDiscutida['questao_ordem'] = Assembleiathead::join('bioacesso_portaria.pessoa', 'assembleia_theads.id_pessoa',
-            'pessoa.id')
-            ->where('assembleia_theads.id', $questaoOrdem->id_thead)
-            ->select('assembleia_theads.created_at as data_hora', 'pessoa.nome as autor', 'pessoa.url_foto as ulr_foto_autor',
-                'assembleia_theads.titulo', 'assembleia_theads.texto')
-            ->get();
+//        // Falta os campos numero_pauta | total_pauta
+        $questaoOrdem['pauta'] = AssembleiaPauta::join('assembleia_perguntas', 'assembleia_pautas.id_pergunta', 'assembleia_perguntas.id')
+            ->where('assembleia_pautas.id', $questaoOrdem->id_pauta)
+            ->select('assembleia_pautas.id','assembleia_perguntas.pergunta')
+            ->get()->first();
 
-        $pautaDiscutida['questao_ordem']['anexos'] = $anexos;
+        $questaoOrdem['processos'] = ProcessoQuestaoOrdem::join('assembleia_theads', 'assembleia_theads.id',
+            'processos_questao_ordem.id_thead')
+            ->join('bioacesso_portaria.pessoa', 'assembleia_theads.id_pessoa', 'pessoa.id')
+            ->select('processos_questao_ordem.tipo', 'processos_questao_ordem.status', 'assembleia_theads.titulo','assembleia_theads.texto', 'pessoa.url_foto as foto',
+                'pessoa.nome as autor', 'assembleia_theads.id as id_thead')
+            ->where('id_questao_ordem', $questaoOrdem->id)->get();
 
-        $decisao =  Assembleiathead::join('bioacesso_portaria.pessoa', 'assembleia_theads.id_pessoa', 'pessoa.id')
-            ->join('processos_questao_ordem', 'assembleia_theads.id', 'processos_questao_ordem.id_thead')
-            ->where('processos_questao_ordem.id_questao_ordem', $questaoOrdem->id)
-            ->where('processos_questao_ordem.tipo', 'decisao')
-            ->select('processos_questao_ordem.created_at as data_hora', 'processos_questao_ordem.status', 'pessoa.nome as autor',
-              'pessoa.url_foto as ulr_foto_autor', 'assembleia_theads.texto')
-            ->get()
-            ->first();
-
-        if ($decisao)
+        foreach ($questaoOrdem['processos'] as $processo)
         {
-            $pautaDiscutida['decisao'] = $decisao;
+            $processo['anexos'] = DB::table('assembleia_theads_anexos')
+                ->where('assembleia_theads_anexos.id_thead', $processo->id_thead)
+                ->select('file')
+                ->get();
         }
 
-        $recurso =  Assembleiathead::join('bioacesso_portaria.pessoa', 'assembleia_theads.id_pessoa', 'pessoa.id')
-            ->join('processos_questao_ordem', 'assembleia_theads.id', 'processos_questao_ordem.id_thead')
-            ->where('processos_questao_ordem.id_questao_ordem', $questaoOrdem->id)
-            ->where('processos_questao_ordem.tipo', 'recurso')
-            ->select('processos_questao_ordem.created_at as data_hora', 'processos_questao_ordem.status', 'pessoa.nome as autor',
-                'pessoa.url_foto as ulr_foto_autor', 'assembleia_theads.texto')
-            ->get()
-            ->first();
-
-        if ($recurso)
-        {
-            $pautaDiscutida['recurso'] = $recurso;
-        }
-
-        return response()->success($pautaDiscutida);
+        return response()->success($questaoOrdem);
     }
 
     /*
@@ -177,12 +159,13 @@ class QuestaoOrdemController extends Controller
                     'id_thead' => $novaThead->id
                 ]);
             }
+
             $decisao = ProcessoQuestaoOrdem::create([
                 'id_thead' => $novaThead->id,
                 'id_questao_ordem' => $data['id_questao_ordem'],
-                'tipo'=>'decisao',
-                'status' => 'em_analise'
+                'tipo'=>'recurso'
             ]);
+
             DB::commit();
         }
         catch (Exception $e) {

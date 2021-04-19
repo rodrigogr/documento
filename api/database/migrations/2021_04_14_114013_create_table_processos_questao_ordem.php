@@ -15,8 +15,8 @@ class CreateTableProcessosQuestaoOrdem extends Migration
                 $table->increments('id');
                 $table->unsignedInteger('id_thead');
                 $table->unsignedInteger('id_questao_ordem');
-                $table->enum('tipo', ['questao_ordem', 'decisao', 'recurso'])->comment('Define o tipo do processo');
-                $table->enum('status', ['deferida', 'indeferida', 'em_analise'])->default('em_analise');
+                $table->enum('tipo', ['decisao', 'recurso'])->comment('Define o tipo do processo');
+                $table->enum('status', ['deferida', 'indeferida'])->nullable();
                 $table->foreign('id_thead')->references('id')->on('assembleia_theads');
                 $table->foreign('id_questao_ordem')->references('id')->on('assembleia_questoes_ordens');
                 $table->softDeletes();

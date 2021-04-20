@@ -35,6 +35,8 @@ Route::get('/assembleias/search/procurador/{nome}', 'assembleia\ParticipanteCont
 
 Route::resource('/assembleias', 'assembleia\AssembleiaController');
 
+Route::resource('/pautas', 'assembleia\PautaController');
+
 Route::post('/assembleias/encaminhamentos', 'assembleia\EncaminhamentoController@store');
 
 Route::get('/assembleias/encaminhamento/detalhar/{id}', 'assembleia\EncaminhamentoController@detalhar');

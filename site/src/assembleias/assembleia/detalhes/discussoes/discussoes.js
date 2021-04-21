@@ -11,7 +11,7 @@ angular.module('appDirectives').directive("assembleiadiscussoes", function () {
     }
 });
 
-function assembleiaDiscussoesCtrl($scope, $http, $state, $filter, UtilsService, config)
+function assembleiaDiscussoesCtrl($scope, $http, $state, $filter,AuthService, UtilsService, config)
 {
 
     $scope.listaDeDiscussoesAuxiliar = [{
@@ -156,29 +156,64 @@ function assembleiaDiscussoesCtrl($scope, $http, $state, $filter, UtilsService, 
 
 
     //** Modal Detalhe do tópico */
-    $scope.responderComentario = function (id) {
-        console.log(id);
-        
+    $scope.responderComentario = function (post) {
+
+        $scope.comentario = {
+            fotoThead: post.foto,
+            autorThead: post.autor,
+            textoThead: post.resposta,
+            id_post : post.id_comentario,
+            respostaDoComentario : ''
+        }
+
         $scope.respostaDoComentario = '';
         $('#responderComentario').modal('show');
     }
 
-    $scope.comentar = function (id) {
-        console.log(id);
+    $scope.comentar = function (topico) {
 
-        $scope.respostaDoComentario = '';
+        $scope.comentario = {
+            fotoThead: topico.foto,
+            autorThead: topico.autor,
+            textoThead: topico.descricao,
+            id_thead : topico.id,
+            resposta : ''
+        }
+
         $('#responderComentario').modal('show');
     }
 
-    $scope.fechaResponderComentario = function () {
+    $scope.fechaResponderComentario = function ()
+    {
+        $scope.comentario = {};
         $('#responderComentario').modal('hide');
     }
     //** Modal Detalhe do tópico */
 
     /** Cadastrar comentario */
-    $scope.cadastrarComentario = function(idComentario){
-        console.log(`id: ${idComentario}, comentario: ${$scope.respostaDoComentario}`);
-        $scope.fechaResponderComentario();
+    $scope.cadastrarComentario = function()
+    {
+        $("#loading").modal("show");
+
+        let user = JSON.parse(localStorage.getItem("bioacs-uid"));
+        $scope.comentario.id_pessoa = user.id_pessoa;
+
+        $http({
+            method: "POST",
+            url: `${config.apiUrl}api/assembleias/discussoes/resposta`,
+            data: $scope.comentario,
+            headers:{
+                'Authorization': 'Bearer '+ AuthService.getToken()
+            }
+        }).then(function(response) {
+            UtilsService.toastSuccess("Coméntario Realizado!");
+
+            $scope.detalheTopico($scope.comentario.id_thead);
+            $scope.fechaResponderComentario();
+        }, function(error) {
+            UtilsService.openAlert(error.data.message);
+        }).finally( () => { $("#loading").modal("hide") });
+
     }
     /** Cadastrar comentario */
 

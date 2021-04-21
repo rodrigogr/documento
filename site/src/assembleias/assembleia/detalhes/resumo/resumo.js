@@ -363,4 +363,18 @@ function assembleiaResumoCtrl ($scope, $state, $filter, $http, AuthService, Util
                 UtilsService.openAlert(error.data.message);
             }).finally( () => { $("#loading").modal("hide") });
     }
+
+    $scope.iniciarAssembleia = function (id) {
+        $("#loading").modal("show");
+
+        var promisse = ($http.get(`${config.apiUrl}api/assembleias/iniciar/`+id));
+        promisse.then( function (result) {
+            UtilsService.toastSuccess("Assembleia iniciada com sucesso!");
+            $scope.getResumo(id);
+        }, function (error) {
+            UtilsService.openAlert(error.data.message);
+        }).finally( () => {
+            $("#loading").modal("hide")
+        });
+    }
 }

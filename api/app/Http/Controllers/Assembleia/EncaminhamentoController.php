@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\models\Assembleia\AssembleiaEncaminhamento;
 use App\models\Assembleia\AssembleiaPauta;
 use App\models\Assembleia\AssembleiaPergunta;
+use App\models\Assembleia\AssembleiaPost;
 use App\models\Assembleia\AssembleiaThead;
 use App\models\Assembleia\Pauta;
 use App\models\Assembleia\TheadAnexo;
@@ -56,31 +57,34 @@ class EncaminhamentoController extends Controller
 
     public function detalhar($idEncaminhamento)
     {
-        // TODO Detalhar encaminhamento
 
         $encaminhamento = DB::table('assembleia_encaminhamentos', 'assembleia_encaminhamentos.id', $idEncaminhamento)
             ->get()->first();
 
+        $encaminhamento = AssembleiaEncaminhamento::join('assembleia_theads', 'assembleia_theads.id',
+            'assembleia_encaminhamentos.id_thead')
+            ->join('bioacesso_portaria.pessoa', 'assembleia_theads.id_pessoa', 'pessoa.id')
+            ->select('assembleia_encaminhamentos.id', 'assembleia_theads.titulo','assembleia_theads.texto', 'pessoa.url_foto as foto',
+                'pessoa.nome as autor', 'assembleia_theads.id as id_thead', 'assembleia_encaminhamentos.id_pauta')
+            ->where('assembleia_encaminhamentos.id', $idEncaminhamento)->get()->first();
+
+        $encaminhamento['anexos'] = DB::table('assembleia_theads_anexos')
+            ->where('assembleia_theads_anexos.id_thead', $encaminhamento->id_thead)
+            ->select('file')
+            ->get();
+
         // Falta os campos numero_pauta | total_pauta
-        $pautaDiscutida = AssembleiaPauta::join('assembleia_perguntas', 'assembleia_pautas.id_pergunta', 'assembleia_perguntas.id')
+        $encaminhamento['pauta'] = AssembleiaPauta::join('assembleia_perguntas', 'assembleia_pautas.id_pergunta', 'assembleia_perguntas.id')
             ->where('assembleia_pautas.id', $encaminhamento->id_pauta)
             ->select('assembleia_pautas.id as id_pauta','assembleia_perguntas.pergunta')
             ->get()->first();
 
-        $anexos = DB::table('assembleia_theads_anexos')
-        ->where('assembleia_theads_anexos.id_thead', $encaminhamento->id_thead)
-        ->select('file')
-        ->get();
+        $encaminhamento['respostas'] = AssembleiaPost::join('bioacesso_portaria.pessoa', 'assembleia_posts.id_pessoa', 'pessoa.id')
+            ->where('id_thead',$encaminhamento->id_thead)
+            ->select('resposta','pessoa.url_foto as foto','pessoa.nome as autor')
+            ->get();
 
-        // Inclui o campo ulr_foto_autor
-        $pautaDiscutida['encaminhamento'] = Assembleiathead::join('bioacesso_portaria.pessoa', 'assembleia_theads.id_pessoa', 'pessoa.id')
-        ->where('assembleia_theads.id', $encaminhamento->id_thead)
-        ->select('assembleia_theads.created_at as data_hora', 'pessoa.nome as autor', 'pessoa.url_foto as ulr_foto_autor', 'assembleia_theads.titulo', 'assembleia_theads.texto')
-        ->get();
-
-        $pautaDiscutida['encaminhamento']['anexos'] = $anexos;
-
-        return response()->success($pautaDiscutida);
+        return response()->success($encaminhamento);
    }
 
     /*
@@ -90,5 +94,22 @@ class EncaminhamentoController extends Controller
     public function reply (Request $request)
     {
         $data = $request->all();
+
+        $encaminhamento = AssembleiaEncaminhamento::find($data['id_encaminhamento']);
+
+        DB::beginTransaction();
+
+        $resposta = AssembleiaPost::create([
+            'resposta' => $data['resposta'],
+            'id_thead' => $encaminhamento->id_thead,
+            'id_pessoa' => $data['id_pessoa']
+        ]);
+
+        $encaminhamento->status = 'respondido';
+        $encaminhamento->update();
+
+        DB::commit();
+
+        return response()->success($resposta);
     }
 }

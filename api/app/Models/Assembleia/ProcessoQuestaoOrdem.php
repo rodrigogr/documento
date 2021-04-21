@@ -10,11 +10,19 @@ class ProcessoQuestaoOrdem extends Model
 {
     public $timestamps = true;
     protected $table = 'processos_questao_ordem';
-    protected $fillable = ['id_questao_ordem', 'id_thead', 'tipo', 'status'];
+    static public $associations = [
+        'thead '
+    ];
+    protected $fillable = [
+        'id_questao_ordem',
+        'id_thead',
+        'tipo',
+        'status'
+    ];
 
     public function thead()
     {
-        return $this->hasOne(AssembleiaThead::class, 'id_thead');
+        return $this->belongsTo(AssembleiaThead::class, 'id_thead');
     }
 
     public function questaoOrdem()

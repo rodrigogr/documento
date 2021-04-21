@@ -9,7 +9,7 @@ Route::get('/assembleias/discussoes/{id}', 'assembleia\AssembleiaController@disc
 
 Route::get('/assembleias/discussoes/topicos/pauta/{id}', 'assembleia\DiscussaoController@listTopicosPorPauta');
 
-Route::get('/assembleias/discussoes/topico/comentarios/{idTopico}', 'assembleia\DiscussaoController@detalharTopico');
+Route::get('/assembleias/discussoes/topicos/{idTopico}', 'assembleia\DiscussaoController@detalharTopico');
 
 Route::post('/assembleias/discussoes/topico', 'assembleia\DiscussaoController@createTopico');
 
@@ -35,9 +35,13 @@ Route::get('/assembleias/search/procurador/{nome}', 'assembleia\ParticipanteCont
 
 Route::resource('/assembleias', 'assembleia\AssembleiaController');
 
+Route::resource('/pautas', 'assembleia\PautaController');
+
 Route::post('/assembleias/encaminhamentos', 'assembleia\EncaminhamentoController@store');
 
 Route::get('/assembleias/encaminhamento/detalhar/{id}', 'assembleia\EncaminhamentoController@detalhar');
+
+Route::post('/assembleias/encaminhamento/resposta', 'assembleia\EncaminhamentoController@reply');
 
 Route::post('/assembleias/respostas', 'assembleia\PostController@store');
 

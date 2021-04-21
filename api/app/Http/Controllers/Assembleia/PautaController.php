@@ -10,6 +10,7 @@ use App\models\Assembleia\AssembleiaPauta;
 use App\models\Assembleia\AssembleiaPergunta;
 use App\models\Assembleia\AssembleiaVotacao;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 
 class PautaController extends Controller
@@ -60,6 +61,24 @@ class PautaController extends Controller
 
     public function update(Request $request, $id)
     {
-        //Atualizar Pauta
+        $data = $request->all();
+        $alternativas = $data['alternativas'];
+
+        $pauta = AssembleiaPauta::where('assembleia_pautas.id', $id)
+            ->get()
+            ->first();
+
+        DB::beginTransaction();
+        AssembleiaPergunta::where('id', $pauta->id_pergunta)
+            ->update(['pergunta' => $data['pauta']]);
+
+        $contador = 1;
+        foreach ($alternativas as $alternativa) {
+            AssembleiaOpcao::where('id', $contador)
+                ->where('id_pergunta', $pauta->id_pergunta)
+                ->update(['opcao' => $alternativa['opcao']]);
+            $contador++;
+        }
+        DB::commit();
     }
 }

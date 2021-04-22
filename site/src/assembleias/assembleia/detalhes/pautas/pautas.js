@@ -11,14 +11,25 @@ angular.module('appDirectives').directive("assembleiapautas", function () {
     }
 });
 
-function assembleiaPautasCtrl ($scope, $state, $filter, UtilsService, config)
+function assembleiaPautasCtrl ($scope, $state, $filter, UtilsService, config, $http)
 {
     $scope.resumoPautas = [];
     $scope.detalhesPautas = [];
+    $scope.ultimaAlternativa = 1;
 
     function getPautasAssembleia(id = 0)
     {
-        $scope.resumoPautas = [
+        console.log($state.params.id);
+        var promisse = ($http.get(`${config.apiUrl}api/assembleias/pautas/`+$state.params.id));
+        promisse.then(function (retorno) {
+            console.log(retorno);
+            $scope.resumoPautas = retorno.data.data;
+            console.log($scope.resumoPautas);
+        }).finally( () => {
+        });
+
+
+        /*$scope.resumoPautas = [
             {
                 idPauta:'1',
                 tituloPauta:'Qual empresa de segurança devemos contratar?',
@@ -40,19 +51,32 @@ function assembleiaPautasCtrl ($scope, $state, $filter, UtilsService, config)
                 status:'Suspensa',
                 totalVotos:'19'
             }
-        ];
+        ];*/
 
-        /*forEach(pauta in $scope.resumoPautas)
+        forEach(pauta in $scope.resumoPautas)
         {
-            getDetalhesPautas(pauta.idPauta);
-        }*/
-
-        getDetalhesPautas();
+            getDetalhesPautas(pauta.id);
+        }
+        angular.forEach($scope.detalhesPautas,
+            function (value, key){
+                console.log (key + ' '+ value.id);
+                getDetalhesPautas(value.id);
+                console.log (key + ' '+ value.id);
+            }
+        );
     }
 
-    function getDetalhesPautas()
+    function getDetalhesPautas(id_pauta)
     {
-        $scope.detalhesPautas = [
+        $scope.detalhesPautas = '';
+        var promisse = ($http.get(`${config.apiUrl}api/pautas/`+id_pauta));
+        promisse.then(function (retorno) {
+            console.log(retorno);
+            $scope.detalhesPautas = retorno.data.data;
+            console.log($scope.detalhesPautas);
+        }).finally( () => {
+        });
+        /*$scope.detalhesPautas = [
             {
                 idPauta:'1',
                 descricaoPergunta:'Qual empresa de segurança devemos contratar?',
@@ -111,7 +135,7 @@ function assembleiaPautasCtrl ($scope, $state, $filter, UtilsService, config)
                 ],
                 anexos:[]
             }
-        ]
+        ]*/
         console.log($scope.detalhesPautas);
     }
 
@@ -119,22 +143,36 @@ function assembleiaPautasCtrl ($scope, $state, $filter, UtilsService, config)
     getPautasAssembleia();
 
     $scope.abrePauta = function (idPauta){
+        getDetalhesPautas(idPauta);
+        console.log(idPauta);
         angular.forEach($scope.detalhesPautas,
             function (value, key){
-                if(idPauta === value.idPauta)
+                console.log (key + ' '+ value.id);
+                if(idPauta == value.id)
                 {
+                    console.log("x");
                     $scope.pautaSelecao = value;
                     console.log($scope.pautaSelecao);
                     return true;
                 }
-                console.log (key + ' '+ value.idPauta);
+                console.log (key + ' '+ value.id);
             }
             );
+        $scope.ultimaAlternativa = $scope.pautaSelecao.alternativas.length;
+        console.log($scope.ultimaAlternativa);
         $('#abrePauta').modal('show');
     }
 
     $scope.fechaPauta = function () {
         $('#abrePauta').modal('hide');
+    }
+
+    $scope.abreSuspenderPauta = function (){
+        $('#suspenderPauta').modal('show');
+    }
+
+    $scope.fechaSuspenderPauta = function () {
+        $('#suspenderPauta').modal('hide');
     }
 
 }

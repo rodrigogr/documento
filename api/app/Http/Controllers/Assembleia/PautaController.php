@@ -15,26 +15,6 @@ use Illuminate\Support\Facades\DB;
 
 class PautaController extends Controller
 {
-    public function index()
-    {
-        $pautas = AssembleiaPauta::join('assembleia_perguntas', 'assembleia_pautas.id_pergunta', 'assembleia_perguntas.id')
-            ->select('assembleia_pautas.id', 'assembleia_perguntas.pergunta', 'assembleia_pautas.id_pergunta')
-            ->get();
-
-        foreach ($pautas as $pauta) {
-            $opcoes = AssembleiaPergunta::find($pauta->id_pergunta)->assembleiaOpcoes()->count();
-            $votos = AssembleiaVotacao::where('id_pergunta', $pauta->id_pergunta)->count();
-
-            $result[] = [
-                'id' => $pauta->id,
-                'pauta' => $pauta->pergunta,
-                'alternativas' => $opcoes,
-                'votos' => $votos
-            ];
-        }
-        return response()->success($result);
-    }
-
     public function show($id)
     {
         $pauta = AssembleiaPauta::join('assembleia_perguntas', 'assembleia_pautas.id_pergunta', 'assembleia_perguntas.id')
@@ -47,13 +27,10 @@ class PautaController extends Controller
             ->select('opcao')
             ->get();
 
-        $votos = AssembleiaVotacao::where('id_pergunta', $pauta->id_pergunta)->count();
-
         $result[] = [
             'id' => $pauta->id,
             'pauta' => $pauta->pergunta,
-            'alternativas' => $alternativas,
-            'votos' => $votos
+            'alternativas' => $alternativas
         ];
 
         return response()->success($result);

@@ -45,6 +45,8 @@ Route::put( '/assembleias/pauta', 'assembleia\PautaController@update' );
 
 Route::resource('/pautas', 'assembleia\PautaController');
 
+Route::resource('/pauta_anexos', 'assembleia\PautaAnexoController');
+
 Route::post('/assembleias/encaminhamentos', 'assembleia\EncaminhamentoController@store');
 
 Route::get('/assembleias/encaminhamento/detalhar/{id}', 'assembleia\EncaminhamentoController@detalhar');

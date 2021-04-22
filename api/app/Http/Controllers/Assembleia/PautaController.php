@@ -24,7 +24,7 @@ class PautaController extends Controller
             ->first();
 
         $alternativas = AssembleiaOpcao::where('assembleia_opcoes.id_pergunta', $pauta->id_pergunta)
-            ->select('opcao')
+            ->select('id', 'opcao')
             ->get();
 
         $result[] = [

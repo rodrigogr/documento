@@ -1,7 +1,7 @@
 <div class="row">
     <div class="row ba__margin-top-20">
         <h3 class="col-md-15 Roboto-Light">
-            <strong>{{pautas.length}}</strong> resultados</h3>
+            <strong>{{resumoPautas.length}}</strong> resultados</h3>
         <button type="button" id="abrirVotacaos"  class="btn btn-success col-xs-offset-3 col-xs-6 uppercase" style="margin-top: 12px" ng-click="select = null;$('#novoTipo').modal('show')">
             Abrir Votação
         </button>
@@ -26,15 +26,15 @@
         </a>
         <div class="ba__admin-table-scroll" style="height: 85%;">
             <a class="list-group-item ba__font-size-12 ba__pointer" ng-repeat="pauta in resumoPautas">
-                <div class="row" ng-click="abrePauta(pauta.idPauta)">
-                    <div class="col-xs-8">{{pauta.tituloPauta}}</div>
-                    <div class="col-xs-4">{{pauta.totalAlternativas}}</div>
+                <div class="row" ng-click="abrePauta(pauta.id)">
+                    <div class="col-xs-8">{{pauta.pauta}}</div>
+                    <div class="col-xs-4">{{pauta.alternativas}}</div>
                     <div class="col-xs-6">
                         <span ng-if="pauta.status=='Aberta para votação'" class="status aberta">{{pauta.status}}</span>
                         <span ng-if="pauta.status=='Suspensa'" class="status suspensa">{{pauta.status}}</span>
-                        <span ng-if="pauta.status=='Aguardando inicio'" class="status aguardando">{{pauta.status}}</span>
+                        <span ng-if="pauta.status=='aguardando inicio'" class="status aguardando">{{pauta.status}}</span>
                     </div>
-                    <div class="col-xs-4">{{pauta.totalVotos}}</div>
+                    <div class="col-xs-4">{{pauta.votos}}</div>
                     <div class="col-xs-2">
                         <i class="fa fa-close ba__margin-left-20" title="Excluir"  ng-click=""></i>
                         <i class="fa fa-eye ba__margin-left-35" title="Visualizar"  ng-click=""></i>
@@ -68,7 +68,7 @@
                                         <div class="control-input">
                                                             <textarea
                                                                     name="descricao-pauta"
-                                                                    ng-model="pautaSelecao.descricaoPergunta"
+                                                                    ng-model="pautaSelecao.pauta"
                                                                     placeholder=" "
                                                                     class="ng-pristine ng-valid ng-touched"
                                                                     required
@@ -103,7 +103,7 @@
                                             <input
                                                     type="text"
                                                     name="alternativa"
-                                                    ng-model="alternativa.descAlternativa"
+                                                    ng-model="alternativa.opcao"
                                                     value="alternativa.id"
                                                     placeholder=""
                                                     autocomplete="off"
@@ -126,7 +126,7 @@
                                            style="margin-right: 15px;"
                                            ng-click="removeNewAlternativas(alternativa)"></i>
                                         <i class="fa fa-plus-circle"
-                                           ng-show="showAddAlternativa(alternativa)"
+                                           ng-show="(ultimaAlternativa===($index+1))"
                                            ng-click="addNewAlternativa(alternativa)"
                                         ></i>
                                     </div>
@@ -181,13 +181,70 @@
                         style="border:none;">
                             Suspender Pauta
                         </button>-->
-                        <span class="pull-right">
-                            <a href="{{ assembleiaResumo.link_transmissao }}" target="_blank" class="link-button">Suspender Pauta</a>
-                        </span>
+                        <a href="{{ assembleiaResumo.link_transmissao }}" ng-click="abreSuspenderPauta()" target="_blank" class="pull-right link-button"
+                        style="height: 35px; margin-top: 3px;width: 190px; padding-top: 1px; font-size: 18px;">
+                            Suspender Pauta</a>
                     </div>
                 </div>
             </div>
         </div>
         <!-- Modal Pautas -->
+        <!-- Modal Detalhe do Tópico -->
+        <div class="modal fade" id="suspenderPauta" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="false">
+            <div class="modal-dialog assembleia-modal-50pc" role="document">
+                <div class="modal-content assembleia-content">
+                    <!-- Header -->
+                    <div class="modal-header assembleia-header">
+                        <div class="row">
+                            <h4 class="modal-title Roboto-Thin ba__font-size-25"
+                                style="padding: 25px 25px 10px; font-weight: bold;">
+                                <i class="fa fa-times cff6633"></i>
+                                <span>SUSPENDER PAUTA</span>
+                            </h4>
+                        </div>
+                    </div>
+                    <!-- Form Mean -->
+                    <div class="modal-body ba__modal-body-assembleia"
+                         style="background-color: #F2F2F2; padding: 0px !important">
+
+                        <header class="discussoes">
+                            <h6>
+                                DESCRICAO
+                            </h6>
+                            <h5>{{pautaSelecao.pauta}}</h5>
+                        </header>
+                        <div>
+                            <div class="control-input">
+                                                            <textarea
+                                                                    name="motivo-suspender-pauta"
+                                                                    ng-model=""
+                                                                    placeholder="Descreva o motivo"
+                                                                    class="ng-pristine ng-valid ng-touched"
+                                                                    required
+                                                                    aria-invalid="false"
+                                                                    rows="4"
+                                                                    cols="33">
+                                                            </textarea>
+                            </div>
+
+                        </div>
+                    </div>
+                    <!-- Footer -->
+                    <div class="modal-footer" style="padding-right: 15px !important;">
+                        <button ng-click="" type="button" class="btn btn-success col-md-5 pull-right"
+                                style="margin-left: 5px">
+                            Comentar
+                        </button>
+
+                        <button type="button" class="btn btn-default btn-clear col-md-5 pull-right"
+                                ng-click="fechaSuspenderPauta()">
+                            Cancelar
+                        </button>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Modal Detalhe do Tópico -->
     </div>
 </div>

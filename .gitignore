@@ -4,6 +4,7 @@ api/.env
 api/.idea
 api/public/.htaccess
 api/public/index.php
+api/public/storage
 api/storage/
 api/vendor/
 api/composer.lock

@@ -58,6 +58,11 @@ return [
             'root' => storage_path('app/condominio'),
             'visibility' => 'public',
         ],
+        'reserva' => [
+            'driver' => 'local',
+            'root' => storage_path('app/reserva'),
+            'visibility' => 'public',
+        ],
 
         's3' => [
             'driver' => 's3',
@@ -68,5 +73,4 @@ return [
         ],
 
     ],
-
 ];

@@ -31,6 +31,14 @@ class LocalReservavelController extends Controller
     {
         try {
             $data = $request->all();
+            if (!empty($data["regra_local"])) {
+                $base64 = explode('base64,', $data["regra_local"]);
+                $file = base64_decode($base64[1], true);
+                $extensao = explode('/', mime_content_type($data["regra_local"]))[1];
+                $nameFile = time().random_int(500,999).'.'.$extensao;
+                \Storage::disk('public')->put($nameFile, $file);
+            }
+
             $local = LocalReservavel::create($data);
 
             if ($local->id) {

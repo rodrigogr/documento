@@ -73,7 +73,7 @@
                         <section class="bgc-fff bs br8px" ng-repeat="topicos in discussaoPauta.topicos"
                             ng-click="detalheTopico(topicos.id)">
                             <div class="pessoa">
-                                <img class="" src="http://teste.bioacesso.net:8084/{{ topicos.ulr_foto_autor }}" alt="" />
+                                <img class="" src="http://teste.bioacesso.net:8084/{{ topicos.foto }}" alt="" />
                                 <div>
                                     <span>{{ topicos.autor }}</span>
                                     <span>Há 32 minutos</span>
@@ -122,7 +122,7 @@
 
                     <header class="discussoes">
                         <div class="pessoa">
-                            <img class="" src="http://teste.bioacesso.net:8084/{{ topico.ulr_foto_autor }}" alt="" />
+                            <img class="" src="http://teste.bioacesso.net:8084/{{ topico.foto }}" alt="" />
                             <div>
                                 <span>{{ topico.autor }}</span>
                                 <span>Há 32 minutos</span>
@@ -141,7 +141,7 @@
                     <article class="box-discussao">
                         <section class="bgc-fff bs br8px" ng-repeat="comentario in topico.comentarios">
                             <div class="pessoa">
-                                <img class="" src="http://teste.bioacesso.net:8084/{{ comentario.ulr_foto_autor }}" alt="" />
+                                <img class="" src="http://teste.bioacesso.net:8084/{{ comentario.foto }}" alt="" />
                                 <div>
                                     <span>{{ comentario.autor }}</span>
                                     <span>Há 32 minutos</span>
@@ -150,17 +150,17 @@
                             <h6>
                                 {{ comentario.resposta }}
                             </h6>
-                            <div 
-                                ng-click="responderComentario(comentario.id_comentario)"
-                                class="comentar" >
-                                <i class="fa fa-reply-all" aria-hidden="true">&nbsp;&nbsp; Responder</i>
-                            </div>
+<!--                            <div -->
+<!--                                ng-click="responderComentario(comentario)"-->
+<!--                                class="comentar" >-->
+<!--                                <i class="fa fa-reply-all" aria-hidden="true">&nbsp;&nbsp; Responder</i>-->
+<!--                            </div>-->
                         </section>
                     </article>
                 </div>
                 <!-- Footer -->
                 <div class="modal-footer" style="padding-right: 15px !important;">
-                    <button ng-click="comentar(topico.id)" type="button" class="btn btn-success col-md-5 pull-right"
+                    <button ng-click="comentar(topico)" type="button" class="btn btn-success col-md-5 pull-right"
                         style="margin-left: 5px">
                         Comentar
                     </button>
@@ -197,15 +197,15 @@
 
                     <header class="discussoes">
                         <div class="pessoa">
-                            <img class="" src="{{ listDetalheTopico.foto }}" alt="" />
+                            <img class="" src="http://teste.bioacesso.net:8084/{{ comentario.fotoThead }}" alt="" />
                             <div>
-                                <span>{{ listDetalheTopico.nome }}</span>
+                                <span>{{ comentario.autorThead }}</span>
                                 <span>Há 32 minutos</span>
                             </div>
                         </div>
 
                         <h5>
-                            {{ listDetalheTopico.titulo }}
+                            {{ comentario.textoThead }}
                         </h5>
                     </header>
 
@@ -216,8 +216,8 @@
                                 <div style="padding: 15px;">
                                     <div class="control-input">
                                         <textarea 
-                                            name="respostaDoComentario" 
-                                            ng-model="respostaDoComentario" 
+                                            name="resposta"
+                                            ng-model="comentario.resposta"
                                             placeholder=" "
                                             class="ng-pristine ng-valid ng-touched" 
                                             required 
@@ -240,8 +240,8 @@
                         type="button" 
                         class="btn btn-success col-md-5 pull-right" 
                         style="margin-left: 5px"
-                        ng-show="respostaDoComentario"
-                        ng-click="cadastrarComentario(11)">
+                        ng-disabled="!comentario.resposta"
+                        ng-click="cadastrarComentario()">
                         Enviar
                     </button>
 
@@ -255,4 +255,17 @@
         </div>
     </div>
     <!-- Modal Detalhe do Tópico -->
+    <!--MODAL LOADING-->
+    <div class="modal" id="loading" role="dialog" data-backdrop="static" style="background: rgba(0, 0, 0, 0.1)!important">
+        <div class="modal-dialog" role="document">
+            <div style="padding: 20px;background:#FFF;width:14%;margin: 15% auto;position: relative;background-clip: padding-box;text-align: center;">
+                <div class="row">
+                    <i class="col-md-5 fa fa-spinner fa-spin ba__font-size-50 text-center"></i>
+                    <h5 class="col-md-13 col-md-offset-1 text-gray ba__margin-top-20">
+                        <b>aguarde...</b>
+                    </h5>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>

@@ -5,6 +5,10 @@
 
 Route::get('/assembleias/resumo/{id}', 'assembleia\AssembleiaController@resumo');
 
+Route::get('/assembleias/iniciar/{id}', 'assembleia\AssembleiaController@iniciarAssembleia');
+
+Route::post('/assembleias/iniciar/votacao/', 'assembleia\AssembleiaController@iniciarVotacao');
+
 Route::get('/assembleias/discussoes/{id}', 'assembleia\AssembleiaController@discussoes');
 
 Route::get('/assembleias/discussoes/topicos/pauta/{id}', 'assembleia\DiscussaoController@listTopicosPorPauta');
@@ -35,7 +39,13 @@ Route::get('/assembleias/search/procurador/{nome}', 'assembleia\ParticipanteCont
 
 Route::resource('/assembleias', 'assembleia\AssembleiaController');
 
+Route::get( '/assembleias/pauta/get/{id}', 'assembleia\PautaController@show');
+
+Route::put( '/assembleias/pauta', 'assembleia\PautaController@update' );
+
 Route::resource('/pautas', 'assembleia\PautaController');
+
+Route::resource('/pauta_anexos', 'assembleia\PautaAnexoController');
 
 Route::post('/assembleias/encaminhamentos', 'assembleia\EncaminhamentoController@store');
 

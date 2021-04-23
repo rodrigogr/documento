@@ -312,4 +312,14 @@ class AssembleiaController extends Controller
 
         return $assembleia;
     }
+
+    public function iniciarAssembleia($id)
+    {
+        $assembleia = Assembleia::find($id);
+        $assembleia->status = 'andamento';
+        $assembleia->data_inicio = date('Y-m-d');
+        $assembleia->hora_inicio = date('H:i:s');
+        $assembleia->update();
+
+    }
 }

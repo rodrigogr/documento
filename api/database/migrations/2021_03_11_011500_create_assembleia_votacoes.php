@@ -20,7 +20,7 @@ class CreateAssembleiaVotacoes extends Migration
                 $table->increments('id');
                 $table->unsignedInteger('id_pergunta');
                 $table->unsignedInteger('id_opcao');
-                $table->unsignedBigInteger('id_usuario');
+                $table->unsignedInteger('id_pessoa');
                 $table->foreign('id_pergunta')->references('id')->on('assembleia_perguntas');
                 $table->foreign('id_opcao')->references('id')->on('assembleia_opcoes');
                 //$table->foreign('id_usuario')->references('id')->on('usuario');

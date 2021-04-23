@@ -20,7 +20,7 @@ class CreateAssembleiaParticipantes extends Migration
                 $table->increments('id');
                 $table->unsignedInteger('id_assembleia');
                 $table->unsignedInteger('id_imovel');
-                $table->unsignedInteger('id_procurador');
+                $table->unsignedInteger('id_procurador')->nullable();
                 $table->foreign('id_assembleia')->references('id')->on('assembleias');
                 $table->softDeletes();
                 $table->timestamps();

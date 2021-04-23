@@ -16,6 +16,7 @@ use App\models\Assembleia\AssembleiaPost;
 use App\models\Assembleia\AssembleiaQuestaoOrdem;
 use App\models\Assembleia\AssembleiaThead;
 use App\models\Assembleia\AssembleiaVotacao;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use function foo\func;
 
@@ -321,5 +322,20 @@ class AssembleiaController extends Controller
         $assembleia->hora_inicio = date('H:i:s');
         $assembleia->update();
 
+    }
+
+    public function votacao (Request $request)
+    {
+        $data = $request->all();
+
+        foreach ($data['pautas'] as $pauta)
+        {
+            $voto = new AssembleiaVotacao();
+            $voto->id_usuario = $pauta['id_pessoa'];
+            $voto->id_pergunta = $pauta['id_pergunta'];
+            $voto->id_opcao = $pauta['id_alternativa'];
+
+        }
+        var_dump($data); exit();
     }
 }

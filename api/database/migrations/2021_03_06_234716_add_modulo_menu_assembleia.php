@@ -17,7 +17,7 @@ class AddModuloMenuAssembleia extends Migration
             array([
                 'nome' => 'assembleia',
                 'desc' => 'Assembleia',
-                'tipo_categoria' => 'p'
+                'tipo_categoria' => 's'
             ])
         );
     }

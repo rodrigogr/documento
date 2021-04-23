@@ -9,9 +9,10 @@ class AddColummNumeroTableAssembleiaPautas extends Migration
     public function up()
     {
         Schema::table('assembleia_pautas', function (Blueprint $table) {
-            $table->string('numero');
+            $table->string('numero')->nullable();
         });
     }
+
     public function down()
     {
 

@@ -8,6 +8,11 @@ class AssembleiaVotacao extends Model
 {
     public $timestamps = true;
     protected $table = 'assembleia_votacoes';
+    protected $fillable = [
+        'id_pergunta',
+        'id_opcao',
+        'id_usuario'
+    ];
 
     public function usuario()
     {

@@ -54,13 +54,12 @@
                                 style="padding: 25px 25px 10px; font-weight: bold;">
                                 <i class="fa fa-edit cff6633"></i>
                                 <span>PAUTA</span>
-                                <i class="fa fa-times cff6633 pull-right" ng-click="fechaPauta()"></i>
                             </h4>
                         </div>
                     </div>
                     <!-- Form Mean -->
                     <div class="modal-body ba__bg-white ba__modal-body-assembleia"
-                         style="background-color: #F2F2F2; padding: 0px !important;max-height: 100%; height: 80%">
+                         style="background-color: #F2F2F2; padding: 0px !important;max-height: 70%;">
                         <div style="padding: 0 0 20px; margin: 0 0 20px;">
                             <div class="row ba__margin-bottom-30">
                                 <div class="col-md-22">
@@ -111,10 +110,10 @@
                                                             color: #999;">
                                         <i class="fa fa-trash"
                                            style="margin-right: 15px;"
-                                           ng-click="removeNewAlternativas(alternativa)"></i>
+                                           ng-click="removeNewAlternativas($index)"></i>
                                         <i class="fa fa-plus-circle"
                                            ng-show="(ultimaAlternativa===($index+1))"
-                                           ng-click="addNewAlternativa(alternativa)"
+                                           ng-click="addNewAlternativa($index)"
                                         ></i>
                                     </div>
                                 </div>
@@ -161,13 +160,13 @@
                     <!-- Footer -->
                     <div class="modal-footer" style="padding-right: 15px !important;">
                         <button type="button" class="btn btn-success col-xs-offset-3 col-xs-6 uppercase pull-right"
-                                style="background-color: #FF6633;margin-left: 0px;">
+                                style="background-color: #FF6633;margin-left: 30px; width: 200px;">
                             Salvar
                         </button>
-                        <!--<button ng-click="fechaPauta()" class="pull-right"
-                        style="border:none;">
-                            Suspender Pauta
-                        </button>-->
+                        <button type="button" class="btn btn-default btn-clear col-xs-offset-3 col-xs-6 uppercase pull-right"
+                                ng-click="fechaPauta()" style="margin-left: 30px; width: 200px;">
+                            Cancelar
+                        </button>
                         <a href="{{ assembleiaResumo.link_transmissao }}" ng-click="abreSuspenderPauta()" target="_blank" class="pull-right link-button"
                         style="height: 35px; margin-top: 3px;width: 190px; padding-top: 1px; font-size: 18px;">
                             Suspender Pauta</a>

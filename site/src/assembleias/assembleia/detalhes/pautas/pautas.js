@@ -58,4 +58,14 @@ function assembleiaPautasCtrl ($scope, $state, $filter, UtilsService, config, $h
         $('#suspenderPauta').modal('hide');
     }
 
+    $scope.addNewAlternativa = function(index) {
+        $scope.ultimaAlternativa++;
+        $scope.pautaSelecao.alternativas.push({'id' : '', 'opcao' : ''});
+    };
+
+    $scope.removeNewAlternativas = function(index) {
+        $scope.ultimaAlternativa--;
+        $scope.pautaSelecao.alternativas.splice(index,1);
+    };
+
 }

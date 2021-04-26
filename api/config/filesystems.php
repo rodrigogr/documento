@@ -58,9 +58,9 @@ return [
             'root' => storage_path('app/condominio'),
             'visibility' => 'public',
         ],
-        'reserva' => [
+        'doc_local_reservavel' => [
             'driver' => 'local',
-            'root' => storage_path('app/reserva'),
+            'root' => storage_path('app/doc_local_reservavel'),
             'visibility' => 'public',
         ],
 

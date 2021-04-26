@@ -32,11 +32,12 @@ class LocalReservavelController extends Controller
         try {
             $data = $request->all();
             if (!empty($data["regra_local"])) {
-                $base64 = explode('base64,', $data["regra_local"]);
-                $file = base64_decode($base64[1], true);
-                $extensao = explode('/', mime_content_type($data["regra_local"]))[1];
-                $nameFile = time().random_int(500,999).'.'.$extensao;
-                \Storage::disk('public')->put($nameFile, $file);
+                $resultFile = $this->salvaArquivo($data["regra_local"]);
+                if ($resultFile["error"]) {
+                    return response()->error($resultFile["error"]);
+                } else {
+                    $data["regra_local"] = $resultFile["file"];
+                }
             }
 
             $local = LocalReservavel::create($data);
@@ -74,6 +75,8 @@ class LocalReservavelController extends Controller
     public function show($id)
     {
         $Data = LocalReservavel::complete($id);
+        /*$url = \Storage::disk('public')->url($Data["regra_local"]);
+        $Data["regra_local"] = public_path($url);*/
         if ($Data) {
             return response()->success($Data);
         }
@@ -88,8 +91,16 @@ class LocalReservavelController extends Controller
     {
         try {
             $data = $request->all();
-
             $Data = LocalReservavel::find($id);
+
+            if ($data["regra_local"] != $Data["regra_local"]) {
+                $resultFile = $this->salvaArquivo($data["regra_local"]);
+                if ($resultFile["error"]) {
+                    return response()->error($resultFile["error"]);
+                } else {
+                    $data["regra_local"] = $resultFile["file"];
+                }
+            }
             $Data->update($data);
 
             foreach ($data["periodo"] as $key => $dia_semana) {
@@ -165,5 +176,63 @@ class LocalReservavelController extends Controller
 
         return response()->success("Excluído com sucesso!");
 
+    }
+
+    private function getExtensao($arquivo)
+    {
+        switch ($arquivo) {
+            case "vnd.openxmlformats-officedocument.wordprocessingml.document":
+            case "msword":
+                return 'doc';
+            case "plain":
+                return 'txt';
+            case "application/vnd.oasis.opendocument.text":
+                return 'odt';
+            case "application/vnd.oasis.opendocument.spreadsheet":
+                return 'ods';
+            case "pdf":
+                return 'pdf';
+            case "vnd.openxmlformats-officedocument.spreadsheetml.sheet":
+            case "vnd.ms-office":
+                return 'xls';
+            case "jpg":
+            case "jpeg":
+                return 'jpg';
+            case "png":
+                return 'png';
+
+        }
+    }
+
+    private function salvaArquivo($arquivo)
+    {
+        $base64 = explode('base64,', $arquivo);
+        $file = base64_decode($base64[1], true);
+        $mimetype = explode('/', mime_content_type($arquivo))[1];
+        \Log::debug('mimetype: '.$mimetype);
+        $extensao = $this->getExtensao($mimetype);
+        $nameFile = time().random_int(500,999).'.'.$extensao;
+        //salva da pasta
+        \Storage::disk('public')->put($nameFile, $file);
+        //get size para comparar o tamanho permitido
+        $size = \Storage::disk('public')->size($nameFile);
+
+        $result = [
+            "file" => $nameFile,
+            "error" => false
+        ];
+
+        if ($size > 10485760) {
+            //deleta o arquivo
+            \Storage::disk('public')->delete($nameFile);
+            $result["error"] = 'Arquivo não pode ser maior que 10 MB.';
+        }
+
+        return $result;
+    }
+
+    public function urlDoc($arquivo)
+    {
+        return response()->file('storage/'.$arquivo);
     }
 }

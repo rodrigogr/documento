@@ -349,6 +349,13 @@ angular.module('ReservasModule').controller('LocalReservavelCtrl',
                     $scope.localReservavel.check_capacidade = true;
                 }
 
+                if ($scope.localReservavel.regra_local) {
+                    let arquivo = {
+                        "name": $scope.localReservavel.regra_local
+                    };
+                    iconArquivo(arquivo);
+                }
+
                 $scope.step = 1;
                 $('#cadastroLocal').modal('show');
 
@@ -373,8 +380,8 @@ angular.module('ReservasModule').controller('LocalReservavelCtrl',
             }).finally( () => $("#loading").modal("hide") )
         }
 
-        function iconArquivo(file) {
-            var tipoFile = file.name.split('.')[1];
+        function iconArquivo(arquivo) {
+            var tipoFile = arquivo.name.split('.')[1];
             var icon = 'file';
             switch (tipoFile) {
                 case "jpeg":
@@ -385,10 +392,12 @@ angular.module('ReservasModule').controller('LocalReservavelCtrl',
                     icon = 'png';
                     break;
                 case "doc":
+                case "odt":
                 case "docx":
                     icon = 'word';
                     break;
                 case "xml":
+                case "ods":
                 case "xls":
                 case "xlsx":
                     icon = 'excel';
@@ -401,12 +410,13 @@ angular.module('ReservasModule').controller('LocalReservavelCtrl',
                     break;
             }
             $scope.arquivoIcon = 'img/icons/icon_'+icon+'.png';
-            $scope.arquivoNome = file.name;
+            $scope.arquivoNome = arquivo.name;
         }
 
         $scope.abreDocumento = function () {
             let file = $scope.localReservavel.regra ? $scope.localReservavel.regra : $scope.localReservavel.regra_local;
-            window.open(file,'_blank');
+            let url = `${config.apiUrl}store/doc/`+file;
+            window.open(url,'_blank');
         }
 
         $scope.pesquisalocalReservavel = function () {

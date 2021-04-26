@@ -1,23 +1,11 @@
 <?php
 
-/*
-|--------------------------------------------------------------------------
-| API Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register API routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| is assigned the "api" middleware group. Enjoy building your API!
-|
-*/
+    Route::post('auth/login', 'AuthController@login');
+    Route::get('auth/checkAuth','AuthController@checkAuth');
+    Route::get('condominio', 'CondominioConfiguracoesController@condominio');
+    Route::get('auth/getLogin/{hash}','AuthController@getLogin');
 
-Route::post('auth/login', 'AuthController@login');
-Route::get('auth/checkAuth','AuthController@checkAuth');
-Route::get('condominio', 'CondominioConfiguracoesController@condominio');
-Route::get('auth/getLogin/{hash}','AuthController@getLogin');
-
-
-Route::group(['middleware' => 'jwt.auth'], function () {
+    Route::group(['middleware' => 'jwt.auth'], function () {
 
     Route::post('aclToFrontEnd', 'AuthController@userPermissoes');
     Route::post('aclPermissoes', 'AuthController@userPermissoesFormata');
@@ -29,7 +17,6 @@ Route::group(['middleware' => 'jwt.auth'], function () {
     Route::get('imoveis/busca_titular/{quadra}/{lote}', 'ImovelController@pesquisarTitularPorImovel');
     Route::resource('imoveis', 'ImovelController');
     Route::resource('imovel_permanentes', 'ImovelPermanenteController');
-
 
     Route::get('usuarios/pessoas', 'UsuarioController@usuariosPessoas');
     Route::resource('usuarios', 'UsuarioController');

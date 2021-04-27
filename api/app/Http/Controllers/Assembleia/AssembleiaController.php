@@ -323,19 +323,4 @@ class AssembleiaController extends Controller
         $assembleia->update();
 
     }
-
-    public function votacao (Request $request)
-    {
-        $data = $request->all();
-
-        foreach ($data['pautas'] as $pauta)
-        {
-            $voto = new AssembleiaVotacao();
-            $voto->id_usuario = $pauta['id_pessoa'];
-            $voto->id_pergunta = $pauta['id_pergunta'];
-            $voto->id_opcao = $pauta['id_alternativa'];
-
-        }
-        var_dump($data); exit();
-    }
 }

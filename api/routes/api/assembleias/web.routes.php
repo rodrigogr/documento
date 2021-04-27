@@ -7,7 +7,7 @@ Route::get('/assembleias/resumo/{id}', 'assembleia\AssembleiaController@resumo')
 
 Route::get('/assembleias/iniciar/{id}', 'assembleia\AssembleiaController@iniciarAssembleia');
 
-Route::post('/assembleias/iniciar/votacao/', 'assembleia\AssembleiaController@iniciarVotacao');
+Route::post('/assembleias/iniciar/votacao/', 'assembleia\VotacaoController@iniciarVotacao');
 
 Route::get('/assembleias/discussoes/{id}', 'assembleia\AssembleiaController@discussoes');
 

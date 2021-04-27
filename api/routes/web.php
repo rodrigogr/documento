@@ -14,3 +14,5 @@
 Route::get('/', function () {
     return '!!! Bioacesso Condomínios !!!';
 });
+
+Route::get('/store/doc/{doc}', 'reservas\LocalReservavelController@urlDoc');

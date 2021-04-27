@@ -58,6 +58,11 @@ return [
             'root' => storage_path('app/condominio'),
             'visibility' => 'public',
         ],
+        'doc_local_reservavel' => [
+            'driver' => 'local',
+            'root' => storage_path('app/doc_local_reservavel'),
+            'visibility' => 'public',
+        ],
 
         's3' => [
             'driver' => 's3',
@@ -68,5 +73,4 @@ return [
         ],
 
     ],
-
 ];

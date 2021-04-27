@@ -1,8 +1,5 @@
 <?php
 
-
-
-
     Route::group(['prefix' => '5eec33a37ed64e42575b84f1abc8a27843b1a050/localreservavel'], function () {
         Route::get('/', 'reservas\LocalReservavelController@index');
         Route::post('/', 'reservas\LocalReservavelController@store');
@@ -30,3 +27,5 @@
         Route::get('/locais_reservaveis', 'LocalidadeController@locaisReservaveis');
         Route::get('/locais_reservaveis/pessoa/{id_pessoa}', 'LocalidadeController@locaisPermitidos');
     });
+
+    Route::get('5eec33a37ed64e42575b84f1abc8a27843b1a050/store/doc/{doc}', 'reservas\LocalReservavelController@urlDoc');

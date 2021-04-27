@@ -39,3 +39,5 @@ Route::group(['middleware' => 'jwt.auth'], function ()
     });
 
 });
+
+Route::get('/store/doc/{doc}', 'reservas\LocalReservavelController@urlDoc');

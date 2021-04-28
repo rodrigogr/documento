@@ -2,5 +2,5 @@
 angular.module('ReservasModule').controller('CalendarioReservaCtrl',
     function ($scope, UtilsService, HeaderFactory) {
 
-        HeaderFactory.setHeader('reservas', 'Locais reserváveis');
+        HeaderFactory.setHeader('reservas', 'Calendário de reservas');
     });

@@ -103,9 +103,18 @@ class LocalReservavelController extends Controller
             }
             $Data->update($data);
 
+            //deleta todos e depois cria de novo
+            $periodoDel = PeriodoLocalReservavel::where('id_local_reservavel',$id);
+            $periodoDel->delete();
+
             foreach ($data["periodo"] as $key => $dia_semana) {
                 foreach ($dia_semana as $dados_dia) {
-                    if (!isset($dados_dia["id"]) && $dados_dia["hora_ini"]) {
+                    $dados_dia["id_local_reservavel"] = $id;
+                    $dados_dia["dia_semana"] = $key;
+                    $dados_dia["valor"] = (float)$dados_dia["valor"];
+                    PeriodoLocalReservavel::create($dados_dia);
+
+                    /*if (!isset($dados_dia["id"]) && $dados_dia["hora_ini"]) {
                         $dados_dia["id_local_reservavel"] = $id;
                         $dados_dia["dia_semana"] = $key;
                         $dados_dia["valor"] = (float)$dados_dia["valor"];
@@ -123,7 +132,7 @@ class LocalReservavelController extends Controller
                     if (isset($dados_dia["deleted"]) && $dados_dia["deleted"]) {
                         $periodoDel = PeriodoLocalReservavel::find($dados_dia["id"]);
                         $periodoDel->delete();
-                    }
+                    }*/
                 }
             }
 

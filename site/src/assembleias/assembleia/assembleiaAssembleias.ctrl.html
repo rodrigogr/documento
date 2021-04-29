@@ -325,26 +325,26 @@
                                         </div>  
                                         
                                         
-                                        <div class="row ba__margin-bottom-30">
-                                            <div class="col-md-2 ba__margin-right-20" style="padding: 0 15px;">
-                                                <div class="onoffswitch">
-                                                    <input type="checkbox" 
-                                                            name="onoffswitch"
-                                                            class="onoffswitch-checkbox"
-                                                            id="capacidade"
-                                                            checked
-                                                            ng-model="assembleia.votacao_secreta">
-                                                    <label class="onoffswitch-label" for="capacidade">
-                                                        <span class="onoffswitch-inner"></span>
-                                                        <span class="onoffswitch-switch"></span>
-                                                    </label>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-10">
-                                                <h5 class="text-left"
-                                                    style="padding: 0; margin: 6px;">Votação secreta</h5>
-                                            </div>  
-                                        </div>
+<!--                                        <div class="row ba__margin-bottom-30">-->
+<!--                                            <div class="col-md-2 ba__margin-right-20" style="padding: 0 15px;">-->
+<!--                                                <div class="onoffswitch">-->
+<!--                                                    <input type="checkbox" -->
+<!--                                                            name="onoffswitch"-->
+<!--                                                            class="onoffswitch-checkbox"-->
+<!--                                                            id="capacidade"-->
+<!--                                                            checked-->
+<!--                                                            ng-model="assembleia.votacao_secreta">-->
+<!--                                                    <label class="onoffswitch-label" for="capacidade">-->
+<!--                                                        <span class="onoffswitch-inner"></span>-->
+<!--                                                        <span class="onoffswitch-switch"></span>-->
+<!--                                                    </label>-->
+<!--                                                </div>-->
+<!--                                            </div>-->
+<!--                                            <div class="col-md-10">-->
+<!--                                                <h5 class="text-left"-->
+<!--                                                    style="padding: 0; margin: 6px;">Votação secreta</h5>-->
+<!--                                            </div>-->
+<!--                                        </div>-->
 
                                         <div class="row ba__margin-bottom-30">
                                             <p style="margin: 0 0 15px; padding: 0 15px; text-transform: uppercase; font-size: 16px;">
@@ -487,9 +487,9 @@
                                                 <div class="col-xs-4">
                                                     <b>STATUS</b> 
                                                 </div>
-                                                <div class="col-xs-8">
-                                                    <b>Procurador</b> 
-                                                </div>
+<!--                                                <div class="col-xs-8">-->
+<!--                                                    <b>Procurador</b> -->
+<!--                                                </div>-->
                                                 <div class="col-xs-4"></div>
                                             </div>
 
@@ -512,24 +512,24 @@
                                                             {{ participante.participar ? 'Participando' : 'Impedido' }}
                                                         </span>
                                                     </h5>
-                                                    <h5 class="col-xs-8 list-group-item-heading" ng-if="!participante.id_procurador">
-                                                       <span ng-click="addProcurador(participante)" class="text-gray underline"><i class="fa fa-plus-circle"></i> Add.procurador</span>
-                                                    </h5>
-                                                    <h5 class="col-xs-8 list-group-item-heading" ng-if="participante.id_procurador">
-                                                        {{ participante.procurador }}
-                                                    </h5>
-                                                    <h5 class="col-xs-4 list-group-item-heading text-right" ng-if="participante.id_procurador">
-                                                        <span ng-click="remProcurador(participante)" class="text-gray underline" ><i class="fa fa-trash"></i> Rem.procurador</span>
-                                                    </h5>
+<!--                                                    <h5 class="col-xs-8 list-group-item-heading" ng-if="!participante.id_procurador">-->
+<!--                                                       <span ng-click="addProcurador(participante)" class="text-gray underline"><i class="fa fa-plus-circle"></i> Add.procurador</span>-->
+<!--                                                    </h5>-->
+<!--                                                    <h5 class="col-xs-8 list-group-item-heading" ng-if="participante.id_procurador">-->
+<!--                                                        {{ participante.procurador }}-->
+<!--                                                    </h5>-->
+<!--                                                    <h5 class="col-xs-4 list-group-item-heading text-right" ng-if="participante.id_procurador">-->
+<!--                                                        <span ng-click="remProcurador(participante)" class="text-gray underline" ><i class="fa fa-trash"></i> Rem.procurador</span>-->
+<!--                                                    </h5>-->
                                                 </li>
                                             </ul>
                                         </div>
 
-                                        <pre>
-                                            {{
-                                            assembleia | json
-                                            }}
-                                        </pre>
+<!--                                        <pre>-->
+<!--                                            {{-->
+<!--                                            assembleia | json-->
+<!--                                            }}-->
+<!--                                        </pre>-->
                                     </div>
                                 </div>
                             </form>

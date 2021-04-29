@@ -377,4 +377,9 @@ function assembleiaResumoCtrl ($scope, $state, $filter, $http, AuthService, Util
             $("#loading").modal("hide")
         });
     }
+
+    $scope.iniciarVotacao = function (id)
+    {
+        $scope.assembleia.votacao
+    }
 }

@@ -95,13 +95,13 @@
 
         <div class="col-xs-10 col-xs-offset-1">
             
-            <!-- 
+
             <div class="row ba__margin-top-20">
-                <button type="button" class="btn btn-votacao fechada uppercase right" data-toggle="modal" ng-click="">
+                <button type="button" class="btn btn-votacao fechada uppercase right" data-toggle="modal" ng-click="fechharVotacao()">
                     fechar votação
                 </button>
-            </div> 
-            -->
+            </div>
+
             
             <div ng-if="assembleiaResumo.status == 'andamento'" class="row ba__margin-top-20">
                 <button type="button" class="btn btn-votacao inicial uppercase right" data-toggle="modal" ng-click="iniciarVotacao(assembleiaResumo.id)">

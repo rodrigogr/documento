@@ -16,6 +16,12 @@ class ParticipanteController extends Controller
             ->where('imovel_ficticio',0)->where('softdeleted',0)
             ->get();
 
+
+        foreach ($participantes as $participante)
+        {
+            $participante->participar = true;
+        }
+
         return response()->success($participantes);
     }
 

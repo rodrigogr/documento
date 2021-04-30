@@ -49,7 +49,7 @@
                             <div class="item">
                                 <i class="fa fa-check-square"></i>
                                 <span>
-                                    {{assembleiaresumo.votacao_data_inicio ? 'de' + assembleiaresumo.votacao_data_inicio : 'início pendente' }}
+                                    {{assembleiaresumo.votacao_data_inicio ? 'de' + assembleiaresumo.votacao_data_inicio : 'encerramento da votação' }}
                                     até {{ assembleiaResumo.votacao_data_fim }} {{ assembleiaResumo.votacao_hora_fim }}
                                 </span>
                             </div>
@@ -235,14 +235,14 @@
                                                     ng-checked="true" />
                                                     Assembleia geral
                                                 </label>
-                                                <label class="radio-inline">
-                                                    <input 
-                                                    type="radio" 
-                                                    name="tipo" 
-                                                    ng-model="assembleia.tipo" 
-                                                    value="interna" />
-                                                    Reunião interna
-                                                </label>
+<!--                                                <label class="radio-inline">-->
+<!--                                                    <input -->
+<!--                                                    type="radio" -->
+<!--                                                    name="tipo" -->
+<!--                                                    ng-model="assembleia.tipo" -->
+<!--                                                    value="interna" />-->
+<!--                                                    Reunião interna-->
+<!--                                                </label>-->
                                             </div>
                                         </div>
                                     </div>

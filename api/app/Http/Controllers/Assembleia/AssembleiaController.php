@@ -72,7 +72,7 @@ class AssembleiaController extends Controller
 
                 foreach ($data['documentos'] as $documento)
                 {
-                    if (is_null($documento['id']))
+                    if (!isset($documento['id']))
                     {
                         $assembleia->documentos()->create($documento);
                     }

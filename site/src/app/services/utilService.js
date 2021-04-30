@@ -137,7 +137,7 @@ angular.module('appServices').service('UtilsService',
 
         this.utcToDate = (d) => {
             if (!d) return;
-            d = this.toDate(d);
+            d = this.toDate(d);d
             return d.toLocaleDateString();
         };
 

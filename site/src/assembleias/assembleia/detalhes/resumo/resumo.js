@@ -339,9 +339,9 @@ function assembleiaResumoCtrl ($scope, $state, $filter, $http, AuthService, Util
     {
         $("#loading").modal("show");
 
-        $scope.assembleia.data_inicio = UtilsService.utcToDate($scope.assembleia.data_inicio);
-        $scope.assembleia.data_fim = UtilsService.utcToDate($scope.assembleia.data_fim);
-        $scope.assembleia.votacao_data_fim = UtilsService.utcToDate($scope.assembleia.votacao_data_fim);
+        // $scope.assembleia.data_inicio = UtilsService.utcToDate($scope.assembleia.data_inicio);
+        // $scope.assembleia.data_fim = UtilsService.utcToDate($scope.assembleia.data_fim);
+        // $scope.assembleia.votacao_data_fim = UtilsService.utcToDate($scope.assembleia.votacao_data_fim);
         console.log($scope.assembleia);
 
         $http({

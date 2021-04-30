@@ -52,7 +52,8 @@ class DataHelper
         return $retorno;
     }
 
-    static public function setDateUTCtoDateDB($value,$time = null){
+    static public function setDateUTCtoDateDB($value,$time = null)
+    {
         $data = Carbon::createFromFormat('Y-m-d\TH:i:s.uO', $value);
         return $data->format('Y-m-d H:i:s') ;
     }

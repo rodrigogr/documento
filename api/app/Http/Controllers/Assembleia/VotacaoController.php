@@ -4,15 +4,17 @@
 namespace App\Http\Controllers\Assembleia;
 
 
+use App\models\Assembleia\Assembleia;
 use App\models\Assembleia\AssembleiaVotacao;
 use Illuminate\Http\Request;
 use mysql_xdevapi\Exception;
 
 class VotacaoController
 {
-    public function votacao (Request $request)
+    public function registrarVoto (Request $request)
     {
         $data = $request->all();
+
         try {
             foreach ($data['pautas'] as $pauta)
             {
@@ -41,5 +43,8 @@ class VotacaoController
             return response()->error('Error :'. $e->getMessage());
         }
     }
+
+
+
 
 }

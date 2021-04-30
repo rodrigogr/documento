@@ -364,7 +364,8 @@ function assembleiaResumoCtrl ($scope, $state, $filter, $http, AuthService, Util
             }).finally( () => { $("#loading").modal("hide") });
     }
 
-    $scope.iniciarAssembleia = function (id) {
+    $scope.iniciarAssembleia = function (id)
+    {
         $("#loading").modal("show");
 
         var promisse = ($http.get(`${config.apiUrl}api/assembleias/iniciar/`+id));
@@ -378,8 +379,60 @@ function assembleiaResumoCtrl ($scope, $state, $filter, $http, AuthService, Util
         });
     }
 
-    $scope.iniciarVotacao = function (id)
+    $scope.abririniciarVotacao = function (id)
     {
-        $scope.assembleia.votacao
+        $scope.votacao = {
+            id_assembleia: id,
+            votacao_data_fim: $scope.assembleiaResumo.votacao_data_fim,
+            votacao_hora_fim: $scope.assembleiaResumo.votacao_hora_fim
+        }
+        $('#iniciarVotacao').modal('show');
+
     }
+
+    $scope.iniciarVotacao = function ()
+    {
+        $("#loading").modal("show");
+
+        $http({
+            method: "POST",
+            url: `${config.apiUrl}api/assembleias/iniciar-votacao`,
+            data: $scope.votacao,
+            headers:{
+                'Authorization': 'Bearer '+ AuthService.getToken()
+            }
+        }).then(function(response) {
+            UtilsService.toastSuccess("Votação Iniciada!");
+            $scope.votacao = {};
+            $scope.fecharIniciarVotacao();
+            $scope.getResumo();
+        }, function(error) {
+            UtilsService.openAlert(error.data.message);
+        }).finally( () => { $("#loading").modal("hide") });
+
+
+    }
+
+    $scope.fecharIniciarVotacao = function ()
+    {
+        $('#iniciarVotacao').modal('hide');
+    }
+
+
+    $scope.fecharVotacaoAssembleia = function (id)
+    {
+        $("#loading").modal("show");
+
+        var promisse = ($http.get(`${config.apiUrl}api/assembleias/encerrar/`+id));
+        promisse.then( function (result) {
+            UtilsService.toastSuccess("Assembleia Encerrada!");
+            $scope.getResumo(id);
+        }, function (error) {
+            UtilsService.openAlert(error.data.message);
+        }).finally( () => {
+            $("#loading").modal("hide")
+        });
+    }
+
+
 }

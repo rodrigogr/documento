@@ -316,11 +316,72 @@ class AssembleiaController extends Controller
 
     public function iniciarAssembleia($id)
     {
-        $assembleia = Assembleia::find($id);
-        $assembleia->status = 'andamento';
-        $assembleia->data_inicio = date('Y-m-d');
-        $assembleia->hora_inicio = date('H:i:s');
-        $assembleia->update();
+        try
+        {
+            $assembleia = Assembleia::find($id);
+            $assembleia->status = 'andamento';
+            $assembleia->data_inicio = date('Y-m-d');
+            $assembleia->hora_inicio = date('H:i:s');
+            $assembleia->update();
+
+            return response()->success('Assembleia iniciada!');
+        }
+        catch (\Exception $e)
+        {
+            return response()->error('Error :'. $e->getMessage());
+        }
+
+    }
+
+    public function iniciarVotacao (Request $request)
+    {
+        $data = $request->all();
+
+        $assembleia = Assembleia::find($data['id_assembleia']);
+
+        if (!$assembleia)
+        {
+            return response()->error('Assembleia não encontrada!');
+        }
+
+        try
+        {
+            $assembleia->votacao_data_inicio = date('Y-m-d');
+            $assembleia->votacao_hora_inicio = date('H:i:s');
+            $assembleia->votacao_data_fim = $data['votacao_data_fim'];
+            $assembleia->votacao_hora_fim = $data['votacao_hora_fim'];
+            $assembleia->status = 'votacao';
+
+            $assembleia->update();
+
+            return response()->success('Votação iniciada!');
+
+        }
+        catch (\Exception $e)
+        {
+            return response()->error('Error :'. $e->getMessage());
+        }
+    }
+
+    public function encerrarAssembleia($id)
+    {
+        try
+        {
+            $assembleia = Assembleia::find($id);
+            $assembleia->status = 'encerrada';
+            $assembleia->votacao_data_fim = date('Y-m-d');
+            $assembleia->votacao_hora_fim = date('H:i:s');
+            $assembleia->data_fim = date('Y-m-d');
+            $assembleia->hora_fim = date('H:i:s');
+
+            $assembleia->update();
+
+            return response()->success('Assembleia encerrada!');
+        }
+        catch (\Exception $e)
+        {
+            return response()->error('Error :'. $e->getMessage());
+        }
 
     }
 }

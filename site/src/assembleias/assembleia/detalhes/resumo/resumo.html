@@ -97,14 +97,14 @@
             
 
             <div class="row ba__margin-top-20">
-                <button type="button" class="btn btn-votacao fechada uppercase right" data-toggle="modal" ng-click="fechharVotacao()">
+                <button ng-if="assembleiaResumo.status == 'votacao'" type="button" class="btn btn-votacao fechada uppercase right" data-toggle="modal" ng-click="fecharVotacaoAssembleia(assembleiaResumo.id)">
                     fechar votação
                 </button>
             </div>
 
             
             <div ng-if="assembleiaResumo.status == 'andamento'" class="row ba__margin-top-20">
-                <button type="button" class="btn btn-votacao inicial uppercase right" data-toggle="modal" ng-click="iniciarVotacao(assembleiaResumo.id)">
+                <button type="button" class="btn btn-votacao inicial uppercase right" data-toggle="modal" ng-click="abririniciarVotacao(assembleiaResumo.id)">
                     INICIAR VOTAÇÃO
                 </button>
             </div>
@@ -115,14 +115,13 @@
                 </button>
             </div>
 
-            <!-- 
-                <div class="row ba__margin-top-20">
-                    <div class="col-md-7">
-                        <div class="votacao-finalizada bgc-ff6633 cffffff bs">
-                            <i class="fa fa-user"></i>
-                            <span class="text">Lista de presença</span>
-                        </div>
+            <div class="row ba__margin-top-20" ng-if="assembleiaResumo.status == 'encerrada'">
+                <div class="col-md-7">
+                    <div class="votacao-finalizada bgc-ff6633 cffffff bs">
+                        <i class="fa fa-user"></i>
+                        <span class="text">Lista de presença</span>
                     </div>
+                </div>
                     <div class="col-md-8 col-md-offset-1" >
                         <div class="votacao-finalizada bgc-ff6633 cffffff bs">
                             <i class="fa fa-check-circle"></i>
@@ -135,8 +134,7 @@
                             <span class="text">Gerar ata</span>
                         </div>
                     </div>
-                </div> 
-            -->
+            </div>
 
             <div class="row ba__margin-top-20">
                 <div class="col-md-7">
@@ -643,6 +641,100 @@
                 </div>
             </div>
         </div>
+
+
+        <!-- Modal  Decisao -->
+        <div class="modal fade" id="iniciarVotacao" tabindex="-1" role="dialog" data-backdrop="static"
+             data-keyboard="false">
+            <div class="modal-dialog assembleia-modal-40pc" role="document">
+                <div class="modal-content assembleia-content">
+                    <!-- Header -->
+                    <div class="modal-header assembleia-header">
+                        <div class="row">
+                            <h4 class="modal-title Roboto-Thin ba__font-size-25"
+                                style="padding: 25px 25px 10px; font-weight: bold;">
+                                <i class="fa fa-clock-o cff6633"></i>
+                                <span class="uppercase">Encerramento automático</span>
+                            </h4>
+                        </div>
+                    </div>
+                    <!-- Form Mean -->
+                    <div class="modal-body ba__modal-body-iniciar-votacao"
+                         style="background-color: #ffffff; padding: 0px !important">
+
+                        <form name="formIniciarVotacao">
+
+                            <div class="row ba__margin-top-30">
+                                <p style="margin: 0;padding: 0 15px;  font-size: 16px;">
+                                    Confirme o dia e horário de encerramento automático da votação.
+                                </p>
+
+                                <div class="col-md-6">
+                                    <div style="padding: 15px;">
+                                        <div class="control-input">
+                                            <input
+                                                    type="text"
+                                                    name="votacao_data_fim"
+                                                    ng-model="votacao.votacao_data_fim"
+                                                    placeholder=" "
+                                                    autocomplete="off"
+                                                    mask="99/99/9999"
+                                                    required
+                                                    class="ng-pristine ng-valid ng-touched"
+                                                    aria-invalid="false">
+                                            <span>DATA DO FIM</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div style="padding: 15px;">
+                                        <div class="control-input">
+                                            <input
+                                                    type="text"
+                                                    name="votacao_hora_fim"
+                                                    ng-model="votacao.votacao_hora_fim"
+                                                    placeholder=" "
+                                                    autocomplete="off"
+                                                    mask="99:99"
+                                                    requiredvotacao_data_fimvotacao_data_fim
+                                                    class="ng-pristine ng-valid ng-touched"
+                                                    aria-invalid="false">
+                                            <span>HORA DO FIM</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-15">
+                                    <p style="margin: 0;padding: 0 15px;  font-size: 16px;">
+                                        Este dia e horário deve estar dentro do dia e horário final definido para a assembleia ({{ assembleiaResumo.data_fim }} até {{ assembleiaResumo.hora_fim }})
+                                    </p>
+                                </div>
+                            </div>
+
+                        </form>
+
+                    </div>
+                    <!-- Footer -->
+                    <div class="modal-footer" style="padding-right: 15px !important;">
+                        <button
+                                type="button"
+                                class="btn btn-success col-md-5 pull-right"
+                                style="margin-left: 5px"
+                                ng-disabled="!(votacao.votacao_data_fim && votacao.votacao_hora_fim)"
+                                ng-click="iniciarVotacao()">
+                            Salvar
+                        </button>
+
+                        <button type="button" class="btn btn-default btn-clear col-md-5 pull-right"
+                                ng-click="fecharIniciarVotacao()">
+                            Cancelar
+                        </button>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Modal Decisao -->
+
         <!--MODAL LOADING-->
         <div class="modal" id="loading" role="dialog" data-backdrop="static" style="background: rgba(0, 0, 0, 0.1)!important">
             <div class="modal-dialog" role="document">

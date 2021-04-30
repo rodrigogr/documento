@@ -218,3 +218,10 @@
     font-size: 16px;
     margin: 0;
 }
+
+.ba__modal-body-iniciar-votacao {
+    min-height: 250px;
+    height: 250px;
+    max-height: 300px;
+    overflow-y: auto;
+}

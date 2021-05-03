@@ -99,14 +99,14 @@ class QuestaoOrdemController extends Controller
      * */
     public function createDecisao(Request $request)
     {
-        // TODO Decisão da questão de ordem
+
         $data = $request->all();
 
         $usuario = DB::table('bioacesso_portaria.pessoa')
             ->where('pessoa.id', $data['id_pessoa'])
             ->get()
             ->first();
-
+// TODO Alterar os staus da quetão de ordem
         try {
             DB::beginTransaction();
             $novaThead = AssembleiaThead::create([
@@ -123,7 +123,8 @@ class QuestaoOrdemController extends Controller
             ]);
             DB::commit();
         }
-        catch (Exception $e) {
+        catch (Exception $e)
+        {
             return response()->error($e->getMessage);
         }
         return response()->success($decisao, $novaThead->texto);

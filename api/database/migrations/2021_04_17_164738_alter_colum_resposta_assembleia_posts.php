@@ -15,7 +15,7 @@ class AlterColumRespostaAssembleiaPosts extends Migration
     {
         Schema::table('assembleia_posts', function (Blueprint $table)
         {
-            $table->text('resposta')->nullable()->change();
+            $table->text('resposta')->change();
         });
     }
     public function down()

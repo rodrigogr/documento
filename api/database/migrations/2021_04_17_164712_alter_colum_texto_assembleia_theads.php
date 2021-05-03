@@ -10,7 +10,7 @@ class AlterColumTextoAssembleiaTheads extends Migration
     {
         Schema::table('assembleia_theads', function (Blueprint $table)
         {
-            $table->longText('texto')->nullable()->change();
+            $table->longText('texto')->change();
         });
     }
     public function down()

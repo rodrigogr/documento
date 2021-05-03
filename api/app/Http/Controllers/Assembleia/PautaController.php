@@ -58,4 +58,16 @@ class PautaController extends Controller
         }
         DB::commit();
     }
+
+    public function selectPautas($idAssembleia)
+    {
+        $pautas = AssembleiaPauta::join('assembleia_perguntas', 'assembleia_pautas.id_pergunta', 'assembleia_perguntas.id')
+            ->select('assembleia_pautas.id', 'assembleia_perguntas.pergunta')
+            ->where('id_assembleia', $idAssembleia)->get();
+
+        foreach ($pautas as $pauta)
+        {
+
+        }
+    }
 }

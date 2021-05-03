@@ -275,7 +275,7 @@ class AssembleiaController extends Controller
         return $assembleias;
     }
 
-    public function getAssembleiaDetalhadaUsuario ($id)
+    public function getAssembleiaDetalhadaUsuario ($id, $idPessoa)
     {
         $assembleia = Assembleia::find($id);
 
@@ -310,6 +310,9 @@ class AssembleiaController extends Controller
                 'complemento'=> 'Peso x1'
             ]
         ];
+
+        $assembleia['imovel_votou'] = true;
+        $assembleia['id_pessoa_voto '] = 4;
 
         return $assembleia;
     }

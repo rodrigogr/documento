@@ -37,15 +37,12 @@ class QuestaoOrdemController extends Controller
             $thead = AssembleiaThead::create($dataThead);
             $thead->theadAnexos()->createMany($dataThead['anexos']);
 
-            $assembleia = DB::table('assembleias')
-                ->where('assembleias.id', $request->id_assembleia)
-                ->get()
-                ->first();
+            $assembleia = Assembleia::find($request->id_assembleia);
 
-            $enviosEncerrado = $assembleia->envios_questao_ordem;
-
-            if(isset($enviosEncerrado))
+            if(isset($assembleia->envios_questao_ordem))
+            {
                 throw new Exception('Envios encerrados!');
+            }
 
             $assembleiaQuestaoOrdem =  AssembleiaQuestaoOrdem::create([
                 'id_thead'=> $thead->id,

@@ -40,15 +40,12 @@ class EncaminhamentoController extends Controller
             $thead = AssembleiaThead::create($dataThead);
             $thead->theadAnexos()->createMany($dataThead['anexos']);
 
-            $assembleia = DB::table('assembleias')
-                ->where('assembleias.id', $request->id_assembleia)
-                ->get()
-                ->first();
+            $assembleia = Assembleia::find($request->id_assembleia);
 
-            $enviosEncerrado = $assembleia->envios_encaminhamento;
-
-            if(isset($enviosEncerrado))
+            if(isset($assembleia->envios_encaminhamento))
+            {
                 throw new Exception('Envios encerrados!');
+            }
 
             $assembleiaEncaminhamento =  AssembleiaEncaminhamento::create([
                 'id_thead'=> $thead->id,

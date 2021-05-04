@@ -16,6 +16,7 @@ use App\Models\Pessoa;
 use App\Models\Usuario;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Exception;
 
 class EncaminhamentoController extends Controller
 {
@@ -38,6 +39,16 @@ class EncaminhamentoController extends Controller
 
             $thead = AssembleiaThead::create($dataThead);
             $thead->theadAnexos()->createMany($dataThead['anexos']);
+
+            $assembleia = DB::table('assembleias')
+                ->where('assembleias.id', $request->id_assembleia)
+                ->get()
+                ->first();
+
+            $enviosEncerrado = $assembleia->envios_encaminhamento;
+
+            if(isset($enviosEncerrado))
+                throw new Exception('Envios encerrados!');
 
             $assembleiaEncaminhamento =  AssembleiaEncaminhamento::create([
                 'id_thead'=> $thead->id,

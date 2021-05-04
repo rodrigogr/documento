@@ -14,7 +14,7 @@ use App\models\Assembleia\ProcessoQuestaoOrdem;
 use App\models\Assembleia\TheadAnexo;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use mysql_xdevapi\Exception;
+use Exception;
 
 class QuestaoOrdemController extends Controller
 {
@@ -31,10 +31,21 @@ class QuestaoOrdemController extends Controller
         try {
             DB::beginTransaction();
             $data = $request->all();
+
             $dataThead = $data['thead'];
 
             $thead = AssembleiaThead::create($dataThead);
             $thead->theadAnexos()->createMany($dataThead['anexos']);
+
+            $assembleia = DB::table('assembleias')
+                ->where('assembleias.id', $request->id_assembleia)
+                ->get()
+                ->first();
+
+            $enviosEncerrado = $assembleia->envios_questao_ordem;
+
+            if(isset($enviosEncerrado))
+                throw new Exception('Envios encerrados!');
 
             $assembleiaQuestaoOrdem =  AssembleiaQuestaoOrdem::create([
                 'id_thead'=> $thead->id,

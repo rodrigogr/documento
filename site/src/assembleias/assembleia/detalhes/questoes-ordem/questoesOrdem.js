@@ -39,14 +39,11 @@ function assembleiaQuestoesOrdemCtrl($scope, $http, $state, $filter,AuthService,
         var promisse = ($http.get(`${config.apiUrl}api/assembleias/questoes-ordem/`+ $state.params.id));
         promisse.then(function (retorno) {
             $scope.listQuestoes = retorno.data.data;
-            console.log($scope.listQuestoes);
         }).finally( () => {
             $(".loader").hide();
         });
     }
-
     listaQuestoesOrdem();
-
     $scope.fechaQuestaoOrdem = function () {
         $('#abreQuestaoOrdem').modal('hide');
     }
@@ -93,4 +90,16 @@ function assembleiaQuestoesOrdemCtrl($scope, $http, $state, $filter,AuthService,
         }).finally( () => { $("#loading").modal("hide") });
     }
 
+    $scope.encerraEnviosQuestaoOrdem = function ()
+    {
+        $("#loading").modal("show");
+        var promisse = ($http.get(`${config.apiUrl}api/assembleias/questoes-ordem/encerrar/`+ $state.params.id));
+        promisse.then( function (result) {
+            UtilsService.toastSuccess("Envios Encerrados!");
+        }, function (error) {
+            UtilsService.openAlert(error.data.message);
+        }).finally( () => {
+            $("#loading").modal("hide")
+        });
+    }
 }

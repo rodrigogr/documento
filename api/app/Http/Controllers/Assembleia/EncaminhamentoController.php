@@ -4,6 +4,7 @@
 namespace App\Http\Controllers\Assembleia;
 
 use App\Http\Controllers\Controller;
+use App\models\Assembleia\Assembleia;
 use App\models\Assembleia\AssembleiaEncaminhamento;
 use App\models\Assembleia\AssembleiaPauta;
 use App\models\Assembleia\AssembleiaPergunta;
@@ -111,5 +112,20 @@ class EncaminhamentoController extends Controller
         DB::commit();
 
         return response()->success($resposta);
+    }
+
+    public function encerrarEnviosEncaminhamento($id)
+    {
+        try
+        {
+            $assembleia = Assembleia::find($id);
+            $assembleia->envios_encaminhamento = date('Y-m-d');
+            $assembleia->update();
+            return response()->success('Envios Encerrados!');
+        }
+        catch (\Exception $e)
+        {
+            return response()->error('Error :'. $e->getMessage());
+        }
     }
 }

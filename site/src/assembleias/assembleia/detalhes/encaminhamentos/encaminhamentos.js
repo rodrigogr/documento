@@ -89,4 +89,17 @@ function assembleiaEncaminhamentosCtrl ($scope,$http, $state, $filter, AuthServi
             UtilsService.openAlert(error.data.message);
         }).finally( () => { $("#loading").modal("hide") });
     }
+
+    $scope.encerraEnviosEncaminhamento = function ()
+    {
+        $("#loading").modal("show");
+        var promisse = ($http.get(`${config.apiUrl}api/assembleias/encaminhamento/encerrar/`+ $state.params.id));
+        promisse.then( function (result) {
+            UtilsService.toastSuccess("Envios Encerrados!");
+        }, function (error) {
+            UtilsService.openAlert(error.data.message);
+        }).finally( () => {
+            $("#loading").modal("hide")
+        });
+    }
 }

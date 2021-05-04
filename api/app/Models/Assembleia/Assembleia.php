@@ -26,7 +26,9 @@ class Assembleia extends Model
         'link_transmissao',
         'votacao_secreta',
         'votacao_data_fim',
-        'votacao_hora_fim'
+        'votacao_hora_fim',
+        'envios_questao_ordem',
+        'envios_encaminhamento'
 
     ];
     static public function complete($id = NULL)

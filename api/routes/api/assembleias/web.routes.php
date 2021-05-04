@@ -25,6 +25,8 @@ Route::get('/assembleias/questoes-ordem/{id}', 'assembleia\AssembleiaController@
 
 Route::get('/assembleias/questoes-ordem/detalhar/{id}', 'assembleia\QuestaoOrdemController@detalhar');
 
+Route::get('/assembleias/questoes-ordem/encerrar/{id}', 'assembleia\QuestaoOrdemController@encerrarEnviosQuestaoOrdem');
+
 Route::post('/assembleias/questoes-ordem/decisao/', 'assembleia\QuestaoOrdemController@createDecisao');
 
 Route::post('/assembleias/questoes-ordem/recorrer/', 'assembleia\QuestaoOrdemController@recorrerDecisao');
@@ -52,6 +54,8 @@ Route::resource('/pauta_anexos', 'assembleia\PautaAnexoController');
 Route::post('/assembleias/encaminhamentos', 'assembleia\EncaminhamentoController@store');
 
 Route::get('/assembleias/encaminhamento/detalhar/{id}', 'assembleia\EncaminhamentoController@detalhar');
+
+Route::get('/assembleias/encaminhamento/encerrar/{id}', 'assembleia\EncaminhamentoController@encerrarEnviosEncaminhamento');
 
 Route::post('/assembleias/encaminhamento/resposta', 'assembleia\EncaminhamentoController@reply');
 

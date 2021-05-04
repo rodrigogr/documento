@@ -173,4 +173,19 @@ class QuestaoOrdemController extends Controller
         }
         return response()->success($decisao);
     }
+
+    public function encerrarEnviosQuestaoOrdem($id)
+    {
+        try
+        {
+            $assembleia = Assembleia::find($id);
+            $assembleia->envios_questao_ordem = date('Y-m-d');
+            $assembleia->update();
+            return response()->success('Envios Encerrados!');
+        }
+        catch (\Exception $e)
+        {
+            return response()->error('Error :'. $e->getMessage());
+        }
+    }
 }

@@ -35,7 +35,12 @@ class QuestaoOrdemController extends Controller
             $dataThead = $data['thead'];
 
             $thead = AssembleiaThead::create($dataThead);
-            $thead->theadAnexos()->createMany($dataThead['anexos']);
+
+            if ($dataThead['anexos'])
+            {
+                $thead->theadAnexos()->createMany($dataThead['anexos']);
+            }
+
 
             $assembleia = Assembleia::find($request->id_assembleia);
 

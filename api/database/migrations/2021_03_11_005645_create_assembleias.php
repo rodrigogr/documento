@@ -18,7 +18,7 @@ class CreateAssembleias extends Migration
             {
                 $table->increments('id');
                 $table->string('titulo');
-                $table->enum('status', ['agendada', 'andamento', 'encerrada'])->comment('Define o status da assembleia');
+                $table->enum('status', ['agendada', 'andamento', 'encerrada', 'votacao'])->comment('Define o status da assembleia');
                 $table->enum('tipo', ['geral', 'interna'])->comment('Define o tipo de assembleia');
                 $table->date('data_inicio');
                 $table->time('hora_inicio');

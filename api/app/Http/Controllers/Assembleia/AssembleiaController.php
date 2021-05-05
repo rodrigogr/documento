@@ -38,11 +38,15 @@ class AssembleiaController extends Controller
             $assembleia = Assembleia::create($data);
             $assembleia->documentos()->createMany($data['documentos']);
 
-            foreach ($data['pautas'] as $pauta)
+
+            foreach ($data['pautas'] as $key => $pauta)
             {
                 $pergunta = AssembleiaPergunta::create(['pergunta'=> $pauta['pergunta']]);
                 $pergunta->assembleiaOpcoes()->createMany($pauta['alternativas']);
-                $assembleia->pautas()->create(['id_pergunta' => $pergunta->id]);
+                $assembleia->pautas()->create([
+                    'id_pergunta' => $pergunta->id,
+                    'numero'=> 'Pauta' . $key > 9 ? $key : '0'.$key
+                ]);
             }
 
             $assembleia->participantes()->createMany($data['participantes']);

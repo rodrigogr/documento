@@ -10,7 +10,7 @@ class AddColumnsEnviosTableAssembleias extends Migration
     {
         Schema::table('assembleias', function (Blueprint $table)
         {
-            $table->date('envios_questa_ordem')->nullable();
+            $table->date('envios_questao_ordem')->nullable();
             $table->date('envios_encaminhamento')->nullable();
         });
     }

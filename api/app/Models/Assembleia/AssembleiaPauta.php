@@ -15,7 +15,8 @@ class AssembleiaPauta extends Model
 
     protected $fillable = [
         'id_assembleia',
-        'id_pergunta'
+        'id_pergunta',
+        'numero'
     ];
 
     public function assembleia()

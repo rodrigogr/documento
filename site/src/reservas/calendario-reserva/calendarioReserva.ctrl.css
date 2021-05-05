@@ -1,0 +1,72 @@
+ul.tabs-aprovacao {
+    border-bottom: 2px solid #C1C1C1;
+}
+.tabs-aprovacao > li > a {
+    background: none;
+    border-bottom: 5px solid transparent !important;
+}
+.tabs-aprovacao > li.active > a {
+    background: none;
+}
+.list-localidade-locaisReservaveis {
+    max-height: 500px;
+    overflow-y: auto;
+    overflow-x: hidden;
+linear-gradient(to left, transparent 17px, black 17px);
+    -webkit-mask-image: linear-gradient(to top, transparent, black),linear-gradient(to left, transparent 17px, black 17px);
+    -webkit-mask-size: 103% 20000px;
+    -webkit-mask-position: left bottom;
+    transition: mask-position 0.3s, -webkit-mask-position 0.3s;
+}
+.list-localidade-locaisReservaveis:hover {
+    -webkit-mask-position: left top;
+}
+.list-localidade-locaisReservaveis dl {
+    margin-bottom: 1px;
+}
+.list-localidade-locaisReservaveis dt {
+    background-color: #FFF;
+}
+.list-localidade-locaisReservaveis dd:nth-child(odd) {
+    background-color: #EFEFEF;
+}
+.list-localidade-locaisReservaveis dd:nth-child(even) {
+    background-color: #FFFFFF;
+}
+.list-localidade {
+    font-size: 18px;
+    padding: 10px 20px;
+    /*transition: all .15s ease-in-out;*/
+}
+.list-locaisReservaveis {
+    font-size: 17px;
+    padding: 10px 30px;
+    /*transition: all .08s ease-in-out;*/
+}
+.list-localidade:hover, .list-localidade-locaisReservaveis dd:hover {
+    background: #ed6c44 url(../../../img/arrow-rigth-white.png) 100% center no-repeat;
+    background-size: 32px;
+    color: #FFFFFF;
+    font-weight: normal;
+    cursor: pointer;
+    transform: scale(1.01);
+}
+.itemSelecionado {
+    background: url(../../../img/arrow-rigth-white.png) 100% center no-repeat;
+    background-size: 32px;
+    background-color: #ed6c44 !important;
+    color: #FFFFFF;
+    font-weight: normal;
+    cursor: pointer;
+    transform: scale(1.01);
+}
+.bloco-reservas {
+    background-color: #FFFFFF;
+    padding: 15px 30px 0px;
+    border-radius: 8px;
+    margin-left: 20px;
+}
+#calendar {
+    max-width: 600px;
+    margin: 0 auto;
+}

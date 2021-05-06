@@ -314,7 +314,7 @@ class AssembleiaController extends Controller
                 concat('Peso x ', i.peso) as complemnto,
                 i.peso
             from assembleia_participantes ap
-            inner join bioacesso_portaria.imovel_permanente ip on ap.id_imovel = ip.id_imovel and ip.id_pessoa =3
+            inner join bioacesso_portaria.imovel_permanente ip on ap.id_imovel = ip.id_imovel and ip.id_pessoa = $idPessoa
             inner join bioacesso_portaria.imovel i on ip.id_imovel = i.id 
             inner join bioacesso_portaria.tipo_perfil tp on ip.perfil = tp.id 
             where id_assembleia =  $assembleia->id and tp.nome ='associado' and ip.id_pessoa = $idPessoa

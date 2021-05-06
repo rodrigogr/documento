@@ -306,18 +306,19 @@ class AssembleiaController extends Controller
             $assembleia['pautas'][$key]['alternativas'] = $opcoes;
         }
 
-        $assembleia['imoveis'] = [
-            [
-                'id_imovel' => 1,
-                'imovel' => 'QD 01 / Lt 02',
-                'complemento'=> 'Peso x1'
-            ],
-            [
-                'id_imovel' => 1,
-                'imovel' => 'QD 01 / Lt 02',
-                'complemento'=> 'Peso x1'
-            ]
-        ];
+
+        $assembleia['imoveis'] = DB::select("
+            select 
+                ap.id_imovel, 
+                concat('QD ', i.quadra,' / ', 'LT ', i.lote) as imovel,
+                concat('Peso x ', i.peso) as complemnto,
+                i.peso
+            from assembleia_participantes ap
+            inner join bioacesso_portaria.imovel_permanente ip on ap.id_imovel = ip.id_imovel and ip.id_pessoa =3
+            inner join bioacesso_portaria.imovel i on ip.id_imovel = i.id 
+            inner join bioacesso_portaria.tipo_perfil tp on ip.perfil = tp.id 
+            where id_assembleia =  $assembleia->id and tp.nome ='associado' and ip.id_pessoa = $idPessoa
+        ");
 
         $assembleia['imovel_votou'] = true;
         $assembleia['id_pessoa_voto '] = 4;

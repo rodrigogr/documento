@@ -211,7 +211,7 @@ class QuestaoOrdemController extends Controller
             ->select('assembleia_questoes_ordens.id','assembleia_questoes_ordens.created_at as data_hora',
                 'assembleia_questoes_ordens.status as status', 'pessoa.nome', 'usuario.url_img_perfil', 'assembleia_pautas.numero as pauta', 'assembleia_theads.titulo' )
             ->where('assembleia_questoes_ordens.id_assembleia', $idAssembleia)
-            ->orderBy('assembleia_questoes_ordens.created_at')
+            ->orderBy('assembleia_questoes_ordens.created_at','desc')
             ->get();
 
         return response()->success($questoesOrdem);

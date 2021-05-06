@@ -205,13 +205,14 @@ class QuestaoOrdemController extends Controller
     public function listQuestaoOrdemAplicativoPorAssembleia($idAssembleia)
     {
         $questoesOrdem = AssembleiaQuestaoOrdem::join('assembleia_pautas', 'assembleia_questoes_ordens.id_pauta', '=', 'assembleia_pautas.id')
-
             ->join('assembleia_theads', 'assembleia_questoes_ordens.id_thead', '=', 'assembleia_theads.id')
             ->join('bioacesso_portaria.pessoa', 'assembleia_theads.id_pessoa', '=', 'pessoa.id')
             ->join('usuario','assembleia_theads.id_pessoa', '=', 'usuario.id_pessoa_bioacesso')
             ->select('assembleia_questoes_ordens.id','assembleia_questoes_ordens.created_at as data_hora',
                 'assembleia_questoes_ordens.status as status', 'pessoa.nome', 'usuario.url_img_perfil', 'assembleia_pautas.numero as pauta', 'assembleia_theads.titulo' )
-            ->where('assembleia_questoes_ordens.id_assembleia', $idAssembleia)->get();
+            ->where('assembleia_questoes_ordens.id_assembleia', $idAssembleia)
+            ->orderBy('assembleia_questoes_ordens.created_at')
+            ->get();
 
         return response()->success($questoesOrdem);
     }

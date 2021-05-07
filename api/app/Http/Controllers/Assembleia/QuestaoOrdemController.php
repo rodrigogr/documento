@@ -115,17 +115,12 @@ class QuestaoOrdemController extends Controller
 
         $data = $request->all();
 
-        $usuario = DB::table('bioacesso_portaria.pessoa')
-            ->where('pessoa.id', $data['id_pessoa'])
-            ->get()
-            ->first();
-// TODO Alterar os staus da quetão de ordem
         try {
             DB::beginTransaction();
             $novaThead = AssembleiaThead::create([
                 'titulo' => "Decisão",
                 'texto' => $data['fundamentacao'],
-                'id_pessoa' => $data['id_usuario']
+                'id_pessoa' => $data['id_pessoa']
             ]);
 
             $decisao = ProcessoQuestaoOrdem::create([
@@ -139,7 +134,7 @@ class QuestaoOrdemController extends Controller
         }
         catch (Exception $e)
         {
-            return response()->error($e->getMessage);
+            return response()->error($e->getMessage());
         }
         return response()->success($decisao, $novaThead->texto);
     }
@@ -150,20 +145,14 @@ class QuestaoOrdemController extends Controller
      * */
     public function recorrerDecisao(Request $request)
     {
-        // TODO Recorre uma decisão da questão de ordem
         $data = $request->all();
-
-        $usuario = DB::table('bioacesso_portaria.pessoa')
-            ->where('pessoa.id', $data['id_pessoa'])
-            ->get()
-            ->first();
 
         try {
             DB::beginTransaction();
             $novaThead = AssembleiaThead::create([
                 'titulo' => "Recurso",
                 'texto' => $data['fundamentacao'],
-                'id_pessoa' => $usuario->id
+                'id_pessoa' => $data['id_pessoa']
             ]);
 
             if (isset($data['anexos']))

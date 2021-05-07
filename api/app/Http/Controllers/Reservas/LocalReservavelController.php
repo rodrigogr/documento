@@ -68,7 +68,7 @@ class LocalReservavelController extends Controller
             return response()->success(trans('messages.crud.MSS', ['name' => $this->name]));
 
         } catch (Exception $e) {
-            return response()->error($e->getMessage);
+            return response()->error($e->getMessage());
         }
     }
 
@@ -163,7 +163,7 @@ class LocalReservavelController extends Controller
             return response()->success(trans('messages.crud.MUS', ['name' => $this->name]));
 
         } catch (Exception $e) {
-            return response()->error($e->getMessage);
+            return response()->error($e->getMessage());
         }
     }
 

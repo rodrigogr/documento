@@ -56,7 +56,7 @@ class AssociadoController extends Controller
             */
             $Data = Associado::create($data);
         } catch (Exception $e) {
-            return response()->error($e->getMessage);
+            return response()->error($e->getMessage());
         }
         return response()->success(trans('messages.crud.MSS', ['name' => $this->name]));
     }
@@ -107,7 +107,7 @@ class AssociadoController extends Controller
                 }
                 */
             } catch (Exception $e) {
-                return response()->error($e->getMessage);
+                return response()->error($e->getMessage());
             }
             return response()->success(trans('messages.crud.MUS', ['name' => $this->name]));
         } else {
@@ -128,7 +128,7 @@ class AssociadoController extends Controller
             try {
                 $Data->delete();
             } catch (Exception $e) {
-                return response()->error($e->getMessage);
+                return response()->error($e->getMessage());
             }
             return response()->success(trans('messages.crud.MDS', ['name' => $this->name]));
         } else {
@@ -152,7 +152,7 @@ class AssociadoController extends Controller
                 'numero' => $telefone['numero']
             ]);
         } catch (Exception $e) {
-            return response()->error($e->getMessage);
+            return response()->error($e->getMessage());
         }
         return response()->success(trans('messages.crud.MSS', ['name' => 'Telefone']));
     }
@@ -172,7 +172,7 @@ class AssociadoController extends Controller
                 'numero' => $email['notificacao']
             ]);
         } catch (Exception $e) {
-            return response()->error($e->getMessage);
+            return response()->error($e->getMessage());
         }
         return response()->success(trans('messages.crud.MSS', ['name' => 'Email']));
     }

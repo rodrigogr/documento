@@ -82,7 +82,7 @@ class AprovacaoController extends Controller
             return response()->success(trans('messages.crud.FUS', ['name' => 'Reserva']));
 
         } catch(\Exception $e) {
-            return response()->error($e->getMessage);
+            return response()->error($e->getMessage());
         }
     }
 
@@ -108,7 +108,7 @@ class AprovacaoController extends Controller
             return response()->success(trans('messages.crud.FUS', ['name' => 'Reserva ']));
 
         } catch(\Exception $e) {
-            return response()->error($e->getMessage);
+            return response()->error($e->getMessage());
         }
     }
 

@@ -15,25 +15,34 @@ class VotacaoController
     {
         $data = $request->all();
 
-        try {
-            foreach ($data['pautas'] as $pauta)
+        try
+        {
+            foreach ($data['imoveis'] as $imovel)
             {
-                $voto = AssembleiaVotacao::where('id_usuario', $data['id_pessoa'])
-                    ->where('id_pergunta',$pauta['id_pergunta'])
-                    ->get()
-                    ->first();
-
-                if(!$voto)
+                foreach ($data['pautas'] as $pauta)
                 {
-                    $voto = new AssembleiaVotacao();
-                    $voto->id_usuario = $data['id_pessoa'];
-                    $voto->id_pergunta = $pauta['id_pergunta'];
+                    $voto = AssembleiaVotacao::where('id_usuario', $data['id_pessoa'])
+                        ->where('id_pergunta', $pauta['id_pergunta'])
+                        ->where('id_imovel', $imovel['id_imovel'])
+                        ->get()
+                        ->first();
+
+                    if (!$voto)
+                    {
+                        $voto = new AssembleiaVotacao();
+                        $voto->id_pessoa = $data['id_pessoa'];
+                        $voto->id_pergunta = $pauta['id_pergunta'];
+                        $voto->ip = $data['ip'];
+                        $voto->id_imovel = $imovel['id_imovel'];
+                        $voto->mac_address = $data['mac_address'];
+                        $voto->peso_voto = $data['peso'];
+                    }
+
+                    $voto->id_opcao = $pauta['id_alternativa'];
+
+                    $voto->id ? $voto->update() : $voto->save();
+
                 }
-
-                $voto->id_opcao = $pauta['id_alternativa'];
-
-                $voto->id ? $voto->update() : $voto->save();
-
             }
 
             return response()->success("Votação Realizada");

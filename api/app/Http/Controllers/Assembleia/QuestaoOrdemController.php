@@ -125,7 +125,7 @@ class QuestaoOrdemController extends Controller
             $novaThead = AssembleiaThead::create([
                 'titulo' => "Decisão",
                 'texto' => $data['fundamentacao'],
-                'id_pessoa' => $usuario->id
+                'id_pessoa' => $data['id_usuario']
             ]);
 
             $decisao = ProcessoQuestaoOrdem::create([
@@ -134,6 +134,7 @@ class QuestaoOrdemController extends Controller
                 'tipo'=>'decisao',
                 'status' => $data['status']
             ]);
+
             DB::commit();
         }
         catch (Exception $e)
@@ -165,14 +166,15 @@ class QuestaoOrdemController extends Controller
                 'id_pessoa' => $usuario->id
             ]);
 
-            foreach ($data['anexos'] as $anexo)
+            if ($data['anexos'])
             {
-                TheadAnexo::create([
-                    'file' => $anexo['file'],
-                    'id_thead' => $novaThead->id
-                ]);
+                foreach ($data['anexos'] as $anexo) {
+                    TheadAnexo::create([
+                        'file' => $anexo['file'],
+                        'id_thead' => $novaThead->id
+                    ]);
+                }
             }
-
             $decisao = ProcessoQuestaoOrdem::create([
                 'id_thead' => $novaThead->id,
                 'id_questao_ordem' => $data['id_questao_ordem'],
@@ -180,11 +182,12 @@ class QuestaoOrdemController extends Controller
             ]);
 
             DB::commit();
+            return response()->success($decisao);
         }
         catch (Exception $e) {
-            return response()->error($e->getMessage);
+            return response()->error($e->getMessage());
         }
-        return response()->success($decisao);
+
     }
 
     public function encerrarEnviosQuestaoOrdem($id)

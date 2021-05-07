@@ -36,7 +36,7 @@ class QuestaoOrdemController extends Controller
 
             $thead = AssembleiaThead::create($dataThead);
 
-            if ($dataThead['anexos'])
+            if (isset($dataThead['anexos']))
             {
                 $thead->theadAnexos()->createMany($dataThead['anexos']);
             }
@@ -166,7 +166,7 @@ class QuestaoOrdemController extends Controller
                 'id_pessoa' => $usuario->id
             ]);
 
-            if ($data['anexos'])
+            if (isset($data['anexos']))
             {
                 foreach ($data['anexos'] as $anexo) {
                     TheadAnexo::create([

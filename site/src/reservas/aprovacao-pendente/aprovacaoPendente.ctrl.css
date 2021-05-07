@@ -44,7 +44,7 @@ ul.tabs-aprovacao {
     /*transition: all .08s ease-in-out;*/
 }
 .list-localidade:hover, .list-localidade-locaisReservaveis dd:hover {
-    background: #ed6c44 url(../../../img/arrow-rigth-white.png) 100% center no-repeat;
+    background: #FF6633 url(../../../img/arrow-rigth-white.png) 100% center no-repeat;
     background-size: 32px;
     color: #FFFFFF;
     font-weight: normal;
@@ -54,7 +54,7 @@ ul.tabs-aprovacao {
 .itemSelecionado {
     background: url(../../../img/arrow-rigth-white.png) 100% center no-repeat;
     background-size: 32px;
-    background-color: #ed6c44 !important;
+    background-color: #FF6633 !important;
     color: #FFFFFF;
     font-weight: normal;
     cursor: pointer;
@@ -72,7 +72,7 @@ ul.tabs-aprovacao {
 }
 .titulo-dia-mes {
     margin-top: 10px;
-    color: #ed6c44;
+    color: #FF6633;
     font-weight: bold;
 }
 .titulo-semana {

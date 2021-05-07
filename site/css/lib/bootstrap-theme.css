@@ -122,7 +122,8 @@ fieldset[disabled] .btn-default.active {
   /*filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffed6c44', endColorstr='#ffde4515', GradientType=0);*/
   /*filter: progid:DXImageTransform.Microsoft.gradient(enabled = false);*/
   background-repeat: repeat-x;
-  border-color: #ed6c44;
+  border-color: #FF6633;
+  background-color: #FF6633;
 }
 .btn-primary:hover,
 .btn-primary:focus {

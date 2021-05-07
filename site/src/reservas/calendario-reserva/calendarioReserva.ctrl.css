@@ -44,7 +44,7 @@ linear-gradient(to left, transparent 17px, black 17px);
     /*transition: all .08s ease-in-out;*/
 }
 .list-localidade:hover, .list-localidade-locaisReservaveis dd:hover {
-    background: #ed6c44 url(../../../img/arrow-rigth-white.png) 100% center no-repeat;
+    background: #FF6633 url(../../../img/arrow-rigth-white.png) 100% center no-repeat;
     background-size: 32px;
     color: #FFFFFF;
     font-weight: normal;
@@ -54,7 +54,7 @@ linear-gradient(to left, transparent 17px, black 17px);
 .itemSelecionado {
     background: url(../../../img/arrow-rigth-white.png) 100% center no-repeat;
     background-size: 32px;
-    background-color: #ed6c44 !important;
+    background-color: #FF6633 !important;
     color: #FFFFFF;
     font-weight: normal;
     cursor: pointer;
@@ -66,7 +66,13 @@ linear-gradient(to left, transparent 17px, black 17px);
     border-radius: 8px;
     margin-left: 20px;
 }
+.bloco-calendario {
+    padding-bottom: 20px;
+}
 #calendar {
-    max-width: 600px;
     margin: 0 auto;
+    max-height: 555px;
+}
+#calendar table {
+    background-color: #FFFFFF;
 }

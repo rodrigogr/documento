@@ -16,6 +16,7 @@ class AddIdAssembleiaAssembleiaVotacoes extends Migration
         Schema::table('assembleia_votacoes', function (Blueprint $table)
         {
             $table->unsignedInteger('id_assembleia')->after('id');
+            $table->foreign('id_assembleia')->references('id')->on('assembleias');
         });
     }
 

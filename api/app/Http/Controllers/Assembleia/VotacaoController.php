@@ -30,6 +30,7 @@ class VotacaoController
                     if (!$voto)
                     {
                         $voto = new AssembleiaVotacao();
+                        $voto->id_assembleia = $data['id_assembleia'];
                         $voto->id_pessoa = $data['id_pessoa'];
                         $voto->id_pergunta = $pauta['id_pergunta'];
                         $voto->ip = $data['ip'];

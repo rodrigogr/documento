@@ -311,6 +311,7 @@ class AssembleiaController extends Controller
                 ap.id_imovel, 
                 concat('QD ', i.quadra,' / ', 'LT ', i.lote) as imovel,
                 concat('Peso x ', i.peso) as complemnto,
+                (select count(*) > 0 from assembleia_votacoes av where av.id_imovel = i.id and id_assembleia  = $assembleia->id ) as voto_realizado,        
                 i.peso
             from assembleia_participantes ap
             inner join bioacesso_portaria.imovel_permanente ip on ap.id_imovel = ip.id_imovel and ip.id_pessoa = $idPessoa

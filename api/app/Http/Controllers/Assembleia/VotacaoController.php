@@ -33,10 +33,10 @@ class VotacaoController
                         $voto->id_assembleia = $data['id_assembleia'];
                         $voto->id_pessoa = $data['id_pessoa'];
                         $voto->id_pergunta = $pauta['id_pergunta'];
-                        $voto->ip = $data['ip'];
+                        //$voto->ip = $data['ip'];
                         $voto->id_imovel = $imovel['id_imovel'];
-                        $voto->mac_address = $data['mac_address'];
-                        $voto->peso_voto = $data['peso'];
+                        //$voto->mac_address = $data['mac_address'];
+                        //$voto->peso_voto = $data['peso'];
                     }
 
                     $voto->id_opcao = $pauta['id_alternativa'];

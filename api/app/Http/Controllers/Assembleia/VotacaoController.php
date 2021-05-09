@@ -21,7 +21,7 @@ class VotacaoController
             {
                 foreach ($data['pautas'] as $pauta)
                 {
-                    $voto = AssembleiaVotacao::where('id_usuario', $data['id_pessoa'])
+                    $voto = AssembleiaVotacao::where('id_pessoa', $data['id_pessoa'])
                         ->where('id_pergunta', $pauta['id_pergunta'])
                         ->where('id_imovel', $imovel['id_imovel'])
                         ->get()

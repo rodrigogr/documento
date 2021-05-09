@@ -300,8 +300,7 @@ class AssembleiaController extends Controller
         foreach ($assembleia['pautas'] as $key => $pauta)
         {
             $opcoes = AssembleiaOpcao::where('assembleia_opcoes.id_pergunta', $pauta['id_pergunta'])
-                ->leftJoin('assembleia_votacoes','assembleia_votacoes.id_opcao', '=', 'assembleia_opcoes.id')
-                ->select('assembleia_opcoes.id','opcao', DB::raw('(CASE WHEN assembleia_votacoes.id  THEN 1 ELSE 0 END) AS value'))
+                ->select('assembleia_opcoes.id','opcao')
                 ->get();
             $assembleia['pautas'][$key]['alternativas'] = $opcoes;
         }
@@ -319,9 +318,6 @@ class AssembleiaController extends Controller
             inner join bioacesso_portaria.tipo_perfil tp on ip.perfil = tp.id 
             where id_assembleia =  $assembleia->id and tp.nome ='associado' and ip.id_pessoa = $idPessoa
         ");
-
-        $assembleia['imovel_votou'] = true;
-        $assembleia['id_pessoa_voto '] = 4;
 
         return $assembleia;
     }

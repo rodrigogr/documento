@@ -102,4 +102,12 @@ function assembleiaQuestoesOrdemCtrl($scope, $http, $state, $filter,AuthService,
             $("#loading").modal("hide")
         });
     }
+    $scope.novaVotacao = function ()
+    {
+        $('#novaVotacao').modal('show');
+    }
+    $scope.fecharNovaVotacao = function ()
+    {
+        $('#novaVotacao').modal('hide');
+    }
 }

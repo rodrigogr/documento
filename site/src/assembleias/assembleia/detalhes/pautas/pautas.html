@@ -58,7 +58,8 @@
                         </div>
                     </div>
                     <!-- Form Mean -->
-                    <div class="modal-body ba__bg-white ba__modal-body-assembleia"
+                    <!-- body das pautas quando a votacao ainda nao foi iniciada -->
+                    <div ng-if="!votacaoIniciada" class="modal-body ba__bg-white ba__modal-body-assembleia"
                          style="background-color: #F2F2F2; padding: 0px !important;max-height: 70%;">
                         <div style="padding: 0 0 20px; margin: 0 0 20px;">
                             <div class="row ba__margin-bottom-30">
@@ -96,7 +97,7 @@
                                                     class="ng-pristine ng-valid ng-touched"
                                                     required
                                                     aria-invalid="false">
-                                            <span>Alternativa</span> <!-- {{$index}} -->
+                                            <span>Alternativa {{$index +1}}</span>
                                         </div>
                                     </div>
                                 </div>
@@ -126,7 +127,8 @@
                             <div class="col-md-24" style="padding-left: 15px;" >
                                 <!--<button class="btn btn-default pull-left ba__margin-right-15">ANEXAR ARQUIVO</button>-->
                                 <div style="float:left;width: 30%;">
-                                    <label for="documentos" class="pull-left btn btn-atualizar col-xs-4 uppercase right" style="float: right;width: 100%;"
+                                    <label for="documentos" class="pull-left btn btn-atualizar col-xs-4 uppercase right"
+                                           style="float: right;width: 100%;padding-top: 21px;height: 70px;"
                                            data-toggle="modal" type="file"
                                            name="documentos" onchange="angular.element(this).scope().changeInputField(this, 'documentos_regras')">
                                         ANEXAR ARQUIVO
@@ -137,7 +139,9 @@
                                 </div>
 
                                 <!--<input class="ba__font-size-12 pull-left" type="file" id="inputDocumentos" name="documentos" onchange="angular.element(this).scope().changeInputField(this, 'documentos_regras')">-->
-                                <span class="ba__font-size-12 pull-left ba__font-color-gray ba__margin-top-10" style="width: 70%; margin-bottom: 15px; clear: both;" >Arquivos de no max 10MB, nas extensões .PDF, .DOC, .DOCX, .XLS, .XLSX, .JPG ou .TXT</span>
+                                <span class="ba__font-size-12 pull-left ba__font-color-gray"
+                                      style="width: 45%; margin-bottom: 15px; padding-left: 12px;font-size: 19px;">
+                                    Arquivos de no max 10MB, nas extensões .PDF, .DOC, .DOCX, .XLS, .XLSX, .JPG ou .TXT</span>
                             </div>
                             <div class="col-md-18"
                                  style="background-color: #fff;
@@ -157,6 +161,120 @@
                             </div>
                         </div>
                     </div>
+                    <!-- fim body das pautas quando a votacao ainda nao foi iniciada -->
+                    <!-- body das pautas quando a votacao ja foi iniciada -->
+                    <div ng-if="votacaoIniciada" class="modal-body ba__bg-white ba__modal-body-assembleia"
+                         style="background-color: #F2F2F2; padding: 0px !important;max-height: 70%;">
+                        <div style="padding: 0 0 20px; margin: 0 0 20px;">
+                            <div class="row ba__margin-bottom-30">
+                                <div class="col-md-22">
+                                    <div style="padding: 15px;">
+                                        <div class="row pull-left" style="width: 100%;margin-bottom: 15px;">
+                                            <span class="ba__font-size-12 pull-left ba__font-color-gray"
+                                                  style="width: 100%; margin-bottom: 15px; padding-left: 12px;font-size: 18px;">
+                                                    Pauta 01 de 02
+                                            </span>
+                                            <div style="font-size: 15px;padding-left: 12px;">
+                                                {{pautaSelecao.pauta}}
+                                            </div>
+                                        </div>
+                                        <!--<div class="control-input">
+                                                            <textarea
+                                                                    name="descricao-pauta"
+                                                                    ng-model="pautaSelecao.pauta"
+                                                                    placeholder=" "
+                                                                    class="ng-pristine ng-valid ng-touched"
+                                                                    required
+                                                                    aria-invalid="false"
+                                                                    rows="4"
+                                                                    cols="33">
+                                                            </textarea>
+                                            <span>PAUTA </span>&lt;!&ndash; {{pautaIndex}} &ndash;&gt;
+                                        </div>-->
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row"
+                                 ng-repeat="alternativa in pautaSelecao.alternativas">
+                                <div class="col-md-22">
+                                    <div style="padding: 15px;">
+                                        <div class="control-input">
+                                            <input
+                                                    type="text"
+                                                    name="alternativa"
+                                                    ng-model="alternativa.opcao"
+                                                    value="alternativa.id"
+                                                    placeholder=""
+                                                    autocomplete="off"
+                                                    class="ng-pristine ng-valid ng-touched"
+                                                    required
+                                                    aria-invalid="false">
+                                            <span>Alternativa {{$index +1}}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div style="display: flex;
+                                                            align-items: center;
+                                                            justify-content: start;
+                                                            font-size: 28px;
+                                                            padding: 15px;
+                                                            min-height: 80px;
+                                                            color: #999;">
+                                        <i class="fa fa-trash"
+                                           style="margin-right: 15px;"
+                                           ng-click="removeNewAlternativas($index)"></i>
+                                        <i class="fa fa-plus-circle"
+                                           ng-show="(ultimaAlternativa===($index+1))"
+                                           ng-click="addNewAlternativa($index)"
+                                        ></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row ba__margin-bottom-30">
+                            <p style="margin: 0 0 15px; padding: 0 15px; text-transform: uppercase; font-size: 16px;">
+                                ANEXOS
+                            </p>
+                            <div class="col-md-24" style="padding-left: 15px;" >
+                                <!--<button class="btn btn-default pull-left ba__margin-right-15">ANEXAR ARQUIVO</button>-->
+                                <div style="float:left;width: 30%;">
+                                    <label for="documentos" class="pull-left btn btn-atualizar col-xs-4 uppercase right"
+                                           style="float: right;width: 100%;padding-top: 21px;height: 70px;"
+                                           data-toggle="modal" type="file"
+                                           name="documentos" onchange="angular.element(this).scope().changeInputField(this, 'documentos_regras')">
+                                        ANEXAR ARQUIVO
+                                    </label>
+                                    <input  class="pull-left btn btn-atualizar col-xs-4 uppercase right" style="float: right; display: none;"
+                                            data-toggle="modal" type="file"
+                                            name="documentos" id="documentos" onchange="angular.element(this).scope().changeInputField(this, 'documentos_regras')">
+                                </div>
+
+                                <!--<input class="ba__font-size-12 pull-left" type="file" id="inputDocumentos" name="documentos" onchange="angular.element(this).scope().changeInputField(this, 'documentos_regras')">-->
+                                <span class="ba__font-size-12 pull-left ba__font-color-gray"
+                                      style="width: 45%; margin-bottom: 15px; padding-left: 12px;font-size: 19px;">
+                                    Arquivos de no max 10MB, nas extensões .PDF, .DOC, .DOCX, .XLS, .XLSX, .JPG ou .TXT</span>
+                            </div>
+                            <div class="col-md-18"
+                                 style="background-color: #fff;
+                                            padding: 10px;
+                                            box-shadow: 0px 0px 2px rgba(0, 0, 0, 0.2), 0px 2px 7px rgba(0, 0, 0, 0.15);
+                                            border-radius: 8px;
+                                            margin-bottom: 15px;
+                                            margin-left: 15px;"
+                                 ng-repeat="(indexDoc, doc) in assembleia.documentos">
+                                <a href="javascript:void(0)" ng-click="abreDocumento()">
+                                    <img width="45" height="45" src="{{doc.icon}}">
+                                    <i style="font-size: 17px; color: #666666 !important;">{{doc.name}}</i>
+                                </a>
+                                <i ng-click="excluirArquivo(doc, indexDoc)" class="fa fa-trash pull-right"
+                                   style="font-size: 24px;
+                                                    margin: 8px; color: #666;"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- fim body das pautas quando a votacao ja foi iniciada -->
                     <!-- Footer -->
                     <div class="modal-footer" style="padding-right: 15px !important;">
                         <button type="button" class="btn btn-success col-xs-offset-3 col-xs-6 uppercase pull-right"
@@ -175,7 +293,7 @@
             </div>
         </div>
         <!-- Modal Pautas -->
-        <!-- Modal Detalhe do Tópico -->
+        <!-- Modal suspender pauta -->
         <div class="modal fade" id="suspenderPauta" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="false">
             <div class="modal-dialog assembleia-modal-50pc" role="document">
                 <div class="modal-content assembleia-content">
@@ -212,12 +330,11 @@
                                                                     cols="33">
                                                             </textarea>
                             </div>
-
                         </div>
                     </div>
                     <!-- Footer -->
                     <div class="modal-footer" style="padding-right: 15px !important;">
-                        <button ng-click="" type="button" class="btn btn-success col-md-5 pull-right"
+                        <button ng-click="suspenderPauta();" type="button" class="btn btn-success col-md-5 pull-right"
                                 style="margin-left: 5px;background-color: #FF6633;margin-left: 0px;">
                             Suspender
                         </button>
@@ -229,11 +346,10 @@
                                 ng-click="fechaSuspenderPauta()">
                             Cancelar
                         </button>-->
-
                     </div>
                 </div>
             </div>
         </div>
-        <!-- Modal Detalhe do Tópico -->
+        <!-- Modal suspender pauta -->
     </div>
 </div>

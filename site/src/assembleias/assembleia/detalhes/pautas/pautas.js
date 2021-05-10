@@ -18,6 +18,8 @@ function assembleiaPautasCtrl ($scope, $state, $filter, UtilsService, config, $h
     $scope.ultimaAlternativa = 0;
     $scope.motivoSuspender = '';
     $scope.pautaSelecao = {};
+    $scope.suspender = false;
+    $scope.votacaoIniciada = true;
 
     function getPautasAssembleia(id = 0)
     {
@@ -56,6 +58,7 @@ function assembleiaPautasCtrl ($scope, $state, $filter, UtilsService, config, $h
 
     $scope.fechaSuspenderPauta = function () {
         $('#suspenderPauta').modal('hide');
+        $scope.motivoSuspender = '';
     }
 
     $scope.addNewAlternativa = function(index) {
@@ -67,5 +70,14 @@ function assembleiaPautasCtrl ($scope, $state, $filter, UtilsService, config, $h
         $scope.ultimaAlternativa--;
         $scope.pautaSelecao.alternativas.splice(index,1);
     };
+
+    $scope.salvarAlteracoesPauta = function(){
+
+    }
+
+    $scope.suspenderPauta = function(){
+        $scope.suspender = true;
+        console.log($scope.motivoSuspender);
+    }
 
 }

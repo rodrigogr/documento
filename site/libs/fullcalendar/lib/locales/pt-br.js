@@ -12,7 +12,7 @@ FullCalendar.globalLocales.push(function () {
       day: 'Dia',
       list: 'Lista',
     },
-    weekText: 'Sm',
+    weekText: 'Wk',
     allDayText: 'dia inteiro',
     moreLinkText: function(n) {
       return 'mais +' + n

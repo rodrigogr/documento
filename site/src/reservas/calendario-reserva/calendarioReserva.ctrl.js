@@ -27,10 +27,15 @@ angular.module('ReservasModule').controller('CalendarioReservaCtrl',
                 var calendar = new FullCalendar.Calendar(calendarEl, {
                     locale: 'pt-br',
                     initialDate: d.toISOString(),
-                    editable: true,
-                    selectable: true,
-                    businessHours: true,
+                    // editable: true,
+                    //selectable: true,
+                    // businessHours: true,
                     dayMaxEvents: true, // allow "more" link when too many events
+                    headerToolbar: {
+                        left: 'prev title next today',
+                        center: '',
+                        right: ''
+                    },
                     events: [
                         {
                             title: 'All Day Event',

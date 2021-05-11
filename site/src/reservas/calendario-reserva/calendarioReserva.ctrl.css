@@ -76,3 +76,62 @@ linear-gradient(to left, transparent 17px, black 17px);
 #calendar table {
     background-color: #FFFFFF;
 }
+
+/*Alterações para o calendário*/
+
+#calendar table {
+    caret-color: transparent;
+}
+.fc-prev-button, .fc-next-button, .fc-toolbar-title {
+    float: left;
+}
+.fc-toolbar-title {
+    text-transform: capitalize;
+}
+.fc .fc-button-primary {
+    background-color: #FFFFFF;
+    color: #1a252f;
+    border-color: #cccccc;
+}
+.fc .fc-button-primary:hover {
+    background-color: #FF6633;
+    border-color: #ed6c44;
+}
+.fc .fc-button-primary:not(:disabled).fc-button-active, .fc .fc-button-primary:not(:disabled):active {
+    background-color: #FF6633;
+    border-color: #ed6c44;
+}
+.fc .fc-button-primary:focus, .fc .fc-button-primary:not(:disabled).fc-button-active:focus, .fc .fc-button-primary:not(:disabled):active:focus {
+    box-shadow: 0 0 0 0.1rem rgb(76 91 106 / 12%);
+}
+.fc .fc-button-primary:disabled {
+    color: #848685;
+    border: 1px solid #93b59c;
+}
+.fc .fc-toolbar-title {
+    margin-top: 6px;
+    color: #FF6633;
+}
+button[disabled] {
+    background-color: #ced4d0 !important;
+}
+.fc-today-button {
+    font-size: 19px !important;
+    padding: 2px 14px !important;
+}
+.fc .fc-col-header-cell-cushion {
+    font-size: 22px;
+    text-transform: capitalize;
+    font-weight: normal;
+    color: #6d6b6b;
+    caret-color: transparent;
+}
+.fc .fc-daygrid-day-number {
+    font-size: 19px;
+    color: #6d6b6b;
+    font-weight: bold;
+}
+.fc .fc-daygrid-day.fc-day-today {
+    background-color: rgb(249 202 83 / 31%);
+    background-color: var(--fc-today-bg-color, rgb(249 202 83 / 31%));
+}

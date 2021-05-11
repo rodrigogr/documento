@@ -116,6 +116,9 @@ class QuestaoOrdemController extends Controller
         $data = $request->all();
 
         try {
+
+            $questao = AssembleiaQuestaoOrdem::find($data['id_questao_ordem']);
+
             DB::beginTransaction();
             $novaThead = AssembleiaThead::create([
                 'titulo' => "Decisão",
@@ -129,6 +132,17 @@ class QuestaoOrdemController extends Controller
                 'tipo'=>'decisao',
                 'status' => $data['status']
             ]);
+
+            if ($data['status'] == 'deferida')
+            {
+                $questao->status = 'Deferida';
+            }
+            else
+            {
+                $questao->status = 'Indeferida';
+            }
+
+            $questao->update();
 
             DB::commit();
         }

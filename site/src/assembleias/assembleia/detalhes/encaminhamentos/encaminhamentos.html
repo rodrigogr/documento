@@ -36,7 +36,10 @@
                ng-click="abreEncaminhamento(encaminhamento.id)">
                 <div class="row">
                     <div class="col-xs-3">{{encaminhamento.data_hora}}</div>
-                    <div class="col-xs-2">{{encaminhamento.status}}</div>
+                    <div class="col-xs-2">
+                        <span class=" uppercase badge-style {{encaminhamento.status.toLowerCase() === 'pendente' ? 'badge-pendente' : 'badge-respondido'}}">
+                            {{encaminhamento.status}}
+                        </span></div>
                     <div class="col-xs-4">{{encaminhamento.nome}}</div>
                     <div class="col-xs-4">{{encaminhamento.pauta}}</div>
                     <div class="col-xs-9">{{encaminhamento.titulo}}</div>

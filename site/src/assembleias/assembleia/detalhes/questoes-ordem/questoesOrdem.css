@@ -30,3 +30,90 @@
     margin-top: -30px;
     margin-bottom: 30px;
 }
+
+.tabs-questoesOrdem li {
+    width: 20em;
+}
+
+.tabs-questoesOrdem li a
+{
+    text-align: center;
+    background: none;
+}
+
+.tabs-questoesOrdem li a:hover
+{
+    background: none;
+}
+
+.tabs-questoesOrdem li.active a,.tabs-questoesOrdem li.active a:hover
+{
+    background:none;
+}
+
+.badge-style{
+    padding: 5px 15px;
+    border-radius: 20px;
+    font-size: 14px;
+}
+
+.badge-style.badge-recurso-pendente, .badge-style.badge-pendente-decisao{
+    color: #B8860B;
+    background-color: #FAFAD2;
+}
+
+.badge-style.badge-deferida{
+    color: #219653;
+    background-color: #C8F5D7;
+}
+
+.badge-style.badge-indeferida, .badge-style.badge-recurso-indeferido{
+    color: #EB5757;
+    background-color: #FFECE5;
+}
+
+#votacao-questao {
+    margin: 200px 0 50px auto;
+    text-align: center;
+}
+
+.btn-votacao-questao-ordem {
+    box-sizing: border-box;
+    border-radius: 3px;
+    color: #FFFFFF;
+    width: 400px;
+    margin: 10px auto;
+    cursor: pointer;
+    text-align: center;
+}
+
+.btn-votacao-questao-ordem.nova {
+    background-color: #FF6633;
+    border: 1px solid #FF6633;
+}
+
+
+
+.questao-de-ordem-modal{
+    width: 60%;
+}
+
+.questao-de-ordem-modal-50pc{
+    width: 50%;
+}
+
+.questao-de-ordem-modal-40pc{
+    width: 40%;
+}
+
+.questao-de-ordem-content,
+.questao-de-ordem-header{
+    padding: 0px;
+}
+
+.ba__modal-body-nova-votacao {
+    min-height: 250px;
+    height: 250px;
+    max-height: 300px;
+    overflow-y: auto;
+}

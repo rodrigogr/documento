@@ -1,55 +1,93 @@
 <div class="row">
-    <div class="row ba__margin-top-20">
-        <h3 class="col-md-15 Roboto-Light">
-            <strong>{{listQuestoes.length}}</strong> resultados
-        </h3>
-        <button type="button" class="btn btn-encerrarenvios col-xs-offset-3 col-xs-6 uppercase" style="margin-top: 12px"
-                data-toggle="modal" ng-click="encerraEnviosQuestaoOrdem()">
-            Encerrar Envios
-        </button>
-    </div>
-    <div class="list-group ba__admin-table ba__margin-top-40" style="height: 85%">
-        <a class="list-group-item disabled">
-            <div class="row uppercase">
-                <div class="col-xs-3">Data/Hora
-                    <i class="ba__margin-horizontal-5"></i>
-                </div>
-                <div class="col-xs-3">Status
-                    <i class="ba__margin-horizontal-5"></i>
-                </div>
-                <div class="col-xs-4">Associado
-                    <i class="ba__margin-horizontal-5"></i>
-                </div>
-                <div class="col-xs-3">Pauta
-                    <i class="ba__margin-horizontal-5"></i>
-                </div>
-                <div class="col-xs-9">Título
-                    <i class="ba__margin-horizontal-5"></i>
+
+    <div class="row ba__admin-list" ng-init="data.tabStatus='Recebidas'"
+         style="overflow-y: auto;height: 90%;margin-bottom: inherit !important">
+        <div class="col-md-24">
+            <ul class="nav nav-tabs ba-nav-tabs tabs-questoesOrdem">
+                <li ng-class="{'active': data.tabStatus === 'Recebidas'}" ng-click="data.tabStatus = 'Recebidas'">
+                    <a data-toggle="tab">
+                        <h5>RECEBIDAS</h5>
+                    </a>
+                </li>
+                <li ng-class="{'active': data.tabStatus === 'Votacao'}" ng-click="data.tabStatus = 'Votacao'">
+                    <a data-toggle="tab">
+                        <h5>VOTAÇÃO</h5>
+                    </a>
+                </li>
+            </ul>
+        </div>
+        <div class="tab-content">
+            <!-- RECEBIDAS -->
+            <div id="recebidas" class="tab-pane fade in active" ng-if="data.tabStatus === 'Recebidas'">
+                <div class="row ba__margin-top-20">
+                    <h3 class="col-md-15 Roboto-Light">
+                        <strong>{{listQuestoes.length}}</strong> resultados
+                    </h3>
+                    <button type="button" class="btn btn-encerrarenvios col-xs-offset-3 col-xs-6 uppercase" style="margin-top: 12px"
+                            data-toggle="modal" ng-click="encerraEnviosQuestaoOrdem()">
+                        Encerrar Envios
+                    </button>
                 </div>
 
-                <div class="col-xs-2 text-center"></div>
-            </div>
-        </a>
-        <div class="ba__admin-table-scroll" style="height: 85%;">
-            <a class="list-group-item ba__font-size-12 ba__pointer" ng-repeat="questao in listQuestoes"
-                ng-click="abreQuestaoOrdem(questao.id)">
-                <div class="row">
-                    <div class="col-xs-3">{{questao.data_hora}}</div>
-                    <div class="col-xs-3">{{questao.status}}</div>
-                    <div class="col-xs-4">{{questao.nome}}</div>
-                    <div class="col-xs-3">{{questao.pauta}}</div>
-                    <div class="col-xs-9">{{questao.titulo}}</div>
-                    <div class="col-xs-2">
-                        <i class="fa fa-eye ba__margin-left-35" title="Visualizar" ng-click=""></i>
+                <div class="list-group ba__admin-table ba__margin-top-40" style="height: 85%; padding-top: 40px">
+                    <a class="list-group-item disabled">
+                        <div class="row uppercase">
+                            <div class="col-xs-3">Data/Hora
+                                <i class="ba__margin-horizontal-5"></i>
+                            </div>
+                            <div class="col-xs-3">Status
+                                <i class="ba__margin-horizontal-5"></i>
+                            </div>
+                            <div class="col-xs-4">Associado
+                                <i class="ba__margin-horizontal-5"></i>
+                            </div>
+                            <div class="col-xs-3">Pauta
+                                <i class="ba__margin-horizontal-5"></i>
+                            </div>
+                            <div class="col-xs-9">Título
+                                <i class="ba__margin-horizontal-5"></i>
+                            </div>
+                            <div class="col-xs-2 text-center"></div>
+                        </div>
+                    </a>
+                    <div class="ba__admin-table-scroll" style="height: 85%;">
+                        <a class="list-group-item ba__font-size-12 ba__pointer" ng-repeat="questao in listQuestoes"
+                           ng-click="abreQuestaoOrdem(questao.id)">
+                            <div class="row">
+                                <div class="col-xs-3">{{questao.data_hora}}</div>
+                                <div class="col-xs-3">
+                                    <span class=" uppercase badge-style {{questao.status.toLowerCase() === 'pendente de decisão' ? 'badge-pendente-decisao' : questao.status.toLowerCase() === 'recurso indeferido' ? 'badge-recurso-indeferido' : questao.status.toLowerCase() === 'indeferida' ? 'badge-indeferida' : questao.status.toLowerCase() === 'deferida' ? 'badge-deferida' : 'badge-recurso-pendente'}}">
+                                        {{questao.status}}
+                                    </span>
+                                </div>
+                                <div class="col-xs-4">{{questao.nome}}</div>
+                                <div class="col-xs-3">{{questao.pauta}}</div>
+                                <div class="col-xs-9">{{questao.titulo}}</div>
+                                <div class="col-xs-2">
+                                    <i class="fa fa-eye ba__margin-left-35" title="Visualizar" ng-click=""></i>
+                                </div>
+                            </div>
+                        </a>
                     </div>
                 </div>
-            </a>
+            </div>
+
+            <!-- VOTAÇÃO -->
+            <div id="votacao-questao" class="tab-pane fade in active" ng-if="data.tabStatus === 'Votacao'">
+                <div>
+                    <h4>Nenhuma Votação foi criada ainda.</h4>
+                    <button type="button" class="btn btn-votacao-questao-ordem nova uppercase" data-toggle="modal"
+                            ng-click="novaVotacao()">
+                        NOVA VOTAÇÃO
+                    </button>
+                </div>
+            </div>
         </div>
     </div>
 
-
     <!-- Modal Questões de Ordem -->
-    <div class="modal fade" id="abreQuestaoOrdem" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="false">
+    <div class="modal fade" id="abreQuestaoOrdem" tabindex="-1" role="dialog" data-backdrop="static"
+         data-keyboard="false">
         <div class="modal-dialog assembleia-modal" role="document">
             <div class="modal-content assembleia-content">
                 <!-- Header -->
@@ -64,7 +102,7 @@
                 </div>
                 <!-- Form Mean -->
                 <div class="modal-body ba__modal-body-assembleia"
-                    style="background-color: #F2F2F2; padding: 0px !important">
+                     style="background-color: #F2F2F2; padding: 0px !important">
 
                     <header class="discussoes">
                         <p>PAUTA 01 DE 02</p>
@@ -76,11 +114,11 @@
                     <article class="box-discussao">
 
                         <section class="bgc-fff bs br8px"
-                                  style="margin-bottom: 40px;">
-                            <span class="questao-de-ordem bs bgc-fff" >Questão de ordem</span>
+                                 style="margin-bottom: 40px;">
+                            <span class="questao-de-ordem bs bgc-fff">Questão de ordem</span>
 
                             <div class="pessoa">
-                                <img class="" src="img/avatar.png" alt="" />
+                                <img class="" src="img/avatar.png" alt=""/>
                                 <div>
                                     <span>{{ questaoOrdem.autor }}</span>
                                     <span>Há 32 minutos</span>
@@ -101,10 +139,10 @@
                         </section>
 
                         <section class="bgc-fff bs br8px" ng-repeat="processo in questaoOrdem.processos"
-                             style="margin-bottom: 40px;">
+                                 style="margin-bottom: 40px;">
                             <span class="questao-de-ordem bs bgc-fff" ng-if="processo.tipo=='decisao'">
                                 Decisão
-                                <span class="questao-de-ordem bs bgc-fff" >
+                                <span class="questao-de-ordem bs bgc-fff">
                                     {{processo.status}}
                                 </span>
                             </span>
@@ -114,7 +152,7 @@
                             </span>
 
                             <div class="pessoa">
-                                <img class="" src="img/avatar.png" alt="" />
+                                <img class="" src="img/avatar.png" alt=""/>
                                 <div>
                                     <span>{{ processo.autor }}</span>
                                     <span>Há 32 minutos</span>
@@ -135,13 +173,13 @@
                 <!-- Footer -->
                 <div class="modal-footer" style="padding-right: 15px !important;">
                     <button ng-click="novaDecisao(questaoOrdem.id)" type="button"
-                        class="btn btn-success col-md-5 pull-right"
-                        style="margin-left: 5px">
+                            class="btn btn-success col-md-5 pull-right"
+                            style="margin-left: 5px">
                         Decisão
                     </button>
 
                     <button type="button" class="btn btn-default btn-clear col-md-5 pull-right"
-                        ng-click="fechaQuestaoOrdem()">
+                            ng-click="fechaQuestaoOrdem()">
                         Cancelar
                     </button>
                 </div>
@@ -190,7 +228,7 @@
                                 </div>
                             </div>
                             <div class="col-md-24">
-                                <h5>Qual status definir após esta decisão? </h5>
+                                <h5>Qual status definir após esta decisção ? </h5>
                                 <div class="col-md-24 format-radios">
 
                                     <label class="radio-inline">
@@ -199,7 +237,7 @@
                                                 name="tipo"
                                                 ng-model="decisao.status"
                                                 value="indeferida"
-                                                ng-checked="true" />
+                                                ng-checked="true"/>
                                         Marcar como indeferido
                                     </label>
                                     <label class="radio-inline">
@@ -207,7 +245,7 @@
                                                 type="radio"
                                                 name="tipo"
                                                 ng-model="decisao.status"
-                                                value="deferida" />
+                                                value="deferida"/>
                                         Marcar como deferido e abrir votação
                                     </label>
                                 </div>
@@ -238,8 +276,89 @@
         </div>
     </div>
     <!-- Modal Decisao -->
+    <!--MODAL NOVA VOTAÇÃO -->
+    <div class="modal fade" id="novaVotacao" tabindex="-1" role="dialog" data-backdrop="static"
+         data-keyboard="false">
+        <div class="modal-dialog questao-de-ordem-modal-40pc" role="document">
+            <div class="modal-content questao-de-ordem-content">
+                <!-- Header -->
+                <div class="modal-header questao-de-ordem-header">
+                    <div class="row">
+                        <h4 class="modal-title Roboto-Thin ba__font-size-25"
+                            style="padding: 25px 25px 10px; font-weight: bold;">
+                            <i class="fa fa-clock-o cff6633"></i>
+                            <span class="uppercase">Nova Votação - Em desenvolvimento...</span>
+                        </h4>
+                    </div>
+                </div>
+                <!-- Form Mean -->
+                <div class="modal-body ba__modal-body-iniciar-votacao"
+                     style="background-color: #ffffff; padding: 0px !important">
+                    <form name="formNovaVotacao">
+                        <div class="row ba__margin-top-30">
+                            <p style="margin: 0;padding: 0 15px;  font-size: 16px;">
+                                Encerramento da votação.
+                            </p>
+                            <div class="col-md-6">
+                                <div style="padding: 15px;">
+                                    <div class="control-input">
+                                        <input
+                                                type="text"
+                                                name="votacao_data_fim"
+                                                ng-model="votacao.votacao_data_fim"
+                                                placeholder=" "
+                                                autocomplete="off"
+                                                mask="99/99/9999"
+                                                required
+                                                class="ng-pristine ng-valid ng-touched"
+                                                aria-invalid="false">
+                                        <span>DIA</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div style="padding: 15px;">
+                                    <div class="control-input">
+                                        <input
+                                                type="text"
+                                                name="votacao_hora_fim"
+                                                ng-model="votacao.votacao_hora_fim"
+                                                placeholder=" "
+                                                autocomplete="off"
+                                                mask="99:99"
+                                                requiredvotacao_data_fimvotacao_data_fim
+                                                class="ng-pristine ng-valid ng-touched"
+                                                aria-invalid="false">
+                                        <span>HORÁRIO</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <!-- Footer -->
+                <div class="modal-footer" style="padding-right: 15px !important;">
+                    <button
+                            type="button"
+                            class="btn btn-success col-md-5 pull-right"
+                            style="margin-left: 5px"
+                            ng-disabled="!(votacao.votacao_data_fim && votacao.votacao_hora_fim)">
+                        Salvar
+                    </button>
+
+                    <button type="button" class="btn btn-default btn-clear col-md-5 pull-right"
+                            ng-click="fecharNovaVotacao()">
+                        Cancelar
+                    </button>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--MODAL NOVA VOTAÇÃO -->
     <!--MODAL LOADING-->
-    <div class="modal" id="loading" role="dialog" data-backdrop="static" style="background: rgba(0, 0, 0, 0.1)!important">
+    <div class="modal" id="loading" role="dialog" data-backdrop="static"
+         style="background: rgba(0, 0, 0, 0.1)!important">
         <div class="modal-dialog" role="document">
             <div style="padding: 20px;background:#FFF;width:14%;margin: 15% auto;position: relative;background-clip: padding-box;text-align: center;">
                 <div class="row">

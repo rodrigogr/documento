@@ -12,7 +12,7 @@ class ParticipanteController extends Controller
     public function index()
     {
         $participantes = \DB::connection('portaria')->table('imovel')
-            ->select('id as id_imovel', 'quadra', 'lote', 'peso' )
+            ->select('id as id_imovel', 'quadra', 'lote', 'peso_voto' )
             ->where('imovel_ficticio',0)->where('softdeleted',0)
             ->get();
 

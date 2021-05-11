@@ -21,6 +21,16 @@
     margin-bottom: 8px;
 }
 
+.questao-de-ordem{
+    width: 20%;
+    text-align: center;
+    text-transform: uppercase;
+    padding: 10px 15px;
+    border-radius: 20px;
+    margin-top: -30px;
+    margin-bottom: 30px;
+}
+
 .tabs-questoesOrdem li {
     width: 20em;
 }
@@ -62,12 +72,12 @@
     background-color: #FFECE5;
 }
 
-#menu2 {
+#votacao-questao {
     margin: 200px 0 50px auto;
     text-align: center;
 }
 
-.btn-votacao {
+.btn-votacao-questao-ordem {
     box-sizing: border-box;
     border-radius: 3px;
     color: #FFFFFF;
@@ -77,20 +87,12 @@
     text-align: center;
 }
 
-.btn-votacao.nova {
+.btn-votacao-questao-ordem.nova {
     background-color: #FF6633;
     border: 1px solid #FF6633;
 }
 
-.questao-de-ordem{
-    width: 20%;
-    text-align: center;
-    text-transform: uppercase;
-    padding: 10px 15px;
-    border-radius: 20px;
-    margin-top: -30px;
-    margin-bottom: 30px;
-}
+
 
 .questao-de-ordem-modal{
     width: 60%;

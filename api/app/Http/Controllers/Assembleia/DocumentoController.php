@@ -20,4 +20,12 @@ class DocumentoController extends Controller
     {
         DB::table('assembleia_documentos')->where('id_assembleia', $id)->delete();
     }
+
+    public function getdocumento ($id)
+    {
+
+        $documento = AssembleiaDocumento::find($id);
+
+        return response()->success($documento);
+    }
 }

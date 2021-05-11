@@ -1,13 +1,5 @@
 <div class="row">
-    <div class="row ba__margin-top-20">
-        <button type="button" class="btn btn-encerrarenvios col-xs-offset-3 col-xs-6 uppercase" style="margin-top: 12px"
-                data-toggle="modal" ng-click="encerraEnviosQuestaoOrdem()">
-            Encerrar Envios
-        </button>
-    </div>
-    <h3 class="col-md-15 Roboto-Light">
-        <strong>{{listQuestoes.length}}</strong> resultados
-    </h3>
+
     <div class="row ba__admin-list" ng-init="data.tabStatus='Recebidas'"
          style="overflow-y: auto;height: 90%;margin-bottom: inherit !important">
         <div class="col-md-24">
@@ -26,7 +18,17 @@
         </div>
         <div class="tab-content">
             <!-- RECEBIDAS -->
-            <div id="menu1" class="tab-pane fade in active" ng-if="data.tabStatus === 'Recebidas'">
+            <div id="recebidas" class="tab-pane fade in active" ng-if="data.tabStatus === 'Recebidas'">
+                <div class="row ba__margin-top-20">
+                    <h3 class="col-md-15 Roboto-Light">
+                        <strong>{{listQuestoes.length}}</strong> resultados
+                    </h3>
+                    <button type="button" class="btn btn-encerrarenvios col-xs-offset-3 col-xs-6 uppercase" style="margin-top: 12px"
+                            data-toggle="modal" ng-click="encerraEnviosQuestaoOrdem()">
+                        Encerrar Envios
+                    </button>
+                </div>
+
                 <div class="list-group ba__admin-table ba__margin-top-40" style="height: 85%; padding-top: 40px">
                     <a class="list-group-item disabled">
                         <div class="row uppercase">
@@ -71,10 +73,10 @@
             </div>
 
             <!-- VOTAÇÃO -->
-            <div id="menu2" class="tab-pane fade in active" ng-if="data.tabStatus === 'Votacao'">
+            <div id="votacao-questao" class="tab-pane fade in active" ng-if="data.tabStatus === 'Votacao'">
                 <div>
                     <h4>Nenhuma Votação foi criada ainda.</h4>
-                    <button type="button" class="btn btn-votacao nova uppercase" data-toggle="modal"
+                    <button type="button" class="btn btn-votacao-questao-ordem nova uppercase" data-toggle="modal"
                             ng-click="novaVotacao()">
                         NOVA VOTAÇÃO
                     </button>

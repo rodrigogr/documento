@@ -131,7 +131,7 @@ class AssembleiaController extends Controller
             ->get();
         $participantes = AssembleiaParticipante::join('bioacesso_portaria.imovel','assembleia_participantes.id_imovel', '=','imovel.id')
             ->leftJoin('bioacesso_portaria.pessoa','assembleia_participantes.id_procurador', '=', 'pessoa.id')
-            ->select('imovel.id as id_imovel', 'quadra', 'lote', 'logradouro', 'numero', 'peso', 'pessoa.nome as produrador', 'pessoa.id as id_procurador')
+            ->select('imovel.id as id_imovel', 'quadra', 'lote', 'logradouro', 'numero', 'peso_voto', 'pessoa.nome as produrador', 'pessoa.id as id_procurador')
             ->where('id_assembleia', $id)->get();
 
         foreach ($participantes as $participante)
@@ -270,7 +270,7 @@ class AssembleiaController extends Controller
     {
         $participantes = AssembleiaParticipante::join('bioacesso_portaria.imovel','assembleia_participantes.id_imovel', '=','imovel.id')
             ->leftJoin('bioacesso_portaria.pessoa','assembleia_participantes.id_procurador', '=', 'pessoa.id')
-            ->select('imovel.id as id_imovel', 'quadra', 'lote', 'logradouro', 'numero', 'peso', 'pessoa.nome as produrador', 'pessoa.id as id_procurador')
+            ->select('imovel.id as id_imovel', 'quadra', 'lote', 'logradouro', 'numero', 'peso_voto', 'pessoa.nome as produrador', 'pessoa.id as id_procurador')
             ->where('id_assembleia', $id)->get();
 
         return response()->success($participantes);
@@ -310,9 +310,9 @@ class AssembleiaController extends Controller
             select 
                 ap.id_imovel, 
                 concat('QD ', i.quadra,' / ', 'LT ', i.lote) as imovel,
-                concat('Peso x ', i.peso) as complemnto,
+                concat('Peso x ', i.peso_voto) as complemnto,
                 (select count(*) > 0 from assembleia_votacoes av where av.id_imovel = i.id and id_assembleia  = $assembleia->id ) as voto_realizado,        
-                i.peso
+                i.peso_voto
             from assembleia_participantes ap
             inner join bioacesso_portaria.imovel_permanente ip on ap.id_imovel = ip.id_imovel and ip.id_pessoa = $idPessoa
             inner join bioacesso_portaria.imovel i on ip.id_imovel = i.id 

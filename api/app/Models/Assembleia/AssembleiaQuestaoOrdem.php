@@ -2,6 +2,7 @@
 
 namespace App\models\Assembleia;
 
+use App\Helpers\DataHelper;
 use Illuminate\Database\Eloquent\Model;
 
 class AssembleiaQuestaoOrdem extends Model
@@ -29,5 +30,10 @@ class AssembleiaQuestaoOrdem extends Model
     public function processosQuestaoOrdem()
     {
         return $this->hasMany(ProcessoQuestaoOrdem::class);
+    }
+
+    public function getDataHoraAttribute($value)
+    {
+        return DataHelper::getPrettyDateTime($value);
     }
 }

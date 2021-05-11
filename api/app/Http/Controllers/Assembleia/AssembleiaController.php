@@ -278,8 +278,7 @@ class AssembleiaController extends Controller
 
     public function listaAssembleiasUsuario()
     {
-        $assembleias = Assembleia::withCount('pautas')->get();
-
+        $assembleias = Assembleia::withCount('pautas')->orderBy('data_inicio')->get();
         return $assembleias;
     }
 

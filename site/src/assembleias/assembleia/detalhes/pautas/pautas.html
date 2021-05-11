@@ -172,112 +172,56 @@
                                         <div class="row pull-left" style="width: 100%;margin-bottom: 15px;">
                                             <span class="ba__font-size-12 pull-left ba__font-color-gray"
                                                   style="width: 100%; margin-bottom: 15px; padding-left: 12px;font-size: 18px;">
-                                                    Pauta 01 de 02
+                                                    Pauta
                                             </span>
                                             <div style="font-size: 15px;padding-left: 12px;">
                                                 {{pautaSelecao.pauta}}
                                             </div>
                                         </div>
-                                        <!--<div class="control-input">
-                                                            <textarea
-                                                                    name="descricao-pauta"
-                                                                    ng-model="pautaSelecao.pauta"
-                                                                    placeholder=" "
-                                                                    class="ng-pristine ng-valid ng-touched"
-                                                                    required
-                                                                    aria-invalid="false"
-                                                                    rows="4"
-                                                                    cols="33">
-                                                            </textarea>
-                                            <span>PAUTA </span>&lt;!&ndash; {{pautaIndex}} &ndash;&gt;
-                                        </div>-->
                                     </div>
                                 </div>
                             </div>
-
+                            <div id="alternativas">
+                                            <span class="ba__font-size-12 pull-left ba__font-color-gray"
+                                                  style="width: 100%; margin-bottom: 15px; padding-left: 12px;font-size: 20px;">
+                                                    Alternativas
+                                            </span>
+                            </div>
                             <div class="row"
                                  ng-repeat="alternativa in pautaSelecao.alternativas">
                                 <div class="col-md-22">
                                     <div style="padding: 15px;">
-                                        <div class="control-input">
-                                            <input
-                                                    type="text"
-                                                    name="alternativa"
-                                                    ng-model="alternativa.opcao"
-                                                    value="alternativa.id"
-                                                    placeholder=""
-                                                    autocomplete="off"
-                                                    class="ng-pristine ng-valid ng-touched"
-                                                    required
-                                                    aria-invalid="false">
-                                            <span>Alternativa {{$index +1}}</span>
-                                        </div>
+                                        <span class="ba__font-size-12 pull-left ba__font-color-gray"
+                                              style="width: 100%; margin-bottom: 15px; padding-left: 16px;font-size: 17px;"
+                                        >Alternativa {{$index +1}}</span>
+                                        <span style="font-weight: bold; width: 100%; margin-bottom: 15px; padding-left: 16px;font-size: 16px;">{{alternativa.opcao}}</span>
                                     </div>
                                 </div>
-                                <div class="col-md-2">
-                                    <div style="display: flex;
-                                                            align-items: center;
-                                                            justify-content: start;
-                                                            font-size: 28px;
-                                                            padding: 15px;
-                                                            min-height: 80px;
-                                                            color: #999;">
-                                        <i class="fa fa-trash"
-                                           style="margin-right: 15px;"
-                                           ng-click="removeNewAlternativas($index)"></i>
-                                        <i class="fa fa-plus-circle"
-                                           ng-show="(ultimaAlternativa===($index+1))"
-                                           ng-click="addNewAlternativa($index)"
-                                        ></i>
-                                    </div>
-                                </div>
+
                             </div>
                         </div>
                         <div class="row ba__margin-bottom-30">
-                            <p style="margin: 0 0 15px; padding: 0 15px; text-transform: uppercase; font-size: 16px;">
-                                ANEXOS
-                            </p>
-                            <div class="col-md-24" style="padding-left: 15px;" >
-                                <!--<button class="btn btn-default pull-left ba__margin-right-15">ANEXAR ARQUIVO</button>-->
-                                <div style="float:left;width: 30%;">
-                                    <label for="documentos" class="pull-left btn btn-atualizar col-xs-4 uppercase right"
-                                           style="float: right;width: 100%;padding-top: 21px;height: 70px;"
-                                           data-toggle="modal" type="file"
-                                           name="documentos" onchange="angular.element(this).scope().changeInputField(this, 'documentos_regras')">
-                                        ANEXAR ARQUIVO
-                                    </label>
-                                    <input  class="pull-left btn btn-atualizar col-xs-4 uppercase right" style="float: right; display: none;"
-                                            data-toggle="modal" type="file"
-                                            name="documentos" id="documentos" onchange="angular.element(this).scope().changeInputField(this, 'documentos_regras')">
-                                </div>
-
-                                <!--<input class="ba__font-size-12 pull-left" type="file" id="inputDocumentos" name="documentos" onchange="angular.element(this).scope().changeInputField(this, 'documentos_regras')">-->
+                            <div id="anexos" style="width: 50%" class="pull-left">
                                 <span class="ba__font-size-12 pull-left ba__font-color-gray"
-                                      style="width: 45%; margin-bottom: 15px; padding-left: 12px;font-size: 19px;">
-                                    Arquivos de no max 10MB, nas extensões .PDF, .DOC, .DOCX, .XLS, .XLSX, .JPG ou .TXT</span>
+                                      style="width: 100%; margin-bottom: 15px; padding-left: 12px;font-size: 20px;">
+                                    ANEXOS
+                                </span>
+                                <!--<div>
+                                    array de anexos
+                                </div>-->
                             </div>
-                            <div class="col-md-18"
-                                 style="background-color: #fff;
-                                            padding: 10px;
-                                            box-shadow: 0px 0px 2px rgba(0, 0, 0, 0.2), 0px 2px 7px rgba(0, 0, 0, 0.15);
-                                            border-radius: 8px;
-                                            margin-bottom: 15px;
-                                            margin-left: 15px;"
-                                 ng-repeat="(indexDoc, doc) in assembleia.documentos">
-                                <a href="javascript:void(0)" ng-click="abreDocumento()">
-                                    <img width="45" height="45" src="{{doc.icon}}">
-                                    <i style="font-size: 17px; color: #666666 !important;">{{doc.name}}</i>
-                                </a>
-                                <i ng-click="excluirArquivo(doc, indexDoc)" class="fa fa-trash pull-right"
-                                   style="font-size: 24px;
-                                                    margin: 8px; color: #666;"></i>
+                            <div class="col pull-right" id="contagemVotos" style="width: 50%;">
+                                <span style="padding-left: 18px;" class="ba__font-color-gray">VOTOS</span>
+                                <div style="padding-top: 16px;text-align-last: center;border-radius: 50px; background-color: rgba(242, 242, 242, 1);width: 75px; height: 75px;">
+                                    <span style="font-size: 30px">{{totalVotos}}</span>
+                                </div>
                             </div>
                         </div>
                     </div>
                     <!-- fim body das pautas quando a votacao ja foi iniciada -->
                     <!-- Footer -->
                     <div class="modal-footer" style="padding-right: 15px !important;">
-                        <button type="button" class="btn btn-success col-xs-offset-3 col-xs-6 uppercase pull-right"
+                        <button ng-if="!votacaoIniciada" type="button" class="btn btn-success col-xs-offset-3 col-xs-6 uppercase pull-right"
                                 style="background-color: #FF6633;margin-left: 30px; width: 200px;">
                             Salvar
                         </button>

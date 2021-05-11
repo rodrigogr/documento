@@ -19,7 +19,8 @@ function assembleiaPautasCtrl ($scope, $state, $filter, UtilsService, config, $h
     $scope.motivoSuspender = '';
     $scope.pautaSelecao = {};
     $scope.suspender = false;
-    $scope.votacaoIniciada = true;
+    $scope.votacaoIniciada = false;
+    $scope.totalVotos = 8;
 
     function getPautasAssembleia(id = 0)
     {
@@ -36,6 +37,7 @@ function assembleiaPautasCtrl ($scope, $state, $filter, UtilsService, config, $h
         var promisse = ($http.get(`${config.apiUrl}api/pautas/`+id_pauta));
         promisse.then(function (retorno) {
             $scope.pautaSelecao = retorno.data.data[0];
+            console.log($scope.pautaSelecao);
         }).finally( () => {
             $scope.ultimaAlternativa = $scope.pautaSelecao.alternativas.length;
         });

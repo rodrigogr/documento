@@ -182,6 +182,12 @@ class Reserva extends Model
         return self::where('id_local_reservavel', $id)->delete();
     }
 
+    public static function verificaReserva($id_periodo, $data)
+    {
+        return self::where(['id_periodo',$id_periodo],['data',$data])
+            ->get();
+    }
+
     ## Relacionamentos ##
 
     public function localReservavel()

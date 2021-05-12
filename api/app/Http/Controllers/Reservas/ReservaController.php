@@ -26,7 +26,12 @@ class ReservaController extends Controller
     {
         try {
             foreach ($request->all() as $item) {
-                Reserva::create($item);
+                $check = Reserva::verificaReserva($item["id_periodo"], $item["data"]);
+                if (count($check) && $check[0]["status"] != "recusado") {
+                    return response()->error("Erro! Este período já reservado!");
+                } else {
+                    Reserva::create($item);
+                }
             }
 
             return response()->success(trans('messages.crud.FSS', ['name' => $this->name]));

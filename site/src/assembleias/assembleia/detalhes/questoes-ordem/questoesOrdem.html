@@ -23,7 +23,7 @@
                     <h3 class="col-md-15 Roboto-Light">
                         <strong>{{listQuestoes.length}}</strong> resultados
                     </h3>
-                    <button type="button" class="btn btn-encerrarenvios col-xs-offset-3 col-xs-6 uppercase" style="margin-top: 12px"
+                    <button type="button" class="btn btn-encerrarenvios col-xs-offset-3 col-xs-6 uppercase" style="margin-top: 20px"
                             data-toggle="modal" ng-click="encerraEnviosQuestaoOrdem()">
                         Encerrar Envios
                     </button>
@@ -32,19 +32,19 @@
                 <div class="list-group ba__admin-table ba__margin-top-40" style="height: 85%; padding-top: 40px">
                     <a class="list-group-item disabled">
                         <div class="row uppercase">
-                            <div class="col-xs-3">Data/Hora
+                            <div class="col-xs-2">Data/Hora
                                 <i class="ba__margin-horizontal-5"></i>
                             </div>
-                            <div class="col-xs-3">Status
+                            <div class="col-xs-5">Status
                                 <i class="ba__margin-horizontal-5"></i>
                             </div>
                             <div class="col-xs-4">Associado
                                 <i class="ba__margin-horizontal-5"></i>
                             </div>
-                            <div class="col-xs-3">Pauta
+                            <div class="col-xs-2">Pauta
                                 <i class="ba__margin-horizontal-5"></i>
                             </div>
-                            <div class="col-xs-9">Título
+                            <div class="col-xs-8">Título
                                 <i class="ba__margin-horizontal-5"></i>
                             </div>
                             <div class="col-xs-2 text-center"></div>
@@ -55,14 +55,14 @@
                            ng-click="abreQuestaoOrdem(questao.id)">
                             <div class="row">
                                 <div class="col-xs-3">{{questao.data_hora}}</div>
-                                <div class="col-xs-3">
+                                <div class="col-xs-5">
                                     <span class=" uppercase badge-style {{questao.status.toLowerCase() === 'pendente de decisão' ? 'badge-pendente-decisao' : questao.status.toLowerCase() === 'recurso indeferido' ? 'badge-recurso-indeferido' : questao.status.toLowerCase() === 'indeferida' ? 'badge-indeferida' : questao.status.toLowerCase() === 'deferida' ? 'badge-deferida' : 'badge-recurso-pendente'}}">
                                         {{questao.status}}
                                     </span>
                                 </div>
                                 <div class="col-xs-4">{{questao.nome}}</div>
-                                <div class="col-xs-3">{{questao.pauta}}</div>
-                                <div class="col-xs-9">{{questao.titulo}}</div>
+                                <div class="col-xs-2">{{questao.pauta}}</div>
+                                <div class="col-xs-8">{{questao.titulo}}</div>
                                 <div class="col-xs-2">
                                     <i class="fa fa-eye ba__margin-left-35" title="Visualizar" ng-click=""></i>
                                 </div>

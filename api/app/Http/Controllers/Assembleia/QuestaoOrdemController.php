@@ -18,7 +18,7 @@ use Exception;
 
 class QuestaoOrdemController extends Controller
 {
-    public function index(int $id)
+    public function index($id)
     {
         return response()->success(AssembleiaQuestaoOrdem::all());
     }
@@ -28,11 +28,25 @@ class QuestaoOrdemController extends Controller
     * */
     public function store(Request $request)
     {
-        try {
+        try
+        {
             DB::beginTransaction();
+
             $data = $request->all();
 
             $dataThead = $data['thead'];
+
+            $assembleia = Assembleia::find($data['id_assembleia']);
+
+            if($assembleia->status != 'andamento')
+            {
+                return response()->error('Assembleia não está em andamento!');
+            }
+
+            if($assembleia->envios_questao_ordem)
+            {
+                return response()->error('Envios encerrados!');
+            }
 
             $thead = AssembleiaThead::create($dataThead);
 
@@ -41,20 +55,15 @@ class QuestaoOrdemController extends Controller
                 $thead->theadAnexos()->createMany($dataThead['anexos']);
             }
 
-
-            $assembleia = Assembleia::find($request->id_assembleia);
-
-            if(isset($assembleia->envios_questao_ordem))
-            {
-                throw new Exception('Envios encerrados!');
-            }
-
             $assembleiaQuestaoOrdem =  AssembleiaQuestaoOrdem::create([
                 'id_thead'=> $thead->id,
-                'id_assembleia'=>$request->id_assembleia,
-                'id_pauta' => $data['id_pauta']
+                'id_assembleia'=>$data['id_assembleia'],
+                'id_pauta' => $data['id_pauta'],
+                ''
             ]);
+
             DB::commit();
+
             return response()->success($assembleiaQuestaoOrdem);
         }
         catch (Exception $e)
@@ -116,6 +125,19 @@ class QuestaoOrdemController extends Controller
         $data = $request->all();
 
         try {
+
+            $questao = AssembleiaQuestaoOrdem::find($data['id_questao_ordem']);
+
+            if(!$questao)
+            {
+                return response()->error('Questão de ordem não existe!');
+            }
+
+            if($questao->status != 'Pendente de decisão' && $questao->status != 'Pendente de decisão de recurso')
+            {
+                return response()->error('Decisão já realizada!');
+            }
+
             DB::beginTransaction();
             $novaThead = AssembleiaThead::create([
                 'titulo' => "Decisão",
@@ -129,6 +151,25 @@ class QuestaoOrdemController extends Controller
                 'tipo'=>'decisao',
                 'status' => $data['status']
             ]);
+
+            if ($data['status'] == 'deferida' && $questao->status == 'Pendente de decisão')
+            {
+                $questao->status = 'Deferida';
+            }
+            else if ($data['status'] == 'deferida' && $questao->status == 'Pendente de decisão de recurso')
+            {
+                $questao->status = 'Recurso deferido';
+            }
+            else if ($data['status'] == 'indeferida' && $questao->status == 'Pendente de decisão de recurso')
+            {
+                $questao->status = 'Recurso indeferido';
+            }
+            else
+            {
+                $questao->status = 'Indeferida';
+            }
+
+            $questao->update();
 
             DB::commit();
         }
@@ -149,6 +190,19 @@ class QuestaoOrdemController extends Controller
 
         try {
             DB::beginTransaction();
+
+            $questao = AssembleiaQuestaoOrdem::find($data['id_questao_ordem']);
+
+            if (!$questao)
+            {
+                return response()->error('Questão de ordem não existe!');
+            }
+
+            if($questao->status != 'Indeferida')
+            {
+                return response()->error('Não cabe recurso na questão de Ordem!');
+            }
+
             $novaThead = AssembleiaThead::create([
                 'titulo' => "Recurso",
                 'texto' => $data['fundamentacao'],
@@ -170,7 +224,12 @@ class QuestaoOrdemController extends Controller
                 'tipo'=>'recurso'
             ]);
 
+            $questao->status = 'Pendente de decisão de recurso';
+
+            $questao->update();
+
             DB::commit();
+
             return response()->success($decisao);
         }
         catch (Exception $e) {

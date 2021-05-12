@@ -5,3 +5,19 @@
     background: none;
     color: #828282;
 }
+
+.badge-style {
+    padding: 5px 15px;
+    border-radius: 20px;
+    font-size: 14px;
+}
+
+.badge-style.badge-respondido {
+    color: #219653;
+    background-color: #C8F5D7;
+}
+
+.badge-style.badge-pendente {
+    color: #ff8c00;
+    background-color: #fffefe;
+}

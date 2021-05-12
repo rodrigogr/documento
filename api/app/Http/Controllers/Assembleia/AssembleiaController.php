@@ -217,11 +217,10 @@ class AssembleiaController extends Controller
     public function questoesOrdem ($id)
     {
         $questoesOrdem = AssembleiaQuestaoOrdem::join('assembleia_pautas', 'assembleia_questoes_ordens.id_pauta', '=', 'assembleia_pautas.id')
-            ->join('assembleia_perguntas', 'assembleia_pautas.id_pergunta', '=', 'assembleia_perguntas.id')
             ->join('assembleia_theads', 'assembleia_questoes_ordens.id_thead', '=', 'assembleia_theads.id')
             ->join('bioacesso_portaria.pessoa', 'assembleia_theads.id_pessoa', '=', 'pessoa.id')
             ->select('assembleia_questoes_ordens.id','assembleia_questoes_ordens.created_at as data_hora',
-                    'assembleia_questoes_ordens.status as status', 'pessoa.nome', 'assembleia_perguntas.pergunta as pauta', 'assembleia_theads.titulo' )
+                    'assembleia_questoes_ordens.status as status', 'pessoa.nome', 'assembleia_pautas.numero as pauta', 'assembleia_theads.titulo' )
             ->where('assembleia_questoes_ordens.id_assembleia', $id)->get();
 
         return response()->success($questoesOrdem);
@@ -278,8 +277,7 @@ class AssembleiaController extends Controller
 
     public function listaAssembleiasUsuario()
     {
-        $assembleias = Assembleia::withCount('pautas')->get();
-
+        $assembleias = Assembleia::withCount('pautas')->orderBy('data_inicio')->get();
         return $assembleias;
     }
 
@@ -306,7 +304,7 @@ class AssembleiaController extends Controller
         }
 
 
-        $assembleia['imoveis'] = DB::select("
+        $imoveis = DB::select("
             select 
                 ap.id_imovel, 
                 concat('QD ', i.quadra,' / ', 'LT ', i.lote) as imovel,
@@ -319,6 +317,17 @@ class AssembleiaController extends Controller
             inner join bioacesso_portaria.tipo_perfil tp on ip.perfil = tp.id 
             where id_assembleia =  $assembleia->id and tp.nome ='associado' and ip.id_pessoa = $idPessoa
         ");
+
+        $assembleia['imoveis'] = $imoveis;
+
+        if ($imoveis && count($imoveis) > 0)
+        {
+            $assembleia['pode_participar'] = true;
+        }
+        else
+        {
+            $assembleia['pode_participar'] = false;
+        }
 
         return $assembleia;
     }

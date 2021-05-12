@@ -46,6 +46,21 @@ class Assembleia extends Model
         return $this->attributes['data_fim'] = DataHelper::setDate($value);
     }
 
+    public function getHoraInicioAttribute($value)
+    {
+        return DataHelper::getPrettyTime($value);
+    }
+
+    public function getVotacaoHoraFimAttribute($value)
+    {
+        return DataHelper::getPrettyTime($value);
+    }
+
+    public function getHoraFimAttribute($value)
+    {
+        return DataHelper::getPrettyTime($value);
+    }
+
     public function getDataInicioAttribute($value)
     {
         return DataHelper::getPrettyDate($value);

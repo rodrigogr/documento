@@ -43,9 +43,14 @@ function assembleiaQuestoesOrdemCtrl($scope, $http, $state, $filter,AuthService,
             $(".loader").hide();
         });
     }
+
     listaQuestoesOrdem();
-    $scope.fechaQuestaoOrdem = function () {
+
+    $scope.fechaQuestaoOrdem = function ()
+    {
+        $scope.questaoOrdem = {};
         $('#abreQuestaoOrdem').modal('hide');
+        listaQuestoesOrdem();
     }
 
     $scope.novaDecisao = function (id)
@@ -53,7 +58,7 @@ function assembleiaQuestoesOrdemCtrl($scope, $http, $state, $filter,AuthService,
         console.log(id);
         $scope.decisao = {
             'id_questao_ordem': id,
-            'funtamentacao': '',
+            'fundamentacao': '',
             'status': 'indeferida'
         };
 

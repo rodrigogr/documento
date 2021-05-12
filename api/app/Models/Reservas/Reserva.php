@@ -184,7 +184,7 @@ class Reserva extends Model
 
     public static function verificaReserva($id_periodo, $data)
     {
-        return self::where(['id_periodo',$id_periodo],['data',$data])
+        return self::where(['id_periodo' => $id_periodo, 'data' => $data])
             ->get();
     }
 

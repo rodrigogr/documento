@@ -26,7 +26,10 @@ class ReservaController extends Controller
     {
         try {
             foreach ($request->all() as $item) {
+
                 $check = Reserva::verificaReserva($item["id_periodo"], $item["data"]);
+                usleep(25000);
+
                 if (count($check) && $check[0]["status"] != "recusado") {
                     return response()->error("Erro! Este período já reservado!");
                 } else {

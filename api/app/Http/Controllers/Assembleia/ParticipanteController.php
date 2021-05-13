@@ -43,24 +43,30 @@ class ParticipanteController extends Controller
 
         try
         {
+            $assembleia = AssembleiaParticipante::find($data['id_assembleia']);
+
+            if ($assembleia->status != 'agendada' && $assembleia->status != 'andamento' )
+            {
+                return response()->error('Assembleia em votação ou encerrada!');
+            }
+
             $dataParticipante = $data['participante'];
 
-             if($dataParticipante['participar'])
-             {
-                 $participante = AssembleiaParticipante::create([
-                     'id_assembleia' => $data['id_assembleia'],
-                     'id_imovel' => $dataParticipante['id_imovel']
-                 ]);
-                 $dataParticipante['id_participante'] = $participante->id;
+            if($dataParticipante['participar'])
+            {
+                $participante = AssembleiaParticipante::create([
+                    'id_assembleia' => $data['id_assembleia'],
+                    'id_imovel' => $dataParticipante['id_imovel']
+                ]);
+                $dataParticipante['id_participante'] = $participante->id;
+            }
+            else
+            {
+                $participante = AssembleiaParticipante::find($dataParticipante['id_participante']);
+                $participante->delete();
 
-             }
-             else
-             {
-                 $participante = AssembleiaParticipante::find($dataParticipante['id_participante']);
-                 $participante->delete();
-
-                 $dataParticipante['id_participante'] = null;
-             }
+                $dataParticipante['id_participante'] = null;
+            }
             return response()->success($dataParticipante);
 
         } catch (\Exception $e)

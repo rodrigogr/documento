@@ -34,7 +34,6 @@ function assembleiaParticipantesCtrl ($scope, $state, $filter,$http, AuthService
 
     $scope.savePaticipante = function (participante)
     {
-        alert(participante.participar);
         participante.participar = !participante.participar
 
         var data = {
@@ -68,7 +67,7 @@ function assembleiaParticipantesCtrl ($scope, $state, $filter,$http, AuthService
 
             //$scope.getParticipantes();
         }, function(error) {
-            debugger
+            participante.participar = !participante.participar
             UtilsService.openAlert(error.data.message);
         }).finally( () => { $("#loading").modal("hide") });
     }

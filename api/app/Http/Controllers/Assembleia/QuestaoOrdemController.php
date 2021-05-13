@@ -83,7 +83,7 @@ class QuestaoOrdemController extends Controller
             'assembleia_questoes_ordens.id_thead')
             ->join('bioacesso_portaria.pessoa', 'assembleia_theads.id_pessoa', 'pessoa.id')
             ->select('assembleia_questoes_ordens.id', 'assembleia_theads.titulo','assembleia_theads.texto', 'pessoa.url_foto as foto',
-            'pessoa.nome as autor', 'assembleia_theads.id as id_thead', 'assembleia_questoes_ordens.id_pauta', 'assembleia_questoes_ordens.status')
+            'pessoa.nome as autor','pessoa.id as id_pessoa', 'assembleia_theads.id as id_thead', 'assembleia_questoes_ordens.id_pauta', 'assembleia_questoes_ordens.status')
             ->where('assembleia_questoes_ordens.id', $idQuestaoOrdem)->get()->first();
 
         $questaoOrdem['anexos'] = DB::table('assembleia_theads_anexos')

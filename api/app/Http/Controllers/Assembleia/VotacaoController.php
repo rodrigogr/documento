@@ -36,7 +36,12 @@ class VotacaoController
                         //$voto->ip = $data['ip'];
                         $voto->id_imovel = $imovel['id_imovel'];
                         //$voto->mac_address = $data['mac_address'];
-                        //$voto->peso_voto = $data['peso'];
+                        $voto->peso_voto = $imovel['peso_voto'];
+                    }
+
+                    if ($voto->id_pessoa != $data['id_pessoa'])
+                    {
+                        return response()->error('Voto já registrado!');
                     }
 
                     $voto->id_opcao = $pauta['id_alternativa'];

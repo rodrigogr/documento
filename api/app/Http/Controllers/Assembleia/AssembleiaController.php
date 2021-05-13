@@ -129,6 +129,7 @@ class AssembleiaController extends Controller
         $assembleia['pautas'] = $assembleia->pautas()
             ->join('assembleia_perguntas', 'assembleia_pautas.id_pergunta', '=', 'assembleia_perguntas.id')
             ->get();
+
         $participantes = AssembleiaParticipante::join('bioacesso_portaria.imovel','assembleia_participantes.id_imovel', '=','imovel.id')
             ->leftJoin('bioacesso_portaria.pessoa','assembleia_participantes.id_procurador', '=', 'pessoa.id')
             ->select('imovel.id as id_imovel', 'quadra', 'lote', 'logradouro', 'numero', 'peso_voto', 'pessoa.nome as produrador', 'pessoa.id as id_procurador')
@@ -267,10 +268,26 @@ class AssembleiaController extends Controller
 
     public function participantes ($id)
     {
-        $participantes = AssembleiaParticipante::join('bioacesso_portaria.imovel','assembleia_participantes.id_imovel', '=','imovel.id')
-            ->leftJoin('bioacesso_portaria.pessoa','assembleia_participantes.id_procurador', '=', 'pessoa.id')
-            ->select('imovel.id as id_imovel', 'quadra', 'lote', 'logradouro', 'numero', 'peso_voto', 'pessoa.nome as produrador', 'pessoa.id as id_procurador')
-            ->where('id_assembleia', $id)->get();
+//        $participantes = AssembleiaParticipante::join('bioacesso_portaria.imovel','assembleia_participantes.id_imovel', '=','imovel.id')
+//            ->leftJoin('bioacesso_portaria.pessoa','assembleia_participantes.id_procurador', '=', 'pessoa.id')
+//            ->select('imovel.id as id_imovel', 'quadra', 'lote', 'logradouro', 'numero', 'peso_voto', 'pessoa.nome as produrador', 'pessoa.id as id_procurador')
+//            ->where('id_assembleia', $id)->get();
+
+        $participantes = DB::select("
+                select 
+                    i.id as id_imovel,
+                    quadra, 
+                    lote, 
+                    peso_voto,
+                    (
+                        select 
+                            ap.id
+                        from assembleia_participantes ap 
+                        where ap.id_imovel = i.id and id_assembleia = $id) as id_participante
+                from bioacesso_portaria.imovel i 
+                where 
+                      imovel_ficticio  = 0 and softdeleted  = 0
+            ");
 
         return response()->success($participantes);
     }
@@ -290,44 +307,71 @@ class AssembleiaController extends Controller
             return response()->error('Assembleia não encontrada');
         }
 
-        $assembleia['pautas'] = $assembleia->pautas()
-            ->join('assembleia_perguntas', 'assembleia_pautas.id_pergunta', '=', 'assembleia_perguntas.id')
-            ->select('assembleia_pautas.id', 'pergunta', 'assembleia_perguntas.id as id_pergunta' )
-            ->get();
-
-        foreach ($assembleia['pautas'] as $key => $pauta)
+        if ($assembleia->status != 'encerrada')
         {
-            $opcoes = AssembleiaOpcao::where('assembleia_opcoes.id_pergunta', $pauta['id_pergunta'])
-                ->select('assembleia_opcoes.id','opcao')
+            $assembleia['pautas'] = $assembleia->pautas()
+                ->join('assembleia_perguntas', 'assembleia_pautas.id_pergunta', '=', 'assembleia_perguntas.id')
+                ->select('assembleia_pautas.id', 'pergunta', 'assembleia_perguntas.id as id_pergunta' )
                 ->get();
-            $assembleia['pautas'][$key]['alternativas'] = $opcoes;
-        }
+
+            foreach ($assembleia['pautas'] as $key => $pauta)
+            {
+                $opcoes = AssembleiaOpcao::where('assembleia_opcoes.id_pergunta', $pauta['id_pergunta'])
+                    ->select('assembleia_opcoes.id','opcao')
+                    ->get();
+                $assembleia['pautas'][$key]['alternativas'] = $opcoes;
+            }
 
 
-        $imoveis = DB::select("
-            select 
-                ap.id_imovel, 
-                concat('QD ', i.quadra,' / ', 'LT ', i.lote) as imovel,
-                concat('Peso x ', i.peso_voto) as complemnto,
-                (select count(*) > 0 from assembleia_votacoes av where av.id_imovel = i.id and id_assembleia  = $assembleia->id ) as voto_realizado,        
-                i.peso_voto
-            from assembleia_participantes ap
-            inner join bioacesso_portaria.imovel_permanente ip on ap.id_imovel = ip.id_imovel and ip.id_pessoa = $idPessoa
-            inner join bioacesso_portaria.imovel i on ip.id_imovel = i.id 
-            inner join bioacesso_portaria.tipo_perfil tp on ip.perfil = tp.id 
-            where id_assembleia =  $assembleia->id and tp.nome ='associado' and ip.id_pessoa = $idPessoa
-        ");
+            $imoveis = DB::select("
+                select 
+                    ap.id_imovel, 
+                    concat('QD ', i.quadra,' / ', 'LT ', i.lote) as imovel,
+                    concat('Peso x ', i.peso_voto) as complemnto,
+                    (select count(*) > 0 from assembleia_votacoes av where av.id_imovel = i.id and id_assembleia  = $assembleia->id ) as voto_realizado,        
+                    i.peso_voto
+                from assembleia_participantes ap
+                inner join bioacesso_portaria.imovel_permanente ip on ap.id_imovel = ip.id_imovel and ip.id_pessoa = $idPessoa
+                inner join bioacesso_portaria.imovel i on ip.id_imovel = i.id 
+                inner join bioacesso_portaria.tipo_perfil tp on ip.perfil = tp.id 
+                where id_assembleia =  $assembleia->id and tp.nome ='associado' and ip.id_pessoa = $idPessoa
+            ");
 
-        $assembleia['imoveis'] = $imoveis;
+            $assembleia['imoveis'] = $imoveis;
 
-        if ($imoveis && count($imoveis) > 0)
-        {
-            $assembleia['pode_participar'] = true;
+            if ($imoveis && count($imoveis) > 0)
+            {
+                $assembleia['pode_participar'] = true;
+            }
+            else
+            {
+                $assembleia['pode_participar'] = false;
+            }
         }
         else
         {
-            $assembleia['pode_participar'] = false;
+            $assembleia['pautas'] = $assembleia->pautas()
+                ->join('assembleia_perguntas', 'assembleia_pautas.id_pergunta', '=', 'assembleia_perguntas.id')
+                ->select('assembleia_pautas.id', 'pergunta', 'assembleia_perguntas.id as id_pergunta' )
+                ->get();
+
+            foreach ($assembleia['pautas'] as $key => $pauta)
+            {
+
+                $opcoes = AssembleiaOpcao::where('assembleia_opcoes.id_pergunta', $pauta['id_pergunta'])
+                    ->select('assembleia_opcoes.id','opcao')
+                    ->get();
+
+                foreach ($opcoes as $opcao)
+                {
+                    $opcao['total_votos'] = AssembleiaVotacao::where('id_opcao', $opcao['id'])->sum('peso_voto');
+                }
+
+                $assembleia['pautas'][$key]['total_votos'] = AssembleiaVotacao::where('id_pergunta', $pauta['id_pergunta'])->sum('peso_voto');
+                $assembleia['pautas'][$key]['alternativas'] = $opcoes;
+            }
         }
+
 
         return $assembleia;
     }

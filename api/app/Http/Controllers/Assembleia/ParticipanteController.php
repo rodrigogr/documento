@@ -5,7 +5,9 @@ namespace App\Http\Controllers\Assembleia;
 
 
 use App\Http\Controllers\Controller;
+use App\models\Assembleia\AssembleiaParticipante;
 use App\Models\Pessoa;
+use Illuminate\Http\Request;
 
 class ParticipanteController extends Controller
 {
@@ -33,5 +35,38 @@ class ParticipanteController extends Controller
                     ->where('nome','like', '%'. $nome . '%')
                     ->get();
         return response()->success($pessoas);
+    }
+
+    public function salvar(Request $request)
+    {
+        $data = $request->all();
+
+        try
+        {
+            $dataParticipante = $data['participante'];
+
+             if($dataParticipante['participar'])
+             {
+                 $participante = AssembleiaParticipante::create([
+                     'id_assembleia' => $data['id_assembleia'],
+                     'id_imovel' => $dataParticipante['id_imovel']
+                 ]);
+                 $dataParticipante['id_participante'] = $participante->id;
+
+             }
+             else
+             {
+                 $participante = AssembleiaParticipante::find($dataParticipante['id_participante']);
+                 $participante->delete();
+
+                 $dataParticipante['id_participante'] = null;
+             }
+            return response()->success($dataParticipante);
+
+        } catch (\Exception $e)
+        {
+            return response()->error($e->getMessage());
+        }
+
     }
 }

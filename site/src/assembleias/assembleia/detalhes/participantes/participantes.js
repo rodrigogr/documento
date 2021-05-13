@@ -21,7 +21,9 @@ function assembleiaParticipantesCtrl ($scope, $state, $filter,$http, AuthService
         promisse.then( function (result){
             $scope.listParticipantes = result.data.data;
             angular.forEach($scope.listParticipantes, function(obj) {
-                obj.participar = true;
+
+                obj.participar = !!obj.id_participante;
+
             });
         }).finally( () => {
             $(".loader").hide();
@@ -29,4 +31,33 @@ function assembleiaParticipantesCtrl ($scope, $state, $filter,$http, AuthService
     }
 
     $scope.getParticipantes();
+
+    $scope.savePaticipante = function (participante)
+    {
+        alert(participante.participar);
+        participante.participar = !participante.participar
+
+        var data = {
+            id_assembleia: $state.params.id,
+            participante : participante
+        }
+
+        $("#loading").modal("show");
+
+        $http({
+            method: "POST",
+            url: `${config.apiUrl}api/assembleias/participantes/salvar`,
+            data: data,
+            headers:{
+                'Authorization': 'Bearer '+ AuthService.getToken()
+            }
+        }).then(function(response) {
+            //participante = response.data.data;
+            UtilsService.toastSuccess("Participante Alterado!");
+            $scope.getParticipantes();
+        }, function(error) {
+            debugger
+            UtilsService.openAlert(error.data.message);
+        }).finally( () => { $("#loading").modal("hide") });
+    }
 }

@@ -52,9 +52,21 @@ function assembleiaParticipantesCtrl ($scope, $state, $filter,$http, AuthService
                 'Authorization': 'Bearer '+ AuthService.getToken()
             }
         }).then(function(response) {
-            //participante = response.data.data;
+
+            participante = response.data.data;
+
+            $scope.listParticipantes.map(function (x){
+
+                if(x.id_imovel === participante.id_imovel)
+                {
+                    x.id_participante = participante.id_participante;
+                }
+                return x;
+            });
+
             UtilsService.toastSuccess("Participante Alterado!");
-            $scope.getParticipantes();
+
+            //$scope.getParticipantes();
         }, function(error) {
             debugger
             UtilsService.openAlert(error.data.message);

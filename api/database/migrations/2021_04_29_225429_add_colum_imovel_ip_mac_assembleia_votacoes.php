@@ -15,11 +15,10 @@ class AddColumImovelIpMacAssembleiaVotacoes extends Migration
     {
         Schema::table('assembleia_votacoes', function (Blueprint $table)
         {
-            $table->renameColumn('id_usuario', 'id_pessoa');
-            $table->unsignedInteger('id_imovel')->after('id_usuario');
-            $table->string('ip')->nullable()->after('id_usuario');
-            $table->string('mac_address')->nullable()->after('id_usuario');
-            $table->integer('peso_voto')->nullable()->after('id_usuario');
+            $table->unsignedInteger('id_imovel')->after('id_pessoa');
+            $table->string('ip')->nullable()->after('id_pessoa');
+            $table->string('mac_address')->nullable()->after('id_pessoa');
+            $table->integer('peso_voto')->nullable()->after('id_pessoa');
         });
     }
 

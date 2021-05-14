@@ -15,7 +15,6 @@ class AddStatusAssembleiaQuestoesOrdens extends Migration
     {
         Schema::table('assembleia_questoes_ordens', function (Blueprint $table)
         {
-            $table->enum('status', ['Pendente de decisão de recurso', 'Pendente de decisão', 'Deferida', 'Recurso indeferido', 'Indeferido', 'Recurso deferido'])->default('Pendente de decisão');
             $table->string('status','100')->default('Pendente de decisão');
         });
     }

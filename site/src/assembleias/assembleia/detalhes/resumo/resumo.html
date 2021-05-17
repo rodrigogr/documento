@@ -5,11 +5,11 @@
             <div class="cart-infor w100pc br-8px bgc-fff bs px-16px py-20px my-16px">
 
                 <div class="header" style="margin-bottom: 20px;">
-                    <span ng-if="assembleiaResumo.tipo == 'geral' ">ASSEMBLEIA GERAL</span>
+                    <span> {{assembleiaResumo.tipo == 'geral' ? 'ASSEMBLEIA GERAL' : 'ASSEMBLEIA INTERNA'}}</span>
                     <h2>{{ assembleiaResumo.titulo }}</h2>
 
-                    <p ng-if="assembleiaResumo.status == 'finalizada'" class="col-xs-8 status finalizada">
-                        <b>ASSEMBLEIA EM FINALIZADA</b>
+                    <p ng-if="assembleiaResumo.status == 'encerrada'" class="col-xs-8 status encerrada">
+                        <b>ASSEMBLEIA ENCERRADA</b>
                     </p>
                     
                     <p ng-if="assembleiaResumo.status == 'andamento' " class="col-xs-8 status andamento">
@@ -24,6 +24,7 @@
                         <b>ASSEMBLEIA EM VOTAÇÃO</b>
                     </p>
 
+
                     <div ng-click="editarAssembleia(assembleiaResumo.id)" class="pull-right"
                          style="position: absolute; 
                         right: 15px; 
@@ -34,7 +35,6 @@
                         <i class="fa fa-edit" style="font-size: 24px;"></i> Editar
                     </div>
                 </div>
-
 
                 <div class="content">
                     <div>

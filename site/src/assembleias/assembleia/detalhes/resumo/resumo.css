@@ -47,9 +47,9 @@
     background: rgba(45, 156, 219, 0.1);
     color: #219653;
 }
-.status.finalizada{
-    background: rgba(51, 204, 102, 0.1);
-    color: #219653;
+.status.votacao{
+    background: #ADD8E6;
+    color: #0000FF;
 }
 .status.encerrada{
     background: rgba(204, 51, 51, 0.1);

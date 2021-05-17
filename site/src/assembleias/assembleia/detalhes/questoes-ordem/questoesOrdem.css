@@ -62,14 +62,14 @@
     background-color: #FAFAD2;
 }
 
-.badge-style.badge-deferida{
-    color: #219653;
-    background-color: #C8F5D7;
-}
-
 .badge-style.badge-indeferida, .badge-style.badge-recurso-indeferido{
     color: #EB5757;
     background-color: #FFECE5;
+}
+
+.badge-style.badge-recurso-deferido {
+    color: #219653;
+    background-color: #C8F5D7;
 }
 
 #votacao-questao {
@@ -92,28 +92,7 @@
     border: 1px solid #FF6633;
 }
 
-
-
-.questao-de-ordem-modal{
-    width: 60%;
-}
-
-.questao-de-ordem-modal-50pc{
-    width: 50%;
-}
-
-.questao-de-ordem-modal-40pc{
-    width: 40%;
-}
-
 .questao-de-ordem-content,
 .questao-de-ordem-header{
     padding: 0px;
-}
-
-.ba__modal-body-nova-votacao {
-    min-height: 250px;
-    height: 250px;
-    max-height: 300px;
-    overflow-y: auto;
 }

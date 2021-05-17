@@ -68,7 +68,7 @@
                         ng-repeat="assembleia in listAssembleias">
                         <h5 class="col-xs-8 list-group-item-heading">{{assembleia.titulo}}</h5>
                         <h5 class="col-xs-4 list-group-item-heading">
-                            <span class=" uppercase badge-style {{assembleia.status.toLowerCase() === 'agendada' ? ' badge-agendada' : assembleia.status.toLowerCase() === 'encerrada' ? ' badge-encerrada' : 'badge-em-andamento' }}">
+                            <span class=" uppercase badge-style {{assembleia.status.toLowerCase() === 'agendada' ? ' badge-agendada' : assembleia.status.toLowerCase() === 'encerrada' ? ' badge-encerrada' : assembleia.status.toLowerCase() === 'votacao' ? 'badge-votacao' : 'badge-em-andamento' }}">
                                 {{ assembleia.status }}
                             </span>
                         </h5>
@@ -456,10 +456,8 @@
                                                     </div>
                                                 </div>                                        
                                             </div>  
-                                        
                                         </div>
-                                        
-                                        <button class="btn col-md-5" 
+                                        <button class="btn col-md-5"
                                             style="background-color: transparent;
                                             color: #ff6633; 
                                             border: solid 1px #ff6633;

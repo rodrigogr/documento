@@ -171,4 +171,19 @@ class ReservaController extends Controller
         }
     }
 
+    public function eventosCalendario(Request $filtros)
+    {
+        return $filtros->all();
+        /*try {
+            foreach ($filtros->all() as $reserva) {
+                $data = Reserva::find($reserva['id']);
+                $data->delete();
+            }
+
+            return response()->success(trans('messages.crud.FCS', ['name' => $this->name]));
+        } catch (\Exception $e) {
+            return response()->error(trans('messages.crud.FCE', ['name' => $this->name]));
+        }*/
+    }
+
 }

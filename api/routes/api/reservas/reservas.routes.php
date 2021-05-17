@@ -24,6 +24,7 @@ Route::group(['middleware' => 'jwt.auth'], function ()
         Route::get('/status/{status}', 'reservas\ReservaController@completoByStatus');
         Route::get('/completo/{id}', 'reservas\ReservaController@completoById');
         Route::patch('/status/{id}', 'reservas\ReservaController@updateStatus');
+        Route::get('/eventosCalendario', 'reservas\ReservaController@eventosCalendario');
     });
 
     Route::group(['prefix' => 'aprovacao'], function () {

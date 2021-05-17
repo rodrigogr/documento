@@ -30,33 +30,41 @@ angular.module('ReservasModule').controller('CalendarioReservaCtrl',
                     // editable: true,
                     //selectable: true,
                     // businessHours: true,
-                    dayMaxEvents: true, // allow "more" link when too many events
+                    dayMaxEvents: 2, // allow "more" link when too many events
                     headerToolbar: {
                         left: 'prev title next today',
                         center: '',
                         right: ''
                     },
-                    events: [
+                    events: {
+                        url: "api/reserva/eventosCalendario",
+                        extraParams: {
+                            custom_param1: 'something',
+                            custom_param2: 'somethingelse'
+                        }
+                    }
+                    /*events: [
                         {
-                            title: 'All Day Event',
-                            start: '2020-09-01'
+                            title: 'Day Event',
+                            start: '2021-05-16T12:30:00',
+                            allDay : false
                         },
                         {
                             title: 'Outro',
-                            start: '2020-09-01'
+                            start: '2021-05-17'
                         },
                         {
                             title: 'mais um',
-                            start: '2020-09-01'
+                            start: '2021-05-17'
                         },
                         {
                             title: 'xxxx',
-                            start: '2020-09-01'
+                            start: '2021-05-18'
                         },
                         {
                             title: 'Long Event',
-                            start: '2020-09-07',
-                            end: '2020-09-10'
+                            start: '2021-05-01',
+                            end: '2021-05-02'
                         },
                         {
                             groupId: 999,
@@ -70,8 +78,23 @@ angular.module('ReservasModule').controller('CalendarioReservaCtrl',
                         },
                         {
                             title: 'Conference',
-                            start: '2020-09-11',
-                            end: '2020-09-13'
+                            start: '2021-05-05',
+                            end: '2021-05-06'
+                        },
+                        {
+                            title: 'Conference',
+                            start: '2021-05-05',
+                            end: '2021-05-06'
+                        },
+                        {
+                            title: 'Conference',
+                            start: '2021-05-05',
+                            end: '2021-05-06'
+                        },
+                        {
+                            title: 'Conference',
+                            start: '2021-05-05',
+                            end: '2021-05-06'
                         },
                         {
                             title: 'Meeting',
@@ -80,33 +103,77 @@ angular.module('ReservasModule').controller('CalendarioReservaCtrl',
                         },
                         {
                             title: 'Lunch',
-                            start: '2020-09-12T12:00:00'
+                            start: '2021-05-19T12:00:00'
                         },
                         {
                             title: 'Meeting',
-                            start: '2020-09-12T14:30:00'
+                            start: '2021-05-19T14:30:00'
                         },
                         {
                             title: 'Happy Hour',
-                            start: '2020-09-12T17:30:00'
+                            start: '2021-05-19T17:30:00'
                         },
                         {
                             title: 'Dinner',
-                            start: '2020-09-12T20:00:00'
+                            start: '2021-05-12T20:15:00'
+                        },
+                        {
+                            title: 'Dinner 2',
+                            start: '2021-05-12T20:30:00'
+                        },
+                        {
+                            title: 'Dinner 2',
+                            start: '2021-05-12T20:30:00'
+                        },
+                        {
+                            title: 'Dinner 2',
+                            start: '2021-05-12T20:30:00'
+                        },
+                        {
+                            title: 'Dinner 2',
+                            start: '2021-05-12T20:30:00'
+                        },
+                        {
+                            title: 'Dinner 2',
+                            start: '2021-05-12T20:30:00'
+                        },
+                        {
+                            title: 'Dinner 2',
+                            start: '2021-05-12T20:30:00'
                         },
                         {
                             title: 'Birthday Party',
-                            start: '2020-09-13T07:00:00'
+                            start: '2021-05-19T07:00:00'
                         },
                         {
                             title: 'Click for Google',
                             url: 'http://google.com/',
-                            start: '2020-09-28'
+                            start: '2021-05-26'
+                        },
+                        {
+                            title: 'Click for Google',
+                            url: 'http://google.com/',
+                            start: '2021-05-26'
+                        },
+                        {
+                            title: 'Click for Google',
+                            url: 'http://google.com/',
+                            start: '2021-05-26'
+                        },
+                        {
+                            title: 'Click for Google',
+                            url: 'http://google.com/',
+                            start: '2021-05-26'
+                        },
+                        {
+                            title: 'Evento',
+                            start: '2021-06-02'
                         }
-                    ]
+                    ]*/
                 });
 
                 calendar.render();
+                // calendar.refetchEvents();
             }
         });
     });

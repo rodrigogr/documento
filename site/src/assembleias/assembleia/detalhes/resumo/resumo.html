@@ -20,9 +20,9 @@
                         <b>ASSEMBLEIA AGENDADA</b>
                     </p>
 
-                    <!-- <p  class="col-xs-8 status encerrada">
-                        <b>ASSEMBLEIA EM ANDAMENTO</b>
-                    </p> -->
+                    <p ng-if="assembleiaResumo.status == 'votacao' " class="col-xs-8 status votacao">
+                        <b>ASSEMBLEIA EM VOTAÇÃO</b>
+                    </p>
 
                     <div ng-click="editarAssembleia(assembleiaResumo.id)" class="pull-right"
                          style="position: absolute; 

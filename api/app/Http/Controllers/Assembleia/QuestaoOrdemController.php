@@ -48,6 +48,13 @@ class QuestaoOrdemController extends Controller
                 return response()->error('Envios encerrados!');
             }
 
+//            $questoesPessoa = AssembleiaQuestaoOrdem::join('assembleia_theads', 'assembleia_theads.id',
+//                'assembleia_questoes_ordens.id_thead')
+//                ->where('assembleia_theads.id_pessoa', $dataThead['id_pessoa'])
+//                ->get()->count();
+
+
+
             $thead = AssembleiaThead::create($dataThead);
 
             if (isset($dataThead['anexos']))
@@ -82,8 +89,10 @@ class QuestaoOrdemController extends Controller
         $questaoOrdem = AssembleiaQuestaoOrdem::join('assembleia_theads', 'assembleia_theads.id',
             'assembleia_questoes_ordens.id_thead')
             ->join('bioacesso_portaria.pessoa', 'assembleia_theads.id_pessoa', 'pessoa.id')
-            ->select('assembleia_questoes_ordens.id', 'assembleia_theads.titulo','assembleia_theads.texto', 'pessoa.url_foto as foto',
-            'pessoa.nome as autor','pessoa.id as id_pessoa', 'assembleia_theads.id as id_thead', 'assembleia_questoes_ordens.id_pauta', 'assembleia_questoes_ordens.status')
+            ->select('assembleia_questoes_ordens.id', 'assembleia_theads.titulo','assembleia_theads.texto',
+                'pessoa.url_foto as foto', 'pessoa.nome as autor','pessoa.id as id_pessoa',
+                'assembleia_theads.id as id_thead', 'assembleia_questoes_ordens.id_pauta',
+                'assembleia_questoes_ordens.status')
             ->where('assembleia_questoes_ordens.id', $idQuestaoOrdem)->get()->first();
 
         $questaoOrdem['anexos'] = DB::table('assembleia_theads_anexos')
@@ -92,7 +101,8 @@ class QuestaoOrdemController extends Controller
             ->get();
 
 //        // Falta os campos numero_pauta | total_pauta
-        $questaoOrdem['pauta'] = AssembleiaPauta::join('assembleia_perguntas', 'assembleia_pautas.id_pergunta', 'assembleia_perguntas.id')
+        $questaoOrdem['pauta'] = AssembleiaPauta::join('assembleia_perguntas', 'assembleia_pautas.id_pergunta',
+            'assembleia_perguntas.id')
             ->where('assembleia_pautas.id', $questaoOrdem->id_pauta)
             ->select('assembleia_pautas.id','assembleia_perguntas.pergunta', 'assembleia_pautas.numero')
             ->get()->first();
@@ -100,8 +110,9 @@ class QuestaoOrdemController extends Controller
         $questaoOrdem['processos'] = ProcessoQuestaoOrdem::join('assembleia_theads', 'assembleia_theads.id',
             'processos_questao_ordem.id_thead')
             ->join('bioacesso_portaria.pessoa', 'assembleia_theads.id_pessoa', 'pessoa.id')
-            ->select('processos_questao_ordem.tipo', 'processos_questao_ordem.status', 'assembleia_theads.titulo','assembleia_theads.texto', 'pessoa.url_foto as foto',
-                'pessoa.nome as autor', 'assembleia_theads.id as id_thead')
+            ->select('processos_questao_ordem.tipo', 'processos_questao_ordem.status', 'assembleia_theads.titulo',
+                'assembleia_theads.texto', 'pessoa.url_foto as foto', 'pessoa.nome as autor',
+                'assembleia_theads.id as id_thead')
             ->where('id_questao_ordem', $questaoOrdem->id)->get();
 
         foreach ($questaoOrdem['processos'] as $processo)

@@ -30,6 +30,7 @@ class QuestaoOrdemController extends Controller
     {
         try
         {
+
             DB::beginTransaction();
 
             $data = $request->all();
@@ -37,6 +38,12 @@ class QuestaoOrdemController extends Controller
             $dataThead = $data['thead'];
 
             $assembleia = Assembleia::find($data['id_assembleia']);
+
+
+            if(!$assembleia)
+            {
+                return response()->error('Assembleia não existe!');
+            }
 
             if($assembleia->status != 'andamento')
             {
@@ -48,11 +55,16 @@ class QuestaoOrdemController extends Controller
                 return response()->error('Envios encerrados!');
             }
 
-//            $questoesPessoa = AssembleiaQuestaoOrdem::join('assembleia_theads', 'assembleia_theads.id',
-//                'assembleia_questoes_ordens.id_thead')
-//                ->where('assembleia_theads.id_pessoa', $dataThead['id_pessoa'])
-//                ->get()->count();
+            $questoesPessoa = AssembleiaQuestaoOrdem::join('assembleia_theads', 'assembleia_theads.id',
+                'assembleia_questoes_ordens.id_thead')
+                ->where('assembleia_theads.id_pessoa', $dataThead['id_pessoa'])
+                ->where('assembleia_questoes_ordens.id_assembleia', $assembleia->id)
+                ->count();
 
+            if ($questoesPessoa >= 2)
+            {
+                return response()->error('Você já atingiu o limite de envio de 02 questões de ordem nesta assembleia.');
+            }
 
 
             $thead = AssembleiaThead::create($dataThead);

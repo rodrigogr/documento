@@ -471,28 +471,26 @@
                                     <!--STEP 3 PERÍODOS-->
                                     <div class="form-group col-xs-24" id="step3" ng-show="step === 3"
                                         style="background-color: #F2F2F2; padding: 60px 15px 30px 15px;">
-                                        <div class="row">
-                                            <div class="col-xs-24 input-group ba__admin-busca-input">
-                                                <div class="col-xs-6">
-                                                    <div class="input-group">
-                                                        <select class="ba__input-select" enter ng-model="data.filtro" ng-change="filtrarSolicitacao()">
-                                                            <option value=''>Selecione</option>
-                                                            <option value='Solicitado'>Solicitações em aberto</option>
-                                                            <option value='Aprovado'>Aprovadas</option>
-                                                            <option value='Cancelado'>Canceladas</option>
-                                                            <option value='todos'>Todas solicitações</option>
-                                                        </select>
-                                                    </div>
-                                                </div>
-                                                <button type="button" class="btn btn-primary col-xs-3 uppercase" style="margin-top: 1px" ng-click="pesquisar()">
-                                                    Aplicar
-                                                    <i class="icon-ba-search"></i>
-                                                </button>
-                                                <div class='col-xs-22'>
-                                                    <input class='form-control' ng-model='data.filter.value'>
-                                                </div>
-                                            </div>
-                                        </div>
+<!--                                        <div class="row">-->
+<!--                                            <div class="col-xs-24 input-group ba__admin-busca-input">-->
+<!--                                                <div class="col-xs-6">-->
+<!--                                                    <div class="input-group">-->
+<!--                                                        <h5>Selecionar em massa</h5>-->
+<!--                                                        <select class="ba__input-select" enter ng-model="data.filtro" ng-change="filtrarSolicitacao()">-->
+<!--                                                            <option value='todos'>Todos</option>-->
+<!--                                                            <option value='Solicitado'>Somente adimplentes</option>-->
+<!--                                                        </select>-->
+<!--                                                    </div>-->
+<!--                                                </div>-->
+<!--                                                <button type="button" class="btn btn-primary col-xs-3 uppercase" style="margin-top: 1px" ng-click="pesquisar()">-->
+<!--                                                    Aplicar-->
+<!--                                                    <i class="icon-ba-search"></i>-->
+<!--                                                </button>-->
+<!--                                                <div class='col-xs-6'>-->
+<!--                                                    <input class='form-control' ng-model='data.filter.value' placeholder="Pesquisar">-->
+<!--                                                </div>-->
+<!--                                            </div>-->
+<!--                                        </div>-->
                                         <div class="row">
                                             
                                             <div class="row uppercase titulo-lista"

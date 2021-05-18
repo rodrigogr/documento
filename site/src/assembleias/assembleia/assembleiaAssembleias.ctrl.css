@@ -36,8 +36,8 @@
 }
 
 .badge-style.badge-votacao{
-    background: #ADD8E6;
-    color: #0000FF;
+    background: rgba(45, 156, 219, 0.1);
+    color: #2D9CDB;
 }
 
 .badge-style.badge-encerrada{

@@ -79,7 +79,7 @@
                         margin-bottom: 15px;
                         margin-left: 15px;"
                         ng-repeat="(indexDoc, doc) in assembleiaResumo.documentos">
-                        <a href="javascript:void(0)" ng-click="abreDocumento()">
+                        <a href="javascript:void(0)" ng-click="abreDocumento(doc.id)">
                             <img width="45" height="45" src="{{doc.icon}}">
                             <i style="font-size: 17px; color: #666666 !important;">{{doc.name}}</i>
                         </a>
@@ -116,24 +116,24 @@
             </div>
 
             <div class="row ba__margin-top-20" ng-if="assembleiaResumo.status == 'encerrada'">
-                <div class="col-md-7">
-                    <div class="votacao-finalizada bgc-ff6633 cffffff bs">
+                <div class="col-md-11">
+                    <div class="votacao-finalizada bgc-ff6633 cffffff bs" ng-click="getListaPresenca(assembleiaResumo.id)">
                         <i class="fa fa-user"></i>
                         <span class="text">Lista de presença</span>
                     </div>
                 </div>
-                    <div class="col-md-8 col-md-offset-1" >
-                        <div class="votacao-finalizada bgc-ff6633 cffffff bs">
+                    <div class="col-md-12 col-md-offset-1" >
+                        <div class="votacao-finalizada bgc-ff6633 cffffff bs" ng-click="emitirRelatorioVotacoes(assembleiaResumo.id)">
                             <i class="fa fa-check-circle"></i>
                             <span class="text">Relatório de votações</span>
                         </div>
                     </div>
-                    <div class="col-md-7 col-md-offset-1">
-                        <div class="votacao-finalizada bgc-ff6633 cffffff bs">
-                            <i class="fa fa-pencil-square-o"></i>
-                            <span class="text">Gerar ata</span>
-                        </div>
-                    </div>
+<!--                    <div class="col-md-7 col-md-offset-1">-->
+<!--                        <div class="votacao-finalizada bgc-ff6633 cffffff bs">-->
+<!--                            <i class="fa fa-pencil-square-o"></i>-->
+<!--                            <span class="text">Gerar ata</span>-->
+<!--                        </div>-->
+<!--                    </div>-->
             </div>
 
             <div class="row ba__margin-top-20">
@@ -176,7 +176,11 @@
                         </div>
                         <div class="body">
                             <div>
-                                <b>{{ resumo.unidadesAptas }}</b><span>aptas</span>
+                                <p class="text">
+                                    <b>{{ resumo.unidadesAptas }}</b>
+                                    <span>/de {{ resumo.totalUnidades }} aptas</span>
+                                </p>
+
                             </div>
                             <div>
                                 <b>{{ resumo.unidadesInteragiram }}</b><span>interagiram</span>

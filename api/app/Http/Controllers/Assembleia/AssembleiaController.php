@@ -16,8 +16,11 @@ use App\models\Assembleia\AssembleiaPost;
 use App\models\Assembleia\AssembleiaQuestaoOrdem;
 use App\models\Assembleia\AssembleiaThead;
 use App\models\Assembleia\AssembleiaVotacao;
+use App\Models\Condominio;
+use App\Models\Imovel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 use function foo\func;
 
 class AssembleiaController extends Controller
@@ -168,6 +171,14 @@ class AssembleiaController extends Controller
 
         $participantes = AssembleiaParticipante::where('id_assembleia', $id)->count();
 
+        $imoveis = Imovel::where('imovel_ficticio',0)
+            ->where('softdeleted',0)
+            ->count();
+
+        $iteragiram = ($questoes + $encaminhamentos + $topicos + $comentarios);
+
+        $votaram = AssembleiaVotacao::where('id_assembleia', $id)->count();
+
         $result = [
             'assembleia' => $assembleia,
             'questoesOrdem'=> $questoes,
@@ -175,8 +186,9 @@ class AssembleiaController extends Controller
             'topicos' => $topicos,
             'comentarios' => $comentarios,
             'unidadesAptas' => $participantes,
-            'unidadesInteragiram' => 0,
-            'unidadesVotaram' => 0
+            'unidadesInteragiram' => $iteragiram,
+            'unidadesVotaram' => $votaram,
+            'totalUnidades' => $imoveis
         ];
 
         return response()->success($result);
@@ -410,6 +422,8 @@ class AssembleiaController extends Controller
         {
             $assembleia->votacao_data_inicio = date('Y-m-d');
             $assembleia->votacao_hora_inicio = date('H:i:s');
+            $assembleia->envios_questao_ordem = date('Y-m-d');
+            $assembleia->envios_encaminhamento = date('Y-m-d');
             $assembleia->votacao_data_fim = $data['votacao_data_fim'];
             $assembleia->votacao_hora_fim = $data['votacao_hora_fim'];
             $assembleia->status = 'votacao';
@@ -445,5 +459,94 @@ class AssembleiaController extends Controller
             return response()->error('Error :'. $e->getMessage());
         }
 
+    }
+
+    public function listaPresenca($id)
+    {
+
+        $asembleia = Assembleia::find($id);
+
+        if(!count($asembleia))
+        {
+            abort(404);
+        }
+
+        $html_cabecalho = $this->pdf_cabecalho('LISTA DE PRESENÇA');
+
+        $html_title = "";
+        $html_infor = "";
+        $html_corpo = "";
+
+
+        $html_total = "";
+        $html = $html_cabecalho . $html_title . $html_infor . $html_corpo . $html_total;
+
+        $mpdf = new \mPDF() ;
+
+        $mpdf->WriteHTML($html);
+
+        return response($mpdf->Output());
+    }
+
+    public  function pdf_cabecalho($titulo,$periodo = null)
+    {
+        $condominio = Condominio::first();
+
+        $pdf_header = "<style>th{ padding:5px 0px;} td{ padding: 3px 0px;}</style>";
+        $exists = Storage::disk('condominio')->exists('logo.jpg');
+        $path_logo = '';
+
+        if($exists)
+        {
+            $path_logo = storage_path('app/condominio/logo.jpg');
+        }
+
+        $pdf_header .= "<table style='width: 100%;'>
+                            <tr>
+                                <td style='vertical-align: top'>
+                                    <img style='padding: 1px;width: 80px;' src='".$path_logo."'><br>
+                                   
+                                </td>
+                                <td style='text-align:center;'>
+                                     <h3>".$condominio->nome_fantasia."</h3>
+                                </td>
+                            </tr>
+                            
+                            <tr>
+                                <td style='text-align:center; vertical-align: text-bottom;'>
+                                    <h2 style='font-size: 20px;text-align:center;padding-bottom: 35px; '>".$titulo."</h2>
+                                </td>
+                            </tr>
+                            
+                            <tr><td>&nbsp;</td></tr>
+                       </table>";
+        return $pdf_header;
+    }
+
+    public function relatorioVotacoes($id)
+    {
+
+        $asembleia = Assembleia::find($id);
+
+        if(!count($asembleia))
+        {
+            abort(404);
+        }
+
+        $html_cabecalho = $this->pdf_cabecalho('RESULTADO DAS VOTAÇÕES');
+
+        $html_title = "";
+        $html_infor = "";
+        $html_corpo = "";
+
+
+        $html_total = "";
+        $html = $html_cabecalho . $html_title . $html_infor . $html_corpo . $html_total;
+
+        $mpdf = new \mPDF() ;
+
+        $mpdf->WriteHTML($html);
+
+        return response($mpdf->Output());
     }
 }

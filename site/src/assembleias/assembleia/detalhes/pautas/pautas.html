@@ -120,46 +120,46 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="row ba__margin-bottom-30">
-                            <p style="margin: 0 0 15px; padding: 0 15px; text-transform: uppercase; font-size: 16px;">
-                                ANEXOS
-                            </p>
-                            <div class="col-md-24" style="padding-left: 15px;" >
-                                <!--<button class="btn btn-default pull-left ba__margin-right-15">ANEXAR ARQUIVO</button>-->
-                                <div style="float:left;width: 30%;">
-                                    <label for="documentos" class="pull-left btn btn-atualizar col-xs-4 uppercase right"
-                                           style="float: right;width: 100%;padding-top: 21px;height: 70px;"
-                                           data-toggle="modal" type="file"
-                                           name="documentos" onchange="angular.element(this).scope().changeInputField(this, 'documentos_regras')">
-                                        ANEXAR ARQUIVO
-                                    </label>
-                                    <input  class="pull-left btn btn-atualizar col-xs-4 uppercase right" style="float: right; display: none;"
-                                            data-toggle="modal" type="file"
-                                            name="documentos" id="documentos" onchange="angular.element(this).scope().changeInputField(this, 'documentos_regras')">
-                                </div>
+<!--                        <div class="row ba__margin-bottom-30">-->
+<!--                            <p style="margin: 0 0 15px; padding: 0 15px; text-transform: uppercase; font-size: 16px;">-->
+<!--                                ANEXOS-->
+<!--                            </p>-->
+<!--                            <div class="col-md-24" style="padding-left: 15px;" >-->
+<!--                                &lt;!&ndash;<button class="btn btn-default pull-left ba__margin-right-15">ANEXAR ARQUIVO</button>&ndash;&gt;-->
+<!--                                <div style="float:left;width: 30%;">-->
+<!--                                    <label for="documentos" class="pull-left btn btn-atualizar col-xs-4 uppercase right"-->
+<!--                                           style="float: right;width: 100%;padding-top: 21px;height: 70px;"-->
+<!--                                           data-toggle="modal" type="file"-->
+<!--                                           name="documentos" onchange="angular.element(this).scope().changeInputField(this, 'documentos_regras')">-->
+<!--                                        ANEXAR ARQUIVO-->
+<!--                                    </label>-->
+<!--                                    <input  class="pull-left btn btn-atualizar col-xs-4 uppercase right" style="float: right; display: none;"-->
+<!--                                            data-toggle="modal" type="file"-->
+<!--                                            name="documentos" id="documentos" onchange="angular.element(this).scope().changeInputField(this, 'documentos_regras')">-->
+<!--                                </div>-->
 
-                                <!--<input class="ba__font-size-12 pull-left" type="file" id="inputDocumentos" name="documentos" onchange="angular.element(this).scope().changeInputField(this, 'documentos_regras')">-->
-                                <span class="ba__font-size-12 pull-left ba__font-color-gray"
-                                      style="width: 45%; margin-bottom: 15px; padding-left: 12px;font-size: 19px;">
-                                    Arquivos de no max 10MB, nas extensões .PDF, .DOC, .DOCX, .XLS, .XLSX, .JPG ou .TXT</span>
-                            </div>
-                            <div class="col-md-18"
-                                 style="background-color: #fff;
-                                            padding: 10px;
-                                            box-shadow: 0px 0px 2px rgba(0, 0, 0, 0.2), 0px 2px 7px rgba(0, 0, 0, 0.15);
-                                            border-radius: 8px;
-                                            margin-bottom: 15px;
-                                            margin-left: 15px;"
-                                 ng-repeat="(indexDoc, doc) in assembleia.documentos">
-                                <a href="javascript:void(0)" ng-click="abreDocumento()">
-                                    <img width="45" height="45" src="{{doc.icon}}">
-                                    <i style="font-size: 17px; color: #666666 !important;">{{doc.name}}</i>
-                                </a>
-                                <i ng-click="excluirArquivo(doc, indexDoc)" class="fa fa-trash pull-right"
-                                   style="font-size: 24px;
-                                                    margin: 8px; color: #666;"></i>
-                            </div>
-                        </div>
+<!--                                &lt;!&ndash;<input class="ba__font-size-12 pull-left" type="file" id="inputDocumentos" name="documentos" onchange="angular.element(this).scope().changeInputField(this, 'documentos_regras')">&ndash;&gt;-->
+<!--                                <span class="ba__font-size-12 pull-left ba__font-color-gray"-->
+<!--                                      style="width: 45%; margin-bottom: 15px; padding-left: 12px;font-size: 19px;">-->
+<!--                                    Arquivos de no max 10MB, nas extensões .PDF, .DOC, .DOCX, .XLS, .XLSX, .JPG ou .TXT</span>-->
+<!--                            </div>-->
+<!--                            <div class="col-md-18"-->
+<!--                                 style="background-color: #fff;-->
+<!--                                            padding: 10px;-->
+<!--                                            box-shadow: 0px 0px 2px rgba(0, 0, 0, 0.2), 0px 2px 7px rgba(0, 0, 0, 0.15);-->
+<!--                                            border-radius: 8px;-->
+<!--                                            margin-bottom: 15px;-->
+<!--                                            margin-left: 15px;"-->
+<!--                                 ng-repeat="(indexDoc, doc) in assembleia.documentos">-->
+<!--                                <a href="javascript:void(0)" ng-click="abreDocumento()">-->
+<!--                                    <img width="45" height="45" src="{{doc.icon}}">-->
+<!--                                    <i style="font-size: 17px; color: #666666 !important;">{{doc.name}}</i>-->
+<!--                                </a>-->
+<!--                                <i ng-click="excluirArquivo(doc, indexDoc)" class="fa fa-trash pull-right"-->
+<!--                                   style="font-size: 24px;-->
+<!--                                                    margin: 8px; color: #666;"></i>-->
+<!--                            </div>-->
+<!--                        </div>-->
                     </div>
                     <!-- fim body das pautas quando a votacao ainda nao foi iniciada -->
                     <!-- body das pautas quando a votacao ja foi iniciada -->

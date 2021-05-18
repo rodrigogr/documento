@@ -28,4 +28,17 @@ class DocumentoController extends Controller
 
         return response()->success($documento);
     }
+
+    public function abirDocumento ($id)
+    {
+        $documento = AssembleiaDocumento::find($id);
+
+        $path = public_path($documento->name);
+
+        $contents = base64_decode($documento->file);
+
+        file_put_contents($path, $contents);
+
+        return response()->download($path)->deleteFileAfterSend(true);
+    }
 }

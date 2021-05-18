@@ -48,8 +48,8 @@
     color: #219653;
 }
 .status.votacao{
-    background: #ADD8E6;
-    color: #0000FF;
+    background: rgba(45, 156, 219, 0.1);
+    color: #2D9CDB;
 }
 .status.encerrada{
     background: rgba(204, 51, 51, 0.1);

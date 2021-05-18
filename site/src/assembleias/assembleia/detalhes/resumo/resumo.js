@@ -11,7 +11,7 @@ angular.module('appDirectives').directive("assembleiaresumo", function () {
     }
 });
 
-function assembleiaResumoCtrl ($scope, $state, $filter, $http, AuthService, UtilsService, config)
+function assembleiaResumoCtrl ($scope, $state, $filter, $http, $q, AuthService, UtilsService, config)
 {
 
     $scope.getResumo = function ()
@@ -65,37 +65,6 @@ function assembleiaResumoCtrl ($scope, $state, $filter, $http, AuthService, Util
     }
 
     $scope.getResumo();
-
-    // $scope.assembleia = {
-    //     tipo: 'geral',
-    //     titulo: 'Assembleia Geral Extraordinária de Segurança',
-    //     status: 'agendada',
-    //     data_inicio: '02/04/2021',
-    //     data_fim: '10/05/2021',
-    //     hora_inicio: '09:00',
-    //     hora_fim: '23:59',
-    //     votacao_data_fim: '02/04/2021',
-    //     votacao_hora_fim: '23:59',
-    //     configuracao: false,
-    //     link_transmissao: 'http://youtube.com',
-    //     votacao_secreta: false,
-    //     documentos: [
-    //         {
-    //             id: 11,
-    //             file: "data:application/pdf;base64,JVBERi0xLjQNJeLjz9MNCj",
-    //             icon: "img/icons/icon_pdf.png",
-    //             name: "pdf_de_teste-1.pdf",
-    //         },
-    //         {
-    //             id: 10,
-    //             file: "data:application/pdf;base64,JVBERi0xLjQNJeLjz9MNCj",
-    //             icon: "img/icons/icon_pdf.png",
-    //             name: "pdf_de_teste.pdf",
-    //         }
-    //     ],
-    //     pautas: '',
-    //     participantes: [],
-    // }
 
 
     //** Modal nova assembleia */
@@ -330,11 +299,6 @@ function assembleiaResumoCtrl ($scope, $state, $filter, $http, AuthService, Util
         $scope.arquivoNome = file.name;
     }
 
-    $scope.abreDocumento = function () {
-        let file = $scope.assembleia.documentos_regras ? $scope.assembleia.documentos_regras : $scope.assembleia.documentos;
-        window.open(file,'_blank');
-    }
-
     $scope.update = async function ()
     {
         $("#loading").modal("show");
@@ -434,5 +398,23 @@ function assembleiaResumoCtrl ($scope, $state, $filter, $http, AuthService, Util
         });
     }
 
+    $scope.getListaPresenca = function (idAssembleia)
+    {
+        window.open(config.apiUrl + 'api/assembleias/listapresenca/' + idAssembleia, '_blank');
+    };
 
+    $scope.emitirRelatorioVotacoes = function (idAssembleia)
+    {
+        window.open(config.apiUrl + 'api/assembleias/relatoriovotacoes/' + idAssembleia, '_blank');
+    };
+
+    $scope.abreDocumento = function (idDoc)
+    {
+        window.open(config.apiUrl + 'api/assembleias/documento/open/' + idDoc, '_blank');
+    };
+
+    // $scope.abreDocumento = function () {
+    //     let file = $scope.assembleia.documentos_regras ? $scope.assembleia.documentos_regras : $scope.assembleia.documentos;
+    //     window.open(file,'_blank');
+    // }
 }

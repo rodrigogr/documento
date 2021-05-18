@@ -41,7 +41,7 @@ class VotacaoController
 
                     if ($voto->id_pessoa != $data['id_pessoa'])
                     {
-                        return response()->error('Voto já registrado!');
+                        return response()->error('Seu voto NÃO foi registrado. Outro voto já foi enviado anteriormente por outro associado deste mesmo imóvel.');
                     }
 
                     $voto->id_opcao = $pauta['id_alternativa'];

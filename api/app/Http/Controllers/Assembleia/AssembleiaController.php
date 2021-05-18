@@ -359,6 +359,13 @@ class AssembleiaController extends Controller
             {
                 $assembleia['pode_participar'] = false;
             }
+
+            $assembleia['limite_questao_ordem'] = AssembleiaQuestaoOrdem::join('assembleia_theads', 'assembleia_theads.id',
+                'assembleia_questoes_ordens.id_thead')
+                ->where('assembleia_theads.id_pessoa', $idPessoa)
+                ->where('assembleia_questoes_ordens.id_assembleia', $assembleia->id)
+                ->count();
+
         }
         else
         {

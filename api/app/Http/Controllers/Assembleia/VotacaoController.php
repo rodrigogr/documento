@@ -26,6 +26,7 @@ class VotacaoController
                         ->where('id_imovel', $imovel['id_imovel'])
                         ->get()
                         ->first();
+                    usleep(25000);
 
                     if (!$voto)
                     {

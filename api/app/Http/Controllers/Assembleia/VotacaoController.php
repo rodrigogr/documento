@@ -22,11 +22,13 @@ class VotacaoController
                 foreach ($data['pautas'] as $pauta)
                 {
                     $voto = AssembleiaVotacao::where('id_pessoa', $data['id_pessoa'])
+                        ->where('id_assembleia', $pauta['id_assembleia'])
                         ->where('id_pergunta', $pauta['id_pergunta'])
                         ->where('id_imovel', $imovel['id_imovel'])
                         ->get()
                         ->first();
-                    usleep(25000);
+
+                    \DB::beginTransaction();
 
                     if (!$voto)
                     {
@@ -48,7 +50,9 @@ class VotacaoController
                     $voto->id_opcao = $pauta['id_alternativa'];
 
                     $voto->id ? $voto->update() : $voto->save();
+                    usleep(25000);
 
+                    \DB::commit();
                 }
             }
 

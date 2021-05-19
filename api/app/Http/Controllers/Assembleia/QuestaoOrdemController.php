@@ -47,7 +47,7 @@ class QuestaoOrdemController extends Controller
 
             if($assembleia->status != 'andamento')
             {
-                return response()->error('Assembleia não está em andamento!');
+                return response()->error('O envio de questões de ordem foi encerrado, pois a votação já foi iniciada.');
             }
 
             if($assembleia->envios_questao_ordem)
@@ -221,6 +221,13 @@ class QuestaoOrdemController extends Controller
                 return response()->error('Questão de ordem não existe!');
             }
 
+            $assembleia = Assembleia::find($questao->id_assembleia);
+
+            if($assembleia->status != 'andamento')
+            {
+                return response()->error('O envio de questões de ordem foi encerrado, pois a votação já foi iniciada.');
+            }
+            
             if($questao->status != 'Indeferida')
             {
                 return response()->error('Não cabe recurso na questão de Ordem!');

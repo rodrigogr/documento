@@ -36,13 +36,30 @@ angular.module('ReservasModule').controller('CalendarioReservaCtrl',
                         center: '',
                         right: ''
                     },
-                    events: {
-                        url: "api/reserva/eventosCalendario",
-                        extraParams: {
-                            custom_param1: 'something',
-                            custom_param2: 'somethingelse'
-                        }
-                    }
+                    events: function (info, successCallback, failureCallback) {
+                        let start = moment(info.start.valueOf()).format('YYYY-MM-DD');
+                        let end = moment(info.end.valueOf()).format('YYYY-MM-DD');
+                        $http.get(`${config.apiUrl}api/reserva/calendario/eventos` + "?start=" + start + "&end=" + end)
+                            .then((result) => successCallback([{ title: 'Day Event', start: '2021-05-16T12:30:00', }]))
+                            .catch( function (e) { UtilsService.openAlert(e.data.message) })
+                            .finally(() => failureCallback('Erro'));
+                        /*$.ajax({
+                            url: "api/assignments/?event_id=" + vm.eventId +  '&start='+ start + "&end=" + end,
+                            type: 'GET',
+                            headers: {
+                                'X-CSRF-TOKEN': window.csrf_token
+                            }, success: function (response) {
+                                successCallback(response);
+                            }
+                        });*/
+                    },
+                    /*events: {
+                        url: `${config.apiUrl}api/reserva/eventos_calendario`
+                        /!*extraParams: {
+                            mes: d.getMonth(),
+                            ano: d.getFullYear()
+                        }*!/
+                    }*/
                     /*events: [
                         {
                             title: 'Day Event',

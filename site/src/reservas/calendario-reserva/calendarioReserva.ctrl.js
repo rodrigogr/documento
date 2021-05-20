@@ -40,7 +40,7 @@ angular.module('ReservasModule').controller('CalendarioReservaCtrl',
                         let start = moment(info.start.valueOf()).format('YYYY-MM-DD');
                         let end = moment(info.end.valueOf()).format('YYYY-MM-DD');
                         $http.get(`${config.apiUrl}api/reserva/calendario/eventos` + "?start=" + start + "&end=" + end)
-                            .then((result) => successCallback([{ title: 'Day Event', start: '2021-05-16T12:30:00', }]))
+                            .then((result) => successCallback(result.data.data))
                             .catch( function (e) { UtilsService.openAlert(e.data.message) })
                             .finally(() => failureCallback('Erro'));
                         /*$.ajax({

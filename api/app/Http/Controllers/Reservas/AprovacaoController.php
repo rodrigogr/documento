@@ -82,7 +82,7 @@ class AprovacaoController extends Controller
             return response()->success(trans('messages.crud.FUS', ['name' => 'Reserva']));
 
         } catch(\Exception $e) {
-            return response()->error($e->getMessage());
+            return response()->error($e->getMessage);
         }
     }
 
@@ -99,6 +99,8 @@ class AprovacaoController extends Controller
             $result = $reserva->update();
 
             if ($result) {
+                Reserva::saveReservaRecusada($reserva);
+
                 $titulo = 'Reserva recusada';
                 $mensagem = 'Não foi aprovada a solicitação de reserva no condomínio '.$dados["localidade"].' para '.$dados["local"].' no dia '.$dados["dia"].' de '.$dados["hora_ini"].' às '.$dados["hora_fim"].'. Motivo: '.$dados["motivo"];
                 $idPessoa = $reserva->id_pessoa;
@@ -108,7 +110,7 @@ class AprovacaoController extends Controller
             return response()->success(trans('messages.crud.FUS', ['name' => 'Reserva ']));
 
         } catch(\Exception $e) {
-            return response()->error($e->getMessage());
+            return response()->error($e->getMessage);
         }
     }
 

@@ -11,8 +11,43 @@ angular.module('appDirectives').directive("assembleiaquestoes", function () {
     }
 });
 
-function assembleiaQuestoesOrdemCtrl($scope, $http, $state, $filter,AuthService, UtilsService, config) {
+function assembleiaQuestoesOrdemCtrl($scope, $http, $state, $filter, AuthService, UtilsService, config) {
+    $scope.novaVotacaoSelecao = {};
+    $scope.ultimaAlternativa = 1;
+    $scope.questoesPendentes = [];
 
+    //#######Retorna normal#########
+    // $scope.filterPendentes = function () {
+    //     return function (questao) {
+    //         for (let i in $scope.questoesPendentes) {
+    //             if (!$scope.questoesPendentes[i] || questao.status === 'Pendente de decisão') {
+    //                 return true;
+    //             }
+    //         }
+    //     }
+    // }
+    //#########Retorna vazio############
+    $scope.filterPendentes = function () {
+        return function (questao) {
+            for (let i in $scope.questoesPendentes) {
+                if (!$scope.questoesPendentes[i] || questao.status === 'Pendente de decisão') {
+                    return true;
+                } else {
+                    return false;
+                }
+            }
+        }
+    }
+
+    $scope.addNewAlternativa = function (index) {
+        $scope.ultimaAlternativa++;
+        $scope.novaVotacaoSelecao.alternativas.push({'id': '', 'opcao': ''});
+    };
+
+    $scope.removeNewAlternativas = function (index) {
+        $scope.ultimaAlternativa--;
+        $scope.novaVotacaoSelecao.alternativas.splice(index, 1);
+    };
 
     //** Modal Questão de ordem */
     $scope.abreQuestaoOrdem = function (id) {
@@ -90,7 +125,7 @@ function assembleiaQuestoesOrdemCtrl($scope, $http, $state, $filter,AuthService,
             $('#novaDecisao').modal('hide');
             $scope.abreQuestaoOrdem($scope.decisao.id_questao_ordem);
             $scope.decisao = {};
-            }, function(error) {
+        }, function(error) {
             UtilsService.openAlert(error.data.message);
         }).finally( () => { $("#loading").modal("hide") });
     }
@@ -107,12 +142,19 @@ function assembleiaQuestoesOrdemCtrl($scope, $http, $state, $filter,AuthService,
             $("#loading").modal("hide")
         });
     }
-    $scope.novaVotacao = function ()
+    $scope.abreNovaVotacao = function ()
     {
         $('#novaVotacao').modal('show');
     }
-    $scope.fecharNovaVotacao = function ()
+    $scope.fechaNovaVotacao = function ()
     {
         $('#novaVotacao').modal('hide');
     }
-}
+
+
+    // function noFilter(filterObj) {
+    //      return Object.
+    //      keys(filterObj).
+    //      every(function (key) { return !filterObj[key]; });
+    //  }
+};

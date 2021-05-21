@@ -16,24 +16,11 @@ function assembleiaQuestoesOrdemCtrl($scope, $http, $state, $filter, AuthService
     $scope.ultimaAlternativa = 1;
     $scope.questoesPendentes = [];
 
-    //#######Retorna normal#########
-    // $scope.filterPendentes = function () {
-    //     return function (questao) {
-    //         for (let i in $scope.questoesPendentes) {
-    //             if (!$scope.questoesPendentes[i] || questao.status === 'Pendente de decisão') {
-    //                 return true;
-    //             }
-    //         }
-    //     }
-    // }
-    //#########Retorna vazio############
     $scope.filterPendentes = function () {
         return function (questao) {
             for (let i in $scope.questoesPendentes) {
                 if (!$scope.questoesPendentes[i] || questao.status === 'Pendente de decisão') {
                     return true;
-                } else {
-                    return false;
                 }
             }
         }
@@ -150,11 +137,4 @@ function assembleiaQuestoesOrdemCtrl($scope, $http, $state, $filter, AuthService
     {
         $('#novaVotacao').modal('hide');
     }
-
-
-    // function noFilter(filterObj) {
-    //      return Object.
-    //      keys(filterObj).
-    //      every(function (key) { return !filterObj[key]; });
-    //  }
 };

@@ -45,6 +45,11 @@ class QuestaoOrdemController extends Controller
                 return response()->error('Assembleia não existe!');
             }
 
+            if ($assembleia->status == 'agendada')
+            {
+                return response()->error('O envio de questões de ordem não foi inicicada, pois a assembleia ainda está agendada');
+            }
+
             if($assembleia->status != 'andamento')
             {
                 return response()->error('O envio de questões de ordem foi encerrado, pois a votação já foi iniciada.');
@@ -52,7 +57,7 @@ class QuestaoOrdemController extends Controller
 
             if($assembleia->envios_questao_ordem)
             {
-                return response()->error('Envios encerrados!');
+                return response()->error('O envio de questões de ordem foi encerrado manualmente.');
             }
 
             $questoesPessoa = AssembleiaQuestaoOrdem::join('assembleia_theads', 'assembleia_theads.id',
@@ -273,7 +278,7 @@ class QuestaoOrdemController extends Controller
         try
         {
             $assembleia = Assembleia::find($id);
-            $assembleia->envios_questao_ordem = date('Y-m-d');
+            $assembleia->envios_questao_ordem = date('Y-m-d H:i:s');
             $assembleia->update();
             return response()->success('Envios Encerrados!');
         }

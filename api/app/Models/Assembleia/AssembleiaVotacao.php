@@ -13,7 +13,8 @@ class AssembleiaVotacao extends Model
         'id_pergunta',
         'id_opcao',
         'id_pessoa',
-        'id_imovel',
+        'imovel',
+        'peso_voto',
         'ip',
         'mac_address',
         'peso'

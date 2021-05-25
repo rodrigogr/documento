@@ -18,7 +18,7 @@ class CreateAssembleiaPerguntas extends Migration
             Schema::create('assembleia_perguntas', function (Blueprint $table)
             {
                 $table->increments('id');
-                $table->string('pergunta');
+                $table->longText('pergunta');
                 $table->softDeletes();
                 $table->timestamps();
             });

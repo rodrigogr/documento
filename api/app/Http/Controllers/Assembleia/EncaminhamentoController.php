@@ -46,6 +46,16 @@ class EncaminhamentoController extends Controller
 
             $assembleia = Assembleia::find($request->id_assembleia);
 
+            if ($assembleia->status == 'agendada')
+            {
+                return response()->error('O envio de encaminhamentos não foi inicicada, pois a assembleia ainda está agendada');
+            }
+
+            if($assembleia->status != 'andamento')
+            {
+                return response()->error('O envio de encaminhamentos foi encerrado manualmente.');
+            }
+
             if(isset($assembleia->envios_encaminhamento))
             {
                 throw new Exception('Envios encerrados!');
@@ -131,7 +141,7 @@ class EncaminhamentoController extends Controller
         try
         {
             $assembleia = Assembleia::find($id);
-            $assembleia->envios_encaminhamento = date('Y-m-d');
+            $assembleia->envios_encaminhamento = date('Y-m-d H:i:s');
             $assembleia->update();
             return response()->success('Envios Encerrados!');
         }

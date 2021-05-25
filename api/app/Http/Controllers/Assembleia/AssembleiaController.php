@@ -280,11 +280,6 @@ class AssembleiaController extends Controller
 
     public function participantes ($id)
     {
-//        $participantes = AssembleiaParticipante::join('bioacesso_portaria.imovel','assembleia_participantes.id_imovel', '=','imovel.id')
-//            ->leftJoin('bioacesso_portaria.pessoa','assembleia_participantes.id_procurador', '=', 'pessoa.id')
-//            ->select('imovel.id as id_imovel', 'quadra', 'lote', 'logradouro', 'numero', 'peso_voto', 'pessoa.nome as produrador', 'pessoa.id as id_procurador')
-//            ->where('id_assembleia', $id)->get();
-
         $participantes = DB::select("
                 select 
                     i.id as id_imovel,
@@ -340,7 +335,7 @@ class AssembleiaController extends Controller
                     ap.id_imovel, 
                     concat('QD ', i.quadra,' / ', 'LT ', i.lote) as imovel,
                     concat('Peso x ', i.peso_voto) as complemnto,
-                    (select count(*) > 0 from assembleia_votacoes av where av.id_imovel = i.id and id_assembleia  = $assembleia->id ) as voto_realizado,        
+                    (select count(*) > 0 from assembleia_votacoes av where av.imovel = i.id and id_assembleia  = $assembleia->id ) as voto_realizado,        
                     i.peso_voto
                 from assembleia_participantes ap
                 inner join bioacesso_portaria.imovel_permanente ip on ap.id_imovel = ip.id_imovel and ip.id_pessoa = $idPessoa
@@ -429,8 +424,8 @@ class AssembleiaController extends Controller
         {
             $assembleia->votacao_data_inicio = date('Y-m-d');
             $assembleia->votacao_hora_inicio = date('H:i:s');
-            $assembleia->envios_questao_ordem = date('Y-m-d');
-            $assembleia->envios_encaminhamento = date('Y-m-d');
+            $assembleia->envios_questao_ordem = date('Y-m-d H:i:s');
+            $assembleia->envios_encaminhamento = date('Y-m-d H:i:s');
             $assembleia->votacao_data_fim = $data['votacao_data_fim'];
             $assembleia->votacao_hora_fim = $data['votacao_hora_fim'];
             $assembleia->status = 'votacao';

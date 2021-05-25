@@ -16,8 +16,12 @@ class AddModuloMenuAssembleia extends Migration
         DB::connection('portaria')->table('modulo_sistema')->insert(
             array([
                 'nome' => 'assembleia',
-                'desc' => 'Assembleia online',
-                'tipo_categoria' => 'p'
+                'desc' => 'Assembleia',
+                'tipo_categoria' => 's'
+            ],[
+                'nome' => 'assembleiaDetalhes',
+                'desc' => 'Assembleia Detalhes',
+                'tipo_categoria' => 's'
             ])
         );
     }

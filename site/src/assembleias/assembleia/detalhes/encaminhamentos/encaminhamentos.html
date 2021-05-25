@@ -1,0 +1,224 @@
+<div class="row">
+    <div class="row ba__margin-top-20">
+        <h3 class="col-md-15 Roboto-Light">
+            <strong>{{listEncaminhamentos.length}}</strong> resultados</h3>
+        <button type="button"  class="btn btn-encerrarenvios col-xs-offset-3 col-xs-6 uppercase" style="margin-top: 12px"
+                data-toggle="modal" ng-click="encerraEnviosEncaminhamento()">
+            Encerrar Envios
+        </button>
+    </div>
+    <div class="list-group ba__admin-table ba__margin-top-40" style="height: 85%">
+        <a class="list-group-item disabled">
+            <div class="row uppercase">
+                <div class="col-xs-3">Data/Hora
+                    <i class="ba__margin-horizontal-5"></i>
+                </div>
+                <div class="col-xs-2">Status
+                    <i class="ba__margin-horizontal-5"></i>
+                </div>
+                <div class="col-xs-4">Associado
+                    <i class="ba__margin-horizontal-5"></i>
+                </div>
+                <div class="col-xs-4">Pauta
+                    <i class="ba__margin-horizontal-5"></i>
+                </div>
+                <div class="col-xs-9">Título
+                    <i class="ba__margin-horizontal-5"></i>
+                </div>
+                <div class="col-xs-1">Apoio
+                    <i class="ba__margin-horizontal-5"></i>
+                </div>
+                <div class="col-xs-1 text-center"></div>
+            </div>
+        </a>
+        <div class="ba__admin-table-scroll" style="height: 85%;">
+            <a class="list-group-item ba__font-size-12 ba__pointer" ng-repeat="encaminhamento in listEncaminhamentos"
+               ng-click="abreEncaminhamento(encaminhamento.id)">
+                <div class="row">
+                    <div class="col-xs-3">{{encaminhamento.data_hora}}</div>
+                    <div class="col-xs-2">
+                        <span class=" uppercase badge-style {{encaminhamento.status.toLowerCase() === 'pendente' ? 'badge-pendente' : 'badge-respondido'}}">
+                            {{encaminhamento.status}}
+                        </span></div>
+                    <div class="col-xs-4">{{encaminhamento.nome}}</div>
+                    <div class="col-xs-4">{{encaminhamento.pauta}}</div>
+                    <div class="col-xs-9">{{encaminhamento.titulo}}</div>
+                    <div class="col-xs-1" ng-if="encaminhamento.apoio > 0">{{encaminhamento.apoio}}</div>
+                    <div class="col-xs-1" ng-if="encaminhamento.apoio == 0">nenhum</div>
+                    <div class="col-xs-1">
+                        <i class="fa fa-eye ba__margin-left-35" title="Visualizar"  ng-click=""></i>
+                    </div>
+                </div>
+            </a>
+        </div>
+    </div>
+
+    <!-- Modal Encaminhamento -->
+    <div class="modal fade" id="abreEncaminhamento" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="false">
+        <div class="modal-dialog assembleia-modal" role="document">
+            <div class="modal-content assembleia-content">
+                <!-- Header -->
+                <div class="modal-header assembleia-header">
+                    <div class="row">
+                        <h4 class="modal-title Roboto-Thin ba__font-size-25"
+                            style="padding: 25px 25px 10px; font-weight: bold;">
+                            <i class="fa fa-gavel cff6633"></i>
+                            <span>ENCAMINHAMENTO</span>
+                        </h4>
+                    </div>
+                </div>
+                <!-- Form Mean -->
+                <div class="modal-body ba__modal-body-assembleia"
+                     style="background-color: #F2F2F2; padding: 0px !important">
+
+                    <header class="discussoes">
+                        <p>PAUTA 01 DE 02</p>
+                        <h5>
+                            {{encaminhamento.pauta.pergunta}}
+                        </h5>
+                    </header>
+
+                    <article class="box-discussao">
+
+                        <section class="bgc-fff bs br8px"
+                                 style="margin-bottom: 40px;">
+                            <span class="questao-de-ordem bs bgc-fff" >ENCAMINHAMENTO</span>
+
+                            <div class="pessoa">
+                                <img class="" src="img/avatar.png" alt="" />
+                                <div>
+                                    <span>{{ encaminhamento.autor }}</span>
+                                    <span>Há 32 minutos</span>
+                                </div>
+                            </div>
+                            <h6>
+                                {{ encaminhamento.titulo }}
+                            </h6>
+                            <p>
+                                {{encaminhamento.texto}}
+                            </p>
+                            <div class="docs">
+                                <div class="bgc-fff bs br8px" ng-repeat="doc in encaminhamento.anexos">
+                                    <i class="fa fa-file-text"></i>
+                                    <span>documentos_as_assembleia</span>
+                                </div>
+                            </div>
+                        </section>
+                        <section class="bgc-fff bs br8px" ng-repeat="resposta in encaminhamento.respostas"
+                                 style="margin-bottom: 40px;">
+
+                            <span class="questao-de-ordem bs bgc-fff">
+                                Resposta
+                            </span>
+
+                            <div class="pessoa">
+                                <img class="" src="img/avatar.png" alt="" />
+                                <div>
+                                    <span>{{ resposta.autor }}</span>
+                                    <span>Há 32 minutos</span>
+                                </div>
+                            </div>
+                            <p>
+                                {{resposta.resposta}}
+                            </p>
+                        </section>
+                    </article>
+                </div>
+                <!-- Footer -->
+                <div class="modal-footer" style="padding-right: 15px !important;">
+                    <button ng-click="responderEncaminhamento(encaminhamento.id)" type="button"
+                            class="btn btn-success col-md-5 pull-right"
+                            ng-disabled="encaminhamento.respostas.length > 0"
+                            style="margin-left: 5px">
+                        Responder
+                    </button>
+
+                    <button type="button" class="btn btn-default btn-clear col-md-5 pull-right"
+                            ng-click="fechaEncaminhamento()">
+                        Cancelar
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Modal Questões de Ordem -->
+
+    <!-- Modal  Decisao -->
+    <div class="modal fade" id="respostaEncaminhamento" tabindex="-1" role="dialog" data-backdrop="static"
+         data-keyboard="false">
+        <div class="modal-dialog assembleia-modal-50pc" role="document">
+            <div class="modal-content assembleia-content">
+                <!-- Header -->
+                <div class="modal-header assembleia-header">
+                    <div class="row">
+                        <h4 class="modal-title Roboto-Thin ba__font-size-25"
+                            style="padding: 25px 25px 10px; font-weight: bold;">
+                            <i class="fa fa-pencil-square-o cff6633"></i>
+                            <span class="uppercase">Resposta</span>
+                        </h4>
+                    </div>
+                </div>
+                <!-- Form Mean -->
+                <div class="modal-body ba__modal-body-assembleia"
+                     style="background-color: #ffffff; padding: 0px !important">
+
+                    <form name="formResponder">
+
+                        <div class="row ba__margin-bottom-30">
+                            <div class="col-md-24">
+                                <div style="padding: 15px;">
+                                    <div class="control-input">
+                                        <textarea
+                                                name="respostaEncaminhamento"
+                                                ng-model="respostaEncaminhamento.resposta"
+                                                placeholder=" "
+                                                class="ng-pristine ng-valid ng-touched"
+                                                required
+                                                aria-invalid="false"
+                                                rows="7"
+                                                cols="33">
+                                        </textarea>
+                                        <span>RESPOSTA</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </form>
+
+                </div>
+                <!-- Footer -->
+                <div class="modal-footer" style="padding-right: 15px !important;">
+                    <button
+                            type="button"
+                            class="btn btn-success col-md-5 pull-right"
+                            style="margin-left: 5px"
+                            ng-disabled="!respostaEncaminhamento.resposta"
+                            ng-click="salvarRepostaEncaminhamento()">
+                        Enviar
+                    </button>
+
+                    <button type="button" class="btn btn-default btn-clear col-md-5 pull-right"
+                            ng-click="fecharRespotaEncaminhamento()">
+                        Cancelar
+                    </button>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Modal Decisao -->
+    <!--MODAL LOADING-->
+    <div class="modal" id="loading" role="dialog" data-backdrop="static" style="background: rgba(0, 0, 0, 0.1)!important">
+        <div class="modal-dialog" role="document">
+            <div style="padding: 20px;background:#FFF;width:14%;margin: 15% auto;position: relative;background-clip: padding-box;text-align: center;">
+                <div class="row">
+                    <i class="col-md-5 fa fa-spinner fa-spin ba__font-size-50 text-center"></i>
+                    <h5 class="col-md-13 col-md-offset-1 text-gray ba__margin-top-20">
+                        <b>aguarde...</b>
+                    </h5>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

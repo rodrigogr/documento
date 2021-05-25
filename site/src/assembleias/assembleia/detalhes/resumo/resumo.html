@@ -1,0 +1,756 @@
+<div class="row">
+    <div class="">
+        <div class="col-xs-13">
+
+            <div class="cart-infor w100pc br-8px bgc-fff bs px-16px py-20px my-16px">
+
+                <div class="header" style="margin-bottom: 20px;">
+                    <span> {{assembleiaResumo.tipo == 'geral' ? 'ASSEMBLEIA GERAL' : 'ASSEMBLEIA INTERNA'}}</span>
+                    <h2>{{ assembleiaResumo.titulo }}</h2>
+
+                    <p ng-if="assembleiaResumo.status == 'encerrada'" class="col-xs-8 status encerrada">
+                        <b>ASSEMBLEIA ENCERRADA</b>
+                    </p>
+                    
+                    <p ng-if="assembleiaResumo.status == 'andamento' " class="col-xs-8 status andamento">
+                        <b>ASSEMBLEIA EM ANDAMENTO</b>
+                    </p>
+
+                    <p ng-if="assembleiaResumo.status == 'agendada' " class="col-xs-8 status agendada">
+                        <b>ASSEMBLEIA AGENDADA</b>
+                    </p>
+
+                    <p ng-if="assembleiaResumo.status == 'votacao' " class="col-xs-8 status votacao">
+                        <b>ASSEMBLEIA EM VOTAÇÃO</b>
+                    </p>
+
+
+                    <div ng-click="editarAssembleia(assembleiaResumo.id)" class="pull-right"
+                         style="position: absolute; 
+                        right: 15px; 
+                        color: #828282; 
+                        font-size: 18px;
+                        text-decoration: underline;
+                        cursor: pointer;">
+                        <i class="fa fa-edit" style="font-size: 24px;"></i> Editar
+                    </div>
+                </div>
+
+                <div class="content">
+                    <div>
+                        <div class="box-item">
+                            <div class="item">
+                                <i class="fa fa-calendar"></i>
+                                <span>
+                                    de {{ assembleiaResumo.data_inicio }} {{ assembleiaResumo.hora_inicio }}
+                                    até {{ assembleiaResumo.data_fim }} {{ assembleiaResumo.hora_fim }}
+                                </span>
+                            </div>
+                            <div class="item">
+                                <i class="fa fa-check-square"></i>
+                                <span>
+                                    {{assembleiaresumo.votacao_data_inicio ? 'de' + assembleiaresumo.votacao_data_inicio : 'encerramento da votação' }}
+                                    até {{ assembleiaResumo.votacao_data_fim }} {{ assembleiaResumo.votacao_hora_fim }}
+                                </span>
+                            </div>
+<!--                            <div class="item">-->
+<!--                                <i class="fa fa-map"></i>-->
+<!--                                <span>-->
+<!--                                    Somente online-->
+<!--                                </span>-->
+<!--                            </div>-->
+                            <div class="item">
+                                <i class="fa fa-video-camera"></i>
+                                <span>
+                                    <a href="{{ assembleiaResumo.link_transmissao }}" target="_blank" class="link">Link da transmissão</a>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="documents" style="display: flex; flex-direction: column;">
+                    
+                    
+                    <div class="col-md-12" style="background-color: #fff;
+                        padding: 10px;
+                        box-shadow: 0px 0px 2px rgba(0, 0, 0, 0.2), 0px 2px 7px rgba(0, 0, 0, 0.15);
+                        border-radius: 8px; 
+                        margin-bottom: 15px;
+                        margin-left: 15px;"
+                        ng-repeat="(indexDoc, doc) in assembleiaResumo.documentos">
+                        <a href="javascript:void(0)" ng-click="abreDocumento(doc.id)">
+                            <img width="45" height="45" src="{{doc.icon}}">
+                            <i style="font-size: 17px; color: #666666 !important;">{{doc.name}}</i>
+                        </a>
+                        <i ng-click="abreDocumento()" class="fa fa fa-eye pull-right"
+                                                        style="font-size: 24px;
+                                                        margin: 8px; color: #666;"></i>
+                    </div>                    
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-xs-10 col-xs-offset-1">
+            
+
+            <div class="row ba__margin-top-20">
+                <button ng-if="assembleiaResumo.status == 'votacao'" type="button" class="btn btn-votacao fechada uppercase right" data-toggle="modal" ng-click="fecharVotacaoAssembleia(assembleiaResumo.id)">
+                    fechar votação
+                </button>
+            </div>
+
+            
+            <div ng-if="assembleiaResumo.status == 'andamento'" class="row ba__margin-top-20">
+                <button type="button" class="btn btn-votacao inicial uppercase right" data-toggle="modal" ng-click="abririniciarVotacao(assembleiaResumo.id)">
+                    INICIAR VOTAÇÃO
+                </button>
+            </div>
+
+            <div ng-if="assembleiaResumo.status == 'agendada'" class="row ba__margin-top-20">
+                <button type="button" class="btn btn-votacao iniciar-assembleia uppercase right" data-toggle="modal" ng-click="iniciarAssembleia(assembleiaResumo.id)">
+                    INICIAR Assembleia
+                </button>
+            </div>
+
+            <div class="row ba__margin-top-20" ng-if="assembleiaResumo.status == 'encerrada'">
+                <div class="col-md-11">
+                    <div class="votacao-finalizada bgc-ff6633 cffffff bs" ng-click="getListaPresenca(assembleiaResumo.id)">
+                        <i class="fa fa-user"></i>
+                        <span class="text">Lista de presença</span>
+                    </div>
+                </div>
+                    <div class="col-md-12 col-md-offset-1" >
+                        <div class="votacao-finalizada bgc-ff6633 cffffff bs" ng-click="emitirRelatorioVotacoes(assembleiaResumo.id)">
+                            <i class="fa fa-check-circle"></i>
+                            <span class="text">Relatório de votações</span>
+                        </div>
+                    </div>
+<!--                    <div class="col-md-7 col-md-offset-1">-->
+<!--                        <div class="votacao-finalizada bgc-ff6633 cffffff bs">-->
+<!--                            <i class="fa fa-pencil-square-o"></i>-->
+<!--                            <span class="text">Gerar ata</span>-->
+<!--                        </div>-->
+<!--                    </div>-->
+            </div>
+
+            <div class="row ba__margin-top-20">
+                <div class="col-md-7">
+                    <div class="cart-info bgc-fff bs">
+                        <i class="fa fa-gavel"></i>
+                        <span class="text">Questões de ordem</span>
+                        <p class="text">
+                            <b>{{ resumo.questoesOrdem }}</b>
+                            <span>/de {{ resumo.questoesOrdem }}</span>
+                        </p>
+                    </div>
+                </div>
+                <div class="col-md-8 col-md-offset-1" >
+                    <div class="cart-info bgc-fff bs">
+                        <i class="fa fa-hand-paper-o"></i>
+                        <span class="text">Encaminhamentos</span>
+                        <p class="text">
+                            <b>{{ resumo.encaminhamentos }}</b>
+                            <span>/de {{ resumo.encaminhamentos }}</span>
+                        </p>
+                    </div>
+                </div>
+                <div class="col-md-7 col-md-offset-1">
+                    <div class="cart-info bgc-fff bs">
+                        <i class="fa fa-weixin"></i>
+                        <span class="text"><strong>{{ resumo.topicos }}</strong> tópicos</span>
+                        <span class="text"><strong>{{ resumo.comentarios }}</strong> comentários</span>
+<!--                        <span class="text text-slim"><strong>21</strong> tópicos</span>-->
+                    </div>
+                </div>
+            </div>
+
+            <div class="row ba__margin-top-20">
+                <div class="col-md-24" style="margin-top: 16px;">
+
+                    <div class="init-votacao-participantes bgc-fff bs">
+                        <div class="header">
+                            <i class="fa fa-home"></i><span>Unidades participantes</span>
+                        </div>
+                        <div class="body">
+                            <div>
+                                <p class="text">
+                                    <b>{{ resumo.unidadesAptas }}</b>
+                                    <span>/de {{ resumo.totalUnidades }} aptas</span>
+                                </p>
+
+                            </div>
+                            <div>
+                                <b>{{ resumo.unidadesInteragiram }}</b><span>interagiram</span>
+                            </div>
+                            <div>
+                                <b>{{ resumo.unidadesVotaram }}</b><span>votaram</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+
+
+        <div class="modal fade" id="editarAssembleia" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="false">
+            <div class="modal-dialog assembleia-modal" role="document">
+                <div class="modal-content assembleia-content">
+                    <!-- Header -->
+                    <div class="modal-header assembleia-header">
+                        <div class="row">
+                            <h4 class="modal-title Roboto-Thin ba__font-size-25" style="padding: 25px 25px 10px; font-weight: bold;">
+                                <i class="icon-ba-building text-center text-primary ba__margin-horizontal-5 icon-modal-title"></i>
+                                <span>{{ assembleia.id ? 'Editar Assembleia' : 'Novo Assembleia'}}</span>
+                            </h4>
+                        </div>
+                        <div class="row check-assembleia">
+                            <span class="col-sm-7 col-sm-offset-1"><h4><b ng-class="{'step-selecionado': step == 1}" ng-click="goStep(1)">1</b> Dados Gerais</h4></span>
+                            <span class="col-sm-7 col-sm-offset-1"><h4><b ng-class="{'step-selecionado': step == 2}" ng-click="goStep(2)">2</b> Pautas</h4></span>
+                            <span class="col-sm-6 col-sm-offset-2"><h4><b ng-class="{'step-selecionado': step == 3}" ng-click="goStep(3)">3</b> Participantes</h4></span>
+                        </div>
+                    </div>
+                    <!-- Form Mean -->
+                    <div class="modal-body ba__modal-body-assembleia">
+                        <!-- <pre>
+                            {{ assembleia | json }}
+                        </pre> -->
+                        <form name="formAssembleia">
+                            <div class="row">
+                                <!--STEP 1 DADOS GERAIS-->
+                                <div class="form-group col-xs-14 ba__margin-top-20" id="step1" ng-show="step === 1">
+
+                                    <div class="row ba__margin-bottom-30">
+                                        <div class="col-md-24">
+                                            <p style="margin: 0;padding: 0 15px 15px 15px; text-transform: uppercase; font-size: 16px;">
+                                                TIPO DE REUNIÃO
+                                            </p>
+                                            <div class="col-md-24 format-radios">
+                                                <label class="radio-inline">
+                                                    <input 
+                                                    type="radio" 
+                                                    name="tipo" 
+                                                    ng-model="assembleia.tipo" 
+                                                    value="geral"
+                                                    ng-checked="true" />
+                                                    Assembleia geral
+                                                </label>
+<!--                                                <label class="radio-inline">-->
+<!--                                                    <input -->
+<!--                                                    type="radio" -->
+<!--                                                    name="tipo" -->
+<!--                                                    ng-model="assembleia.tipo" -->
+<!--                                                    value="interna" />-->
+<!--                                                    Reunião interna-->
+<!--                                                </label>-->
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="row ba__margin-bottom-30">
+                                        <div class="col-md-24">
+                                            <div style="padding: 15px;">
+                                                <div class="control-input">
+                                                    <input 
+                                                        type="text" 
+                                                        name="titulo"
+                                                        ng-model="assembleia.titulo"
+                                                        placeholder=" " 
+                                                        autocomplete="off" 
+                                                        class="ng-pristine ng-valid ng-touched"
+                                                        required
+                                                        aria-invalid="false">
+                                                    <span>TÍTULO</span>
+                                                </div>
+                                            </div>   
+                                        </div>                                         
+                                    </div>
+
+                                    <div class="row ba__margin-bottom-30">
+                                        <p style="margin: 0;padding: 0 15px; text-transform: uppercase; font-size: 16px;">
+                                            PERÍODO DA ASSEMBLEIA
+                                        </p>
+                                        <div class="col-md-12">
+                                            <div style="padding: 15px;">
+                                                <div class="control-input">
+                                                    <input 
+                                                        type="date"
+
+                                                        ng-model="assembleia.data_inicio"
+                                                        required
+                                                        >
+                                                    <span>DATA DO INICÍO</span>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <div style="padding: 15px;">
+                                                <div class="control-input">
+                                                    <input 
+                                                        type="text" 
+                                                        name="titulo" 
+                                                        ng-model="assembleia.hora_inicio" 
+                                                        placeholder=" " 
+                                                        autocomplete="off" 
+                                                        mask="99:99"
+                                                        class="ng-pristine ng-valid ng-touched" 
+                                                        aria-invalid="false">
+                                                    <span>HORA DO INICÍO</span>
+                                                </div>
+                                            </div>   
+                                        </div> 
+                                        
+                                        <div class="col-md-12">
+                                            <div style="padding: 15px;">
+                                                <div class="control-input">
+                                                    <input 
+                                                        type="date"
+                                                        ng-model="assembleia.data_fim"
+                                                        class="ng-pristine ng-valid ng-touched" 
+                                                        aria-invalid="false">
+                                                    <span>DATA DO FIM</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <div style="padding: 15px;">
+                                                <div class="control-input">
+                                                    <input 
+                                                        type="text" 
+                                                        name="titulo" 
+                                                        ng-model="assembleia.hora_fim" 
+                                                        placeholder=" " 
+                                                        autocomplete="off"
+                                                        mask="99:99"
+                                                        class="ng-pristine ng-valid ng-touched" 
+                                                        aria-invalid="false">
+                                                    <span>HORA DO FIM</span>
+                                                </div>
+                                            </div>   
+                                        </div> 
+                                    </div>
+
+                                    <div class="row ba__margin-bottom-30">
+                                        <p style="margin: 0;padding: 0 15px; text-transform: uppercase; font-size: 16px;">
+                                            PERÍODO DA VOTAÇÃO
+                                        </p>
+
+                                        <div class="informativos info" role="alert">
+                                            <i class="fa fa-info-circle"></i>
+                                            <span>
+                                                O inicio da votação devera ser manual, via painel administrativo.
+                                                A data hora do fim definira abaixo podera ser editado posteriormente.
+                                            </span>
+                                        </div>
+
+                                        <div class="col-md-12">
+                                            <div style="padding: 15px;">
+                                                <div class="control-input">
+                                                    <input 
+                                                        type="date"
+                                                        ng-model="assembleia.votacao_data_fim"
+                                                        class="ng-pristine ng-valid ng-touched" 
+                                                        aria-invalid="false">
+                                                    <span>DATA DO FIM</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <div style="padding: 15px;">
+                                                <div class="control-input">
+                                                    <input 
+                                                        type="text" 
+                                                        name="votacao_hora_fim" 
+                                                        ng-model="assembleia.votacao_hora_fim" 
+                                                        placeholder=" " 
+                                                        autocomplete="off"
+                                                        mask="99:99"
+                                                        class="ng-pristine ng-valid ng-touched" 
+                                                        aria-invalid="false">
+                                                    <span>HORA DO FIM</span>
+                                                </div>
+                                            </div>   
+                                        </div> 
+                                    </div>
+
+                                    <div class="row ba__margin-bottom-30">
+                                        <p style="margin: 0 0 15px; padding: 0 15px; text-transform: uppercase; font-size: 16px;">
+                                            CONFIGURAÇÕES
+                                        </p>  
+                                        
+                                        <div class="col-md-2 ba__margin-right-20" style="padding: 0 15px;">
+                                            <div class="onoffswitch">
+                                                <input type="checkbox" 
+                                                        name="onoffswitch"
+                                                        class="onoffswitch-checkbox"
+                                                        id="transmissao"
+
+                                                        ng-model="assembleia.transmissao">
+                                                <label class="onoffswitch-label" for="transmissao">
+                                                    <span class="onoffswitch-inner"></span>
+                                                    <span class="onoffswitch-switch"></span>
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-10">
+                                            <h5 class="text-left"
+                                                style="padding: 0; margin: 6px;">Transmissão online</h5>
+                                        </div>  
+                                        <div ng-if="assembleia.transmissao">
+                                            <div class="col-md-24">
+                                                <div style="padding: 15px;">
+                                                    <div class="control-input">
+                                                        <input 
+                                                            type="text" 
+                                                            name="data_inicio" 
+                                                            ng-model="assembleia.link_transmissao" 
+                                                            placeholder=" "
+                                                            autocomplete="off" 
+                                                            class="ng-pristine ng-valid ng-touched" 
+                                                            aria-invalid="false">
+                                                        <span>Link da transmissão</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div> 
+                                    </div>  
+                                    
+                                    
+                                    <div class="row ba__margin-bottom-30">
+                                        <div class="col-md-2 ba__margin-right-20" style="padding: 0 15px;">
+                                            <div class="onoffswitch">
+                                                <input type="checkbox" 
+                                                        name="onoffswitch"
+                                                        class="onoffswitch-checkbox"
+                                                        id="capacidade"
+                                                        checked
+                                                        ng-model="assembleia.votacao_secreta">
+                                                <label class="onoffswitch-label" for="capacidade">
+                                                    <span class="onoffswitch-inner"></span>
+                                                    <span class="onoffswitch-switch"></span>
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-10">
+                                            <h5 class="text-left"
+                                                style="padding: 0; margin: 6px;">Votação secreta</h5>
+                                        </div>  
+                                    </div>
+
+                                    <div class="row ba__margin-bottom-30">
+                                        <p style="margin: 0 0 15px; padding: 0 15px; text-transform: uppercase; font-size: 16px;">
+                                            ANEXOS GERAIS
+                                        </p>
+                                        <div class="col-md-24" style="padding-left: 15px;" >
+                                            <!--<button class="btn btn-default pull-left ba__margin-right-15">ANEXAR ARQUIVO</button>-->
+                                            <input class="ba__font-size-12 pull-left" type="file" id="inputDocumentos" name="documentos" onchange="angular.element(this).scope().changeInputField(this, 'documentos_regras')">
+                                            <span class="ba__font-size-12 pull-left ba__font-color-gray ba__margin-top-10" style="width: 70%; margin-bottom: 15px; clear: both;" >Arquivos de no max 10MB, nas extensões .PDF, .DOC, .DOCX, .XLS, .XLSX, .JPG ou .TXT</span>
+                                        </div>
+                                        <div class="col-md-18"
+                                            style="background-color: #fff;
+                                            padding: 10px;
+                                            box-shadow: 0px 0px 2px rgba(0, 0, 0, 0.2), 0px 2px 7px rgba(0, 0, 0, 0.15);
+                                            border-radius: 8px; 
+                                            margin-bottom: 15px;
+                                            margin-left: 15px;"
+                                            ng-repeat="(indexDoc, doc) in assembleia.documentos">
+                                            <a href="javascript:void(0)" ng-click="abreDocumento()">
+                                                <img width="45" height="45" src="{{doc.icon}}">
+                                                <i style="font-size: 17px; color: #666666 !important;">{{doc.name}}</i>                                                    
+                                            </a>
+                                            <i ng-click="excluirArquivo(doc, indexDoc)" class="fa fa-trash pull-right"
+                                                    style="font-size: 24px;
+                                                    margin: 8px; color: #666;"></i>
+                                        </div>
+                                    </div>
+                                    
+                                </div>
+
+                                <!--STEP 2 PARAMETRIZAÇÕES-->
+                                <div class="form-group col-xs-24" id="step2" ng-show="step === 2">
+                                    
+                                    <!-- <pre>
+                                        {{ assembleia.pautas | json }}
+                                    </pre> -->
+
+                                    <div ng-repeat="(pautaIndex, pauta) in assembleia.pautas"
+                                        style="border-bottom: solid 2px #d8d8d8; padding: 0 0 20px; margin: 0 0 20px;">
+                                    
+                                        <div class="row ba__margin-bottom-30">
+                                            <div class="col-md-22">
+                                                <div style="padding: 15px;">
+                                                    <div class="control-input">
+                                                        <textarea 
+                                                            name="titulo"
+                                                            ng-model="pauta.pergunta"
+                                                            value="pauta.id"
+                                                            placeholder=" " 
+                                                            class="ng-pristine ng-valid ng-touched"
+                                                            required
+                                                            aria-invalid="false"
+                                                            rows="4"
+                                                            cols="33">
+                                                        </textarea>
+                                                        <span>PAUTA </span><!-- {{pautaIndex}} -->
+                                                    </div>
+                                                </div>   
+                                            </div>
+                                            <div class="col-md-2">
+                                                <div style="display: flex;
+                                                        align-items: center;
+                                                        justify-content: start;
+                                                        font-size: 28px;
+                                                        padding: 15px;
+                                                        min-height: 80px;
+                                                        color: #999;">
+                                                    <i class="fa fa-trash"
+                                                    style="margin-right: 15px;"
+                                                        ng-click="removeNewPauta()"></i>                                                       
+                                                </div>
+                                            </div>                                     
+                                        </div>
+
+                                        <div class="row"
+                                            ng-repeat="alternativa in pauta.alternativas">
+                                            <div class="col-md-22">
+                                                <div style="padding: 15px;">
+                                                    <div class="control-input">
+                                                        <input 
+                                                            type="text" 
+                                                            name="alternativa"
+                                                            ng-model="alternativa.opcao"
+                                                            value="alternativa.id"
+                                                            placeholder=" " 
+                                                            autocomplete="off" 
+                                                            class="ng-pristine ng-valid ng-touched"
+                                                            required
+                                                            aria-invalid="false">
+                                                        <span>Alternativa</span> <!-- {{$index}} -->
+                                                    </div>
+                                                </div>   
+                                            </div> 
+                                            <div class="col-md-2">
+                                                <div style="display: flex;
+                                                        align-items: center;
+                                                        justify-content: start;
+                                                        font-size: 28px;
+                                                        padding: 15px;
+                                                        min-height: 80px;
+                                                        color: #999;">
+                                                    <i class="fa fa-trash"
+                                                    style="margin-right: 15px;"
+                                                        ng-click="removeNewAlternativas(pautaIndex)"></i>
+                                                    <i class="fa fa-plus-circle"
+                                                        ng-show="showAddAlternativa(alternativa, pautaIndex)"
+                                                        ng-click="addNewAlternativa(pautaIndex)"  
+                                                    ></i>
+                                                </div>
+                                            </div>                                        
+                                        </div>  
+                                    
+                                    </div>
+                                    
+                                    <button class="btn col-md-5" 
+                                        style="background-color: transparent;
+                                        color: #ff6633; 
+                                        border: solid 1px #ff6633;
+                                        margin-left: 15px;" 
+                                        type="button"
+                                        ng-click="addNewPauta()">
+                                        NOVA PAUTA
+                                    </button>
+                                </div>
+
+                                <!--STEP 3 PERÍODOS-->
+                                <div class="form-group col-xs-24" id="step3" ng-show="step === 3"
+                                    style="background-color: #F2F2F2; padding: 60px 15px 30px 15px;">
+                                    <div class="row">
+                                        
+                                        <div class="row uppercase titulo-lista"
+                                            style="padding: 10px 20px;">
+                                            <div class="col-xs-2"></div>
+                                            <div class="col-xs-4">
+                                                <b>Unidade</b> 
+                                            </div>
+                                            <div class="col-xs-2">
+                                                <b>PESO</b> 
+                                            </div>
+                                            <div class="col-xs-4">
+                                                <b>STATUS</b> 
+                                            </div>
+                                            <div class="col-xs-8">
+                                                <b>Procurador</b> 
+                                            </div>
+                                            <div class="col-xs-4"></div>
+                                        </div>
+
+                                        <ul class="list-group">
+                                            <li  class="list-group-item"
+                                                ng-repeat="participante in assembleia.participantes">
+                                                
+                                                <h5 class="col-xs-2 list-group-item-heading check-styled">
+                                                    <div class="checkbox">
+                                                        <label>
+                                                          <input type="checkbox"  ng-model="participante.participar">
+                                                        </label>
+                                                    </div>
+                                                </h5>
+                                                <h5 class="col-xs-4 list-group-item-heading">Qd {{participante.quadra}} Lt. {{participante.lote}}</h5>
+                                                <h5 class="col-xs-2 list-group-item-heading">x{{participante.peso_voto}}</h5>
+                                                
+                                                <h5 class="col-xs-4 list-group-item-heading">
+                                                    <span class="badge-style {{participante.participar ? ' badge-participante-ativo' : ' badge-participante-impedido' }}">
+                                                        {{ participante.participar ? 'Participando' : 'Impedido' }}
+                                                    </span>
+                                                </h5>
+                                                <h5 class="col-xs-8 list-group-item-heading">
+                                                    {{ participante.procurador }}
+                                                </h5>
+                                                <h5 class="col-xs-4 list-group-item-heading text-right"></h5>
+                                            </li>
+                                        </ul>
+                                    </div>
+<!--                                    <pre>-->
+<!--                                        {{-->
+<!--                                        assembleia | json-->
+<!--                                        }}-->
+<!--                                    </pre>-->
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <!-- Footer -->
+                    <div class="modal-footer" style="margin: 20px">
+                        <button ng-if="assembleia.id" type="button" class="btn btn-success col-md-5 pull-right" ng-show="step == 3"
+                                ng-disabled="formAssembleia.$invalid"
+                                style="margin-left: 5px"
+                                ng-click="update()">
+                            Editar
+                        </button>
+                        <button type="button" ng-click="goStep('+')" class="btn btn-success col-md-5 col-md-offset-1 pull-right" ng-show="step < 3">
+                            Próximo passo
+                        </button>
+                        <button type="button" ng-click="goStep('-')" class="btn btn-default col-md-5 pull-right" ng-show="step > 1">
+                            Voltar
+                        </button>
+                        <button type="button" class="btn btn-default btn-clear col-md-5 pull-right" ng-click="closeEditarAssembleia()">
+                            Cancelar
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- Modal  Decisao -->
+        <div class="modal fade" id="iniciarVotacao" tabindex="-1" role="dialog" data-backdrop="static"
+             data-keyboard="false">
+            <div class="modal-dialog assembleia-modal-40pc" role="document">
+                <div class="modal-content assembleia-content">
+                    <!-- Header -->
+                    <div class="modal-header assembleia-header">
+                        <div class="row">
+                            <h4 class="modal-title Roboto-Thin ba__font-size-25"
+                                style="padding: 25px 25px 10px; font-weight: bold;">
+                                <i class="fa fa-clock-o cff6633"></i>
+                                <span class="uppercase">Encerramento automático</span>
+                            </h4>
+                        </div>
+                    </div>
+                    <!-- Form Mean -->
+                    <div class="modal-body ba__modal-body-iniciar-votacao"
+                         style="background-color: #ffffff; padding: 0px !important">
+
+                        <form name="formIniciarVotacao">
+
+                            <div class="row ba__margin-top-30">
+                                <p style="margin: 0;padding: 0 15px;  font-size: 16px;">
+                                    Confirme o dia e horário de encerramento automático da votação.
+                                </p>
+
+                                <div class="col-md-6">
+                                    <div style="padding: 15px;">
+                                        <div class="control-input">
+                                            <input
+                                                    type="text"
+                                                    name="votacao_data_fim"
+                                                    ng-model="votacao.votacao_data_fim"
+                                                    placeholder=" "
+                                                    autocomplete="off"
+                                                    mask="99/99/9999"
+                                                    required
+                                                    class="ng-pristine ng-valid ng-touched"
+                                                    aria-invalid="false">
+                                            <span>DATA DO FIM</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div style="padding: 15px;">
+                                        <div class="control-input">
+                                            <input
+                                                    type="text"
+                                                    name="votacao_hora_fim"
+                                                    ng-model="votacao.votacao_hora_fim"
+                                                    placeholder=" "
+                                                    autocomplete="off"
+                                                    mask="99:99"
+                                                    requiredvotacao_data_fimvotacao_data_fim
+                                                    class="ng-pristine ng-valid ng-touched"
+                                                    aria-invalid="false">
+                                            <span>HORA DO FIM</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-15">
+                                    <p style="margin: 0;padding: 0 15px;  font-size: 16px;">
+                                        Este dia e horário deve estar dentro do dia e horário final definido para a assembleia ({{ assembleiaResumo.data_fim }} até {{ assembleiaResumo.hora_fim }})
+                                    </p>
+                                </div>
+                            </div>
+
+                        </form>
+
+                    </div>
+                    <!-- Footer -->
+                    <div class="modal-footer" style="padding-right: 15px !important;">
+                        <button
+                                type="button"
+                                class="btn btn-success col-md-5 pull-right"
+                                style="margin-left: 5px"
+                                ng-disabled="!(votacao.votacao_data_fim && votacao.votacao_hora_fim)"
+                                ng-click="iniciarVotacao()">
+                            Salvar
+                        </button>
+
+                        <button type="button" class="btn btn-default btn-clear col-md-5 pull-right"
+                                ng-click="fecharIniciarVotacao()">
+                            Cancelar
+                        </button>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Modal Decisao -->
+
+        <!--MODAL LOADING-->
+        <div class="modal" id="loading" role="dialog" data-backdrop="static" style="background: rgba(0, 0, 0, 0.1)!important">
+            <div class="modal-dialog" role="document">
+                <div style="padding: 20px;background:#FFF;width:14%;margin: 15% auto;position: relative;background-clip: padding-box;text-align: center;">
+                    <div class="row">
+                        <i class="col-md-5 fa fa-spinner fa-spin ba__font-size-50 text-center"></i>
+                        <h5 class="col-md-13 col-md-offset-1 text-gray ba__margin-top-20">
+                            <b>aguarde...</b>
+                        </h5>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -36,9 +36,9 @@ class SituacaoImovelController extends Controller
             $data = $request->all();
             $Data = SituacaoImovel::create($data);
         } catch (Exception $e) {
-            var_dump($e->getMessage);
+            var_dump($e->getMessage());
 
-            return response()->error($e->getMessage);
+            return response()->error($e->getMessage());
         }
         return response()->success(trans('messages.crud.FSS', ['name' => $this->name]));
     }
@@ -74,7 +74,7 @@ class SituacaoImovelController extends Controller
                 $data = $request->all();
                 $Data->update($data);
             } catch (Exception $e) {
-                return response()->error($e->getMessage);
+                return response()->error($e->getMessage());
             }
             return response()->success(trans('messages.crud.FUS', ['name' => $this->name]));
         } else {
@@ -95,7 +95,7 @@ class SituacaoImovelController extends Controller
             try {
                 $Data->delete();
             } catch (Exception $e) {
-                return response()->error($e->getMessage);
+                return response()->error($e->getMessage());
             }
             return response()->success(trans('messages.crud.FDS', ['name' => $this->name]));
         } else {

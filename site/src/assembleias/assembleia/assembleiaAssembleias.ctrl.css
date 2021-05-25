@@ -1,0 +1,219 @@
+
+.w100pc{ width: 100%; }
+.c999999{ color: #999999; }
+.cffffff{ color: #ffffff; }
+.cff6633{ color: #FF6633; }
+.bgc-fff{ background-color: #FFFFFF; }
+.bgc-ff6633{ background-color: #FF6633; }
+.br8px{  border-radius: 8px; }
+.px-16px{ padding-left: 16px; padding-right: 16px;}
+
+.py-16px{ padding-top: 16px; padding-bottom: 16px;}
+.py-20px{ padding-top: 20px; padding-bottom: 20px;}
+
+.my-16px{ margin-top: 16px; margin-bottom: 16px; }
+
+.bs{
+    box-shadow: 0px 0px 2px rgba(0, 0, 0, 0.1), 0px 2px 7px rgba(0, 0, 0, 0.08);
+    border-radius: 8px;
+}
+
+
+.badge-style{
+    padding: 5px 15px;
+    border-radius: 20px;
+    font-size: 14px;
+}
+
+.badge-style.badge-agendada{
+    color: #4F4F4F;
+    background-color: #f2f2f3;
+}
+
+.badge-style.badge-em-andamento{
+    color: #219653;
+    background-color: #C8F5D7;
+}
+
+.badge-style.badge-votacao{
+    background: rgba(45, 156, 219, 0.1);
+    color: #2D9CDB;
+}
+
+.badge-style.badge-encerrada{
+    color: #EB5757;
+    background-color: #FFECE5;
+}
+
+.badge-style.badge-participante-ativo{
+    color: #FFF;
+    background-color: #33CC66;
+}
+
+.badge-style.badge-participante-impedido{
+    color: #EB5757;
+    background-color: #FFECE5;
+}
+
+.assembleia-modal{
+    width: 60%;
+}
+
+.assembleia-modal-50pc{
+    width: 50%;
+}
+
+.assembleia-modal-40pc{
+    width: 40%;
+}
+
+.assembleia-content,
+.assembleia-header{
+    padding: 0px;
+}
+
+.check-assembleia {
+    border-top: 1px solid #e2e2e2;
+    border-bottom: 1px solid #e2e2e2;
+    padding: 30px 20px 30px;
+    margin-top: 11px;
+}
+.check-assembleia h4 b {
+    border: 1px solid #CCC;
+    width: 55px;
+    height: 55px;
+    border-radius: 32px;
+    float: left;
+    margin-top: -18px;
+    text-align: center;
+    padding-top: 13px;
+    margin-right: 15px;
+}
+
+.control-input{
+    position: relative;
+}
+
+.control-input input,
+.control-input > textarea,
+.control-input > select{
+    border: 0;
+    border-bottom: 2px solid #999999 !important;
+    outline: none;
+    width: 100%;
+    min-height: 60px !important;
+    font-size: 18px !important;
+    transition: all .3s ease-out;
+    -webkit-transition: all .3s ease-out;
+    -moz-transition: all .3s ease-out;
+    -webkit-appearance:none;
+    background-color: #f3f3f3;
+    border-radius: 8px 8px 0px 0px;
+    padding: 16px 8px 8px 16px;
+    color: #333 !important;
+}
+
+.control-input input:focus{
+    border-bottom: 2px solid #ff6633;
+}
+  
+.control-input input::placeholder{
+    color:transparent;
+}
+
+.control-input span{
+    pointer-events: none;
+    position: absolute;
+    top: 0;
+    left: 0;
+    margin-top: 20px;
+    margin-left: 16px;
+    transition: all .3s ease-out;
+    -webkit-transition: all .3s ease-out;
+    -moz-transition: all .3s ease-out;
+    font-size: 16px;
+}
+
+.control-input textarea:required:invalid + span,
+.control-input input:required:invalid + span{
+    color: red;
+}
+
+.control-input textarea:focus:required:invalid,
+.control-input input:focus:required:invalid{
+    border-bottom: 2px solid red;
+}
+
+.control-input textarea:required:invalid + span:before,
+.control-input input:required:invalid + span:before{
+    content: '*';
+}
+
+.control-input input:focus + span,
+.control-input input:not(:placeholder-shown) + span{
+    font-size: 12px;
+    margin-top: 5px;
+    color: #ff6633;
+}
+
+.control-input textarea:focus + span,
+.control-input textarea:not(:placeholder-shown) + span{
+    font-size: 12px;
+    margin-top: 5px;
+    color: #ff6633;
+}
+
+.control-input select:focus + span,
+.control-input select:not([value=""]):valid ~ span{
+    font-size: 12px;
+    margin-top: 5px;
+    color: #ff6633;
+}
+
+.informativos{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    font-size: 16px;
+    padding: 20px 15px;
+    border-radius: 15px;
+    margin: 15px 15px 20px;
+}
+
+.informativos.info{
+    color: #2D9CDB;
+    background-color: rgba(45, 156, 219, 0.1);;
+    border-color: #2D9CDB;
+}
+
+.informativos > span{
+    font-size: 15px;
+}
+
+.informativos > i{
+    font-size: 24px;
+    margin-right: 15px;;
+}
+
+.format-radios{
+    margin-left: 25px;
+}
+
+.format-radios label{
+    font-size: 20px;
+}
+
+.format-radios label input{
+    width: 20px !important;
+    height: 20px !important;
+}
+
+.step-selecionado {
+    background-color: #FF6633;
+    color: #FFF;
+    border: 1px solid #FF6633 !important;
+}
+
+.check-styled .checkbox{
+    margin-top: 0px !important;
+}

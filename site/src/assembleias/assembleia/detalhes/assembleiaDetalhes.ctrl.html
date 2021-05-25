@@ -1,0 +1,106 @@
+<link rel="stylesheet" href="src/assembleias/assembleia/assembleiaAssembleias.ctrl.css">
+<link rel="stylesheet" href="src/assembleias/assembleia/detalhes/assembleiaDetalhes.ctrl.css">
+<link rel="stylesheet" href="src/assembleias/assembleia/detalhes/participantes/participantes.css">
+<link rel="stylesheet" href="src/assembleias/assembleia/detalhes/resumo/resumo.css">
+<link rel="stylesheet" href="src/assembleias/assembleia/detalhes/discussoes/discussoes.css">
+<link rel="stylesheet" href="src/assembleias/assembleia/detalhes/encaminhamentos/encaminhamentos.css">
+<link rel="stylesheet" href="src/assembleias/assembleia/detalhes/questoes-ordem/questoesOrdem.css">
+<link rel="stylesheet" href="src/assembleias/assembleia/detalhes/pautas/pautas.css">
+
+<div class="header">
+    <div header></div>
+</div>
+
+<div class="row container-fluid ba__body-content ba__full-width">
+    <!--CONTAINER MENU-->
+    <div sidebar></div>
+    <!--CONTAINER SISTEMA-->
+    <div class="col-xs-21 ba__admin-container">
+
+        <div class="col-xs-24 ba__admin-container-list">
+
+            <!-- Atualizar -->
+            <div class="row" style="height: auto; margin: 10px 2%">
+                <div class="row ba__margin-top-20">
+                    <button type="button" class="btn btn-atualizar col-xs-4 uppercase right" style="float: right"
+                            data-toggle="modal" ng-click="">
+                        ATUALIZAR (29s)
+                    </button>
+                </div>
+            </div>
+            <!-- Atualizar -->
+
+            <div class="row ba__admin-list" ng-init="data.tabStatus='Resumo'" style="overflow-y: auto;height: 90%;margin-bottom: inherit !important">
+                <!-- TABS -->
+                <div class="col-md-24">
+                    <ul class="nav nav-tabs ba-nav-tabs tabs-assembleia" >
+                        <li ng-class="{'active': data.tabStatus === 'Resumo'}" ng-click="data.tabStatus = 'Resumo'">
+                            <a data-toggle="tab">
+                                <h5>RESUMO</h5>
+                            </a>
+                        </li>
+                        <li ng-class="{'active': data.tabStatus === 'Discussoes'}" ng-click="data.tabStatus = 'Discussoes'">
+                            <a data-toggle="tab">
+                                <h5>DISCUSSÕES</h5>
+                            </a>
+                        </li>
+                        <li ng-class="{'active': data.tabStatus === 'QuestoesOrdem'}" ng-click="data.tabStatus = 'QuestoesOrdem'">
+                            <a data-toggle="tab">
+                                <h5>QUESTÕES DE ORDEM</h5>
+                            </a>
+                        </li>
+                        <li ng-class="{'active': data.tabStatus === 'Encaminhamentos'}" ng-click="data.tabStatus = 'Encaminhamentos'">
+                            <a data-toggle="tab">
+                                <h5>ENCAMINHAMENTOS</h5>
+                            </a>
+                        </li>
+                        <li ng-class="{'active': data.tabStatus === 'Pautas'}" ng-click="data.tabStatus = 'Pautas'">
+                            <a data-toggle="tab">
+                                <h5>PAUTAS</h5>
+                            </a>
+                        </li>
+                        <li ng-class="{'active': data.tabStatus === 'Participantes'}" ng-click="data.tabStatus = 'Participantes'">
+                            <a data-toggle="tab">
+                                <h5>PARTICIPANTES</h5>
+                            </a>
+                        </li>
+                    </ul>
+                    <div class="tab-content">
+
+                        <!-- RESUMO -->
+                        <div id="menu1" class="tab-pane fade in active" ng-if="data.tabStatus === 'Resumo'">
+                            <div assembleiaresumo></div>
+                        </div>
+
+                        <!-- DISCUSSOES -->
+                        <div id="menu2" class="tab-pane fade in active" ng-if="data.tabStatus === 'Discussoes'">
+                            <div assembleiadiscussoes></div>
+                        </div>
+
+                        <!-- Questões Ordem -->
+                        <div id="menu3" class="tab-pane fade in active" ng-if="data.tabStatus === 'QuestoesOrdem'">
+                            <div assembleiaquestoes></div>
+                        </div>
+
+                        <!-- Encaminhamentos -->
+                        <div id="menu4" class="tab-pane fade in active" ng-if="data.tabStatus === 'Encaminhamentos'">
+                            <div assembleiaencaminhamentos></div>
+                        </div>
+
+                        <!-- Pautas -->
+                        <div id="menu5" class="tab-pane fade in active" ng-if="data.tabStatus === 'Pautas'">
+                            <div assembleiapautas></div>
+                        </div>
+
+                        <!-- Participantes -->
+                        <div id="menu6" class="tab-pane fade in active" ng-if="data.tabStatus === 'Participantes'">
+                            <div assembleiaparticipantes></div>
+                        </div>
+
+                    </div>
+                </div>
+                <!-- TABS-->
+            </div>
+        </div>
+    </div>
+</div>

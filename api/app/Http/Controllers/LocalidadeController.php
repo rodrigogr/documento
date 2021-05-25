@@ -44,7 +44,7 @@ class LocalidadeController extends Controller
             $data = $request->all();
             $Data = Localidade::create($data);
         } catch (Exception $e) {
-            return response()->error($e->getMessage);
+            return response()->error($e->getMessage());
         }
         return response()->success(trans('messages.crud.FSS', ['name' => $this->name]));
     }
@@ -80,7 +80,7 @@ class LocalidadeController extends Controller
                 $data = $request->all();
                 $Data->update($data);
             } catch (Exception $e) {
-                return response()->error($e->getMessage);
+                return response()->error($e->getMessage());
             }
             return response()->success(trans('messages.crud.FUS', ['name' => $this->name]));
         } else {
@@ -101,7 +101,7 @@ class LocalidadeController extends Controller
             try {
                 $Data->delete();
             } catch (Exception $e) {
-                return response()->error($e->getMessage);
+                return response()->error($e->getMessage());
             }
             return response()->success(trans('messages.crud.FDS', ['name' => $this->name]));
         } else {

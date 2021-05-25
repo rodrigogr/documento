@@ -1,0 +1,271 @@
+<div class="row">
+    <div class="row ba__margin-top-20">
+        <h3 class="col-md-15 Roboto-Light">
+            <strong>{{listaDeDiscussoes.length}}</strong> resultados</h3>
+    </div>
+    <!-- Table List-->
+    <div class="ba__admin-table" style="margin: 60px 0 20px 0">
+        <a class="list-group-item disabled">
+            <div class="row uppercase titulo-lista">
+                <div class="col-xs-1" style="cursor: pointer;"><b>Pauta</b>
+                    <i class="ba__margin-horizontal-5"></i>
+                </div>
+                <div class="col-xs-15" style="cursor: pointer;"><b>Título</b>
+                    <i class="ba__margin-horizontal-5"></i>
+                </div>
+                <div class="col-xs-2" style="cursor: pointer;"><b>TÓPICOS</b>
+                    <i class="ba__margin-horizontal-5"></i>
+                </div>
+                <div class="col-xs-2" style="cursor: pointer;"><b>Comentários</b>
+                    <i class="ba__margin-horizontal-5"></i>
+                </div>
+                <div class="col-xs-3" style="cursor: pointer;"><b>ÚLTIMA INTERAÇÃO</b>
+                    <i class="ba__margin-horizontal-5"></i>
+                </div>
+                <div class="col-xs-1 text-right" style="cursor: pointer;"></div>
+            </div>
+        </a>
+        <div class="ba__admin-table-scroll">
+            <a class="list-group-item" ng-repeat="discussoes in listaDeDiscussoes"
+                ng-click="abreDiscussao(discussoes.id_pauta)" style="cursor: pointer;">
+                <h5 class="col-xs-1 list-group-item-heading">{{discussoes.pauta}}</h5>
+                <h5 class="col-xs-15 list-group-item-heading">{{discussoes.titulo}}</h5>
+                <h5 class="col-xs-2 list-group-item-heading">{{discussoes.topicos}}</h5>
+                <h5 class="col-xs-2 list-group-item-heading uppercase">{{discussoes.comentarios}}</h5>
+                <h5 class="col-xs-3 list-group-item-heading">
+                    às {{extractHorario(discussoes.ultima_interacao)}} de {{ converteDateParaPtBR(discussoes.ultima_interacao) }} </h5>
+                <h5 class="col-xs-1 list-group-item-heading text-right">
+                    <i class="fa fa-eye"></i>
+                </h5>
+            </a>
+        </div>
+
+    </div>
+    <!-- Table List-->
+
+    <!-- Modal Discussão -->
+    <div class="modal fade" id="abreDiscussao" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="false">
+        <div class="modal-dialog assembleia-modal" role="document">
+            <div class="modal-content assembleia-content">
+                <!-- Header -->
+                <div class="modal-header assembleia-header">
+                    <div class="row">
+                        <h4 class="modal-title Roboto-Thin ba__font-size-25"
+                            style="padding: 25px 25px 10px; font-weight: bold;">
+                            <i class="fa fa-weixin cff6633"></i>
+                            <span>TÓPICOS DE DISCUSSÃO</span>
+                        </h4>
+                    </div>
+                </div>
+                <!-- Form Mean -->
+                <div class="modal-body ba__modal-body-assembleia"
+                    style="background-color: #F2F2F2; padding: 0px !important">
+
+                    <header class="discussoes">
+                        <p>PAUTA 01 DE 02</p>
+                        <h5>
+                            {{discussaoPauta.pergunta}}
+                        </h5>
+                    </header>
+
+                    <article class="box-discussao">
+
+                        <section class="bgc-fff bs br8px" ng-repeat="topicos in discussaoPauta.topicos"
+                            ng-click="detalheTopico(topicos.id)">
+                            <div class="pessoa">
+                                <img class="" src="img/avatar.png" alt="" />
+                                <div>
+                                    <span>{{ topicos.autor }}</span>
+                                    <span>Há 32 minutos</span>
+                                </div>
+                            </div>
+                            <h6>
+                                {{ topicos.titulo }}
+                            </h6>
+                            <div class="likes">
+                                <i class="fa fa-thumbs-up">&nbsp;&nbsp; {{ topicos.likes }}</i>
+                                <i class="fa fa-weixin ">&nbsp;&nbsp; {{ topicos.comentarios }} comentários</i>
+                            </div>
+                        </section>
+                    </article>
+                </div>
+                <!-- Footer -->
+                <div class="modal-footer" style="padding-right: 15px !important;">
+                    <button type="button" class="btn btn-default btn-clear col-md-5 pull-right"
+                        ng-click="fechaDiscussao()">
+                        Fechar
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Modal Discussão -->
+
+
+    <!-- Modal Detalhe do Tópico -->
+    <div class="modal fade" id="detalheTopico" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="false">
+        <div class="modal-dialog assembleia-modal-50pc" role="document">
+            <div class="modal-content assembleia-content">
+                <!-- Header -->
+                <div class="modal-header assembleia-header">
+                    <div class="row">
+                        <h4 class="modal-title Roboto-Thin ba__font-size-25"
+                            style="padding: 25px 25px 10px; font-weight: bold;">
+                            <i class="fa fa-weixin cff6633"></i>
+                            <span>DETALHES DO TÓPICO</span>
+                        </h4>
+                    </div>
+                </div>
+                <!-- Form Mean -->
+                <div class="modal-body ba__modal-body-assembleia"
+                    style="background-color: #F2F2F2; padding: 0px !important">
+
+                    <header class="discussoes">
+                        <div class="pessoa">
+                            <img class="" src="img/avatar.png" alt="" />
+                            <div>
+                                <span>{{ topico.autor }}</span>
+                                <span>Há 32 minutos</span>
+                            </div>
+                        </div>
+
+                        <h5>
+                            {{ topico.titulo }}
+                        </h5>
+
+                        <h6>
+                            {{ topico.descricao }}
+                        </h6>
+                    </header>
+
+                    <article class="box-discussao">
+                        <section class="bgc-fff bs br8px" ng-repeat="comentario in topico.comentarios">
+                            <div class="pessoa">
+                                <img class="" src="img/avatar.png" alt="" />
+                                <div>
+                                    <span>{{ comentario.autor }}</span>
+                                    <span>Há 32 minutos</span>
+                                </div>
+                            </div>
+                            <h6>
+                                {{ comentario.resposta }}
+                            </h6>
+<!--                            <div -->
+<!--                                ng-click="responderComentario(comentario)"-->
+<!--                                class="comentar" >-->
+<!--                                <i class="fa fa-reply-all" aria-hidden="true">&nbsp;&nbsp; Responder</i>-->
+<!--                            </div>-->
+                        </section>
+                    </article>
+                </div>
+                <!-- Footer -->
+                <div class="modal-footer" style="padding-right: 15px !important;">
+                    <button ng-click="comentar(topico)" type="button" class="btn btn-success col-md-5 pull-right"
+                        style="margin-left: 5px">
+                        Comentar
+                    </button>
+
+                    <button type="button" class="btn btn-default btn-clear col-md-5 pull-right"
+                        ng-click="fechaDetalheTopico()">
+                        Cancelar
+                    </button>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Modal Detalhe do Tópico -->
+
+    <!-- Modal  -->
+    <div class="modal fade" id="responderComentario" tabindex="-1" role="dialog" data-backdrop="static"
+        data-keyboard="false">
+        <div class="modal-dialog assembleia-modal-50pc" role="document">
+            <div class="modal-content assembleia-content">
+                <!-- Header -->
+                <div class="modal-header assembleia-header">
+                    <div class="row">
+                        <h4 class="modal-title Roboto-Thin ba__font-size-25"
+                            style="padding: 25px 25px 10px; font-weight: bold;">
+                            <i class="fa fa-pencil-square-o cff6633"></i>
+                            <span>COMENTÁRIO</span>
+                        </h4>
+                    </div>
+                </div>
+                <!-- Form Mean -->
+                <div class="modal-body ba__modal-body-assembleia"
+                    style="background-color: #ffffff; padding: 0px !important">
+
+                    <header class="discussoes">
+                        <div class="pessoa">
+                            <img class="" src="img/avatar.png" alt="" />
+                            <div>
+                                <span>{{ comentario.autorThead }}</span>
+                                <span>Há 32 minutos</span>
+                            </div>
+                        </div>
+
+                        <h5>
+                            {{ comentario.textoThead }}
+                        </h5>
+                    </header>
+
+                    <form name="formResponder">
+
+                        <div class="row ba__margin-bottom-30">
+                            <div class="col-md-24">
+                                <div style="padding: 15px;">
+                                    <div class="control-input">
+                                        <textarea 
+                                            name="resposta"
+                                            ng-model="comentario.resposta"
+                                            placeholder=" "
+                                            class="ng-pristine ng-valid ng-touched" 
+                                            required 
+                                            aria-invalid="false"
+                                            rows="7"
+                                            cols="33">
+                                        </textarea>
+                                        <span>RESPONDER </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </form>
+
+                </div>
+                <!-- Footer -->
+                <div class="modal-footer" style="padding-right: 15px !important;">
+                    <button
+                        type="button" 
+                        class="btn btn-success col-md-5 pull-right" 
+                        style="margin-left: 5px"
+                        ng-disabled="!comentario.resposta"
+                        ng-click="cadastrarComentario()">
+                        Enviar
+                    </button>
+
+                    <button type="button" class="btn btn-default btn-clear col-md-5 pull-right"
+                        ng-click="fechaResponderComentario()">
+                        Cancelar
+                    </button>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Modal Detalhe do Tópico -->
+    <!--MODAL LOADING-->
+    <div class="modal" id="loading" role="dialog" data-backdrop="static" style="background: rgba(0, 0, 0, 0.1)!important">
+        <div class="modal-dialog" role="document">
+            <div style="padding: 20px;background:#FFF;width:14%;margin: 15% auto;position: relative;background-clip: padding-box;text-align: center;">
+                <div class="row">
+                    <i class="col-md-5 fa fa-spinner fa-spin ba__font-size-50 text-center"></i>
+                    <h5 class="col-md-13 col-md-offset-1 text-gray ba__margin-top-20">
+                        <b>aguarde...</b>
+                    </h5>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

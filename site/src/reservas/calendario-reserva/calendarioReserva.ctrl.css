@@ -135,3 +135,48 @@ button[disabled] {
     background-color: rgb(249 202 83 / 31%);
     background-color: var(--fc-today-bg-color, rgb(249 202 83 / 31%));
 }
+#loadingDiaCalendario {
+    position: absolute;width: 94%;height: 140px;background-color: #fafafa;z-index: 2;margin-top: 19%;
+}
+#loadingDiaCalendario div {
+    width: 30%;background: #FFFFFF;text-align: center;margin: 3% auto;
+}
+#loadingDiaCalendario label {
+    font-size: 23px;float: right;margin-right: 126px;margin-top: 23px;font-weight: normal;
+}
+.fc-sticky {
+    font-size: 18px;
+}
+.fc .fc-popover-title {
+    font-size: 18px;
+}
+.fc .fc-daygrid-day-bottom {
+    font-size: 16px;
+    font-weight: bold;
+}
+.fc-daygrid-day.fc-day:hover {
+    cursor: pointer;
+    background-color: #f9ca534f;
+}
+.titulo-dia-mes {
+    margin-top: 10px;
+    color: #FF6633;
+    font-weight: bold;
+}
+.titulo-semana {
+    font-size: 25px;
+    font-weight: normal;
+    color: #666;
+    margin-left: 10px;
+}
+.btn-nav-dia {
+    border: 1px solid #979797;
+    padding: 14px;
+    line-height: 0.9;
+    border-radius: 5px;
+    float: left;
+    font-style: normal;
+    font-weight: normal;
+    color: #999999;
+    font-size: 21px;
+}

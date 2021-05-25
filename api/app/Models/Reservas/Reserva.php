@@ -213,6 +213,21 @@ class Reserva extends Model
         $reserva->delete();
     }
 
+    public static function getEventosCalendario($data_inicio, $data_fim)
+    {
+        $dados = self::from('reserva as r')
+            ->whereBetween('r.data', [$data_inicio, $data_fim])
+            ->join('bioacesso_portaria.pessoa as p', 'p.id', 'r.id_pessoa')
+            ->join('periodo_local_reservavel as plr', 'plr.id', 'r.id_periodo')
+            ->select(DB::raw("concat(date_format(plr.hora_ini,'%H:%i'), ' ', p.nome) as title"),
+                DB::raw('r.data as start'),
+                DB::raw("if (r.status = 'pendente', '#F2C94C' , '') as color")
+            )
+            ->get();
+
+        return $dados;
+    }
+
     ## Relacionamentos ##
 
     public function localReservavel()

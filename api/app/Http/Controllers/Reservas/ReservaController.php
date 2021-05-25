@@ -179,18 +179,14 @@ class ReservaController extends Controller
         }
     }
 
-    public function eventosCalendario()
+    public function eventosCalendario(Request $request)
     {
-        $dados = [
-            [
-                "title" => 'Título teste',
-                "start" => '2021-05-19',
-                "allDay" => false
-            ],[
-                "title" => 'Nápoles',
-                "start" => '2021-05-20'
-            ]
-        ];
+        $req = $request->all();
+        $reqStart = explode("T", $req["start"])[0];
+        $reqEnd = explode("T", $req["end"])[0];
+
+        $dados = Reserva::getEventosCalendario($reqStart, $reqEnd);
+
         return response()->success($dados);
         /*try {
             foreach ($filtros->all() as $reserva) {

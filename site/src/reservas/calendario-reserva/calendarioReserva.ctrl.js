@@ -12,15 +12,17 @@ angular.module('ReservasModule').controller('CalendarioReservaCtrl',
         $scope.loadLocais = false;
         $scope.idLocalidade = 'todas';
         $scope.idLocalReservavel = '';
+        $scope.aba = 1;
 
         $http.get(`${config.apiUrl}api/localidades/locais_reservaveis`)
             .then((result) => $scope.locaisReservaveis = result.data.data)
             .finally(() => $scope.loadLocais = true);
 
-        $(document).ready( function () {
-            setTimeout( montaCalendario, 1000);
 
-            function montaCalendario() {
+        setTimeout( montaCalendario, 1000);
+
+        function montaCalendario() {
+            $(document).ready( function () {
                 var d = new Date();
                 var calendarEl = document.getElementById('calendar');
 
@@ -37,160 +39,60 @@ angular.module('ReservasModule').controller('CalendarioReservaCtrl',
                         right: ''
                     },
                     events: function (info, successCallback, failureCallback) {
-                        let start = moment(info.start.valueOf()).format('YYYY-MM-DD');
-                        let end = moment(info.end.valueOf()).format('YYYY-MM-DD');
+                        // let start = moment(info.start.valueOf()).format('YYYY-MM-DD');
+                        let start = info.startStr;
+                        // let end = moment(info.end.valueOf()).format('YYYY-MM-DD');
+                        let end = info.endStr;
+                        $("#loadingDiaCalendario").modal("show");
                         $http.get(`${config.apiUrl}api/reserva/calendario/eventos` + "?start=" + start + "&end=" + end)
                             .then((result) => successCallback(result.data.data))
-                            .catch( function (e) { UtilsService.openAlert(e.data.message) })
-                            .finally(() => failureCallback('Erro'));
-                        /*$.ajax({
-                            url: "api/assignments/?event_id=" + vm.eventId +  '&start='+ start + "&end=" + end,
-                            type: 'GET',
-                            headers: {
-                                'X-CSRF-TOKEN': window.csrf_token
-                            }, success: function (response) {
-                                successCallback(response);
-                            }
-                        });*/
+                            .catch( function (e) { UtilsService.openAlert(e.statusText) })
+                            .finally(() => {
+                                $("#loadingDiaCalendario").modal("hide");
+                                $(".fc-daygrid-day.fc-day").click(function(el) {});
+                                setTimeout(function (ev) {
+                                    $(".fc-daygrid-day.fc-day").click(function(el) {
+                                        alert(el.currentTarget.dataset.date);
+                                        ev.stopEventPropagation();
+                                    })
+                                },1000);
+                                failureCallback('Erro');
+                            });
                     },
-                    /*events: {
-                        url: `${config.apiUrl}api/reserva/eventos_calendario`
-                        /!*extraParams: {
-                            mes: d.getMonth(),
-                            ano: d.getFullYear()
-                        }*!/
+                    /*dateClick: function(info) {
+                        // console.log(info);
+                        // alert('Coordinates: ' + info.jsEvent.pageX + ',' + info.jsEvent.pageY);
+                        // alert('Current view: ' + info.view.type);
+                        // change the day's background color just for fun
+                        info.dayEl.style.backgroundColor = 'red';
                     }*/
-                    /*events: [
-                        {
-                            title: 'Day Event',
-                            start: '2021-05-16T12:30:00',
-                            allDay : false
-                        },
-                        {
-                            title: 'Outro',
-                            start: '2021-05-17'
-                        },
-                        {
-                            title: 'mais um',
-                            start: '2021-05-17'
-                        },
-                        {
-                            title: 'xxxx',
-                            start: '2021-05-18'
-                        },
-                        {
-                            title: 'Long Event',
-                            start: '2021-05-01',
-                            end: '2021-05-02'
-                        },
-                        {
-                            groupId: 999,
-                            title: 'Repeating Event',
-                            start: '2020-09-09T16:00:00'
-                        },
-                        {
-                            groupId: 999,
-                            title: 'Repeating Event',
-                            start: '2020-09-16T16:00:00'
-                        },
-                        {
-                            title: 'Conference',
-                            start: '2021-05-05',
-                            end: '2021-05-06'
-                        },
-                        {
-                            title: 'Conference',
-                            start: '2021-05-05',
-                            end: '2021-05-06'
-                        },
-                        {
-                            title: 'Conference',
-                            start: '2021-05-05',
-                            end: '2021-05-06'
-                        },
-                        {
-                            title: 'Conference',
-                            start: '2021-05-05',
-                            end: '2021-05-06'
-                        },
-                        {
-                            title: 'Meeting',
-                            start: '2020-09-12T10:30:00',
-                            end: '2020-09-12T12:30:00'
-                        },
-                        {
-                            title: 'Lunch',
-                            start: '2021-05-19T12:00:00'
-                        },
-                        {
-                            title: 'Meeting',
-                            start: '2021-05-19T14:30:00'
-                        },
-                        {
-                            title: 'Happy Hour',
-                            start: '2021-05-19T17:30:00'
-                        },
-                        {
-                            title: 'Dinner',
-                            start: '2021-05-12T20:15:00'
-                        },
-                        {
-                            title: 'Dinner 2',
-                            start: '2021-05-12T20:30:00'
-                        },
-                        {
-                            title: 'Dinner 2',
-                            start: '2021-05-12T20:30:00'
-                        },
-                        {
-                            title: 'Dinner 2',
-                            start: '2021-05-12T20:30:00'
-                        },
-                        {
-                            title: 'Dinner 2',
-                            start: '2021-05-12T20:30:00'
-                        },
-                        {
-                            title: 'Dinner 2',
-                            start: '2021-05-12T20:30:00'
-                        },
-                        {
-                            title: 'Dinner 2',
-                            start: '2021-05-12T20:30:00'
-                        },
-                        {
-                            title: 'Birthday Party',
-                            start: '2021-05-19T07:00:00'
-                        },
-                        {
-                            title: 'Click for Google',
-                            url: 'http://google.com/',
-                            start: '2021-05-26'
-                        },
-                        {
-                            title: 'Click for Google',
-                            url: 'http://google.com/',
-                            start: '2021-05-26'
-                        },
-                        {
-                            title: 'Click for Google',
-                            url: 'http://google.com/',
-                            start: '2021-05-26'
-                        },
-                        {
-                            title: 'Click for Google',
-                            url: 'http://google.com/',
-                            start: '2021-05-26'
-                        },
-                        {
-                            title: 'Evento',
-                            start: '2021-06-02'
-                        }
-                    ]*/
+                    /*eventClick: function(info) {
+                        alert('Event: ' + info.event.title);
+                        alert('Coordinates: ' + info.jsEvent.pageX + ',' + info.jsEvent.pageY);
+                        alert('View: ' + info.view.type);
+
+                        // change the border color just for fun
+                        info.el.style.borderColor = 'red';
+                    }*/
+
                 });
 
                 calendar.render();
                 // calendar.refetchEvents();
+            });
+        }
+
+        $scope.contentChange = function (aba) {
+            $scope.aba = aba;
+            if (aba == 1) {
+                montaCalendario();
             }
-        });
+        }
+
+        $scope.dataFormatTitulo = function (data) {
+            let dia = moment(data).format('D');
+            let mes = moment(data).format('MMMM');
+            return "Dia "+dia+" de "+mes;
+        }
+
     });

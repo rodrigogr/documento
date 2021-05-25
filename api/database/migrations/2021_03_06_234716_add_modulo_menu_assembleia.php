@@ -18,6 +18,10 @@ class AddModuloMenuAssembleia extends Migration
                 'nome' => 'assembleia',
                 'desc' => 'Assembleia',
                 'tipo_categoria' => 's'
+            ],[
+                'nome' => 'assembleiaDetalhes',
+                'desc' => 'Assembleia Detalhes',
+                'tipo_categoria' => 's'
             ])
         );
     }

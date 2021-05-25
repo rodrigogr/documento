@@ -26,6 +26,12 @@ class CreateAssembleias extends Migration
                 $table->time('hora_fim')->nullable();
                 $table->string('link_transmissao')->nullable();
                 $table->boolean('votacao_secreta')->default(false);
+                $table->date('votacao_data_inicio')->nullable();
+                $table->time('votacao_hora_inicio')->nullable();
+                $table->date('votacao_data_fim')->nullable();
+                $table->time('votacao_hora_fim')->nullable();
+                $table->dateTime('envios_questao_ordem')->nullable();
+                $table->dateTime('envios_encaminhamento')->nullable();
                 $table->softDeletes();
                 $table->timestamps();
             });

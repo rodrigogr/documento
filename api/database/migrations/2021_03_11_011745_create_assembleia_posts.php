@@ -18,11 +18,10 @@ class CreateAssembleiaPosts extends Migration
             Schema::create('assembleia_posts', function (Blueprint $table)
             {
                 $table->increments('id');
-                $table->string('resposta');
+                $table->longText('resposta');
                 $table->unsignedInteger('id_thead');
-                $table->unsignedInteger('id_usuario');
-                //$table->foreign('id_usuario')->references('id')->on('usuario');
                 $table->foreign('id_thead')->references('id')->on('assembleia_theads');
+                $table->unsignedInteger('id_pessoa');
                 $table->softDeletes();
                 $table->timestamps();
             });

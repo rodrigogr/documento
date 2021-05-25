@@ -19,8 +19,8 @@ class CreateAssembleiaTheadsAnexos extends Migration
             {
                 $table->increments('id');
                 $table->binary('file');
-                $table->unsignedInteger('id_assembleia');
-                $table->foreign('id_assembleia')->references('id')->on('assembleias');
+                $table->unsignedInteger('id_thead');
+                $table->foreign('id_thead')->references('id')->on('assembleia_theads');
                 $table->softDeletes();
                 $table->timestamps();
             });

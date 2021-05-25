@@ -43,7 +43,11 @@ class DiscussaoController extends Controller
             DB::beginTransaction();
 
             $thead = AssembleiaThead::create($dataThead);
-            $thead->theadAnexos()->createMany($dataThead['anexos']);
+
+            if (isset($dataThead['anexos']))
+            {
+                $thead->theadAnexos()->createMany($dataThead['anexos']);
+            }
 
             $assembleiaDiscussao =  AssembleiaDiscussao::create([
                 'id_thead'=> $thead->id,

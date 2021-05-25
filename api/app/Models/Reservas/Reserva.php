@@ -17,7 +17,8 @@ class Reserva extends Model
         'id_imovel',
         'id_pessoa',
         'obs',
-        'autor'
+        'autor',
+        'created_at'
     ];
     public $timestamps = true;
 
@@ -49,9 +50,15 @@ class Reserva extends Model
         $localReservavel = $filtros["localReservavel"];
         $localidade = $filtros["localidade"];
 
+        if ($status == 'recusado') {
+            $tableReserva = 'reserva_recusada';
+        } else {
+            $tableReserva = 'reserva';
+        }
+
         //$usuario = \Auth::user();
 
-        $busca = PeriodoLocalReservavel::join('reserva as r', function ($q) use($data, $status) {
+        $busca = PeriodoLocalReservavel::join($tableReserva.' as r', function ($q) use($data, $status) {
             if (!empty($data) && $data != 'todos') {
                 $q->on('r.data', \DB::raw("'" . $data . "'"));
             } elseif (!empty($data) && $data == 'todos') {
@@ -186,6 +193,24 @@ class Reserva extends Model
     {
         return self::where(['id_periodo' => $id_periodo, 'data' => $data])
             ->get();
+    }
+
+    public static function saveReservaRecusada(Reserva $reserva)
+    {
+        DB::table('reserva_recusada')->insert([
+            'id_local_reservavel' => $reserva->id_local_reservavel,
+            'id_periodo' => $reserva->id_periodo,
+            'data' => $reserva->data,
+            'id_imovel' => $reserva->id_imovel,
+            'id_pessoa' => $reserva->id_pessoa,
+            'status' => $reserva->status,
+            'created_at' => $reserva->created_at,
+            'updated_at' => date('Y-m-d H:i:s'),
+            'deleted_at' => null,
+            'obs' => $reserva->obs,
+            'autor' => $reserva->autor
+        ]);
+        $reserva->delete();
     }
 
     ## Relacionamentos ##

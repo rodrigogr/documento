@@ -18,6 +18,7 @@ class CreateAssembleiaDocumentos extends Migration
             Schema::create('assembleia_documentos', function (Blueprint $table)
             {
                 $table->increments('id');
+                $table->string('name');
                 $table->binary('file');
                 $table->unsignedInteger('id_assembleia');
                 $table->foreign('id_assembleia')->references('id')->on('assembleias');

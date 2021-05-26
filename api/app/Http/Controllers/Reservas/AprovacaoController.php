@@ -27,6 +27,8 @@ class AprovacaoController extends Controller
         $Data = Reserva::aprovacoes($this->filtroBuscaAprovacoes($dados));
         $result = [];
         $i = 0;
+
+        //colocando em grupo as reservas de mesma data
         foreach ($Data as $key => $d) {
             if (isset($Data[($key+1)]) && $d["data"] == $Data[($key+1)]["data"]) {
                 $result[$i][] = $d;

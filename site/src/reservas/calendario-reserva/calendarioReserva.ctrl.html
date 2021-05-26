@@ -87,11 +87,22 @@
                     <div ng-if="aba == 2">
                         <div class="col-xs-15">
                             <div class="bloco-reservas bloco-calendario">
-                                <div class="row">
-                                    <h3 class="btn-nav-dia"><</h3>
-                                    <h3 class="titulo-dia-mes pull-left" style="margin: 24px">Dia 25 de maio <span class="titulo-semana">terça-feira</span></h3>
-                                    <h3 class="btn-nav-dia" style="mar">></h3>
-                                    <h3 class="btn-nav-dia">VOLTAR PRA HOJE</h3>
+                                <div class="row data-por-dia">
+                                    <h3 class="btn-nav-dia" ng-click="alterarDia('-')"><</h3>
+                                    <h3 class="titulo-dia-mes fc-toolbar-title pull-left">{{dataTitulo}}<span class="titulo-semana">{{dataSemana}}</span></h3>
+                                    <h3 class="btn-nav-dia" ng-click="alterarDia('+')" style="margin-right: 20px">></h3>
+                                    <h3 class="btn-nav-dia" ng-click="voltarHoje()">VOLTAR PRA HOJE</h3>
+                                </div>
+                                <div class="grupoDia">
+                                    <div class="row">
+                                        <span class="col-xs-4 periodo"><b>{{'10:00'}} - {{'18:00'}}</b><br>{{'R$ 150,00'}}</span>
+                                        <span class="col-xs-12 col-xs-offset-1 status-local">
+                                                <button class="btn text-uppercase reserva-status-{{'pendente'}}">{{'pendente'}}</button><br>
+                                                <p>Qd A15 / Lt 31 - Rua da Primavera</p>
+                                                <p class="text-capitalize">Joaquim da Silva de Oliveria</p>
+                                            </span>
+                                        <span class="col-xs-6 pull-right" style="margin-right: 33px"><button class="btn btn-primary" ng-click="analisar()" style="width: 100%">ANALISAR</button></span>
+                                    </div>
                                 </div>
                             </div>
                         </div>

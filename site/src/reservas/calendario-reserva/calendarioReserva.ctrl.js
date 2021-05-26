@@ -86,13 +86,31 @@ angular.module('ReservasModule').controller('CalendarioReservaCtrl',
             $scope.aba = aba;
             if (aba == 1) {
                 montaCalendario();
+            } else {
+                let data = new Date();
+                $scope.dataAtual = data;
+                setDiaCalendario(data);
             }
         }
 
-        $scope.dataFormatTitulo = function (data) {
-            let dia = moment(data).format('D');
-            let mes = moment(data).format('MMMM');
-            return "Dia "+dia+" de "+mes;
+        $scope.voltarHoje = function () {
+            let data = new Date();
+            setDiaCalendario(data);
         }
 
+        function setDiaCalendario(data) {
+            let dia = moment(data).format('D');
+            let mes = moment(data).format('MMMM');
+            $scope.dataTitulo = "Dia "+dia+" de "+mes;
+            $scope.dataSemana = moment(data).format('dddd');
+        }
+
+        $scope.alterarDia = function (alt) {
+            data = angular.copy($scope.dataAtual);
+            var novaData = alt === '-'
+                ? moment(data).subtract(1,"day")
+                : moment(data).add(1, "day");
+            setDiaCalendario(novaData);
+            $scope.dataAtual = novaData;
+        }
     });

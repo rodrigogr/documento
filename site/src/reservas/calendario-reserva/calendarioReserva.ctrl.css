@@ -159,12 +159,13 @@ button[disabled] {
     background-color: #f9ca534f;
 }
 .titulo-dia-mes {
-    margin-top: 10px;
-    color: #FF6633;
-    font-weight: bold;
+    margin: 24px;
+    font-size: 25px;
+    color: #ff6633;
+    margin-top: 8px !important;
 }
 .titulo-semana {
-    font-size: 25px;
+    font-size: 23px;
     font-weight: normal;
     color: #666;
     margin-left: 10px;
@@ -172,11 +173,53 @@ button[disabled] {
 .btn-nav-dia {
     border: 1px solid #979797;
     padding: 14px;
-    line-height: 0.9;
+    line-height: 0.5;
     border-radius: 5px;
     float: left;
     font-style: normal;
     font-weight: normal;
     color: #999999;
     font-size: 21px;
+}
+.btn-nav-dia:hover {
+    background-color: #ff6633;
+    color: #FFFFFF;
+    cursor: pointer;
+    border: 1px solid #ff6633;
+}
+.data-por-dia h3 {
+    margin-top: 0;
+}
+.grupoDia {
+    margin-top: 30px;
+    margin-bottom: 15px;
+}
+.periodo {
+    background: #cccccc85;
+    text-align: center;
+    font-size: 18px;
+    padding: 10px;
+    border-radius: 8px;
+}
+
+.status-local button {
+    font-size: 12px;
+    line-height: 14px;
+    border-radius: 17px;
+    width: 148px;
+    height: 28px;
+    margin-bottom: 10px;
+    cursor: default;
+}
+.status-local p {
+    margin-bottom: 0;
+    font-size: 17px;
+}
+.reserva-status-pendente {
+    color: #965216;
+    background: #F2C94C;
+}
+.reserva-status-recusado {
+    color: #FFFFFF;
+    background: #d85050;
 }

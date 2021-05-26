@@ -92,10 +92,10 @@
                                             <div class="row">
                                                 <span class="col-xs-4 periodo"><b>{{reserva.hora_ini}} - {{reserva.hora_fim}}</b><br>{{reserva.valor | currency}}</span>
                                                 <span class="col-xs-12 col-xs-offset-1 status-local">
-                                                <button class="btn text-uppercase reserva-status-{{reserva.reserva_status}}">{{reserva.reserva_status}}</button><br>
-                                                <p>{{'Qd '+reserva.imovel.quadra+' / Lt '+reserva.imovel.lote}} - {{reserva.imovel.logradouro}}</p>
-                                                <p class="text-capitalize">{{reserva.pessoa.nome}}</p>
-                                            </span>
+                                                    <button class="btn text-uppercase reserva-status-{{reserva.reserva_status}}">{{reserva.reserva_status}}</button><br>
+                                                    <p>{{'Qd '+reserva.imovel.quadra+' / Lt '+reserva.imovel.lote}} - {{reserva.imovel.logradouro}}</p>
+                                                    <p class="text-capitalize">{{reserva.pessoa.nome}}</p>
+                                                </span>
                                                 <span class="col-xs-6 pull-right" style="margin-right: 33px"><button class="btn btn-primary" ng-click="analisar($parent.$index, $index)" style="width: 100%">ANALISAR</button></span>
                                             </div>
                                         </div>

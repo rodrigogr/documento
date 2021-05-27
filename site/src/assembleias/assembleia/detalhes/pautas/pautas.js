@@ -11,7 +11,7 @@ angular.module('appDirectives').directive("assembleiapautas", function () {
     }
 });
 
-function assembleiaPautasCtrl ($scope, $state, $filter, UtilsService, config, $http)
+function assembleiaPautasCtrl ($scope, $state, $filter, UtilsService, AuthService, config, $http)
 {
     $scope.resumoPautas = [];
     $scope.detalhesPautas = [];
@@ -37,7 +37,7 @@ function assembleiaPautasCtrl ($scope, $state, $filter, UtilsService, config, $h
         var promisse = ($http.get(`${config.apiUrl}api/pautas/`+id_pauta));
         promisse.then(function (retorno) {
             $scope.pautaSelecao = retorno.data.data[0];
-            console.log($scope.pautaSelecao);
+            //console.log($scope.pautaSelecao);
         }).finally( () => {
             $scope.ultimaAlternativa = $scope.pautaSelecao.alternativas.length;
         });
@@ -65,7 +65,7 @@ function assembleiaPautasCtrl ($scope, $state, $filter, UtilsService, config, $h
 
     $scope.addNewAlternativa = function(index) {
         $scope.ultimaAlternativa++;
-        $scope.pautaSelecao.alternativas.push({'id' : '', 'opcao' : ''});
+        $scope.pautaSelecao.alternativas.push({'id' : $scope.ultimaAlternativa, 'opcao' : ''});
     };
 
     $scope.removeNewAlternativas = function(index) {
@@ -74,7 +74,21 @@ function assembleiaPautasCtrl ($scope, $state, $filter, UtilsService, config, $h
     };
 
     $scope.salvarAlteracoesPauta = function(){
-
+        $("#loading").modal("show");
+        $http({
+            method: "PUT",
+            url: `${config.apiUrl}api/pautas/`+ $scope.pautaSelecao.id,
+            data: JSON.stringify($scope.pautaSelecao.id),
+            headers:{
+                'Authorization': 'Bearer '+ AuthService.getToken()
+            },
+        }).then(function successCallback(response) {
+                UtilsService.toastSuccess("Pauta salva com sucesso!");
+                getPautasAssembleia();
+                $('#abrePauta').modal('hide');
+            }, function errorCallback(error) {
+                UtilsService.openAlert(error.data.message);
+            }).finally( () => { $("#loading").modal("hide") });
     }
 
     $scope.suspenderPauta = function(){

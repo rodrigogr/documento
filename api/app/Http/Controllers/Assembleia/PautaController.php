@@ -40,25 +40,27 @@ class PautaController extends Controller
     {
         $data = $request->all();
         $alternativas = $data['alternativas'];
+        $pauta = AssembleiaPauta::where('assembleia_pautas.id', $id)->get()->first();
 
-        $pauta = AssembleiaPauta::where('assembleia_pautas.id', $id)
-            ->get()
-            ->first();
-
-        DB::beginTransaction();
-        AssembleiaPergunta::where('id', $pauta->id_pergunta)
+        //Pergunta da Pauta a ser atualizada
+        $pergunta = AssembleiaPergunta::where('id', $pauta->id_pergunta)
             ->update(['pergunta' => $data['pauta']]);
 
-        $contador = 1;
-        foreach ($alternativas as $alternativa) {
-            AssembleiaOpcao::where('id', $contador)
-                ->where('id_pergunta', $pauta->id_pergunta)
-                ->update(['opcao' => $alternativa['opcao']]);
-            $contador++;
+        //Apaga todas as alternativas da pauta para atualizar
+        $delAlternativas = AssembleiaOpcao::where('id_pergunta', $data['id']);
+        if ($delAlternativas) {
+            try {
+                $delAlternativas->delete();
+            } catch (Exception $e) {
+                return response()->error($e->getMessage());
+            }
         }
-        DB::commit();
-    }
+        //Insere as alternativas atualizadas da pauta
+        foreach ($alternativas as $alternativa) {
+            AssembleiaOpcao::create(['id_pergunta' => $data['id'], 'opcao' => $alternativa['opcao']]);
+        }
 
+}
     public function listPautasAssembleia($idAssembleia)
     {
         $pautas = AssembleiaPauta::join('assembleia_perguntas', 'assembleia_pautas.id_pergunta', 'assembleia_perguntas.id')

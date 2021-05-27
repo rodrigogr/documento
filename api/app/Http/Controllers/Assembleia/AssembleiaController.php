@@ -105,6 +105,19 @@ class AssembleiaController extends Controller
                         {
                             AssembleiaPergunta::where('id', $pauta->id_pergunta)->update(['pergunta'=> $item['pergunta']]);
                             // update alternatinas
+                            foreach ($item['alternativas'] as $alternativa)
+                            {
+                                $opcao = AssembleiaOpcao::find($alternativa['id']);
+
+                                if ($opcao)
+                                {
+                                    $opcao->update($alternativa);
+                                }
+                                else
+                                {
+                                    AssembleiaOpcao::create(['opcao'=> $alternativa['opcao'], 'id_pergunta' => $pauta->id_pergunta]);
+                                }
+                            }
                         }
                     }
                 }
@@ -477,7 +490,7 @@ class AssembleiaController extends Controller
 
         $html_title = "";
         $html_infor = "";
-        $html_corpo = "";
+        $html_corpo = "EM DESENVOLVIMENTO";
 
 
         $html_total = "";
@@ -539,7 +552,7 @@ class AssembleiaController extends Controller
 
         $html_title = "";
         $html_infor = "";
-        $html_corpo = "";
+        $html_corpo = "EM DESENVOLVIMENTO";
 
 
         $html_total = "";

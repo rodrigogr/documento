@@ -29,16 +29,21 @@ class DocumentoController extends Controller
         return response()->success($documento);
     }
 
-    public function abirDocumento ($id)
+    public function abrirDocumento ($id)
     {
         $documento = AssembleiaDocumento::find($id);
 
-        $path = public_path($documento->name);
+        $path = public_path('storage/'. $documento->name);
 
-        $contents = base64_decode($documento->file);
+        $base64 = explode('base64,', $documento->file);
 
-        file_put_contents($path, $contents);
+        $contents = base64_decode($base64[1], true);
 
+        //file_put_contents($path, $contents);
+        \Storage::disk('public')->put($documento->name, $contents);
+
+       // var_dump($path); exit();
         return response()->download($path)->deleteFileAfterSend(true);
+        //return response()->file('storage/'.$documento->name);
     }
 }

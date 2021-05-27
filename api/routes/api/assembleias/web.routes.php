@@ -73,7 +73,7 @@ Route::get('/assembleias/listapresenca/{id}', 'assembleia\AssembleiaController@l
 
 Route::get('/assembleias/relatoriovotacoes/{id}', 'assembleia\AssembleiaController@relatorioVotacoes');
 
-Route::get('/assembleias/documento/open/{id}', 'assembleia\DocumentoController@abirDocumento');
+Route::get('/assembleias/documento/open/{id}', 'assembleia\DocumentoController@abrirDocumento');
 
 
 

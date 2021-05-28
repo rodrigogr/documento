@@ -71,4 +71,15 @@ function assembleiaParticipantesCtrl ($scope, $state, $filter,$http, AuthService
             UtilsService.openAlert(error.data.message);
         }).finally( () => { $("#loading").modal("hide") });
     }
+
+
+    $scope.checkSelected = function () {
+        $("#loading").modal("show");
+        angular.forEach($scope.listParticipantes, function(obj) {
+
+            obj.participar = false;
+            //$scope.savePaticipante(obj);
+
+        });
+    }
 }

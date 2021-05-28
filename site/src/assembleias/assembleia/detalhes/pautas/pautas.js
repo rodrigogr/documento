@@ -66,17 +66,22 @@ function assembleiaPautasCtrl ($scope, $state, $filter, UtilsService, AuthServic
     $scope.addNewAlternativa = function(index) {
         var newItemNo = $scope.pautaSelecao.alternativas.length+1;
         $scope.pautaSelecao.alternativas.push({'id' : 'newOpcao' + newItemNo, 'opcao' : '', 'name' : 'Alternativa'});
-        debugger
     };
 
-    $scope.removeNewAlternativas = function(index) {
+    $scope.removeNewAlternativas = function(index, id) {
         $scope.ultimaAlternativa--;
         $scope.pautaSelecao.alternativas.splice(index,1);
+
+        $http.delete(`${config.apiUrl}/api/opcoes/` + id)
+            .then(function successCallback(response) {
+                getPautasAssembleia();
+            }, function errorCallback(error) {
+                UtilsService.openAlert(error.data.mensage);
+            }).finally( () => { $("#loading").modal("hide") });
     };
 
     $scope.salvarAlteracoesPauta = async function(){
         $("#loading").modal("show");
-        debugger
         $http({
             method: "PUT",
             url: `${config.apiUrl}api/pautas/`+ $scope.pautaSelecao.id_pauta,

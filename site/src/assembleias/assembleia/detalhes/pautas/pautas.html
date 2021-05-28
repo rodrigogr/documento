@@ -26,13 +26,13 @@
         </a>
         <div class="ba__admin-table-scroll" style="height: 85%;">
             <a class="list-group-item ba__font-size-12 ba__pointer" ng-repeat="pauta in resumoPautas">
-                <div class="row" ng-click="abrePauta(pauta.id)">
+                <div class="row" >
                     <div class="col-xs-8">{{pauta.pauta}}</div>
                     <div class="col-xs-4">{{pauta.alternativas}}</div>
                     <div class="col-xs-6">
-                        <span ng-if="pauta.status=='Aberta para votação'" class="status aberta">{{pauta.status}}</span>
-                        <span ng-if="pauta.status=='Suspensa'" class="status suspensa">{{pauta.status}}</span>
-                        <span ng-if="pauta.status=='aguardando inicio'" class="status aguardando">{{pauta.status}}</span>
+<!--                        <span ng-if="pauta.status=='Aberta para votação'" class="status aberta">{{pauta.status}}</span>-->
+<!--                        <span ng-if="pauta.status=='Suspensa'" class="status suspensa">{{pauta.status}}</span>-->
+<!--                        <span ng-if="pauta.status=='aguardando inicio'" class="status aguardando">{{pauta.status}}</span>-->
                     </div>
                     <div class="col-xs-4">{{pauta.votos}}</div>
                     <div class="col-xs-2">

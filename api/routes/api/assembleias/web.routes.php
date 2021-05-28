@@ -69,9 +69,9 @@ Route::get('/assembleias/documentos/{id}', 'assembleia\DocumentoController@index
 
 Route::delete('/assembleias/documentos/{id}', 'assembleia\DocumentoController@destroy');
 
-Route::get('/assembleias/listapresenca/{id}', 'assembleia\AssembleiaController@listaPresenca');
+Route::get('/assembleias/listapresenca/{id}', 'RelatorioController@listaDePresencaAssembleia');
 
-Route::get('/assembleias/relatoriovotacoes/{id}', 'assembleia\AssembleiaController@relatorioVotacoes');
+Route::get('/assembleias/relatoriovotacoes/{id}', 'RelatorioController@resultadoVotacoesAssembleia');
 
 Route::get('/assembleias/documento/open/{id}', 'assembleia\DocumentoController@abirDocumento');
 

@@ -36,7 +36,7 @@ function assembleiaPautasCtrl ($scope, $state, $filter, UtilsService, AuthServic
         $scope.pautaSelecao = {};
         var promisse = ($http.get(`${config.apiUrl}api/pautas/`+id_pauta));
         promisse.then(function (retorno) {
-            $scope.pautaSelecao = retorno.data.data[0];
+            $scope.pautaSelecao = retorno.data.data;
             //console.log($scope.pautaSelecao);
         }).finally( () => {
             $scope.ultimaAlternativa = $scope.pautaSelecao.alternativas.length;
@@ -64,8 +64,9 @@ function assembleiaPautasCtrl ($scope, $state, $filter, UtilsService, AuthServic
     }
 
     $scope.addNewAlternativa = function(index) {
-        $scope.ultimaAlternativa++;
-        $scope.pautaSelecao.alternativas.push({'id' : $scope.ultimaAlternativa, 'opcao' : ''});
+        var newItemNo = $scope.pautaSelecao.alternativas.length+1;
+        $scope.pautaSelecao.alternativas.push({'id' : 'newOpcao' + newItemNo, 'opcao' : '', 'name' : 'Alternativa'});
+        debugger
     };
 
     $scope.removeNewAlternativas = function(index) {
@@ -73,21 +74,23 @@ function assembleiaPautasCtrl ($scope, $state, $filter, UtilsService, AuthServic
         $scope.pautaSelecao.alternativas.splice(index,1);
     };
 
-    $scope.salvarAlteracoesPauta = function(){
+    $scope.salvarAlteracoesPauta = async function(){
         $("#loading").modal("show");
+        debugger
         $http({
             method: "PUT",
-            url: `${config.apiUrl}api/pautas/`+ $scope.pautaSelecao.id,
-            data: JSON.stringify($scope.pautaSelecao.id),
+            url: `${config.apiUrl}api/pautas/`+ $scope.pautaSelecao.id_pauta,
+            data: $scope.pautaSelecao,
             headers:{
                 'Authorization': 'Bearer '+ AuthService.getToken()
             },
-        }).then(function successCallback(response) {
+        })
+            .then(function successCallback(response) {
                 UtilsService.toastSuccess("Pauta salva com sucesso!");
                 getPautasAssembleia();
                 $('#abrePauta').modal('hide');
             }, function errorCallback(error) {
-                UtilsService.openAlert(error.data.message);
+                UtilsService.openAlert(error.message.mensage);
             }).finally( () => { $("#loading").modal("hide") });
     }
 

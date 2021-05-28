@@ -47,8 +47,6 @@ Route::resource('/assembleias', 'assembleia\AssembleiaController');
 
 Route::get( '/assembleias/pauta/get/{id}', 'assembleia\PautaController@show');
 
-Route::put( '/pautas/{id}', 'assembleia\PautaController@update');
-
 Route::resource('/pautas', 'assembleia\PautaController');
 
 Route::resource('/pauta_anexos', 'assembleia\PautaAnexoController');

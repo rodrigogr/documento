@@ -27,8 +27,9 @@ class PautaController extends Controller
             ->select('id', 'opcao')
             ->get();
 
-        $result[] = [
-            'id' => $pauta->id,
+        $result = [
+            'id_pauta' => $pauta->id,
+            'id_pergunta' => $pauta->id_pergunta,
             'pauta' => $pauta->pergunta,
             'alternativas' => $alternativas
         ];
@@ -39,28 +40,43 @@ class PautaController extends Controller
     public function update(Request $request, $id)
     {
         $data = $request->all();
-        $alternativas = $data['alternativas'];
-        $pauta = AssembleiaPauta::where('assembleia_pautas.id', $id)->get()->first();
 
-        DB::beginTransaction();
-        //Pergunta da Pauta a ser atualizada
-        $pergunta = AssembleiaPergunta::where('id', $pauta->id_pergunta)
-            ->update(['pergunta' => $data['pauta']]);
+        $pauta = AssembleiaPauta::find($id);
 
-        //Apaga todas as alternativas da pauta para atualizar
-        $delAlternativas = AssembleiaOpcao::where('id_pergunta', $data['id']);
-        if ($delAlternativas) {
-            try {
-                $delAlternativas->delete();
-            } catch (Exception $e) {
-                return response()->error($e->getMessage());
+        if(!$pauta)
+        {
+            return response()->error('Pauta não encontrada.');
+        }
+        try
+        {
+            DB::beginTransaction();
+
+            //Pergunta da Pauta a ser atualizada
+            $pergunta = AssembleiaPergunta::where('id', $pauta->id_pergunta)
+                ->update(['pergunta' => $data['pauta']]);
+
+
+            foreach ($data['alternativas'] as $alternativa)
+            {
+                $opcao = AssembleiaOpcao::find($alternativa['id']);
+
+                if ($opcao)
+                {
+                    $opcao->update($alternativa);
+                }
+                else
+                {
+                    AssembleiaOpcao::create(['opcao'=> $alternativa['opcao'], 'id_pergunta' => $pauta->id_pergunta]);
+                }
             }
+
+            DB::commit();
+
+            return response()->success($pauta);
+        } catch (\Exception $e)
+        {
+            return response()->error($e->getMessage());
         }
-        //Insere as alternativas atualizadas da pauta
-        foreach ($alternativas as $alternativa) {
-            AssembleiaOpcao::create(['id_pergunta' => $data['id'], 'opcao' => $alternativa['opcao']]);
-        }
-        DB::commit();
 }
     public function listPautasAssembleia($idAssembleia)
     {

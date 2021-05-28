@@ -42,6 +42,7 @@ class PautaController extends Controller
         $alternativas = $data['alternativas'];
         $pauta = AssembleiaPauta::where('assembleia_pautas.id', $id)->get()->first();
 
+        DB::beginTransaction();
         //Pergunta da Pauta a ser atualizada
         $pergunta = AssembleiaPergunta::where('id', $pauta->id_pergunta)
             ->update(['pergunta' => $data['pauta']]);
@@ -59,7 +60,7 @@ class PautaController extends Controller
         foreach ($alternativas as $alternativa) {
             AssembleiaOpcao::create(['id_pergunta' => $data['id'], 'opcao' => $alternativa['opcao']]);
         }
-
+        DB::commit();
 }
     public function listPautasAssembleia($idAssembleia)
     {

@@ -58,26 +58,22 @@
                     <div class="col-xs-5 list-localidade-locaisReservaveis">
                         <span ng-if="!loadLocais"><i class="fa fa-spinner fa-spin ba__font-size-17"></i></span>
                         <div ng-if="loadLocais">
-                            <dl>
-                                <dt class="list-localidade" id="itemTodos" ng-click="listaAprovacao('todos')">Todos</dt>
-                            </dl>
                             <dl ng-repeat="localidade in locaisReservaveis">
                                 <dt class="list-localidade" id="item{{$index}}" ng-click="listaAprovacao('todos', false, localidade.id, 'item'+$index)">{{localidade.descricao}}</dt>
                                 <dl>
-                                    <dd class="list-locaisReservaveis" id="subItem{{locais.id}}" ng-click="listaAprovacao('todos', locais.id, false, 'subItem'+locais.id)" ng-repeat="locais in localidade.locais_reservaveis">{{locais.nome}}</dd>
+                                    <dd class="list-locaisReservaveis" id="subItem{{locais.id}}" ng-click="selecionaLocal(locais.id)" ng-repeat="locais in localidade.locais_reservaveis">{{locais.nome}}</dd>
                                 </dl>
                             </dl>
                         </div>
                     </div>
 
                     <div ng-if="aba == 1"  class="col-xs-19">
-                        <div class="bloco-reservas bloco-calendario">
-
-                            <div id="loadingDiaCalendario">
-                                <div>
-                                    <i class="col-md-5 fa fa-spinner fa-spin ba__font-size-60 text-center"></i><label>Carregando...</label>
-                                </div>
+                        <div id="loadingDiaCalendario">
+                            <div>
+                                <i class="col-md-5 fa fa-spinner fa-spin ba__font-size-60 text-center"></i><label>Carregando...</label>
                             </div>
+                        </div>
+                        <div class="bloco-reservas bloco-calendario">
 
                             <div id='calendar'></div>
 
@@ -85,7 +81,7 @@
                     </div>
 
                     <div ng-if="aba == 2">
-                        <div class="col-xs-15">
+                        <div class="col-xs-14">
                             <div class="bloco-reservas bloco-calendario">
                                 <div class="row data-por-dia">
                                     <h3 class="btn-nav-dia" ng-click="alterarDia('-')"><</h3>
@@ -106,7 +102,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-xs-4">
+                        <div class="col-xs-5">
                             <div class="bloco-reservas bloco-calendario">
                                 teste 2
                             </div>

@@ -185,7 +185,7 @@ class ReservaController extends Controller
         $reqStart = explode("T", $req["start"])[0];
         $reqEnd = explode("T", $req["end"])[0];
 
-        $dados = Reserva::getEventosCalendario($reqStart, $reqEnd);
+        $dados = Reserva::getEventosCalendario($reqStart, $reqEnd, $req["id_local"]);
 
         return response()->success($dados);
         /*try {

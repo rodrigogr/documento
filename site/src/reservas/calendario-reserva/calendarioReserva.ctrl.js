@@ -1,6 +1,6 @@
 'use strict'
 angular.module('ReservasModule').controller('CalendarioReservaCtrl',
-    function ($scope, $http, $state, UtilsService, HeaderFactory, AuthService, config) {
+    function ($scope, $http, $state, $timeout, UtilsService, HeaderFactory, AuthService, config) {
 
         HeaderFactory.setHeader('reservas', 'Calendário de reservas');
 
@@ -15,13 +15,19 @@ angular.module('ReservasModule').controller('CalendarioReservaCtrl',
         $scope.aba = 1;
 
         $http.get(`${config.apiUrl}api/localidades/locais_reservaveis`)
-            .then((result) => $scope.locaisReservaveis = result.data.data)
-            .finally(() => $scope.loadLocais = true);
+            .then((result) => {
+                $scope.locaisReservaveis = result.data.data;
+                $scope.localAtual = $scope.locaisReservaveis[0];
+                setTimeout( montaCalendario($scope.localAtual.locais_reservaveis[0].id), 1000);
+            })
+            .finally(() => {
+                $scope.loadLocais = true;
+                $timeout( function () {
+                    $("#subItem" + $scope.localAtual.locais_reservaveis[0].id).addClass("itemSelecionado");
+                },500);
+            });
 
-
-        setTimeout( montaCalendario, 1000);
-
-        function montaCalendario() {
+        function montaCalendario(id_local) {
             $(document).ready( function () {
                 var d = new Date();
                 var calendarEl = document.getElementById('calendar');
@@ -44,7 +50,7 @@ angular.module('ReservasModule').controller('CalendarioReservaCtrl',
                         // let end = moment(info.end.valueOf()).format('YYYY-MM-DD');
                         let end = info.endStr;
                         $("#loadingDiaCalendario").modal("show");
-                        $http.get(`${config.apiUrl}api/reserva/calendario/eventos` + "?start=" + start + "&end=" + end)
+                        $http.get(`${config.apiUrl}api/reserva/calendario/eventos` + "?id_local=" + id_local + "&start=" + start + "&end=" + end)
                             .then((result) => successCallback(result.data.data))
                             .catch( function (e) { UtilsService.openAlert(e.statusText) })
                             .finally(() => {
@@ -106,11 +112,15 @@ angular.module('ReservasModule').controller('CalendarioReservaCtrl',
         }
 
         $scope.alterarDia = function (alt) {
-            data = angular.copy($scope.dataAtual);
-            var novaData = alt === '-'
+            let data = angular.copy($scope.dataAtual);
+            let novaData = alt === '-'
                 ? moment(data).subtract(1,"day")
                 : moment(data).add(1, "day");
             setDiaCalendario(novaData);
             $scope.dataAtual = novaData;
+        }
+
+        $scope.selecionaLocal = function (id_local) {
+            console.log(id_local);
         }
     });

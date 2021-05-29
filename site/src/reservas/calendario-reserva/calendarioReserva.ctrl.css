@@ -43,13 +43,15 @@ linear-gradient(to left, transparent 17px, black 17px);
     padding: 10px 30px;
     /*transition: all .08s ease-in-out;*/
 }
-.list-localidade:hover, .list-localidade-locaisReservaveis dd:hover {
+.list-localidade:hover {
+    cursor: default;
+}
+.list-localidade-locaisReservaveis dd:hover {
     background: #FF6633 url(../../../img/arrow-rigth-white.png) 100% center no-repeat;
     background-size: 32px;
     color: #FFFFFF;
     font-weight: normal;
     cursor: pointer;
-    transform: scale(1.01);
 }
 .itemSelecionado {
     background: url(../../../img/arrow-rigth-white.png) 100% center no-repeat;
@@ -58,7 +60,6 @@ linear-gradient(to left, transparent 17px, black 17px);
     color: #FFFFFF;
     font-weight: normal;
     cursor: pointer;
-    transform: scale(1.01);
 }
 .bloco-reservas {
     background-color: #FFFFFF;
@@ -136,7 +137,7 @@ button[disabled] {
     background-color: var(--fc-today-bg-color, rgb(249 202 83 / 31%));
 }
 #loadingDiaCalendario {
-    position: absolute;width: 94%;height: 140px;background-color: #fafafa;z-index: 2;margin-top: 19%;
+    position: absolute;width: 98.4%;height: 140px;background-color: #fafafa;z-index: 2;margin-top: 19%;margin-left:20px;
 }
 #loadingDiaCalendario div {
     width: 30%;background: #FFFFFF;text-align: center;margin: 3% auto;
@@ -163,6 +164,8 @@ button[disabled] {
     font-size: 25px;
     color: #ff6633;
     margin-top: 8px !important;
+    width: 46%;
+    text-align: center;
 }
 .titulo-semana {
     font-size: 23px;

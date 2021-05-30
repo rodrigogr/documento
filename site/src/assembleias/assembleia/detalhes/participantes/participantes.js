@@ -13,6 +13,8 @@ angular.module('appDirectives').directive("assembleiaparticipantes", function ()
 
 function assembleiaParticipantesCtrl ($scope, $state, $filter,$http, AuthService, UtilsService, config)
 {
+    $scope.selecionarTodos = false;
+
     $scope.getParticipantes = function ()
     {
         $(".loader").show();
@@ -70,5 +72,20 @@ function assembleiaParticipantesCtrl ($scope, $state, $filter,$http, AuthService
             participante.participar = !participante.participar
             UtilsService.openAlert(error.data.message);
         }).finally( () => { $("#loading").modal("hide") });
+    }
+
+
+    $scope.checkSelected = function () {
+
+
+        $scope.selecionarTodos = !$scope.selecionarTodos ;
+        console.log($scope.selecionarTodos );
+        //$("#loading").modal("show");
+        // angular.forEach($scope.listParticipantes, function(obj) {
+        //
+        //     obj.participar = false;
+        //     //$scope.savePaticipante(obj);
+        //
+        // });
     }
 }

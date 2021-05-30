@@ -75,5 +75,6 @@ Route::get('/assembleias/relatoriovotacoes/{id}', 'RelatorioController@resultado
 
 Route::get('/assembleias/documento/open/{id}', 'assembleia\DocumentoController@abrirDocumento');
 
+Route::get('/assembleias/questoes-ordem-votacoes/{id}', 'assembleia\QuestaoOrdemPerguntaController@index');
 
-
+Route::post('/assembleias/questoes-ordem-votacoes/', 'assembleia\QuestaoOrdemPerguntaController@store');

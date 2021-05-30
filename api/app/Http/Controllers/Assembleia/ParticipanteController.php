@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Assembleia;
 
 
 use App\Http\Controllers\Controller;
+use App\models\Assembleia\Assembleia;
 use App\models\Assembleia\AssembleiaParticipante;
 use App\Models\Pessoa;
 use Illuminate\Http\Request;
@@ -43,7 +44,13 @@ class ParticipanteController extends Controller
 
         try
         {
-            $assembleia = AssembleiaParticipante::find($data['id_assembleia']);
+
+            $assembleia = Assembleia::find($data['id_assembleia']);
+
+            if (!$assembleia)
+            {
+                return response()->error('Assembleia não encontrada!');
+            }
 
             if ($assembleia->status != 'agendada' && $assembleia->status != 'andamento' )
             {

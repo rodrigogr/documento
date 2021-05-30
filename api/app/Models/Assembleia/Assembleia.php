@@ -119,4 +119,9 @@ class Assembleia extends Model
     {
         return $this->hasMany(AssembleiaDocumento::class, 'id_assembleia');
     }
+
+    public function questoesOrdensPerguntas()
+    {
+        return $this->hasMany(AssembleiaQuestaoOrdemPergunta::class, 'id_assembleia');
+    }
 }

@@ -13,6 +13,8 @@ angular.module('appDirectives').directive("assembleiaparticipantes", function ()
 
 function assembleiaParticipantesCtrl ($scope, $state, $filter,$http, AuthService, UtilsService, config)
 {
+    $scope.selecionarTodos = false;
+
     $scope.getParticipantes = function ()
     {
         $(".loader").show();
@@ -74,12 +76,16 @@ function assembleiaParticipantesCtrl ($scope, $state, $filter,$http, AuthService
 
 
     $scope.checkSelected = function () {
-        $("#loading").modal("show");
-        angular.forEach($scope.listParticipantes, function(obj) {
 
-            obj.participar = false;
-            //$scope.savePaticipante(obj);
 
-        });
+        $scope.selecionarTodos = !$scope.selecionarTodos ;
+        console.log($scope.selecionarTodos );
+        //$("#loading").modal("show");
+        // angular.forEach($scope.listParticipantes, function(obj) {
+        //
+        //     obj.participar = false;
+        //     //$scope.savePaticipante(obj);
+        //
+        // });
     }
 }

@@ -12,7 +12,8 @@ class AssembleiaPergunta extends Model
     static public $associations = [
         'assembleiaOpcoes ',
         'pauta',
-        'assembleiaVotacao'
+        'assembleiaVotacao',
+        'questaoOrdemPergunta'
     ];
 
     protected $fillable = [
@@ -32,5 +33,10 @@ class AssembleiaPergunta extends Model
     public function assembleiaVotacao()
     {
         return $this->hasOne(AssembleiaVotacao::class);
+    }
+
+    public function questaoOrdemPergunta()
+    {
+        return $this->hasOne(AssembleiaQuestaoOrdemPergunta::class);
     }
 }

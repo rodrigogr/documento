@@ -2,8 +2,10 @@
     <div class="list-group ba__admin-table ba__margin-top-40" style="height: 85%">
         <a class="list-group-item disabled">
             <div class="row uppercase">
-                <div class="col-xs-2">
-                    <input class="form-check-input" ng-click="checkSelected()" type="checkbox">
+                <div class="col-xs-2 check-styled">
+                    <label>
+                        <input  type="checkbox" ng-model="selecionarTodos" ng-click="checkSelected()" >
+                    </label>
                 </div>
                 <div class="col-xs-4">Unidade
                     <i class="ba__margin-horizontal-5"></i>

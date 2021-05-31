@@ -99,7 +99,7 @@
                         NOVA VOTAÇÃO
                     </button>
                 </div>
-                <div class="row">
+                <div class="row" ng-show="listVotacoesQuestoes.length > 0">
                     <h3 class="col-md-15 Roboto-Light">
                         <strong>{{listVotacoesQuestoes.length}}</strong> resultados
                     </h3>
@@ -113,7 +113,7 @@
                         NOVA VOTAÇÃO
                     </button>
                 </div>
-                <div class=" row list-group ba__admin-table ba__margin-top-0">
+                <div class=" row list-group ba__admin-table ba__margin-top-0" ng-show="listVotacoesQuestoes.length > 0">
                     <a class="list-group-item disabled">
                         <div class="row uppercase">
                             <div class="col-xs-9">Título

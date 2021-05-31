@@ -69,7 +69,7 @@
                         </div>
                     </a>
                     <div class="ba__admin-table-scroll" style="height: 85%;">
-                        <a class="list-group-item ba__font-size-12 ba__pointer" ng-repeat="questao in listQuestoes | filter:filterPendentes()"
+                        <a class="list-group-item ba__font-size-12 ba__pointer" ng-repeat="questao in listQuestoes"
                            ng-click="abreQuestaoOrdem(questao.id)">
                             <div class="row">
                                 <div class="col-xs-3">{{questao.data_hora}}</div>
@@ -91,13 +91,57 @@
             </div>
 
             <!-- VOTAÇÃO -->
-            <div id="votacao-questao" class="tab-pane fade in active" ng-if="data.tabStatus === 'Votacao'">
-                <div>
+            <div id="votacao" class="tab-pane fade in active" ng-if="data.tabStatus === 'Votacao'">
+                <div id="votacao-questao" ng-show="listVotacoesQuestoes.length < 1">
                     <h4>Nenhuma Votação foi criada ainda.</h4>
                     <button type="button" class="btn btn-votacao-questao-ordem nova uppercase" data-toggle="modal"
                             ng-click="abreNovaVotacao()">
                         NOVA VOTAÇÃO
                     </button>
+                </div>
+                <div class="row">
+                    <h3 class="col-md-15 Roboto-Light">
+                        <strong>{{listVotacoesQuestoes.length}}</strong> resultados
+                    </h3>
+                    <button name="btnEncerrarEnvios" type="button" style="margin-top: 12px"
+                            class="btn btn-encerrarenvios  col-md-4 uppercase"
+                            data-toggle="modal" ng-click="encerraEnviosQuestaoOrdem()">
+                        Encerrar Votacao
+                    </button>
+                    <button type="button" class="btn btn-success col-md-offset-0 col-md-4 uppercase" style="margin-top: 12px"
+                            data-toggle="modal" ng-click="abreNovaVotacao()">
+                        NOVA VOTAÇÃO
+                    </button>
+                </div>
+                <div class=" row list-group ba__admin-table ba__margin-top-0">
+                    <a class="list-group-item disabled">
+                        <div class="row uppercase">
+                            <div class="col-xs-9">Título
+                                <i class="ba__margin-horizontal-5"></i>
+                            </div>
+                            <div class="col-xs-4">Encerramento
+                                <i class="ba__margin-horizontal-5"></i>2
+                            </div>
+                            <div class="col-xs-4">Votos
+                                <i class="ba__margin-horizontal-5"></i>
+                            </div>
+
+                            <div class="col-xs-2 text-center"></div>
+                        </div>
+                    </a>
+                    <div class="ba__admin-table-scroll" style="height: 85%;">
+                        <a class="list-group-item ba__font-size-12 ba__pointer" ng-repeat="votacaoQuestao in listVotacoesQuestoes"
+                           ng-click="abreQuestaoOrdemVotacao(votacaoQuestao.id)">
+                            <div class="row">
+                                <div class="col-xs-9 left">{{votacaoQuestao.pergunta}}</div>
+                                <div class="col-xs-4">{{votacaoQuestao.votacao_data_fim}} às {{votacaoQuestao.votacao_hora_fim}}</div>
+                                <div class="col-xs-4">0</div>
+                                <div class="col-xs-2">
+                                    <i class="fa fa-eye ba__margin-left-35" title="Visualizar" ng-click=""></i>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>
@@ -319,6 +363,7 @@
                                     <div class="control-input">
                                                             <textarea
                                                                     name="descricaoNovaVotacao"
+                                                                    ng-model="novaVotacao.pergunta"
                                                                     placeholder=" "
                                                                     class="ng-pristine ng-valid ng-touched"
                                                                     required
@@ -332,7 +377,7 @@
                             </div>
                         </div>
 
-                        <div class="row">
+                        <div class="row"  ng-repeat="alternativa in novaVotacao.alternativas">
                             <div class="col-md-22">
                                 <div style="padding: 15px;">
                                     <div class="control-input">
@@ -379,7 +424,7 @@
                                     <input
                                             type="text"
                                             name="votacao_data_fim"
-                                            ng-model="votacao.votacao_data_fim"
+                                            ng-model="novaVotacao.votacao_data_fim"
                                             placeholder=" "
                                             autocomplete="off"
                                             mask="99/99/9999"
@@ -396,11 +441,11 @@
                                     <input
                                             type="text"
                                             name="votacao_hora_fim"
-                                            ng-model="votacao.votacao_hora_fim"
+                                            ng-model="novaVotacao.votacao_hora_fim"
                                             placeholder=" "
                                             autocomplete="off"
                                             mask="99:99"
-                                            requiredvotacao_data_fimvotacao_data_fim
+                                            required
                                             class="ng-pristine ng-valid ng-touched"
                                             aria-invalid="false">
                                     <span>HORÁRIO</span>
@@ -415,7 +460,9 @@
                             type="button"
                             class="btn btn-success col-md-5 pull-right"
                             style="margin-left: 5px"
-                            ng-disabled="!(votacao.votacao_data_fim && votacao.votacao_hora_fim)">
+                            ng-disabled="!(novaVotacao.votacao_data_fim && novaVotacao.votacao_hora_fim)"
+                            ng-click="createNovaVotacao()"
+                            >
                         Salvar
                     </button>
 

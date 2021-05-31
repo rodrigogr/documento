@@ -6,12 +6,13 @@ namespace App\Http\Controllers\Assembleia;
 
 use App\Http\Controllers\Controller;
 use App\models\Assembleia\Assembleia;
+use App\Models\Assembleia\AssembleiaQuestaoOrdemVotacao;
 use App\models\Assembleia\AssembleiaVotacao;
-use Illuminate\Database\Eloquent\Model;
+
 use Illuminate\Http\Request;
 use mysql_xdevapi\Exception;
 
-class VotacaoController extends Controller
+class QuestaoOrdemVotacaoController extends Controller
 {
     public function registrarVoto (Request $request)
     {
@@ -21,9 +22,9 @@ class VotacaoController extends Controller
         {
             foreach ($data['imoveis'] as $imovel)
             {
-                foreach ($data['pautas'] as $pauta)
+                foreach ($data['perguntas'] as $pauta)
                 {
-                    $assembleiaVotacao = AssembleiaVotacao::
+                    $assembleiaVotacao = AssembleiaQuestaoOrdemVotacao::
                         where('id_assembleia', $data['id_assembleia'])
                         ->where('id_pergunta', $pauta['id_pergunta'])
                         ->where('imovel', $imovel['id_imovel'])
@@ -44,7 +45,7 @@ class VotacaoController extends Controller
 
                     //\DB::beginTransaction();
 
-                    $voto = AssembleiaVotacao::create([
+                    $voto = AssembleiaQuestaoOrdemVotacao::create([
                         'id_assembleia' => $data['id_assembleia'],
                         'imovel' => $imovel['id_imovel'],
                         'id_pessoa' => $data['id_pessoa'],

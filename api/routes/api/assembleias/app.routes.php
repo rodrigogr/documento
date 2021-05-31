@@ -18,4 +18,6 @@ Route::group(['prefix' => '5eec33a37ed64e42575b84f1abc8a27843b1a050/assembleias'
     Route::get('/anexos/{id}', 'assembleia\DocumentoController@index');
     Route::get('/pautas/assembleia/{id}', 'assembleia\PautaController@listPautasAssembleia');
     Route::get('/getdocumento/{id}', 'assembleia\DocumentoController@getDocumento');
+    Route::get('/questoesordemvotacoes/assembleia/{id}/pessoa/{idPessoa}', 'assembleia\QuestaoOrdemPerguntaController@listQuestoesOrdensVotacoesPessoa');
+    Route::post('/questoesordemvotacoes', 'assembleia\QuestaoOrdemVotacaoController@registrarVoto');
 });

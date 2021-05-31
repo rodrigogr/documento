@@ -12,6 +12,7 @@ angular.module('appDirectives').directive("assembleiaquestoes", function () {
 });
 
 function assembleiaQuestoesOrdemCtrl($scope, $http, $state, $filter, AuthService, UtilsService, config) {
+
     $scope.novaVotacaoSelecao = {};
     $scope.ultimaAlternativa = 1;
     $scope.questoesPendentes = [];
@@ -129,12 +130,68 @@ function assembleiaQuestoesOrdemCtrl($scope, $http, $state, $filter, AuthService
             $("#loading").modal("hide")
         });
     }
+
+    $scope.novaVotacao = {
+        id_assembleia: null,
+        votacao_data_fim: '',
+        votacao_hora_fim: '',
+        pergunta: '',
+        alternativas: [{
+            id: 'alternativa1',
+            opcao: ''
+        },{
+            id: 'alternativa2',
+            opcao: ''
+        }]
+    }
+
+    function listaVotacoesQuestoesOrdem()
+    {
+        $(".loader").show();
+
+        var promisse = ($http.get(`${config.apiUrl}api/assembleias/questoes-ordem-votacoes/`+ $state.params.id));
+        promisse.then(function (retorno) {
+            $scope.listVotacoesQuestoes = retorno.data.data;
+        }).finally( () => {
+            $(".loader").hide();
+        });
+    }
+
+    listaVotacoesQuestoesOrdem();
+
     $scope.abreNovaVotacao = function ()
     {
+        $scope.novaVotacao.id_assembleia = $state.params.id;
+
         $('#novaVotacao').modal('show');
     }
+
     $scope.fechaNovaVotacao = function ()
     {
         $('#novaVotacao').modal('hide');
     }
-};
+
+    $scope.createNovaVotacao = async function ()
+    {
+        $("#loading").modal("show");
+
+        console.log($scope.novaVotacao);
+
+        $http({
+            method: "POST",
+            url: `${config.apiUrl}api/assembleias/questoes-ordem-votacoes/`,
+            data: $scope.novaVotacao,
+            headers:{
+                'Authorization': 'Bearer '+ AuthService.getToken()
+            }
+        })
+            .then(function(response) {
+                UtilsService.toastSuccess("Nova votacão criada com sucesso!");
+                $('#novaVotacao').modal('hide');
+                // $scope.limpar();
+                 $scope.listaVotacoesQuestoesOrdem();
+            }, function(error) {
+                UtilsService.openAlert(error.data.message);
+            }).finally( () => { $("#loading").modal("hide") });
+    }
+}

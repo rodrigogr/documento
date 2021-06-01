@@ -42,7 +42,6 @@ class VotacaoController extends Controller
                         return response()->error('Seu voto já foi registrado.');
                     }
 
-                    //\DB::beginTransaction();
 
                     $voto = AssembleiaVotacao::create([
                         'id_assembleia' => $data['id_assembleia'],
@@ -50,14 +49,13 @@ class VotacaoController extends Controller
                         'id_pessoa' => $data['id_pessoa'],
                         'id_pergunta' => $pauta['id_pergunta'],
                         'id_opcao' => $pauta['id_alternativa'],
-                        'peso_voto' => $imovel['peso_voto']
+                        'peso_voto' => $imovel['peso_voto'],
+                        'id_dispositivo' => $data['id_dispositivo'],
+                        'token'=> $data['token'],
+                        'data_hora_login'=> $data['data_hora_login'],
+                        'plataforma' => $data['plataforma']
                     ]);
 
-                    //\DB::commit();
-
-                    //$voto = new AssembleiaVotacao();
-                    //$voto->ip = $data['ip'];
-                    //$voto->mac_address = $data['mac_address'];
                 }
             }
 

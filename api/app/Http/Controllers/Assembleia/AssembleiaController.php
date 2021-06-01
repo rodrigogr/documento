@@ -391,10 +391,10 @@ class AssembleiaController extends Controller
 
                 foreach ($opcoes as $opcao)
                 {
-                    $opcao['total_votos'] = AssembleiaVotacao::where('id_opcao', $opcao['id'])->sum('peso_voto');
+                    $opcao['total_votos'] = AssembleiaVotacao::where('id_opcao', $opcao['id'])->where('id_assembleia',$assembleia->id)->sum('peso_voto');
                 }
 
-                $assembleia['pautas'][$key]['total_votos'] = AssembleiaVotacao::where('id_pergunta', $pauta['id_pergunta'])->sum('peso_voto');
+                $assembleia['pautas'][$key]['total_votos'] = AssembleiaVotacao::where('id_pergunta', $pauta['id_pergunta'])->where('id_assembleia',$assembleia->id)->sum('peso_voto');
                 $assembleia['pautas'][$key]['alternativas'] = $opcoes;
             }
         }

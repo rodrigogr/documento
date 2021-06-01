@@ -217,7 +217,6 @@ class QuestaoOrdemController extends Controller
         $data = $request->all();
 
         try {
-            DB::beginTransaction();
 
             $questao = AssembleiaQuestaoOrdem::find($data['id_questao_ordem']);
 
@@ -228,6 +227,11 @@ class QuestaoOrdemController extends Controller
 
             $assembleia = Assembleia::find($questao->id_assembleia);
 
+            if(!$assembleia)
+            {
+                return response()->error('Assembleia não existe!');
+            }
+
             if($assembleia->status != 'andamento')
             {
                 return response()->error('O envio de questões de ordem foi encerrado, pois a votação já foi iniciada.');
@@ -237,6 +241,8 @@ class QuestaoOrdemController extends Controller
             {
                 return response()->error('Não cabe recurso na questão de Ordem!');
             }
+
+            DB::beginTransaction();
 
             $novaThead = AssembleiaThead::create([
                 'titulo' => "Recurso",

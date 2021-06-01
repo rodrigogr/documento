@@ -1534,7 +1534,7 @@ class RelatorioController
                   </thead>
                   <tbody>";
 
-            $totalVotosPauta = AssembleiaVotacao::where('id_pergunta', $pauta['id_pergunta'])->sum('peso_voto');
+            $totalVotosPauta = AssembleiaVotacao::where('id_pergunta', $pauta['id_pergunta'])->where('id_assembleia',$assembleia->id)->sum('peso_voto');
 
             $opcoes = AssembleiaOpcao::where('assembleia_opcoes.id_pergunta', $pauta['id_pergunta'])
                 ->select('assembleia_opcoes.id','opcao')
@@ -1544,11 +1544,11 @@ class RelatorioController
             foreach ($opcoes as $opcao)
             {
 
-                $totalVotosOpcao = AssembleiaVotacao::where('id_opcao', $opcao['id'])->sum('peso_voto');
+                $totalVotosOpcao = AssembleiaVotacao::where('id_opcao', $opcao['id'])->where('id_assembleia',$assembleia->id)->sum('peso_voto');
 
                 $somaVotosAlternativas += $totalVotosOpcao;
                 $descricao = $opcao['opcao'];
-                $percentual = (($totalVotosOpcao / $totalVotosPauta) * 100);
+                $percentual = round((($totalVotosOpcao / $totalVotosPauta) * 100),2);
 
                 $html .= "  
                     <tr>

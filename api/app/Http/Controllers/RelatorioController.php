@@ -1527,7 +1527,7 @@ class RelatorioController
                 <table style='border: 1px solid black;border-collapse: collapse; width: 95%;margin: 2px 13px;'>
                   <thead>
                     <tr>
-                      <th style='text-align: left;'>Alternativas</th>
+                      <th style='text-align: center;'>Alternativas</th>
                       <th>Votos (c/ Peso)</th>
                       <th>Porcentagem</th>
                     </tr>
@@ -1552,7 +1552,7 @@ class RelatorioController
 
                 $html .= "  
                     <tr>
-                      <td>$descricao</td>
+                      <td style='text-align: center; padding: 3px'>$descricao</td>
                       <td style='text-align: center;'>$totalVotosOpcao</td>
                       <td style='text-align: center;'>$percentual%</td>
                     </tr>";
@@ -1563,7 +1563,7 @@ class RelatorioController
                   </tbody>
                   <tfoot>
                     <tr>
-                      <td>Total</td>
+                      <td style='text-align: center;'>Total</td>
                       <td style='text-align: center;'>$somaVotosAlternativas</td>
                       <td style='text-align: center;'>100%</td>
                     </tr>

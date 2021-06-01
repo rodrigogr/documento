@@ -17,7 +17,11 @@ class AssembleiaVotacao extends Model
         'peso_voto',
         'ip',
         'mac_address',
-        'peso'
+        'peso',
+        'id_dispositivo',
+        'token',
+        'data_hora_login',
+        'plataforma'
     ];
 
     public function usuario()

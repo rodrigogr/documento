@@ -1395,7 +1395,7 @@ class RelatorioController
                     concat('QD ', i.quadra,' / LT ',i.lote) as unidade,
                     concat('x', av.peso_voto) as peso,
                     av.created_at,
-                    id_dispositivo as dispositivo
+                    token as dispositivo
                 from assembleia_votacoes av 
                 inner join bioacesso_portaria.pessoa p on av.id_pessoa = p.id 
                 inner join bioacesso_portaria.imovel i on i.id = av.imovel 

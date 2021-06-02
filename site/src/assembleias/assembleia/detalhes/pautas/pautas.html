@@ -29,11 +29,7 @@
                 <div class="row" ng-click="abrePauta(pauta.id)">
                     <div class="col-xs-8">{{pauta.pauta}}</div>
                     <div class="col-xs-4">{{pauta.alternativas}}</div>
-                    <div class="col-xs-6">
-                        <span ng-if="pauta.status=='Aberta para votação'" class="status aberta">{{pauta.status}}</span>
-                        <span ng-if="pauta.status=='Suspensa'" class="status suspensa">{{pauta.status}}</span>
-                        <span ng-if="pauta.status=='Aguardando início'" class="status aguardando">{{pauta.status}}</span>
-                    </div>
+
                     <div class="col-xs-4">{{pauta.votos}}</div>
                     <div class="col-xs-2">
                         <i class="fa fa-close ba__margin-left-20" title="Excluir"  ng-click=""></i>
@@ -292,19 +288,5 @@
             </div>
         </div>
         <!-- Modal suspender pauta -->
-
-        <!--MODAL LOADING-->
-        <div class="modal" id="loading" role="dialog" data-backdrop="static" style="background: rgba(0, 0, 0, 0.1)!important">
-            <div class="modal-dialog" role="document">
-                <div style="padding: 20px;background:#FFF;width:14%;margin: 15% auto;position: relative;background-clip: padding-box;text-align: center;">
-                    <div class="row">
-                        <i class="col-md-5 fa fa-spinner fa-spin ba__font-size-50 text-center"></i>
-                        <h5 class="col-md-13 col-md-offset-1 text-gray ba__margin-top-20">
-                            <b>aguarde...</b>
-                        </h5>
-                    </div>
-                </div>
-            </div>
-        </div>
     </div>
 </div>

@@ -102,7 +102,9 @@ function assembleiaPautasCtrl ($scope, $state, $filter, UtilsService, AuthServic
     }
     $scope.suspenderPauta = function(){
         $scope.suspender = true;
-        console.log($scope.motivoSuspender);
+        $scope.votacaoIniciada = true;
+        $('#suspenderPauta').modal('hide');
+        //console.log($scope.motivoSuspender    );
     }
 
     $scope.abreDocumento = function (idDoc)

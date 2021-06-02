@@ -24,7 +24,7 @@ class ImovelController extends Controller
             $data = $request->all();
             $Data = Imovel::create($data);
         } catch (Exception $e) {
-            return response()->error($e->getMessage);
+            return response()->error($e->getMessage());
         }
         return response()->success(trans('messages.crud.MSS', ['name' => $this->name]));
     }
@@ -47,7 +47,7 @@ class ImovelController extends Controller
                 $data = $request->all();
                 $Data->update($data);
             } catch (Exception $e) {
-                return response()->error($e->getMessage);
+                return response()->error($e->getMessage());
             }
             return response()->success(trans('messages.crud.MUS', ['name' => $this->name]));
         } else {
@@ -64,7 +64,7 @@ class ImovelController extends Controller
                 $Data->save();
                 $Data->delete();
             } catch (Exception $e) {
-                return response()->error($e->getMessage);
+                return response()->error($e->getMessage());
             }
             return response()->success(trans('messages.crud.MDS', ['name' => $this->name]));
         } else {

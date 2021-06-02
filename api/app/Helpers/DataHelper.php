@@ -25,8 +25,14 @@ class DataHelper
 
     static public function getPrettyDateTime($value){
         if($value == NULL) return $value;
-        $value = DataHelper::setDate($value);
-        return date_format(date_create($value), "H:i - d/m/Y");
+        //$value = DataHelper::setDate($value);
+        return date_format(date_create($value), "d/m/Y - H:i");
+    }
+
+    static public function getPrettyTime($value){
+        if($value == NULL) return $value;
+//        $value = DataHelper::setDate($value);
+        return date_format(date_create($value), "H:i");
     }
 
     static public function getPrettyDate($value){
@@ -52,9 +58,10 @@ class DataHelper
         return $retorno;
     }
 
-    static public function setDateUTCtoDateDB($value,$time = null){
+    static public function setDateUTCtoDateDB($value,$time = null)
+    {
         $data = Carbon::createFromFormat('Y-m-d\TH:i:s.uO', $value);
-        return is_null($time) ? $data->format('Y-m-d') : $data->format('Y-m-d H:i') ;
+        return $data->format('Y-m-d H:i:s') ;
     }
 
     static public function getOnlyNumbers($value){
@@ -97,42 +104,42 @@ class DataHelper
             return false;
         }
         // Faz o calculo para validar o CPF
-        for ($t = 9; $t < 11; $t++) {
-            for ($d = 0, $c = 0; $c < $t; $c++) {
-                $d += $cpf{$c} * (($t + 1) - $c);
-            }
-            $d = ((10 * $d) % 11) % 10;
-            if ($cpf{$c} != $d) {
-                return false;
-            }
-        }
+//        for ($t = 9; $t < 11; $t++) {
+//            for ($d = 0, $c = 0; $c < $t; $c++) {
+//                $d += $cpf{$c} * (($t + 1) - $c);
+//            }
+//            $d = ((10 * $d) % 11) % 10;
+//            if ($cpf{$c} != $d) {
+//                return false;
+//            }
+//        }
         return true;
     }
 
-    static public function validaCNPJ($cnpj)
-    {
-        $cnpj = preg_replace('/[^0-9]/', '', (string) $cnpj);
-        // Valida tamanho
-        if (strlen($cnpj) != 14)
-            return false;
+//    static public function validaCNPJ($cnpj)
+//    {
+//        $cnpj = preg_replace('/[^0-9]/', '', (string) $cnpj);
+//        // Valida tamanho
+//        if (strlen($cnpj) != 14)
+//            return false;
         // Valida primeiro dígito verificador
-        for ($i = 0, $j = 5, $soma = 0; $i < 12; $i++)
-        {
-            $soma += $cnpj{$i} * $j;
-            $j = ($j == 2) ? 9 : $j - 1;
-        }
-        $resto = $soma % 11;
-        if ($cnpj{12} != ($resto < 2 ? 0 : 11 - $resto))
-            return false;
+//        for ($i = 0, $j = 5, $soma = 0; $i < 12; $i++)
+//        {
+//            $soma += $cnpj{$i} * $j;
+//            $j = ($j == 2) ? 9 : $j - 1;
+//        }
+//        $resto = $soma % 11;
+//        if ($cnpj{12} != ($resto < 2 ? 0 : 11 - $resto))
+//            return false;
         // Valida segundo dígito verificador
-        for ($i = 0, $j = 6, $soma = 0; $i < 13; $i++)
-        {
-            $soma += $cnpj{$i} * $j;
-            $j = ($j == 2) ? 9 : $j - 1;
-        }
-        $resto = $soma % 11;
-        return $cnpj{13} == ($resto < 2 ? 0 : 11 - $resto);
-    }
+//        for ($i = 0, $j = 6, $soma = 0; $i < 13; $i++)
+//        {
+//            $soma += $cnpj{$i} * $j;
+//            $j = ($j == 2) ? 9 : $j - 1;
+//        }
+//        $resto = $soma % 11;
+//        return $cnpj{13} == ($resto < 2 ? 0 : 11 - $resto);
+//    }
 
     static private function validate_date( $date ) {
         if ( ! strpos( $date, '/' ) ) {

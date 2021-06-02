@@ -1,0 +1,58 @@
+<div class="row ba__admin-list">
+    <div class="list-group ba__admin-table ba__margin-top-40" style="height: 85%">
+        <a class="list-group-item disabled">
+            <div class="row uppercase">
+                <div class="col-xs-2 check-styled">
+                    <label>
+                        <input  type="checkbox" ng-model="selecionarTodos" ng-click="checkSelected()" >
+                    </label>
+                </div>
+                <div class="col-xs-4">Unidade
+                    <i class="ba__margin-horizontal-5"></i>
+                </div>
+                <div class="col-xs-2">PESO
+                    <i class="ba__margin-horizontal-5"></i>
+                </div>
+                <div class="col-xs-4">STATUS
+                    <i class="ba__margin-horizontal-5"></i>
+                </div>
+<!--                <div class="col-xs-8">PROCURADOR-->
+<!--                    <i class="ba__margin-horizontal-5"></i>-->
+<!--                </div>-->
+                <div class="col-xs-4 text-center"></div>
+            </div>
+        </a>
+
+        <ul class="list-group">
+            <li  class="list-group-item"
+                 ng-repeat="participante in listParticipantes">
+
+                <h5 class="col-xs-2 list-group-item-heading check-styled">
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox"  ng-model="participante.participar" ng-click="savePaticipante(participante)">
+                        </label>
+                    </div>
+                </h5>
+                <h5 class="col-xs-4 list-group-item-heading">Qd {{participante.quadra}} Lt. {{participante.lote}}</h5>
+                <h5 class="col-xs-2 list-group-item-heading">x{{participante.peso_voto}}</h5>
+
+                <h5 class="col-xs-4 list-group-item-heading">
+                                                        <span class="badge-style {{participante.participar ? ' badge-participante-ativo' : ' badge-participante-impedido' }}">
+                                                            {{ participante.participar ? 'Participando' : 'Impedido' }}
+                                                        </span>
+                </h5>
+                <!--                                                    <h5 class="col-xs-8 list-group-item-heading" ng-if="!participante.id_procurador">-->
+                <!--                                                       <span ng-click="addProcurador(participante)" class="text-gray underline"><i class="fa fa-plus-circle"></i> Add.procurador</span>-->
+                <!--                                                    </h5>-->
+                <!--                                                    <h5 class="col-xs-8 list-group-item-heading" ng-if="participante.id_procurador">-->
+                <!--                                                        {{ participante.procurador }}-->
+                <!--                                                    </h5>-->
+                <!--                                                    <h5 class="col-xs-4 list-group-item-heading text-right" ng-if="participante.id_procurador">-->
+                <!--                                                        <span ng-click="remProcurador(participante)" class="text-gray underline" ><i class="fa fa-trash"></i> Rem.procurador</span>-->
+                <!--                                                    </h5>-->
+            </li>
+        </ul>
+    </div>
+    </div>
+</div>

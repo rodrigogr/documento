@@ -14,7 +14,7 @@ class AuthController extends Controller
     {
         $credentials = $getLogin ? $getLogin : $request->only('login','pwd'); //verifica se login vem do acesso direto($request) ou de outro sistema($getLogin)
 
-        $usuario = Usuario::select('usuario.id','usuario.senha','usuario.ativo','p.nome','c.nome as funcao')
+        $usuario = Usuario::select('usuario.id','usuario.senha','usuario.ativo','p.nome','c.nome as funcao', 'p.id as id_pessoa')
                         ->join('pessoa as p','p.id','usuario.id_pessoa_funcionario')
                         ->join('categoria_usuario as c','c.id','usuario.id_categoria')
                         ->where('login',$credentials["login"])->first();
@@ -53,7 +53,8 @@ class AuthController extends Controller
             'token' => $token,
             'usr' => [
                 'id' => sha1($usuario->id),
-                'nome' => $primeiroNome[0]
+                'nome' => $primeiroNome[0],
+                'id_pessoa' => $usuario->id_pessoa
             ]
         ]);
     }
@@ -174,7 +175,7 @@ class AuthController extends Controller
             "id_pessoa" => $decript2[1],
             "id_tabela" => $decript2[2]
         ];
-       
+
         if (true) {
             //$validaUsuario->update(['ativo' => 'n']);
             $usuario = Usuario::find($decript["id_pessoa"]);

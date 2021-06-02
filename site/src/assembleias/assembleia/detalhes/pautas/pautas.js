@@ -39,14 +39,17 @@ function assembleiaPautasCtrl ($scope, $state, $filter, UtilsService, AuthServic
             $scope.getPautaAnexos($scope.pautaSelecao.id_pauta);
         }).finally( () => {
             $scope.ultimaAlternativa = $scope.pautaSelecao.alternativas.length;
+            $("#loading").modal("hide");
         });
     }
 
     getPautasAssembleia();
 
     $scope.abrePauta = function (idPauta){
+        $("#loading").modal("show");
         getDetalhesPautas(idPauta);
         $('#abrePauta').modal('show');
+
     }
 
     $scope.fechaPauta = function () {
@@ -104,7 +107,10 @@ function assembleiaPautasCtrl ($scope, $state, $filter, UtilsService, AuthServic
 
     $scope.abreDocumento = function (idDoc)
     {
-        window.open(config.apiUrl + 'api/assembleias/documento/open/' + idDoc, '_blank');
+        if(idDoc)
+        {
+            window.open(config.apiUrl + 'api/assembleias/pauta/documento/open/' + idDoc, '_blank');
+        }
     };
 
     $scope.changeInputField = function (ele) {

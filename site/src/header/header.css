@@ -42,7 +42,7 @@ header. */
 definidas abaixo */
 .header header .logo
 {
-    background-color: #ed6c44;
+    background-color: #FF6633;
     background-size: 90%;
 }
 
@@ -59,10 +59,11 @@ definidas abaixo */
     width: calc(95% - 350px);
     margin: 0;
     float: left;
-    font: 28px/70px Roboto-Thin, sans-serif;
+    font: 26px/70px Roboto-Thin, sans-serif;
+    font-weight: bold;
     text-transform: uppercase;
     overflow: hidden;
-    text-overflow: ellipsis
+    text-overflow: ellipsis;
 }
 
 .header header h2 .icon-ba-house

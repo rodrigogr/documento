@@ -1,10 +1,120 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+<link href='libs/fullcalendar/lib/main.min.css' rel='stylesheet' />
+<script src='libs/fullcalendar/lib/main.min.js'></script>
+<script src='libs/fullcalendar/lib/locales/pt-br.js'></script>
+<link rel="stylesheet" href="src/reservas/calendario-reserva/calendarioReserva.ctrl.css">
+<div class="header">
+    <div header></div>
+</div>
 
-</body>
-</html>
+<div class="row container-fluid ba__body-content ba__full-width">
+    <!--CONTAINER MENU-->
+    <div sidebar></div>
+    <!--CONTAINER SISTEMA-->
+    <div class="col-xs-21 ba__admin-container">
+
+        <div class="col-xs-24 ba__admin-container-list">
+            <div class="row ba__admin-busca">
+                <div class="col-xs-24 input-group ba__admin-busca-input" style="float: left; border: none!important; height: 30px; margin-left: 20px; margin-top: 8px">
+                    <span class="input-group-addon" style="height: 60px"></span>
+                    <select class="col-xs-3 ba__adminSelectBusca" ng-change="pesquisaChange()" ng-init="search.type = 'nome'" ng-model="search.type"
+                            style="height: 50px; border-bottom: 1px solid #cccccc;padding-left: 20px;">
+                        <option value="nome">Nome</option>
+                    </select>
+                    <input type="text" class="col-xs-4 ba__margin-left-15" ng-model="search.nome" style="height: 50px; border-bottom: 1px solid #cccccc;">
+                    <button type="button" class="btn btn-primary col-xs-3 col-xs-offset-1 uppercase" style="margin-top: 7px" ng-click="checkData(search) && pesquisar(search)">
+                        Pesquisar
+                        <i class="icon-ba-search"></i>
+                    </button>
+                </div>
+            </div>
+
+            <div class="row" style="height: auto; margin: 10px 2%">
+                <div class="row">
+                    <ul class="nav nav-tabs tabs-aprovacao">
+                        <li role="presentation" class="active"><a href="javascript:void(0)" ng-click="contentChange(1)" data-toggle="tab"><h3 style="margin: 0; padding-bottom: 10px">POR MÊS</h3></a></li>
+                        <li role="presentation"><a href="javascript:void(0)" data-toggle="tab" ng-click="contentChange(2)"><h3 style="margin: 0; padding-bottom: 10px">POR DIA</h3></a></li>
+                        <!--<li role="presentation" class="pull-right">
+                            <div class="row" style="
+                                width: 485px;
+                                line-height: 37px;
+                                margin-top: 21px;
+                            ">
+                                <span style="
+                                float: left;
+                                font-size: 25px;
+                                text-transform: uppercase;
+                                margin-right: 26px;
+                            ">Escolha o dia</span>
+                                    <input type="date" id="dataBusca" data-date-format="DD/MM/YYYY" ng-model="dt">
+
+                                </div>
+                            </li>-->
+                    </ul>
+                </div>
+            </div>
+
+            <div class="tab-content" style="margin: 15px 2%">
+                <div class="row">
+                    <div class="col-xs-5 list-localidade-locaisReservaveis">
+                        <span ng-if="!loadLocais"><i class="fa fa-spinner fa-spin ba__font-size-17"></i></span>
+                        <div ng-if="loadLocais">
+                            <dl ng-repeat="localidade in locaisReservaveis">
+                                <dt class="list-localidade" id="item{{$index}}" ng-click="listaAprovacao('todos', false, localidade.id, 'item'+$index)">{{localidade.descricao}}</dt>
+                                <dl>
+                                    <dd class="list-locaisReservaveis" id="subItem{{locais.id}}" ng-click="selecionaLocal(locais.id)" ng-repeat="locais in localidade.locais_reservaveis">{{locais.nome}}</dd>
+                                </dl>
+                            </dl>
+                        </div>
+                    </div>
+
+                    <div ng-if="aba == 1"  class="col-xs-19">
+                        <div id="loadingDiaCalendario">
+                            <div>
+                                <i class="col-md-5 fa fa-spinner fa-spin ba__font-size-60 text-center"></i><label>Carregando...</label>
+                            </div>
+                        </div>
+                        <div class="bloco-reservas bloco-calendario">
+
+                            <div id='calendar'></div>
+
+                        </div>
+                    </div>
+
+                    <div ng-if="aba == 2">
+                        <div class="col-xs-14">
+                            <div class="bloco-reservas bloco-calendario">
+                                <div class="row data-por-dia">
+                                    <h3 class="btn-nav-dia" ng-click="alterarDia('-')"><</h3>
+                                    <h3 class="titulo-dia-mes fc-toolbar-title pull-left">{{dataTitulo}}<span class="titulo-semana">{{dataSemana}}</span></h3>
+                                    <h3 class="btn-nav-dia" ng-click="alterarDia('+')" style="margin-right: 20px">></h3>
+                                    <h3 class="btn-nav-dia" ng-click="voltarHoje()">VOLTAR PRA HOJE</h3>
+                                </div>
+                                <div class="grupoDia">
+                                    <div class="row">
+                                        <span class="col-xs-4 periodo"><b>{{'10:00'}} - {{'18:00'}}</b><br>{{'R$ 150,00'}}</span>
+                                        <span class="col-xs-12 col-xs-offset-1 status-local">
+                                                <button class="btn text-uppercase reserva-status-{{'pendente'}}">{{'pendente'}}</button><br>
+                                                <p>Qd A15 / Lt 31 - Rua da Primavera</p>
+                                                <p class="text-capitalize">Joaquim da Silva de Oliveria</p>
+                                            </span>
+                                        <span class="col-xs-6 pull-right" style="margin-right: 33px"><button class="btn btn-primary" ng-click="analisar()" style="width: 100%">ANALISAR</button></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xs-5">
+                            <div class="bloco-reservas bloco-calendario">
+                                teste 2
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+
+
+
+    </div>
+</div>

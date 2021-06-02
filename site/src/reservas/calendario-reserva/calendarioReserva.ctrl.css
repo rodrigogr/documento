@@ -1,0 +1,228 @@
+ul.tabs-aprovacao {
+    border-bottom: 2px solid #C1C1C1;
+}
+.tabs-aprovacao > li > a {
+    background: none;
+    border-bottom: 5px solid transparent !important;
+}
+.tabs-aprovacao > li.active > a {
+    background: none;
+}
+.list-localidade-locaisReservaveis {
+    max-height: 500px;
+    overflow-y: auto;
+    overflow-x: hidden;
+linear-gradient(to left, transparent 17px, black 17px);
+    -webkit-mask-image: linear-gradient(to top, transparent, black),linear-gradient(to left, transparent 17px, black 17px);
+    -webkit-mask-size: 103% 20000px;
+    -webkit-mask-position: left bottom;
+    transition: mask-position 0.3s, -webkit-mask-position 0.3s;
+}
+.list-localidade-locaisReservaveis:hover {
+    -webkit-mask-position: left top;
+}
+.list-localidade-locaisReservaveis dl {
+    margin-bottom: 1px;
+}
+.list-localidade-locaisReservaveis dt {
+    background-color: #FFF;
+}
+.list-localidade-locaisReservaveis dd:nth-child(odd) {
+    background-color: #EFEFEF;
+}
+.list-localidade-locaisReservaveis dd:nth-child(even) {
+    background-color: #FFFFFF;
+}
+.list-localidade {
+    font-size: 18px;
+    padding: 10px 20px;
+    /*transition: all .15s ease-in-out;*/
+}
+.list-locaisReservaveis {
+    font-size: 17px;
+    padding: 10px 30px;
+    /*transition: all .08s ease-in-out;*/
+}
+.list-localidade:hover {
+    cursor: default;
+}
+.list-localidade-locaisReservaveis dd:hover {
+    background: #FF6633 url(../../../img/arrow-rigth-white.png) 100% center no-repeat;
+    background-size: 32px;
+    color: #FFFFFF;
+    font-weight: normal;
+    cursor: pointer;
+}
+.itemSelecionado {
+    background: url(../../../img/arrow-rigth-white.png) 100% center no-repeat;
+    background-size: 32px;
+    background-color: #FF6633 !important;
+    color: #FFFFFF;
+    font-weight: normal;
+    cursor: pointer;
+}
+.bloco-reservas {
+    background-color: #FFFFFF;
+    padding: 15px 30px 0px;
+    border-radius: 8px;
+    margin-left: 20px;
+}
+.bloco-calendario {
+    padding-bottom: 20px;
+}
+#calendar {
+    margin: 0 auto;
+    max-height: 626px;
+}
+#calendar table {
+    background-color: #FFFFFF;
+}
+
+/*Alterações para o calendário*/
+
+#calendar table {
+    caret-color: transparent;
+}
+.fc-prev-button, .fc-next-button, .fc-toolbar-title {
+    float: left;
+}
+.fc-toolbar-title {
+    text-transform: capitalize;
+}
+.fc .fc-button-primary {
+    background-color: #FFFFFF;
+    color: #1a252f;
+    border-color: #cccccc;
+}
+.fc .fc-button-primary:hover {
+    background-color: #FF6633;
+    border-color: #ed6c44;
+}
+.fc .fc-button-primary:not(:disabled).fc-button-active, .fc .fc-button-primary:not(:disabled):active {
+    background-color: #FF6633;
+    border-color: #ed6c44;
+}
+.fc .fc-button-primary:focus, .fc .fc-button-primary:not(:disabled).fc-button-active:focus, .fc .fc-button-primary:not(:disabled):active:focus {
+    box-shadow: 0 0 0 0.1rem rgb(76 91 106 / 12%);
+}
+.fc .fc-button-primary:disabled {
+    color: #848685;
+    border: 1px solid #93b59c;
+}
+.fc .fc-toolbar-title {
+    margin-top: 6px;
+    color: #FF6633;
+}
+button[disabled] {
+    background-color: #ced4d0 !important;
+}
+.fc-today-button {
+    font-size: 19px !important;
+    padding: 2px 14px !important;
+}
+.fc .fc-col-header-cell-cushion {
+    font-size: 22px;
+    text-transform: capitalize;
+    font-weight: normal;
+    color: #6d6b6b;
+    caret-color: transparent;
+}
+.fc .fc-daygrid-day-number {
+    font-size: 19px;
+    color: #6d6b6b;
+    font-weight: bold;
+}
+.fc .fc-daygrid-day.fc-day-today {
+    background-color: rgb(249 202 83 / 31%);
+    background-color: var(--fc-today-bg-color, rgb(249 202 83 / 31%));
+}
+#loadingDiaCalendario {
+    position: absolute;width: 98.4%;height: 140px;background-color: #fafafa;z-index: 2;margin-top: 19%;margin-left:20px;
+}
+#loadingDiaCalendario div {
+    width: 30%;background: #FFFFFF;text-align: center;margin: 3% auto;
+}
+#loadingDiaCalendario label {
+    font-size: 23px;float: right;margin-right: 126px;margin-top: 23px;font-weight: normal;
+}
+.fc-sticky {
+    font-size: 18px;
+}
+.fc .fc-popover-title {
+    font-size: 18px;
+}
+.fc .fc-daygrid-day-bottom {
+    font-size: 16px;
+    font-weight: bold;
+}
+.fc-daygrid-day.fc-day:hover {
+    cursor: pointer;
+    background-color: #f9ca534f;
+}
+.titulo-dia-mes {
+    margin: 24px;
+    font-size: 25px;
+    color: #ff6633;
+    margin-top: 8px !important;
+    width: 46%;
+    text-align: center;
+}
+.titulo-semana {
+    font-size: 23px;
+    font-weight: normal;
+    color: #666;
+    margin-left: 10px;
+}
+.btn-nav-dia {
+    border: 1px solid #979797;
+    padding: 14px;
+    line-height: 0.5;
+    border-radius: 5px;
+    float: left;
+    font-style: normal;
+    font-weight: normal;
+    color: #999999;
+    font-size: 21px;
+}
+.btn-nav-dia:hover {
+    background-color: #ff6633;
+    color: #FFFFFF;
+    cursor: pointer;
+    border: 1px solid #ff6633;
+}
+.data-por-dia h3 {
+    margin-top: 0;
+}
+.grupoDia {
+    margin-top: 30px;
+    margin-bottom: 15px;
+}
+.periodo {
+    background: #cccccc85;
+    text-align: center;
+    font-size: 18px;
+    padding: 10px;
+    border-radius: 8px;
+}
+
+.status-local button {
+    font-size: 12px;
+    line-height: 14px;
+    border-radius: 17px;
+    width: 148px;
+    height: 28px;
+    margin-bottom: 10px;
+    cursor: default;
+}
+.status-local p {
+    margin-bottom: 0;
+    font-size: 17px;
+}
+.reserva-status-pendente {
+    color: #965216;
+    background: #F2C94C;
+}
+.reserva-status-recusado {
+    color: #FFFFFF;
+    background: #d85050;
+}

@@ -179,4 +179,25 @@ class ReservaController extends Controller
         }
     }
 
+    public function eventosCalendario(Request $request)
+    {
+        $req = $request->all();
+        $reqStart = explode("T", $req["start"])[0];
+        $reqEnd = explode("T", $req["end"])[0];
+
+        $dados = Reserva::getEventosCalendario($reqStart, $reqEnd, $req["id_local"]);
+
+        return response()->success($dados);
+        /*try {
+            foreach ($filtros->all() as $reserva) {
+                $data = Reserva::find($reserva['id']);
+                $data->delete();
+            }
+
+            return response()->success(trans('messages.crud.FCS', ['name' => $this->name]));
+        } catch (\Exception $e) {
+            return response()->error(trans('messages.crud.FCE', ['name' => $this->name]));
+        }*/
+    }
+
 }

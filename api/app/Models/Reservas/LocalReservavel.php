@@ -22,7 +22,9 @@ class LocalReservavel extends Model
         'antecedencia_min_periodo',
         'antecedencia_cancel_num',
         'antecedencia_cancel_periodo',
-        'limit_reserva',
+        'limit_reserva_periodo',
+        'limit_reserva_unidade',
+        'limit_reserva_morador',
         'restricao',
         'manter_horario'
     ];

@@ -9,7 +9,7 @@
                         <h5>RECEBIDAS</h5>
                     </a>
                 </li>
-                <li ng-class="{'active': data.tabStatus === 'Votacao'}" ng-click="data.tabStatus = 'Votacao'">
+                <li ng-class="{'active': data.tabStatus === 'Votacao'}" ng-click="data.tabStatus = 'Votacao'" ng-show="false">
                     <a data-toggle="tab">
                         <h5>VOTAÇÃO</h5>
                     </a>
@@ -24,10 +24,10 @@
                         <strong>{{listQuestoes.length}}</strong> resultados
                     </h3>
                     <!-- Início visualizar somente pendentes -->
-                    <h5 class="col-md-4" style="margin-top: 20px">
+                    <h5 class="col-md-4" style="margin-top: 20px" ng-show="false">
                         Visualizar Somente Pendentes
                     </h5>
-                    <div class="col-md-1" style="margin-top: 12px">
+                    <div class="col-md-1" style="margin-top: 12px" ng-show="false">
                         <div class="onoffswitch">
                             <input type="checkbox"
                                    name="onoffswitch"
@@ -40,7 +40,7 @@
                             </label>
                         </div>
                     </div>
-                    <button name="btnEncerrarEnvios" type="button" style="margin-top: 12px"
+                    <button name="btnEncerrarEnvios" type="button" style="margin-top: 12px" ng-show="false"
                             class="btn btn-encerrarenvios  col-md-4 uppercase"
                             data-toggle="modal" ng-click="encerraEnviosQuestaoOrdem()">
                         Encerrar Envios
@@ -105,7 +105,7 @@
                     </h3>
                     <button name="btnEncerrarEnvios" type="button" style="margin-top: 12px"
                             class="btn btn-encerrarenvios  col-md-4 uppercase"
-                            data-toggle="modal" ng-click="encerraEnviosQuestaoOrdem()">
+                            data-toggle="modal" >
                         Encerrar Votacao
                     </button>
                     <button type="button" class="btn btn-nova-votacao col-md-offset-1 col-md-4 uppercase" style="margin-top: 12px"

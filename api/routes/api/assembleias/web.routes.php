@@ -84,3 +84,5 @@ Route::get('/assembleias/documento/open/{id}', 'assembleia\DocumentoController@a
 Route::get('/assembleias/questoes-ordem-votacoes/{id}', 'assembleia\QuestaoOrdemPerguntaController@index');
 
 Route::post('/assembleias/questoes-ordem-votacoes/', 'assembleia\QuestaoOrdemPerguntaController@store');
+
+Route::get('/assembleias/pauta/documento/open/{id}', 'assembleia\PautaAnexoController@abrirDocumento');

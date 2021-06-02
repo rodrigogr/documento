@@ -1395,7 +1395,7 @@ class RelatorioController
                     concat('QD ', i.quadra,' / LT ',i.lote) as unidade,
                     concat('x', av.peso_voto) as peso,
                     av.created_at,
-                    id_dispositivo as dispositivo
+                    token as dispositivo
                 from assembleia_votacoes av 
                 inner join bioacesso_portaria.pessoa p on av.id_pessoa = p.id 
                 inner join bioacesso_portaria.imovel i on i.id = av.imovel 
@@ -1527,14 +1527,14 @@ class RelatorioController
                 <table style='border: 1px solid black;border-collapse: collapse; width: 95%;margin: 2px 13px;'>
                   <thead>
                     <tr>
-                      <th style='text-align: left;'>Alternativas</th>
+                      <th style='text-align: center;'>Alternativas</th>
                       <th>Votos (c/ Peso)</th>
                       <th>Porcentagem</th>
                     </tr>
                   </thead>
                   <tbody>";
 
-            $totalVotosPauta = AssembleiaVotacao::where('id_pergunta', $pauta['id_pergunta'])->sum('peso_voto');
+            $totalVotosPauta = AssembleiaVotacao::where('id_pergunta', $pauta['id_pergunta'])->where('id_assembleia',$assembleia->id)->sum('peso_voto');
 
             $opcoes = AssembleiaOpcao::where('assembleia_opcoes.id_pergunta', $pauta['id_pergunta'])
                 ->select('assembleia_opcoes.id','opcao')
@@ -1544,15 +1544,15 @@ class RelatorioController
             foreach ($opcoes as $opcao)
             {
 
-                $totalVotosOpcao = AssembleiaVotacao::where('id_opcao', $opcao['id'])->sum('peso_voto');
+                $totalVotosOpcao = AssembleiaVotacao::where('id_opcao', $opcao['id'])->where('id_assembleia',$assembleia->id)->sum('peso_voto');
 
                 $somaVotosAlternativas += $totalVotosOpcao;
                 $descricao = $opcao['opcao'];
-                $percentual = (($totalVotosOpcao / $totalVotosPauta) * 100);
+                $percentual = round((($totalVotosOpcao / $totalVotosPauta) * 100),2);
 
                 $html .= "  
                     <tr>
-                      <td>$descricao</td>
+                      <td style='text-align: center; padding: 3px'>$descricao</td>
                       <td style='text-align: center;'>$totalVotosOpcao</td>
                       <td style='text-align: center;'>$percentual%</td>
                     </tr>";
@@ -1563,7 +1563,7 @@ class RelatorioController
                   </tbody>
                   <tfoot>
                     <tr>
-                      <td>Total</td>
+                      <td style='text-align: center;'>Total</td>
                       <td style='text-align: center;'>$somaVotosAlternativas</td>
                       <td style='text-align: center;'>100%</td>
                     </tr>

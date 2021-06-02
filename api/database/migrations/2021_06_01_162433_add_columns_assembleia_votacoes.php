@@ -15,10 +15,10 @@ class AddColumnsAssembleiaVotacoes extends Migration
     {
         Schema::table('assembleia_votacoes', function (Blueprint $table)
         {
-            $table->string('plataforma')->nullable();
+            $table->string('plataforma')->after('id_dispositivo')->nullable();
             $table->dateTime('data_hora_login')->after('id_dispositivo')->nullable();
             $table->string('token')->after('id_dispositivo')->nullable();
-        });
+    });
     }
 
     /**

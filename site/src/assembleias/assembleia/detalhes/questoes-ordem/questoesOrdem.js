@@ -179,7 +179,7 @@ function assembleiaQuestoesOrdemCtrl($scope, $http, $state, $filter, AuthService
 
         $http({
             method: "POST",
-            url: `${config.apiUrl}api/assembleias/questoes-ordem-votacoes/`,
+            url: `${config.apiUrl}api/assembleias/questoes-ordem-votacoes`,
             data: $scope.novaVotacao,
             headers:{
                 'Authorization': 'Bearer '+ AuthService.getToken()

@@ -17,6 +17,13 @@ class VotacaoController extends Controller
     {
         $data = $request->all();
 
+        $assembleia = Assembleia::find($data['id_assembleia']);
+
+        if(!$assembleia)
+        {
+            return response()->error('Assembleia não existe!');
+        }
+
         try
         {
             foreach ($data['imoveis'] as $imovel)

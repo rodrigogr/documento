@@ -22,7 +22,9 @@ angular.module('ReservasModule').controller('LocalReservavelCtrl',
                 antecedencia_min_periodo: 'horas',
                 antecedencia_cancel_num: 0,
                 antecedencia_cancel_periodo: 'horas',
-                limit_reserva: 0,
+                limit_reserva_periodo: 0,
+                limit_reserva_unidade: 0,
+                limit_reserva_morador: 0,
                 restricao: '',
                 periodo: {
                     seg: [],
@@ -128,13 +130,13 @@ angular.module('ReservasModule').controller('LocalReservavelCtrl',
         }
 
         $scope.subNum = function (variavel) {
-            /*if ($scope.localReservavel[variavel] > 0) {
+            if ($scope.localReservavel[variavel] > 0) {
                 --$scope.localReservavel[variavel];
-            }*/
+            }
         }
 
         $scope.addNum = function (variavel) {
-            //++$scope.localReservavel[variavel];
+            ++$scope.localReservavel[variavel];
         }
 
         $('.reservaDiasSemana li').click(function() {

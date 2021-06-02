@@ -149,7 +149,7 @@
                                                 <i ng-click="subNum('capacidade')" class="fa fa-minus-circle ba__font-size-25 pull-left" style="padding-top: 10px"></i>
                                                 <input ng-model="localReservavel.capacidade" type="number" class="ba__input-modal limite-pessoas">
                                                 <i ng-click="addNum('capacidade')" class="fa icon-ba-plus ba__font-size-25 pull-left" style="padding-top: 10px"></i>
-                                                <span class="label_pessoa">pessoas</span>
+                                                <span class="label_pessoa">pessoas (Obs.: Capacidade total do local)</span>
                                             </div>
                                         </div>
                                         <div class="row ba__margin-bottom-30">
@@ -190,7 +190,6 @@
 
                                     <!--STEP 2 PARAMETRIZAÇÕES-->
                                     <div class="form-group col-xs-24" id="step2" ng-show="step === 2">
-
                                         <div class="row ba__margin-top-15 ba__margin-bottom-30">
                                             <div class="col-md-6">
                                                 <div class="col-xs-5 pull-right">
@@ -207,6 +206,39 @@
                                                 <h5 style="margin-top: 0">Deixar visível os dados de quem reservou para os outros usuários (somente nome e unidade)</h5>
                                             </div>
                                         </div>
+
+                                        <div class="row ba__margin-bottom-30">
+                                            <div class="col-md-5 col-md-push-1">
+                                                <h5 class="text-right">Quantas reservas podem ser feitas em um mesmo período?</h5>
+                                            </div>
+                                            <div class="col-md-17 col-md-offset-2">
+                                                <i ng-click="subNum('limit_reserva_periodo')" class="fa fa-minus-circle ba__font-size-25 pull-left text-gray" style="padding-top: 10px"></i>
+                                                <input type="number" min="0" ng-model="localReservavel.limit_reserva_periodo" class="ba__input-modal limite-pessoas color-padrao" style="margin: 0 10px 0 2px">
+                                                <i ng-click="addNum('limit_reserva_periodo')" class="fa icon-ba-plus ba__font-size-25 pull-left text-gray" style="padding-top: 10px"></i>
+                                            </div>
+                                        </div>
+                                        <div class="row ba__margin-bottom-30">
+                                            <div class="col-md-5 col-md-push-1">
+                                                <h5 class="text-right">Quantas reservas uma unidade pode fazer no mesmo dia?</h5>
+                                            </div>
+                                            <div class="col-md-17 col-md-offset-2">
+                                                <i ng-click="subNum('limit_reserva_unidade')" class="fa fa-minus-circle ba__font-size-25 pull-left text-gray" style="padding-top: 10px"></i>
+                                                <input type="number" min="0" ng-model="localReservavel.limit_reserva_unidade" class="ba__input-modal limite-pessoas color-padrao" style="margin: 0 10px 0 2px">
+                                                <i ng-click="addNum('limit_reserva_unidade')" class="fa icon-ba-plus ba__font-size-25 pull-left text-gray" style="padding-top: 10px"></i>
+                                            </div>
+                                        </div>
+                                        <div class="row ba__margin-bottom-30">
+                                            <div class="col-md-5 col-md-push-1">
+                                                <h5 class="text-right">Quantas reservas um morador pode fazer no mesmo dia?</h5>
+                                            </div>
+                                            <div class="col-md-17 col-md-offset-2">
+                                                <i ng-click="subNum('limit_reserva_morador')" class="fa fa-minus-circle ba__font-size-25 pull-left text-gray" style="padding-top: 10px"></i>
+                                                <input type="number" min="0" ng-model="localReservavel.limit_reserva_morador" class="ba__input-modal limite-pessoas color-padrao" style="margin: 0 10px 0 2px">
+                                                <i ng-click="addNum('limit_reserva_morador')" class="fa icon-ba-plus ba__font-size-25 pull-left text-gray" style="padding-top: 10px"></i>
+                                            </div>
+                                        </div>
+
+
                                         <div class="row ba__margin-bottom-30">
                                             <div class="col-md-5 col-md-push-1">
                                                 <h5 class="text-right">Antecedência máxima para reserva</h5>
@@ -253,16 +285,6 @@
                                                     <option value="semanas">semanas</option>
                                                     <option value="mês">mês</option>
                                                 </select>
-                                            </div>
-                                        </div>
-                                        <div class="row ba__margin-bottom-30">
-                                            <div class="col-md-5 col-md-push-1">
-                                                <h5 class="text-right">Quantas reservas um morador pode fazer no mesmo dia?</h5>
-                                            </div>
-                                            <div class="col-md-17 col-md-offset-2">
-                                                <i ng-click="subNum('limit_reserva')" class="fa fa-minus-circle ba__font-size-25 pull-left text-gray" style="padding-top: 10px"></i>
-                                                <input type="number" min="0" ng-model="localReservavel.limit_reserva" class="ba__input-modal limite-pessoas color-padrao" style="margin: 0 10px 0 2px">
-                                                <i ng-click="addNum('limit_reserva')" class="fa icon-ba-plus ba__font-size-25 pull-left text-gray" style="padding-top: 10px"></i>
                                             </div>
                                         </div>
                                     </div>

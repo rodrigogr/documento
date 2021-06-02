@@ -47,11 +47,17 @@ Route::resource('/assembleias', 'assembleia\AssembleiaController');
 
 Route::get( '/assembleias/pauta/get/{id}', 'assembleia\PautaController@show');
 
-Route::resource('/pautas', 'assembleia\PautaController');
+Route::get('/pautas/{id}', 'assembleia\PautaController@show');
+
+Route::put('/pautas/{id}', 'assembleia\PautaController@update');
 
 Route::resource('/opcoes', 'assembleia\OpcaoController');
 
-Route::resource('/pauta_anexos', 'assembleia\PautaAnexoController');
+Route::delete('/pauta/anexos/{id}', 'assembleia\PautaAnexoController@detroy');
+
+Route::get('/pauta/anexos/{id}', 'assembleia\PautaAnexoController@show');
+
+Route::get('/pauta/anexos/{id}', 'assembleia\PautaAnexoController@index');
 
 Route::post('/assembleias/encaminhamentos', 'assembleia\EncaminhamentoController@store');
 

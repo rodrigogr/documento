@@ -17,7 +17,7 @@ function assembleiaPautasCtrl ($scope, $state, $filter, UtilsService, AuthServic
     $scope.detalhesPautas = [];
     $scope.ultimaAlternativa = 0;
     $scope.motivoSuspender = '';
-    $scope.pautaSelecao = {};
+
     $scope.suspender = false;
     $scope.votacaoIniciada = false;
     $scope.totalVotos = 8;
@@ -33,11 +33,10 @@ function assembleiaPautasCtrl ($scope, $state, $filter, UtilsService, AuthServic
 
     function getDetalhesPautas(id_pauta)
     {
-        $scope.pautaSelecao = {};
         var promisse = ($http.get(`${config.apiUrl}api/pautas/`+id_pauta));
         promisse.then(function (retorno) {
             $scope.pautaSelecao = retorno.data.data;
-            //console.log($scope.pautaSelecao);
+            $scope.getPautaAnexos($scope.pautaSelecao.id_pauta);
         }).finally( () => {
             $scope.ultimaAlternativa = $scope.pautaSelecao.alternativas.length;
         });
@@ -73,10 +72,10 @@ function assembleiaPautasCtrl ($scope, $state, $filter, UtilsService, AuthServic
         $scope.pautaSelecao.alternativas.splice(index,1);
 
         $http.delete(`${config.apiUrl}/api/opcoes/` + id)
-            .then(function successCallback(response) {
+            .then(function(response) {
                 getPautasAssembleia();
-            }, function errorCallback(error) {
-                UtilsService.openAlert(error.data.mensage);
+            }, function(error) {
+                UtilsService.openAlert(error.data.message);
             }).finally( () => { $("#loading").modal("hide") });
     };
 
@@ -90,18 +89,90 @@ function assembleiaPautasCtrl ($scope, $state, $filter, UtilsService, AuthServic
                 'Authorization': 'Bearer '+ AuthService.getToken()
             },
         })
-            .then(function successCallback(response) {
+            .then(function(response) {
                 UtilsService.toastSuccess("Pauta salva com sucesso!");
-                getPautasAssembleia();
                 $('#abrePauta').modal('hide');
-            }, function errorCallback(error) {
-                UtilsService.openAlert(error.message.mensage);
+                getPautasAssembleia();
+            }, function(error) {
+                UtilsService.openAlert(error.data.message);
             }).finally( () => { $("#loading").modal("hide") });
     }
-
     $scope.suspenderPauta = function(){
         $scope.suspender = true;
         console.log($scope.motivoSuspender);
     }
 
+    $scope.abreDocumento = function (idDoc)
+    {
+        window.open(config.apiUrl + 'api/assembleias/documento/open/' + idDoc, '_blank');
+    };
+
+    $scope.changeInputField = function (ele) {
+        var file = ele.files[0];
+        if (ele.files.length > 0) {
+            if (file > 10485760) {
+                return UtilsService.openAlert('Tamanho máximo de anexos permitido foi atingido: 10MB');
+            }
+            $scope.pautaSelecao.documentos_regras = URL.createObjectURL(file);
+            iconArquivo(ele.files[0]);
+            $scope.getbase64(file, ele.name);
+        }
+    }
+
+    $scope.getbase64 = function (file, el) {
+        let f = file;
+        let r = new FileReader();
+        r.onloadend = function (e) {
+            let infoArquivo = {
+                name:  $scope.arquivoNome,
+                icon: $scope.arquivoIcon,
+                file: e.target.result
+            }
+            //$scope.assembleia[el].push(infoArquivo);
+            $scope.pautaSelecao[el].push(infoArquivo);
+            $scope.$apply();
+        };
+        $("#inputDocumentos").val('');
+        r.readAsDataURL(f);
+    }
+
+    function iconArquivo(file) {
+        var tipoFile = file.name.split('.')[1];
+        var icon = 'file';
+        switch (tipoFile) {
+            case "jpeg":
+            case "jpg":
+                icon = 'jpeg';
+                break;
+            case "png":
+                icon = 'png';
+                break;
+            case "doc":
+            case "docx":
+                icon = 'word';
+                break;
+            case "xml":
+            case "xls":
+            case "xlsx":
+                icon = 'excel';
+                break;
+            case "pdf":
+                icon = 'pdf';
+                break;
+            case "txt":
+                icon = 'txt'
+                break;
+        }
+        $scope.arquivoIcon = 'img/icons/icon_'+icon+'.png';
+        $scope.arquivoNome = file.name;
+    }
+
+    $scope.getPautaAnexos = function(idPauta)
+    {
+        $scope.pautaSelecao.documentos  = [];
+        var promisse = ($http.get(`${config.apiUrl}api/pauta/anexos/`+idPauta));
+        promisse.then( function (result) {
+            $scope.pautaSelecao.documentos =  result.data.data;
+        });
+    }
 }

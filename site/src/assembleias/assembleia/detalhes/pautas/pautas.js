@@ -27,7 +27,6 @@ function assembleiaPautasCtrl ($scope, $state, $filter, UtilsService, AuthServic
         var promisse = ($http.get(`${config.apiUrl}api/assembleias/pautas/`+$state.params.id));
         promisse.then(function (retorno) {
             $scope.resumoPautas = retorno.data.data;
-        }).finally( () => {
         });
     }
 
@@ -39,7 +38,6 @@ function assembleiaPautasCtrl ($scope, $state, $filter, UtilsService, AuthServic
             $scope.getPautaAnexos($scope.pautaSelecao.id_pauta);
         }).finally( () => {
             $scope.ultimaAlternativa = $scope.pautaSelecao.alternativas.length;
-            $("#loading").modal("hide");
         });
     }
 
@@ -70,16 +68,15 @@ function assembleiaPautasCtrl ($scope, $state, $filter, UtilsService, AuthServic
         $scope.pautaSelecao.alternativas.push({'id' : 'newOpcao' + newItemNo, 'opcao' : '', 'name' : 'Alternativa'});
     };
 
-    $scope.removeNewAlternativas = function(index, id) {
+    $scope.removeAlternativa = function(index, id) {
         $scope.ultimaAlternativa--;
         $scope.pautaSelecao.alternativas.splice(index,1);
 
         $http.delete(`${config.apiUrl}/api/opcoes/` + id)
             .then(function(response) {
-                getPautasAssembleia();
             }, function(error) {
                 UtilsService.openAlert(error.data.message);
-            }).finally( () => { $("#loading").modal("hide") });
+            });
     };
 
     $scope.salvarAlteracoesPauta = async function(){
@@ -100,6 +97,24 @@ function assembleiaPautasCtrl ($scope, $state, $filter, UtilsService, AuthServic
                 UtilsService.openAlert(error.data.message);
             }).finally( () => { $("#loading").modal("hide") });
     }
+
+    $scope.excluiPauta = async function(){
+        await UtilsService.confirmAlert('Excluir Pauta?');
+        $http({
+            method: 'DELETE',
+            url: `${config.apiUrl}api/pautas/`+ $scope.pautaSelecao.id_pauta,
+            data: $scope.pautaSelecao,
+            headers: {
+                'Authorization': 'Bearer '+ AuthService.getToken()
+            }
+        }).then(function(response) {
+                UtilsService.toastSuccess("Pauta excluída com sucesso!");
+                getPautasAssembleia();
+            }, function(error) {
+                UtilsService.openAlert(error.data.message);
+            });
+    }
+
     $scope.suspenderPauta = function(){
         $scope.suspender = true;
         $scope.votacaoIniciada = true;

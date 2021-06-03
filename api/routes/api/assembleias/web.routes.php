@@ -51,6 +51,8 @@ Route::get('/pautas/{id}', 'assembleia\PautaController@show');
 
 Route::put('/pautas/{id}', 'assembleia\PautaController@update');
 
+Route::delete('/pautas/{id}', 'assembleia\PautaController@destroy');
+
 Route::resource('/opcoes', 'assembleia\OpcaoController');
 
 Route::delete('/pauta/anexos/{id}', 'assembleia\PautaAnexoController@detroy');

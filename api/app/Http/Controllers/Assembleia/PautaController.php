@@ -6,9 +6,12 @@ namespace App\Http\Controllers\Assembleia;
 
 use App\Http\Controllers\Controller;
 use App\models\Assembleia\Assembleia;
+use App\models\Assembleia\AssembleiaDiscussao;
+use App\models\Assembleia\AssembleiaEncaminhamento;
 use App\models\Assembleia\AssembleiaOpcao;
 use App\models\Assembleia\AssembleiaPauta;
 use App\models\Assembleia\AssembleiaPergunta;
+use App\models\Assembleia\AssembleiaQuestaoOrdem;
 use App\models\Assembleia\AssembleiaVotacao;
 use App\models\Assembleia\PautaAnexo;
 use Illuminate\Http\Request;
@@ -76,6 +79,27 @@ class PautaController extends Controller
         } catch (\Exception $e) {
             return response()->error($e->getMessage());
         }
+    }
+
+    public function destroy($id)
+    {
+        $pauta = AssembleiaPauta::find($id);
+
+        PautaAnexo::where('id_pauta', $id)->delete();
+
+        AssembleiaDiscussao::where('id_pauta', $id)->delete();
+
+        AssembleiaEncaminhamento::where('id_pauta', $id)->delete();
+
+        AssembleiaQuestaoOrdem::where('id_pauta', $id)->delete();
+
+        AssembleiaPauta::where('id', $id)->delete();
+
+        AssembleiaOpcao::where('id_pergunta', $pauta->id_pergunta)->delete();
+
+        AssembleiaPergunta::where('id', $pauta->id_pergunta)->delete();
+
+
     }
 
     public function listPautasAssembleia($idAssembleia)

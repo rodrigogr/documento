@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Reservas;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Reservas\ReservaRequest;
+use App\Models\Reservas\LocalReservavel;
 use App\Models\Reservas\PeriodoLocalReservavel;
 use App\Models\Reservas\Reserva;
 use App\Services\Reservas\ReservaService;
@@ -198,6 +199,16 @@ class ReservaController extends Controller
         } catch (\Exception $e) {
             return response()->error(trans('messages.crud.FCE', ['name' => $this->name]));
         }*/
+    }
+
+    public function dataLocalReservavel($data, $idLocalReservavel, $idPessoa, $idImovel)
+    {
+        $diaSemana = ReservaService::diaSemana($data);
+        $horariosDoDia = PeriodoLocalReservavel::horariosDoDia($idLocalReservavel, $diaSemana);
+        $configLocal = LocalReservavel::localReservavelByid($idLocalReservavel);
+        $reservas = Reserva::reservasDoDia($data, $idLocalReservavel);
+
+
     }
 
 }

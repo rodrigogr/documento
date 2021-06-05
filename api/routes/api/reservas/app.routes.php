@@ -12,7 +12,8 @@
         Route::get('/', 'reservas\ReservaController@index');
         Route::post('/', 'reservas\ReservaController@store');
         Route::get('/data/{data}', 'reservas\ReservaController@completoByData');
-        Route::get('/data/{data}/{id_local_reservavel}', 'reservas\ReservaController@completoByDataLocalReservavel');
+//        Route::get('/data/{data}/{id_local_reservavel}', 'reservas\ReservaController@completoByDataLocalReservavel');
+        Route::get('/data/{data}/{id_local_reservavel}/{id_pessoa}/{id_imovel}', 'reservas\ReservaController@dataLocalReservavel');
         Route::get('/{id}', 'reservas\ReservaController@show');
         Route::put('/{id}', 'reservas\ReservaController@update');
         Route::post('/cancelar', 'reservas\ReservaController@cancelar');

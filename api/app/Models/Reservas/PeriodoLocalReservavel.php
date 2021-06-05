@@ -57,6 +57,13 @@ class PeriodoLocalReservavel extends Model
             ->get();
     }
 
+    public static function horariosDoDia($idLocalReservavel, $diaSemana)
+    {
+        return self::where('id_local_reservavel', $idLocalReservavel)
+            ->where('dia_semana', $diaSemana)
+            ->get();
+    }
+
     public function imovel()
     {
         return $this->belongsTo('App\Models\Imovel', 'id_imovel');

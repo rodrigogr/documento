@@ -53,6 +53,11 @@ class LocalReservavel extends Model
             ->get();
     }
 
+    public function localReservavelByid($id)
+    {
+        return self::where('id', $id)->get();
+    }
+
     ## Relacionamentos Entidades
 
     public function localidade()

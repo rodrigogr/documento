@@ -17,16 +17,22 @@ function assembleiaPautasCtrl ($scope, $state, $filter, UtilsService, AuthServic
     $scope.detalhesPautas = [];
     $scope.ultimaAlternativa = 0;
     $scope.motivoSuspender = '';
-
-    $scope.suspender = false;
     $scope.votacaoIniciada = false;
     $scope.totalVotos = 8;
+
+    getStatusAssembleia();
 
     function getPautasAssembleia(id = 0)
     {
         var promisse = ($http.get(`${config.apiUrl}api/assembleias/pautas/`+$state.params.id));
         promisse.then(function (retorno) {
             $scope.resumoPautas = retorno.data.data;
+            if ($scope.votacaoIniciada){
+                for (let statusPauta of $scope.resumoPautas) {
+                    if (statusPauta.status !== 'suspensa')
+                        statusPauta.status = 'aberta para votacao';
+                }
+            }
         });
     }
 
@@ -41,13 +47,22 @@ function assembleiaPautasCtrl ($scope, $state, $filter, UtilsService, AuthServic
         });
     }
 
+    function getStatusAssembleia()
+    {
+        var promisse = ($http.get(`${config.apiUrl}api/assembleias/status/`+$state.params.id));
+        promisse.then(function (retorno) {
+            if (retorno.data.toLowerCase() === 'votacao')
+            {
+                $scope.votacaoIniciada = true;
+            }
+        });
+    }
+
     getPautasAssembleia();
 
     $scope.abrePauta = function (idPauta){
-        $("#loading").modal("show");
         getDetalhesPautas(idPauta);
         $('#abrePauta').modal('show');
-
     }
 
     $scope.fechaPauta = function () {
@@ -80,7 +95,7 @@ function assembleiaPautasCtrl ($scope, $state, $filter, UtilsService, AuthServic
     };
 
     $scope.salvarAlteracoesPauta = async function(){
-        $("#loading").modal("show");
+        await UtilsService.confirmAlert('Atualizar pauta?');
         $http({
             method: "PUT",
             url: `${config.apiUrl}api/pautas/`+ $scope.pautaSelecao.id_pauta,
@@ -91,11 +106,10 @@ function assembleiaPautasCtrl ($scope, $state, $filter, UtilsService, AuthServic
         })
             .then(function(response) {
                 UtilsService.toastSuccess("Pauta salva com sucesso!");
-                $('#abrePauta').modal('hide');
                 getPautasAssembleia();
             }, function(error) {
                 UtilsService.openAlert(error.data.message);
-            }).finally( () => { $("#loading").modal("hide") });
+            }).finally( ()=> {$('#abrePauta').modal('hide')});
     }
 
     $scope.excluiPauta = async function(){
@@ -115,11 +129,26 @@ function assembleiaPautasCtrl ($scope, $state, $filter, UtilsService, AuthServic
             });
     }
 
-    $scope.suspenderPauta = function(){
-        $scope.suspender = true;
-        $scope.votacaoIniciada = true;
-        $('#suspenderPauta').modal('hide');
-        //console.log($scope.motivoSuspender    );
+    $scope.suspenderPauta = async function(){
+        await UtilsService.confirmAlert('Suspender Pauta?');
+        $scope.pautaSelecao.status = 'Suspensa';
+        $http({
+            method: "PUT",
+            url: `${config.apiUrl}api/pauta/status/`+ $scope.pautaSelecao.id_pauta,
+            data: $scope.pautaSelecao,
+            headers:{
+                'Authorization': 'Bearer '+ AuthService.getToken()
+            },
+        })
+            .then(function(response) {
+                UtilsService.toastSuccess("Pauta suspensa com sucesso!");
+            }, function(error) {
+                UtilsService.openAlert(error.data.message);
+            }).finally( ()=> {
+                $('#abrePauta').modal('hide');
+                $('#suspenderPauta').modal('hide');
+                getPautasAssembleia();
+            });
     }
 
     $scope.abreDocumento = function (idDoc)
@@ -151,7 +180,6 @@ function assembleiaPautasCtrl ($scope, $state, $filter, UtilsService, AuthServic
                 icon: $scope.arquivoIcon,
                 file: e.target.result
             }
-            //$scope.assembleia[el].push(infoArquivo);
             $scope.pautaSelecao[el].push(infoArquivo);
             $scope.$apply();
         };

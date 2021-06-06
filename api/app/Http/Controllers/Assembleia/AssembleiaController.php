@@ -473,6 +473,15 @@ class AssembleiaController extends Controller
         {
             return response()->error('Error :'. $e->getMessage());
         }
+    }
 
+    public function getStatusAssembleia($id)
+    {
+        try {
+            $assembleia = Assembleia::find($id);
+            return $assembleia->status;
+        }catch (\Exception $e){
+            return response()->error('Error :'. $e->getMessage());
+        }
     }
 }

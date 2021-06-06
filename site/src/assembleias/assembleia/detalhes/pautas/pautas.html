@@ -31,9 +31,9 @@
                     <div class="col-xs-8">{{pauta.pauta}}</div>
                     <div class="col-xs-3">{{pauta.alternativas}}</div>
                     <div class="col-xs-6">
-                        <span ng-if="pauta.status.toLowerCase() === 'Aberta para votação'" class="status aberta">{{pauta.status}}</span>
-                        <span ng-if="pauta.status.toLowerCase() === 'Suspensa'" class="status suspensa">{{pauta.status}}</span>
-                        <span ng-if="pauta.status.toLowerCase() === 'aguardando início'" class="status aguardando">{{pauta.status}}</span>
+                        <span ng-if="(assembleiaResumo.status === 'votacao' || pauta.status.toLowerCase() === 'aberta para votacao')" class="status aberta">{{pauta.status}}</span>
+                        <span ng-if="pauta.status.toLowerCase() === 'suspensa'" class="status suspensa">{{pauta.status}}</span>
+                        <span ng-if="pauta.status.toLowerCase() === 'aguardando inicio'" class="status aguardando">{{pauta.status}}</span>
                     </div>
                     <div class="col-xs-3">{{pauta.votos}}</div>
                     <div class="col-xs-2">
@@ -60,7 +60,7 @@
                     </div>
                     <!-- Form Mean -->
                     <!-- body das pautas quando a votacao ainda nao foi iniciada -->
-                    <div ng-if="!votacaoIniciada" class="modal-body ba__bg-white ba__modal-body-assembleia"
+                    <div ng-if="(!votacaoIniciada && pautaSelecao.status.toLowerCase() === 'aguardando inicio')" class="modal-body ba__bg-white ba__modal-body-assembleia"
                          style="background-color: #F2F2F2; padding: 0px !important;max-height: 70%;">
                         <div style="padding: 0 0 20px; margin: 0 0 20px;">
                             <div class="row ba__margin-bottom-30">
@@ -75,9 +75,10 @@
                                                                     required
                                                                     aria-invalid="false"
                                                                     rows="4"
-                                                                    cols="33">
+                                                                    cols="33"
+                                                                    style="padding-top: 20px; ">
                                                             </textarea>
-                                            <span>PAUTA </span><!-- {{pautaIndex}} -->
+                                            <span>{{pautaSelecao.numero.toUpperCase()}}</span><!-- {{pautaIndex}} -->
                                         </div>
                                     </div>
                                 </div>
@@ -97,8 +98,9 @@
                                                     autocomplete="off"
                                                     class="ng-pristine ng-valid ng-touched"
                                                     required
-                                                    aria-invalid="false">
-                                            <span>Alternativa {{$index +1}}</span>
+                                                    aria-invalid="false"
+                                                    style="padding-top: 20px; ">
+                                            <span>ALTERNATIVA {{$index +1}}</span>
                                         </div>
                                     </div>
                                 </div>
@@ -160,7 +162,7 @@
                     </div>
                     <!-- fim body das pautas quando a votacao ainda nao foi iniciada -->
                     <!-- body das pautas quando a votacao ja foi iniciada -->
-                    <div ng-if="votacaoIniciada" class="modal-body ba__bg-white ba__modal-body-assembleia"
+                    <div ng-if="( votacaoIniciada || pautaSelecao.status.toLowerCase() === 'suspensa')" class="modal-body ba__bg-white ba__modal-body-assembleia"
                          style="background-color: #F2F2F2; padding: 0px !important;max-height: 70%;">
                         <div style="padding: 0 0 20px; margin: 0 0 20px;">
                             <div class="row ba__margin-bottom-30">
@@ -169,7 +171,7 @@
                                         <div class="row pull-left" style="width: 100%;margin-bottom: 15px;">
                                             <span class="ba__font-size-12 pull-left ba__font-color-gray"
                                                   style="width: 100%; margin-bottom: 15px; padding-left: 12px;font-size: 18px;">
-                                                    Pauta
+                                                    {{pautaSelecao.numero.toUpperCase()}} DE 0{{resumoPautas.length}}
                                             </span>
                                             <div style="font-weight: bold; width: 100%; margin-bottom: 15px; padding-left: 16px;font-size: 16px;">
                                                 {{pautaSelecao.pauta}}
@@ -190,7 +192,7 @@
                                     <div style="padding: 15px;">
                                         <span class="ba__font-size-12 pull-left ba__font-color-gray"
                                               style="width: 100%; margin-bottom: 15px; padding-left: 16px;font-size: 17px;"
-                                        >Alternativa {{$index +1}}</span>
+                                        >ALTERNATIVA {{$index +1}}</span>
                                         <span style="font-weight: bold; width: 100%; margin-bottom: 15px; padding-left: 16px;font-size: 16px;">{{alternativa.opcao}}</span>
                                     </div>
                                 </div>
@@ -238,7 +240,7 @@
                                 ng-click="fechaPauta()" style="margin-left: 30px; width: 200px;">
                             Cancelar
                         </button>
-                        <a href="{{ assembleiaResumo.link_transmissao }}" ng-click="abreSuspenderPauta()" target="_blank" class="pull-right link-button"
+                        <a ng-if="pautaSelecao.status.toLowerCase() !== 'suspensa'" href="{{ assembleiaResumo.link_transmissao }}" ng-click="abreSuspenderPauta()" target="_blank" class="pull-right link-button"
                         style="height: 35px; margin-top: 3px;width: 190px; padding-top: 1px; font-size: 18px;">
                             Suspender Pauta</a>
                     </div>
@@ -266,7 +268,7 @@
 
                         <header class="discussoes">
                             <h6>
-                                DESCRICAO
+                                {{pautaSelecao.numero.toUpperCase()}} DE 0{{resumoPautas.length}}
                             </h6>
                             <h5>{{pautaSelecao.pauta}}</h5>
                         </header>

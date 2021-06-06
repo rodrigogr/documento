@@ -23,7 +23,7 @@ class PautaController extends Controller
     public function show($id)
     {
         $pauta = AssembleiaPauta::join('assembleia_perguntas', 'assembleia_pautas.id_pergunta', 'assembleia_perguntas.id')
-            ->select('assembleia_pautas.id', 'assembleia_perguntas.pergunta', 'assembleia_pautas.id_pergunta')
+            ->select('assembleia_pautas.id', 'assembleia_perguntas.pergunta', 'assembleia_pautas.id_pergunta', 'assembleia_pautas.status', 'assembleia_pautas.numero')
             ->where('assembleia_pautas.id', $id)
             ->get()
             ->first();
@@ -36,7 +36,9 @@ class PautaController extends Controller
             'id_pauta' => $pauta->id,
             'id_pergunta' => $pauta->id_pergunta,
             'pauta' => $pauta->pergunta,
-            'alternativas' => $alternativas
+            'alternativas' => $alternativas,
+            'status' => $pauta->status,
+            'numero' => $pauta->numero
         ];
 
         return response()->success($result);
@@ -100,6 +102,11 @@ class PautaController extends Controller
         AssembleiaPergunta::where('id', $pauta->id_pergunta)->delete();
 
 
+    }
+
+    public function updateStatus(Request $request, $id)
+    {
+        AssembleiaPauta::where('id', $id)->update(array('status' => $request->status));
     }
 
     public function listPautasAssembleia($idAssembleia)

@@ -5,6 +5,8 @@
 
 Route::get('/assembleias/resumo/{id}', 'assembleia\AssembleiaController@resumo');
 
+Route::get('/assembleias/status/{id}', 'assembleia\AssembleiaController@getStatusAssembleia');
+
 Route::get('/assembleias/iniciar/{id}', 'assembleia\AssembleiaController@iniciarAssembleia');
 
 Route::post('/assembleias/iniciar-votacao', 'assembleia\AssembleiaController@iniciarVotacao');
@@ -50,6 +52,8 @@ Route::get( '/assembleias/pauta/get/{id}', 'assembleia\PautaController@show');
 Route::get('/pautas/{id}', 'assembleia\PautaController@show');
 
 Route::put('/pautas/{id}', 'assembleia\PautaController@update');
+
+Route::put('/pauta/status/{id}', 'assembleia\PautaController@updateStatus');
 
 Route::delete('/pautas/{id}', 'assembleia\PautaController@destroy');
 

@@ -42,11 +42,6 @@ class Reserva extends Model
             ->get();
     }
 
-    public function reservasDoDia($data, $idLocalReservavel)
-    {
-        return self::where()->get();
-    }
-
     // public static function aprovacoes($data, $localReservavel = '', $localidade = '', $status = 'pendente')
     public static function aprovacoes($filtros)
     {
@@ -232,6 +227,11 @@ class Reserva extends Model
             ->get();
 
         return $dados;
+    }
+
+    public static function historicoUsuario($idUsuario)
+    {
+
     }
 
     ## Relacionamentos ##

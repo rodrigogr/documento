@@ -2,9 +2,11 @@
 namespace App\Models\Reservas;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class PeriodoLocalReservavel extends Model
 {
+    use SoftDeletes;
     protected $table = 'periodo_local_reservavel';
     public $timestamps = false;
     protected $fillable = [
@@ -57,10 +59,22 @@ class PeriodoLocalReservavel extends Model
             ->get();
     }
 
-    public static function horariosDoDia($idLocalReservavel, $diaSemana)
+    public static function horariosReservasDoDia($data, $idLocalReservavel, $diaSemana, $visualizarReversa)
     {
         return self::where('id_local_reservavel', $idLocalReservavel)
             ->where('dia_semana', $diaSemana)
+            ->with(['reserva' => function ($q) use ($data, $visualizarReversa) {
+                $q->where('data',$data);
+                if ($visualizarReversa) {
+                    $q->with(['pessoa' => function($q) {
+                        $q->select('id','nome','url_foto');
+                    }]);
+                    $q->with(['imovel' => function($q) {
+                        $q->join('localidades as lo', 'lo.id', 'imovel.idLocalidade');
+                        $q->select('imovel.id','imovel.quadra','imovel.lote','imovel.logradouro','lo.descricao');
+                    }]);
+                }
+            }])
             ->get();
     }
 
@@ -87,6 +101,11 @@ class PeriodoLocalReservavel extends Model
     public function diaInativo()
     {
         return $this->hasMany('App\Models\Reservas\DiaInativoLocalReservavel','id_local_reservavel','id_local_reservavel');
+    }
+
+    public function reserva()
+    {
+        return $this->hasMany('App\Models\Reservas\Reserva','id_periodo','id');
     }
 
 }

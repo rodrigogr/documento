@@ -53,7 +53,7 @@ class LocalReservavel extends Model
             ->get();
     }
 
-    public function localReservavelByid($id)
+    public static function localReservavelById($id)
     {
         return self::where('id', $id)->get();
     }

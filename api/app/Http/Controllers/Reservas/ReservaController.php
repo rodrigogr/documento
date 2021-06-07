@@ -204,11 +204,21 @@ class ReservaController extends Controller
     public function dataLocalReservavel($data, $idLocalReservavel, $idPessoa, $idImovel)
     {
         $diaSemana = ReservaService::diaSemana($data);
-        $horariosDoDia = PeriodoLocalReservavel::horariosDoDia($idLocalReservavel, $diaSemana);
-        $configLocal = LocalReservavel::localReservavelByid($idLocalReservavel);
-        $reservas = Reserva::reservasDoDia($data, $idLocalReservavel);
+        $configLocal = LocalReservavel::localReservavelById($idLocalReservavel);
+        $reservasHorariosDoDia = PeriodoLocalReservavel::horariosReservasDoDia($data, $idLocalReservavel, $diaSemana, $configLocal[0]["visualizar_reversa_usuario"]);
+        echo "<pre>";
+        print_r($reservasHorariosDoDia);
+        exit();
+        foreach ($reservasHorariosDoDia as $re) {
 
+        }
 
+        return response()->success($reservasHorariosDoDia);
+    }
+
+    public function historicoUsuario($idUsuario)
+    {
+        Reserva::historicoUsuario($idUsuario);
     }
 
 }

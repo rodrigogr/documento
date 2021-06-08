@@ -428,6 +428,9 @@ class AssembleiaController extends Controller
 
         $assembleia = Assembleia::find($data['id_assembleia']);
 
+        AssembleiaPauta::where('assembleia_pautas.id_assembleia', $assembleia->id)
+            ->update(['status' => 'aberta para votacao']);
+
         if (!$assembleia)
         {
             return response()->error('Assembleia não encontrada!');

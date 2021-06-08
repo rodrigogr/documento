@@ -17,22 +17,13 @@ function assembleiaPautasCtrl ($scope, $state, $filter, UtilsService, AuthServic
     $scope.detalhesPautas = [];
     $scope.ultimaAlternativa = 0;
     $scope.motivoSuspender = '';
-    $scope.votacaoIniciada = false;
     $scope.totalVotos = 8;
-
-    getStatusAssembleia();
 
     function getPautasAssembleia(id = 0)
     {
         var promisse = ($http.get(`${config.apiUrl}api/assembleias/pautas/`+$state.params.id));
         promisse.then(function (retorno) {
             $scope.resumoPautas = retorno.data.data;
-            if ($scope.votacaoIniciada){
-                for (let statusPauta of $scope.resumoPautas) {
-                    if (statusPauta.status !== 'suspensa')
-                        statusPauta.status = 'aberta para votacao';
-                }
-            }
         });
     }
 
@@ -47,17 +38,6 @@ function assembleiaPautasCtrl ($scope, $state, $filter, UtilsService, AuthServic
         });
     }
 
-    function getStatusAssembleia()
-    {
-        var promisse = ($http.get(`${config.apiUrl}api/assembleias/status/`+$state.params.id));
-        promisse.then(function (retorno) {
-            if (retorno.data.toLowerCase() === 'votacao')
-            {
-                $scope.votacaoIniciada = true;
-            }
-        });
-    }
-
     getPautasAssembleia();
 
     $scope.abrePauta = function (idPauta){
@@ -69,7 +49,8 @@ function assembleiaPautasCtrl ($scope, $state, $filter, UtilsService, AuthServic
         $('#abrePauta').modal('hide');
     }
 
-    $scope.abreSuspenderPauta = function (){
+    $scope.abreSuspenderPauta = function (idPauta){
+        getDetalhesPautas(idPauta);
         $('#suspenderPauta').modal('show');
     }
 

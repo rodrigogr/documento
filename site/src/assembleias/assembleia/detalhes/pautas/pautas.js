@@ -33,8 +33,6 @@ function assembleiaPautasCtrl ($scope, $state, $filter, UtilsService, AuthServic
         promisse.then(function (retorno) {
             $scope.pautaSelecao = retorno.data.data;
             $scope.getPautaAnexos($scope.pautaSelecao.id_pauta);
-        }).finally( () => {
-            $scope.ultimaAlternativa = $scope.pautaSelecao.alternativas.length;
         });
     }
 
@@ -49,9 +47,9 @@ function assembleiaPautasCtrl ($scope, $state, $filter, UtilsService, AuthServic
         $('#abrePauta').modal('hide');
     }
 
-    $scope.abreSuspenderPauta = function (idPauta){
-        getDetalhesPautas(idPauta);
+    $scope.abreSuspenderPauta = function (){
         $('#suspenderPauta').modal('show');
+        $('#abrePauta').modal('hide');
     }
 
     $scope.fechaSuspenderPauta = function () {

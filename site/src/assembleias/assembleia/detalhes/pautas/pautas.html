@@ -63,7 +63,7 @@
                     <!-- Form Mean -->
                     <!-- body das pautas quando a votacao ainda nao foi iniciada -->
                     <div ng-if="(!votacaoIniciada && pautaSelecao.status.toLowerCase() === 'aguardando inicio')" class="modal-body ba__bg-white ba__modal-body-assembleia"
-                         style="background-color: #F2F2F2; padding: 0px !important;max-height: 70%;">
+                         style="background-color: #F2F2F2; padding: 0px !important;max-height: 70%; height: 700px">
                         <div style="padding: 0 0 20px; margin: 0 0 20px;">
                             <div class="row ba__margin-bottom-30">
                                 <div class="col-md-22">
@@ -165,7 +165,7 @@
                     <!-- fim body das pautas quando a votacao ainda nao foi iniciada -->
                     <!-- body das pautas quando a votacao ja foi iniciada -->
                     <div ng-if="( pautaSelecao.status.toLowerCase() !== 'aguardando inicio')" class="modal-body ba__bg-white ba__modal-body-assembleia"
-                         style="background-color: #F2F2F2; padding: 0px !important;max-height: 70%;">
+                         style="background-color: #F2F2F2; padding: 0px !important;max-height: 70%; height: 700px">
                         <div style="padding: 0 0 20px; margin: 0 0 20px;">
                             <div class="row ba__margin-bottom-30">
                                 <div class="col-md-22">
@@ -242,7 +242,7 @@
                                 ng-click="fechaPauta()" style="margin-left: 30px; width: 200px;">
                             Cancelar
                         </button>
-                        <a ng-if="pautaSelecao.status.toLowerCase() === 'aguardando inicio'" href="{{ assembleiaResumo.link_transmissao }}" ng-click="abreSuspenderPauta()" target="_blank" class="pull-right link-button"
+                        <a ng-if="pautaSelecao.status.toLowerCase() === 'aguardando inicio'" href="{{ assembleiaResumo.link_transmissao }}" ng-click="abreSuspenderPauta(pautaSelecao.id_pauta)" target="_blank" class="pull-right link-button"
                         style="height: 35px; margin-top: 3px;width: 190px; padding-top: 1px; font-size: 18px;">
                             Suspender Pauta</a>
                     </div>

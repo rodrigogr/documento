@@ -60,16 +60,16 @@ class QuestaoOrdemController extends Controller
                 return response()->error('O envio de questões de ordem foi encerrado manualmente.');
             }
 
-            $questoesPessoa = AssembleiaQuestaoOrdem::join('assembleia_theads', 'assembleia_theads.id',
-                'assembleia_questoes_ordens.id_thead')
-                ->where('assembleia_theads.id_pessoa', $dataThead['id_pessoa'])
-                ->where('assembleia_questoes_ordens.id_assembleia', $assembleia->id)
-                ->count();
-
-            if ($questoesPessoa >= 2)
-            {
-                return response()->error('Você já atingiu o limite de envio de 02 questões de ordem nesta assembleia.');
-            }
+//            $questoesPessoa = AssembleiaQuestaoOrdem::join('assembleia_theads', 'assembleia_theads.id',
+//                'assembleia_questoes_ordens.id_thead')
+//                ->where('assembleia_theads.id_pessoa', $dataThead['id_pessoa'])
+//                ->where('assembleia_questoes_ordens.id_assembleia', $assembleia->id)
+//                ->count();
+//
+//            if ($questoesPessoa >= 2)
+//            {
+//                return response()->error('Você já atingiu o limite de envio de 02 questões de ordem nesta assembleia.');
+//            }
 
 
             $thead = AssembleiaThead::create($dataThead);

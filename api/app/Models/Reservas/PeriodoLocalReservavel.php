@@ -59,21 +59,19 @@ class PeriodoLocalReservavel extends Model
             ->get();
     }
 
-    public static function horariosReservasDoDia($data, $idLocalReservavel, $diaSemana, $visualizarReversa)
+    public static function horariosReservasDoDia($data, $idLocalReservavel, $diaSemana)
     {
         return self::where('id_local_reservavel', $idLocalReservavel)
             ->where('dia_semana', $diaSemana)
-            ->with(['reserva' => function ($q) use ($data, $visualizarReversa) {
-                $q->where('data',$data);
-                if ($visualizarReversa) {
-                    $q->with(['pessoa' => function($q) {
-                        $q->select('id','nome','url_foto');
-                    }]);
-                    $q->with(['imovel' => function($q) {
-                        $q->join('localidades as lo', 'lo.id', 'imovel.idLocalidade');
-                        $q->select('imovel.id','imovel.quadra','imovel.lote','imovel.logradouro','lo.descricao');
-                    }]);
-                }
+            ->with(['reserva' => function ($q) {
+                $q->select('id','status','id_periodo','id_pessoa','id_imovel');
+                $q->with(['pessoa' => function($q) {
+                    $q->select('id','nome','url_foto');
+                }]);
+                $q->with(['imovel' => function($q) {
+                    $q->join('localidades as lo', 'lo.id', 'imovel.idLocalidade');
+                    $q->select('imovel.id','imovel.quadra','imovel.lote','imovel.logradouro','lo.descricao');
+                }]);
             }])
             ->get();
     }

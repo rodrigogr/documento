@@ -205,4 +205,8 @@ function assembleiaPautasCtrl ($scope, $state, $filter, UtilsService, AuthServic
             $scope.pautaSelecao.documentos =  result.data.data;
         });
     }
+
+    $scope.showAddAlternativa = function (alternativa) {
+        return alternativa.id === $scope.pautaSelecao.alternativas[$scope.pautaSelecao.alternativas.length - 1].id;
+    };
 }

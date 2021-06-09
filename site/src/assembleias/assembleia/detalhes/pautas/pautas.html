@@ -1,10 +1,10 @@
 <div class="row">
     <div class="row ba__margin-top-20">
-        <h3 class="col-md-15 Roboto-Light">
+        <h3 class="col-md-20 Roboto-Light">
             <strong>{{resumoPautas.length}}</strong> resultados</h3>
-<!--        <button type="button" id="abrirVotacaos"  class="btn btn-success col-xs-offset-3 col-xs-6 uppercase" style="margin-top: 12px" ng-click="select = null;$('#novoTipo').modal('show')">-->
-<!--            Abrir Votação-->
-<!--        </button>-->
+        <button type="button" id="abrirVotacaos"  class="btn btn-success col-xs-4 uppercase" style="margin-top: 12px" ng-click="select = null;$('#novoTipo').modal('show')">
+            Nova Pauta
+        </button>
     </div>
     <div class="list-group ba__admin-table ba__margin-top-40" style="height: 85%">
         <a class="list-group-item disabled">
@@ -27,17 +27,17 @@
         </a>
         <div class="ba__admin-table-scroll" style="height: 85%;">
             <a class="list-group-item ba__font-size-12 ba__pointer" ng-repeat="pauta in resumoPautas">
-                <div class="row" ng-click="">
+                <div class="row" ng-click="abrePauta(pauta.id)">
                     <div class="col-xs-8">{{pauta.pauta}}</div>
                     <div class="col-xs-3">{{pauta.alternativas}}</div>
                     <div class="col-xs-6">
                         <span ng-if="pauta.status.toLowerCase() === 'aberta para votacao'" class="status aberta">{{pauta.status}}</span>
                         <span ng-if="pauta.status.toLowerCase() === 'suspensa'" class="status suspensa">{{pauta.status}}</span>
-                        <span ng-if="pauta.status.toLowerCase() === 'aguardando inicio'" class="status aguardando">{{pauta.status}}</span>
+                        <span ng-if="pauta.status.toLowerCase() === 'aguardando início'" class="status aguardando">{{pauta.status}}</span>
                     </div>
                     <div class="col-xs-3">{{pauta.votos}}</div>
                     <div class="col-xs-1 row">
-                        <i ng-show="pauta.status.toLowerCase() === 'aguardando inicio'" class="fa fa-close" title="Suspender"></i>
+                        <i ng-show="pauta.status.toLowerCase() === 'aguardando início'" class="fa fa-close" title="Suspender"></i>
                     </div>
                     <div class="col-xs-1 row">
                         <i class="fa fa-eye" title="Visualizar"  ng-click="abrePauta(pauta.id)"></i>
@@ -62,8 +62,8 @@
                     </div>
                     <!-- Form Mean -->
                     <!-- body das pautas quando a votacao ainda nao foi iniciada -->
-                    <div ng-if="(!votacaoIniciada && pautaSelecao.status.toLowerCase() === 'aguardando inicio')" class="modal-body ba__bg-white ba__modal-body-assembleia"
-                         style="background-color: #F2F2F2; padding: 0px !important;max-height: 70%; height: 700px">
+                    <div ng-if="(!votacaoIniciada && pautaSelecao.status.toLowerCase() === 'aguardando início')" class="modal-body ba__bg-white ba__modal-body-assembleia"
+                         style="background-color: #F2F2F2; padding: 0px !important;max-height: 70%;">
                         <div style="padding: 0 0 20px; margin: 0 0 20px;">
                             <div class="row ba__margin-bottom-30">
                                 <div class="col-md-22">
@@ -118,7 +118,7 @@
                                            style="margin-right: 15px;"
                                            ng-click="removeAlternativa($index, alternativa.id)"></i>
                                         <i class="fa fa-plus-circle"
-                                           ng-show="(ultimaAlternativa===($index+1))"
+                                           ng-show="showAddAlternativa(alternativa)"
                                            ng-click="addNewAlternativa($index)"
                                         ></i>
                                     </div>
@@ -164,7 +164,7 @@
                     </div>
                     <!-- fim body das pautas quando a votacao ainda nao foi iniciada -->
                     <!-- body das pautas quando a votacao ja foi iniciada -->
-                    <div ng-if="( pautaSelecao.status.toLowerCase() !== 'aguardando inicio')" class="modal-body ba__bg-white ba__modal-body-assembleia"
+                    <div ng-if="( pautaSelecao.status.toLowerCase() !== 'aguardando início')" class="modal-body ba__bg-white ba__modal-body-assembleia"
                          style="background-color: #F2F2F2; padding: 0px !important;max-height: 70%; height: 700px">
                         <div style="padding: 0 0 20px; margin: 0 0 20px;">
                             <div class="row ba__margin-bottom-30">
@@ -233,7 +233,7 @@
                     <!-- fim body das pautas quando a votacao ja foi iniciada -->
                     <!-- Footer -->
                     <div class="modal-footer" style="padding-right: 15px !important;">
-                        <button ng-if="pautaSelecao.status.toLowerCase() === 'aguardando inicio'" type="button" class="btn btn-success col-xs-offset-3 col-xs-6 uppercase pull-right"
+                        <button ng-if="pautaSelecao.status.toLowerCase() === 'aguardando início'" type="button" class="btn btn-success col-xs-offset-3 col-xs-6 uppercase pull-right"
                                 ng-click="salvarAlteracoesPauta()"
                                 style="background-color: #FF6633;margin-left: 30px; width: 200px;">
                             Salvar
@@ -242,7 +242,7 @@
                                 ng-click="fechaPauta()" style="margin-left: 30px; width: 200px;">
                             Cancelar
                         </button>
-                        <a ng-if="pautaSelecao.status.toLowerCase() === 'aguardando inicio'" href="{{ assembleiaResumo.link_transmissao }}" ng-click="abreSuspenderPauta(pautaSelecao.id_pauta)" target="_blank" class="pull-right link-button"
+                        <a ng-if="pautaSelecao.status.toLowerCase() === 'aguardando início'" href="{{ assembleiaResumo.link_transmissao }}" ng-click="abreSuspenderPauta(pautaSelecao.id_pauta)" target="_blank" class="pull-right link-button supender-pauta"
                         style="height: 35px; margin-top: 3px;width: 190px; padding-top: 1px; font-size: 18px;">
                             Suspender Pauta</a>
                     </div>

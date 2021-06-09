@@ -500,7 +500,7 @@
                           <div class="col-xs-4">Unidade</div>
                           <div class="col-xs-4 text-center">Peso</div>
                           <!-- <div class="col-xs-4">Adimplência</div> -->
-                          <div class="col-xs-5">Procurador</div>
+<!--                          <div class="col-xs-5">Procurador</div>-->
                           <div class="col-xs-2 text-left"></div>
                         </div>
                       </a>
@@ -532,16 +532,16 @@
                               {{participante.situacao ? participante.situacao : 'adimplente'}}
                             </span>
                           </div> -->
-                          <div class="col-xs-5 text-muted">
-                            <span ng-if="!participante.id_procurador" class="text-gray underline"
-                              ng-click="addProcurador(participante)">
-                              <i class="fa fa-plus-circle ba__font-size-17 text-soft-gray ba__margin-right-5"></i>
-                              Add. procurador
-                            </span>
-                            <span ng-if="participante.id_procurador">
-                              {{participante.procurador}}
-                            </span>
-                          </div>
+<!--                          <div class="col-xs-5 text-muted">-->
+<!--                            <span ng-if="!participante.id_procurador" class="text-gray underline"-->
+<!--                              ng-click="addProcurador(participante)">-->
+<!--                              <i class="fa fa-plus-circle ba__font-size-17 text-soft-gray ba__margin-right-5"></i>-->
+<!--                              Add. procurador-->
+<!--                            </span>-->
+<!--                            <span ng-if="participante.id_procurador">-->
+<!--                              {{participante.procurador}}-->
+<!--                            </span>-->
+<!--                          </div>-->
                           <div class="col-xs-2 text-left text-muted">
                             <span class="text-gray underline" ng-click="remProcurador(participante)">
                               <i class="fa fa-trash ba__font-size-17 text-soft-gray" title="Rem. procurador"></i>

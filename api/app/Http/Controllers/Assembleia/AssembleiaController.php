@@ -89,36 +89,37 @@ class AssembleiaController extends Controller
                     }
                 }
 
-                foreach ($data['pautas'] as $item)
+                foreach ($data['pautas'] as $key => $item)
                 {
-                    if (is_null($item['id']))
+                    $i = $key +1;
+
+                    $nuermoPauta = $i > 9 ? $i : 0 . $i;
+
+                    $pauta = AssembleiaPauta::find($item['id']);
+
+                    if($pauta)
                     {
-                        $pergunta = AssembleiaPergunta::create(['pergunta'=> $item['pergunta']]);
-                        $pergunta->assembleiaOpcoes()->createMany($item['alternativas']);
-                        $assembleia->pautas()->create(['id_pergunta' => $pergunta->id]);
+                        AssembleiaPergunta::where('id', $pauta->id_pergunta)->update(['pergunta'=> $item['pergunta']]);
+                        // update alternatinas
+                        foreach ($item['alternativas'] as $alternativa)
+                        {
+                            $opcao = AssembleiaOpcao::find($alternativa['id']);
+
+                            if ($opcao)
+                            {
+                                $opcao->update($alternativa);
+                            }
+                            else
+                            {
+                                AssembleiaOpcao::create(['opcao'=> $alternativa['opcao'], 'id_pergunta' => $pauta->id_pergunta]);
+                            }
+                        }
                     }
                     else
                     {
-                        $pauta = AssembleiaPauta::find($item['id']);
-
-                        if($pauta)
-                        {
-                            AssembleiaPergunta::where('id', $pauta->id_pergunta)->update(['pergunta'=> $item['pergunta']]);
-                            // update alternatinas
-                            foreach ($item['alternativas'] as $alternativa)
-                            {
-                                $opcao = AssembleiaOpcao::find($alternativa['id']);
-
-                                if ($opcao)
-                                {
-                                    $opcao->update($alternativa);
-                                }
-                                else
-                                {
-                                    AssembleiaOpcao::create(['opcao'=> $alternativa['opcao'], 'id_pergunta' => $pauta->id_pergunta]);
-                                }
-                            }
-                        }
+                        $pergunta = AssembleiaPergunta::create(['pergunta'=> $item['pergunta']]);
+                        $pergunta->assembleiaOpcoes()->createMany($item['alternativas']);
+                        $assembleia->pautas()->create(['id_pergunta' => $pergunta->id, 'numero'=> $nuermoPauta]);
                     }
                 }
 
@@ -144,6 +145,7 @@ class AssembleiaController extends Controller
 
         $assembleia['pautas'] = $assembleia->pautas()
             ->join('assembleia_perguntas', 'assembleia_pautas.id_pergunta', '=', 'assembleia_perguntas.id')
+            ->select('assembleia_pautas.id', 'assembleia_pautas.id_assembleia', 'assembleia_pautas.id_pergunta', 'numero','status','pergunta')
             ->get();
 
         $participantes = AssembleiaParticipante::join('bioacesso_portaria.imovel','assembleia_participantes.id_imovel', '=','imovel.id')
@@ -368,11 +370,13 @@ class AssembleiaController extends Controller
                 $assembleia['pode_participar'] = false;
             }
 
-            $assembleia['total_questao_ordem_criadas'] = AssembleiaQuestaoOrdem::join('assembleia_theads', 'assembleia_theads.id',
-                'assembleia_questoes_ordens.id_thead')
-                ->where('assembleia_theads.id_pessoa', $idPessoa)
-                ->where('assembleia_questoes_ordens.id_assembleia', $assembleia->id)
-                ->count();
+//            $assembleia['total_questao_ordem_criadas'] = AssembleiaQuestaoOrdem::join('assembleia_theads', 'assembleia_theads.id',
+//                'assembleia_questoes_ordens.id_thead')
+//                ->where('assembleia_theads.id_pessoa', $idPessoa)
+//                ->where('assembleia_questoes_ordens.id_assembleia', $assembleia->id)
+//                ->count();
+
+            $assembleia['total_questao_ordem_criadas'] = 0;
 
         }
         else

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Reservas;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Reservas\ReservaRequest;
+use App\Models\Reservas\LocalReservavel;
 use App\Models\Reservas\PeriodoLocalReservavel;
 use App\Models\Reservas\Reserva;
 use App\Services\Reservas\ReservaService;
@@ -198,6 +199,39 @@ class ReservaController extends Controller
         } catch (\Exception $e) {
             return response()->error(trans('messages.crud.FCE', ['name' => $this->name]));
         }*/
+    }
+
+    public function dataLocalReservavel($data, $idLocalReservavel, $idPessoa, $idImovel)
+    {
+        $diaSemana = ReservaService::diaSemana($data);
+        $configLocal = LocalReservavel::localReservavelById($idLocalReservavel);
+        $reservasHorariosDoDia["periodo"] = PeriodoLocalReservavel::horariosReservasDoDia($data, $idLocalReservavel, $diaSemana);
+
+        $total_res_pessoa = 0;
+        $total_res_imovel = 0;
+        foreach ($reservasHorariosDoDia["periodo"] as $re) {
+            $re["total_reservado_periodo"] = count($re["reserva"]);
+            $re["resta_limite_reserva"] = $configLocal[0]["limit_reserva_periodo"] - $re["total_reservado_periodo"];
+
+            foreach ($re["reserva"] as $key => $item) {
+                if ($re["reserva"][$key]["id_pessoa"] == $idPessoa) {
+                    $total_res_pessoa++;
+                }
+                if ($re["reserva"][$key]["id_imovel"] == $idImovel) {
+                    $total_res_imovel++;
+                }
+            }
+        }
+        $reservasHorariosDoDia["total_reservado_usuario_dia"] = $total_res_pessoa;
+        $reservasHorariosDoDia["total_reservado_imovel_dia"] = $total_res_imovel;
+
+        return response()->success($reservasHorariosDoDia);
+    }
+
+    public function historicoUsuario($idUsuario)
+    {
+        $Data = Reserva::historicoUsuario($idUsuario);
+        return response()->success($Data);
     }
 
 }

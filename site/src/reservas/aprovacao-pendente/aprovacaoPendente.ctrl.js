@@ -16,7 +16,7 @@ angular.module('ReservasModule').controller('AprovacaoPendenteCtrl',
 
         $scope.analisandoReserva = [];
         $scope.pendentes = [];
-        $scope.recusados = [];
+        $scope.recusadas = [];
         $scope.busca = 'pendente';
         $scope.localReservavelSelecionado = false;
         $scope.localidadeSelecionado = false;
@@ -25,7 +25,7 @@ angular.module('ReservasModule').controller('AprovacaoPendenteCtrl',
             if (aba == 1) {
                 $scope.busca = 'pendente';
             } else {
-                $scope.busca = 'recusado';
+                $scope.busca = 'recusada';
             }
             $scope.listaAprovacao('todos');
         }
@@ -72,7 +72,7 @@ angular.module('ReservasModule').controller('AprovacaoPendenteCtrl',
                 if ($scope.busca == 'pendente') {
                     $scope.pendentes = result.data.data;
                 } else {
-                    $scope.recusados = result.data.data;
+                    $scope.recusadas = result.data.data;
                 }
             }).catch( function (e) {
                 UtilsService.openAlert(e.data.message);
@@ -134,9 +134,9 @@ angular.module('ReservasModule').controller('AprovacaoPendenteCtrl',
         }
 
         $scope.verMotivo = function (indexParent, index) {
-            $scope.motivoRecusaReserva = $scope.recusados[indexParent][index].obs;
-            $scope.dataRecusa = moment($scope.recusados[indexParent][index].updated_at).format('L')+' às '+ moment($scope.recusados[indexParent][index].updated_at).format('HH:mm');
-            $scope.autor = $scope.recusados[indexParent][index].autor;
+            $scope.motivoRecusaReserva = $scope.recusadas[indexParent][index].obs;
+            $scope.dataRecusa = moment($scope.recusadas[indexParent][index].updated_at).format('L')+' às '+ moment($scope.recusadas[indexParent][index].updated_at).format('HH:mm');
+            $scope.autor = $scope.recusadas[indexParent][index].autor;
             $scope.disabledText = true;
             $("#motivoRecusar").modal('show');
         }

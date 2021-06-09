@@ -103,30 +103,30 @@
                                 </div>
                             </div>
 
-                            <!--RECUSADOS-->
-                            <div ng-if="busca == 'recusado'">
-                                <div class="lista-reserva-dia" ng-if="!recusados.length">
+                            <!--recusadaS-->
+                            <div ng-if="busca == 'recusada'">
+                                <div class="lista-reserva-dia" ng-if="!recusadas.length">
                                     <div class="row local">
                                         Nenhuma resultado encontrado
                                     </div>
                                 </div>
 
                                 <div class="lista-pendentes">
-                                    <div class="lista-reserva-dia" ng-repeat="grupoDiaRecusado in recusados">
+                                    <div class="lista-reserva-dia" ng-repeat="grupoDiaRecusada in recusadas">
                                         <div class="row">
-                                            <h3 class="col-md-12 titulo-dia-mes">{{dataFormatTitulo(grupoDiaRecusado[0].data)}} <span class="titulo-semana">{{grupoDiaRecusado[0].dia_semana}}</span></h3>
+                                            <h3 class="col-md-12 titulo-dia-mes">{{dataFormatTitulo(grupoDiaRecusada[0].data)}} <span class="titulo-semana">{{grupoDiaRecusada[0].dia_semana}}</span></h3>
                                         </div>
-                                        <div ng-repeat="recusado in grupoDiaRecusado" class="grupoDia">
+                                        <div ng-repeat="recusada in grupoDiaRecusada" class="grupoDia">
                                             <div class="row local">
                                                 <i class="fa icon-ba-pin"></i>
-                                                <label class="text-capitalize">{{recusado.local_reservavel.nome}}</label> / <span class="text-capitalize">{{recusado.local_reservavel.localidade}}</span>
+                                                <label class="text-capitalize">{{recusada.local_reservavel.nome}}</label> / <span class="text-capitalize">{{recusada.local_reservavel.localidade}}</span>
                                             </div>
                                             <div class="row">
-                                                <span class="col-xs-4 periodo"><b>{{recusado.hora_ini}} - {{recusado.hora_fim}}</b><br>{{recusado.valor | currency}}</span>
+                                                <span class="col-xs-4 periodo"><b>{{recusada.hora_ini}} - {{recusada.hora_fim}}</b><br>{{recusada.valor | currency}}</span>
                                                 <span class="col-xs-12 col-xs-offset-1 status-local">
-                                                <button class="btn text-uppercase reserva-status-{{recusado.reserva_status}}">recusado</button><br>
-                                                <p>{{'Qd '+recusado.imovel.quadra+' / Lt '+recusado.imovel.lote}} - {{recusado.imovel.logradouro}}</p>
-                                                <p class="text-capitalize">{{recusado.pessoa.nome}}</p>
+                                                <button class="btn text-uppercase reserva-status-{{recusada.reserva_status}}">recusada</button><br>
+                                                <p>{{'Qd '+recusada.imovel.quadra+' / Lt '+recusada.imovel.lote}} - {{recusada.imovel.logradouro}}</p>
+                                                <p class="text-capitalize">{{recusada.pessoa.nome}}</p>
                                             </span>
                                                 <span class="col-xs-6 pull-right" style="margin-right: 33px"><button class="btn btn-clear2" ng-click="verMotivo($parent.$index, $index)" style="width: 100%">VER DETALHES</button></span>
                                             </div>
@@ -240,8 +240,8 @@
                     </div>
                     <div class="modal-body motivoRecusar-body">
                         <label>{{ analisandoReserva.reserva_status == 'pendente'
-                                ? 'Informe o motivo da recusada reserva:'
-                                : 'Recusado em '+ dataRecusa + ' por: '+ autor }}</label>
+                                ? 'Informe o motivo da reserva recusada:'
+                                : 'Recusada em '+ dataRecusa + ' por: '+ autor }}</label>
                         <div class="row">
                             <span class="col-xs-2 ba__margin-top-20" style="font-size: 18px">Motivo: </span>
                             <textarea class="col-xs-15 col-xs-offset-1 ba__margin-top-10 ba__input-modal"
@@ -258,7 +258,7 @@
                                 data-loading-text="Aguarde...">
                             Recusar
                         </button>
-                        <span style="color:#9C9C9C; margin-right: 20px;" ng-click="fecharMotivo()" class="col-md-5 hoverDefault pull-right">{{ analisandoReserva.reserva_status == 'recusado' ? 'FECHAR' : 'CANCELAR'}}</span>
+                        <span style="color:#9C9C9C; margin-right: 20px;" ng-click="fecharMotivo()" class="col-md-5 hoverDefault pull-right">{{ analisandoReserva.reserva_status == 'recusada' ? 'FECHAR' : 'CANCELAR'}}</span>
                     </div>
                 </div>
             </div>

@@ -2,9 +2,7 @@
 namespace App\Models\Reservas;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\DB;
-use function foo\func;
 
 class Reserva extends Model
 {
@@ -50,15 +48,9 @@ class Reserva extends Model
         $localReservavel = $filtros["localReservavel"];
         $localidade = $filtros["localidade"];
 
-        if ($status == 'recusado') {
-            $tableReserva = 'reserva_recusada';
-        } else {
-            $tableReserva = 'reserva';
-        }
-
         //$usuario = \Auth::user();
 
-        $busca = PeriodoLocalReservavel::join($tableReserva.' as r', function ($q) use($data, $status) {
+        $busca = PeriodoLocalReservavel::join('reserva as r', function ($q) use($data, $status) {
             if (!empty($data) && $data != 'todos') {
                 $q->on('r.data', \DB::raw("'" . $data . "'"));
             } elseif (!empty($data) && $data == 'todos') {
@@ -197,7 +189,7 @@ class Reserva extends Model
 
     public static function saveReservaRecusada(Reserva $reserva)
     {
-        DB::table('reserva_recusada')->insert([
+        DB::table('reserva')->insert([
             'id_local_reservavel' => $reserva->id_local_reservavel,
             'id_periodo' => $reserva->id_periodo,
             'data' => $reserva->data,
@@ -206,7 +198,6 @@ class Reserva extends Model
             'status' => $reserva->status,
             'created_at' => $reserva->created_at,
             'updated_at' => date('Y-m-d H:i:s'),
-            'deleted_at' => null,
             'obs' => $reserva->obs,
             'autor' => $reserva->autor
         ]);
@@ -231,7 +222,16 @@ class Reserva extends Model
 
     public static function historicoUsuario($idUsuario)
     {
-
+        return self::where('id_pessoa', $idUsuario)
+            ->with('periodoLocalReservavel')
+            ->with(['pessoa' => function($q) {
+                    $q->select('id','nome','url_foto');
+                }])
+            ->with(['imovel' => function($q) {
+                    $q->join('localidades as lo', 'lo.id', 'imovel.idLocalidade');
+                    $q->select('imovel.id','imovel.quadra','imovel.lote','imovel.logradouro','lo.descricao');
+                }])
+            ->get();
     }
 
     ## Relacionamentos ##

@@ -226,7 +226,8 @@ class ReservaController extends Controller
 
     public function historicoUsuario($idUsuario)
     {
-        Reserva::historicoUsuario($idUsuario);
+        $Data = Reserva::historicoUsuario($idUsuario);
+        return response()->success($Data);
     }
 
 }

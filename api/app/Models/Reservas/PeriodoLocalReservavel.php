@@ -63,7 +63,9 @@ class PeriodoLocalReservavel extends Model
     {
         return self::where('id_local_reservavel', $idLocalReservavel)
             ->where('dia_semana', $diaSemana)
-            ->with(['reserva' => function ($q) {
+            ->with(['reserva' => function ($q) use($data) {
+                $q->where('data',$data);
+                $q->where('status','!=','recusada');
                 $q->select('id','status','id_periodo','id_pessoa','id_imovel');
                 $q->with(['pessoa' => function($q) {
                     $q->select('id','nome','url_foto');

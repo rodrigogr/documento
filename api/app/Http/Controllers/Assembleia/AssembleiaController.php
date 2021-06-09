@@ -370,13 +370,11 @@ class AssembleiaController extends Controller
                 $assembleia['pode_participar'] = false;
             }
 
-//            $assembleia['total_questao_ordem_criadas'] = AssembleiaQuestaoOrdem::join('assembleia_theads', 'assembleia_theads.id',
-//                'assembleia_questoes_ordens.id_thead')
-//                ->where('assembleia_theads.id_pessoa', $idPessoa)
-//                ->where('assembleia_questoes_ordens.id_assembleia', $assembleia->id)
-//                ->count();
-
-            $assembleia['total_questao_ordem_criadas'] = 0;
+            $assembleia['total_questao_ordem_criadas'] = AssembleiaQuestaoOrdem::join('assembleia_theads', 'assembleia_theads.id',
+                'assembleia_questoes_ordens.id_thead')
+                ->where('assembleia_theads.id_pessoa', $idPessoa)
+                ->where('assembleia_questoes_ordens.id_assembleia', $assembleia->id)
+                ->count();
 
         }
         else

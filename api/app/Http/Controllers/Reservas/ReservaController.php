@@ -205,21 +205,25 @@ class ReservaController extends Controller
     {
         $diaSemana = ReservaService::diaSemana($data);
         $configLocal = LocalReservavel::localReservavelById($idLocalReservavel);
-        $reservasHorariosDoDia = PeriodoLocalReservavel::horariosReservasDoDia($data, $idLocalReservavel, $diaSemana);
+        $reservasHorariosDoDia["periodo"] = PeriodoLocalReservavel::horariosReservasDoDia($data, $idLocalReservavel, $diaSemana);
 
-        foreach ($reservasHorariosDoDia as $re) {
+        $total_res_pessoa = 0;
+        $total_res_imovel = 0;
+        foreach ($reservasHorariosDoDia["periodo"] as $re) {
             $re["total_reservado_periodo"] = count($re["reserva"]);
-            $re["total_reservado_imovel"] = 0;
-            $re["total_reservado_pessoa"] = 0;
+            $re["resta_limite_reserva"] = $configLocal[0]["limit_reserva_periodo"] - $re["total_reservado_periodo"];
+
             foreach ($re["reserva"] as $key => $item) {
                 if ($re["reserva"][$key]["id_pessoa"] == $idPessoa) {
-                    $re["total_reservado_pessoa"]++;
+                    $total_res_pessoa++;
                 }
                 if ($re["reserva"][$key]["id_imovel"] == $idImovel) {
-                    $re["total_reservado_imovel"]++;
+                    $total_res_imovel++;
                 }
             }
         }
+        $reservasHorariosDoDia["total_reservado_usuario_dia"] = $total_res_pessoa;
+        $reservasHorariosDoDia["total_reservado_imovel_dia"] = $total_res_imovel;
 
         return response()->success($reservasHorariosDoDia);
     }

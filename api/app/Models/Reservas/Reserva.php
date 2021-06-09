@@ -54,7 +54,11 @@ class Reserva extends Model
             if (!empty($data) && $data != 'todos') {
                 $q->on('r.data', \DB::raw("'" . $data . "'"));
             } elseif (!empty($data) && $data == 'todos') {
-                $q->on('r.data','>=', \DB::raw("CURDATE()"));
+                if ($status == 'recusada') {
+                    $q->on('r.data', '>=', \DB::raw("DATE_SUB(CURDATE(), INTERVAL 7 DAY)"));
+                } else {
+                    $q->on('r.data', '>=', \DB::raw("CURDATE()"));
+                }
             }
             $q->on('r.id_periodo','periodo_local_reservavel.id');
             $q->where('r.status', $status);

@@ -228,7 +228,7 @@ class Reserva extends Model
     {
         return self::where('id_pessoa', $idUsuario)
             ->where('id_imovel', $idImovel)
-            ->with(['periodoLocalReservavel','localRerservavel'])
+            ->with(['periodoLocalReservavel','localReservavel'])
             ->with(['pessoa' => function($q) {
                     $q->select('id','nome','url_foto');
                 }])

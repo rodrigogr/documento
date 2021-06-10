@@ -224,9 +224,10 @@ class Reserva extends Model
         return $dados;
     }
 
-    public static function historicoUsuario($idUsuario)
+    public static function historicoUsuario($idUsuario, $idImovel)
     {
         return self::where('id_pessoa', $idUsuario)
+            ->where('id_imovel', $idImovel)
             ->with('periodoLocalReservavel')
             ->with(['pessoa' => function($q) {
                     $q->select('id','nome','url_foto');

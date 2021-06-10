@@ -185,8 +185,14 @@ angular.module('ReservasModule').controller('LocalReservavelCtrl',
                 deleted: 0,
                 addNew: $scope.addNovoPeriodo++
             }
-            $scope.localReservavel.periodo[diaSemana].push(novo);
             $scope.objPeriodoAtual = $scope.localReservavel.periodo[diaSemana];
+            if ($scope.localReservavel.manter_horario) {
+                ['seg','ter','qua','qui','sex','sab','dom'].forEach(function(el) {
+                    $scope.localReservavel.periodo[el].push(novo);
+                });
+            } else {
+                $scope.localReservavel.periodo[diaSemana].push(novo);
+            }
         }
 
         $scope.$watch('localReservavel.manter_horario', function(value, oldValue) {
@@ -201,33 +207,21 @@ angular.module('ReservasModule').controller('LocalReservavelCtrl',
                             }
                         }
                     });
-
                 });
 
-                let copia = [];
-                angular.forEach($scope.localReservavel.periodo[$scope.periodoAtual], function (value) {
-                    if (value.deleted == 0) {
-                        let newArr = {
-                            id: value.id,
-                            dia_semana: value.dia_semana,
-                            hora_fim: value.hora_fim,
-                            hora_ini: value.hora_ini,
-                            id_local_reservavel: value.id_local_reservavel,
-                            valor: value.valor,
-                            deleted: 0
-                        }
-                        copia.push(newArr);
+                angular.forEach($scope.localReservavel.periodo[$scope.periodoAtual], function (value, key) {
+                    if (!value.deleted) {
+                        ['seg', 'ter', 'qua', 'qui', 'sex', 'sab', 'dom'].forEach(function (el) {
+                            if (el != $scope.periodoAtual) {
+                                $scope.localReservavel.periodo[el][key].dia_semana = el;
+                                $scope.localReservavel.periodo[el][key].hora_ini = value.hora_ini;
+                                $scope.localReservavel.periodo[el][key].hora_fim = value.hora_fim;
+                                $scope.localReservavel.periodo[el][key].id_local_reservavel = value.id_local_reservavel;
+                                $scope.localReservavel.periodo[el][key].valor = value.valor;
+                                $scope.localReservavel.periodo[el][key].deleted = 0;
+                            }
+                        });
                     }
-                })
-
-                copia.map( (x) => {
-                    $scope.localReservavel.periodo.seg.push(x);
-                    $scope.localReservavel.periodo.ter.push(x);
-                    $scope.localReservavel.periodo.qua.push(x);
-                    $scope.localReservavel.periodo.qui.push(x);
-                    $scope.localReservavel.periodo.sex.push(x);
-                    $scope.localReservavel.periodo.sab.push(x);
-                    $scope.localReservavel.periodo.dom.push(x);
                 });
 
             } else if (!value && oldValue) {

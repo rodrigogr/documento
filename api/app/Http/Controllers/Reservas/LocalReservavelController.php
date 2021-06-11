@@ -131,7 +131,7 @@ class LocalReservavelController extends Controller
                         $periodoAlt->valor = (float)$dados_dia["valor"];
                         $periodoAlt->save();
                     }
-                    if (isset($dados_dia["deleted"]) && $dados_dia["deleted"]) {
+                    if (isset($dados_dia["deleted"]) && $dados_dia["deleted"] && isset($dados_dia["id"])) {
                         $periodoDel = PeriodoLocalReservavel::find($dados_dia["id"]);
                         $periodoDel->delete();
                     }

@@ -155,7 +155,7 @@ angular.module('ReservasModule').controller('LocalReservavelCtrl',
             if ($scope.localReservavel.manter_horario) {
                 angular.forEach($scope.localReservavel.periodo, function (value, key) {
                     if (value.some(y => y.id > 0)) {
-                        value[indexAtual].deleted = 1;
+                        value[indexAtual] = {deleted: 1};
                     } else {
                         value.splice(indexAtual, 1);
                         $scope.escolhaDiaSemana($scope.periodoAtual);
@@ -209,19 +209,22 @@ angular.module('ReservasModule').controller('LocalReservavelCtrl',
                     });
                 });
 
-                angular.forEach($scope.localReservavel.periodo[$scope.periodoAtual], function (value, key) {
-                    if (!value.deleted) {
-                        ['seg', 'ter', 'qua', 'qui', 'sex', 'sab', 'dom'].forEach(function (el) {
-                            if (el != $scope.periodoAtual) {
-                                $scope.localReservavel.periodo[el][key].dia_semana = el;
-                                $scope.localReservavel.periodo[el][key].hora_ini = value.hora_ini;
-                                $scope.localReservavel.periodo[el][key].hora_fim = value.hora_fim;
-                                $scope.localReservavel.periodo[el][key].id_local_reservavel = value.id_local_reservavel;
-                                $scope.localReservavel.periodo[el][key].valor = value.valor;
-                                $scope.localReservavel.periodo[el][key].deleted = 0;
-                            }
-                        });
+                let copia = [];
+                angular.forEach($scope.localReservavel.periodo[$scope.periodoAtual], function (value) {
+                    if (value.deleted == 0) {
+                        let newArr = {
+                            hora_fim: value.hora_fim,
+                            hora_ini: value.hora_ini,
+                            id_local_reservavel: value.id_local_reservavel,
+                            valor: value.valor,
+                            deleted: 0
+                        }
+                        copia.push(newArr);
                     }
+                });
+
+                ['seg', 'ter', 'qua', 'qui', 'sex', 'sab', 'dom'].forEach(function (el) {
+                    $scope.localReservavel.periodo[el] = copia;
                 });
 
             } else if (!value && oldValue) {

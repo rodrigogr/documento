@@ -5,6 +5,8 @@
 
 Route::get('/assembleias/resumo/{id}', 'assembleia\AssembleiaController@resumo');
 
+Route::get('/assembleias/status/{id}', 'assembleia\AssembleiaController@getStatusAssembleia');
+
 Route::get('/assembleias/iniciar/{id}', 'assembleia\AssembleiaController@iniciarAssembleia');
 
 Route::post('/assembleias/iniciar-votacao', 'assembleia\AssembleiaController@iniciarVotacao');
@@ -47,11 +49,21 @@ Route::resource('/assembleias', 'assembleia\AssembleiaController');
 
 Route::get( '/assembleias/pauta/get/{id}', 'assembleia\PautaController@show');
 
-Route::resource('/pautas', 'assembleia\PautaController');
+Route::get('/pautas/{id}', 'assembleia\PautaController@show');
+
+Route::put('/pautas/{id}', 'assembleia\PautaController@update');
+
+Route::put('/pauta/status/{id}', 'assembleia\PautaController@updateStatus');
+
+Route::delete('/pautas/{id}', 'assembleia\PautaController@destroy');
 
 Route::resource('/opcoes', 'assembleia\OpcaoController');
 
-Route::resource('/pauta_anexos', 'assembleia\PautaAnexoController');
+Route::delete('/pauta/anexos/{id}', 'assembleia\PautaAnexoController@detroy');
+
+Route::get('/pauta/anexos/{id}', 'assembleia\PautaAnexoController@show');
+
+Route::get('/pauta/anexos/{id}', 'assembleia\PautaAnexoController@index');
 
 Route::post('/assembleias/encaminhamentos', 'assembleia\EncaminhamentoController@store');
 
@@ -78,3 +90,5 @@ Route::get('/assembleias/documento/open/{id}', 'assembleia\DocumentoController@a
 Route::get('/assembleias/questoes-ordem-votacoes/{id}', 'assembleia\QuestaoOrdemPerguntaController@index');
 
 Route::post('/assembleias/questoes-ordem-votacoes/', 'assembleia\QuestaoOrdemPerguntaController@store');
+
+Route::get('/assembleias/pauta/documento/open/{id}', 'assembleia\PautaAnexoController@abrirDocumento');

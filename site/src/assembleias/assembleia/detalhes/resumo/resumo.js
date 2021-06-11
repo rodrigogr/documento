@@ -410,7 +410,9 @@ function assembleiaResumoCtrl ($scope, $state, $filter, $http, $q, AuthService, 
 
     $scope.abreDocumento = function (idDoc)
     {
-        window.open(config.apiUrl + 'api/assembleias/documento/open/' + idDoc, '_blank');
+        if(idDoc) {
+            window.open(config.apiUrl + 'api/assembleias/documento/open/' + idDoc, '_blank');
+        }
     };
 
     // $scope.abreDocumento = function () {

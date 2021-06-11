@@ -10,7 +10,8 @@ class AssembleiaPauta extends Model
     protected $table = 'assembleia_pautas';
 
     static public $associations = [
-        'assembleiaPergunta '
+        'assembleiaPergunta',
+        'pautaAnexos'
     ];
 
     protected $fillable = [
@@ -42,5 +43,10 @@ class AssembleiaPauta extends Model
     public function assembleiaPergunta()
     {
         return $this->belongsTo(AssembleiaPergunta::class, 'id');
+    }
+
+    public function pautaAnexos()
+    {
+        return $this->hasMany(PautaAnexo::class, 'id_pauta');
     }
 }

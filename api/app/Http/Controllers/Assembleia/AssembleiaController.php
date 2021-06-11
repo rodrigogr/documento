@@ -268,7 +268,7 @@ class AssembleiaController extends Controller
     public function pautas ($id)
     {
         $pautas = AssembleiaPauta::join('assembleia_perguntas', 'assembleia_pautas.id_pergunta', '=', 'assembleia_perguntas.id')
-            ->select('assembleia_pautas.id', 'assembleia_perguntas.pergunta', 'assembleia_pautas.id_pergunta')
+            ->select('assembleia_pautas.id', 'assembleia_perguntas.pergunta', 'assembleia_pautas.id_pergunta', 'assembleia_pautas.status')
             ->where('id_assembleia', $id)->get();
 
         $result = array();
@@ -280,7 +280,7 @@ class AssembleiaController extends Controller
 
             $result[] = [
                 'id'=> $pauta->id,
-                'status' => 'aguardando inicio',
+                'status' => $pauta->status,
                 'pauta' => $pauta->pergunta,
                 'alternativas' => $opcoes,
                 'votos' => $votos
@@ -473,6 +473,15 @@ class AssembleiaController extends Controller
         {
             return response()->error('Error :'. $e->getMessage());
         }
+    }
 
+    public function getStatusAssembleia($id)
+    {
+        try {
+            $assembleia = Assembleia::find($id);
+            return $assembleia->status;
+        }catch (\Exception $e){
+            return response()->error('Error :'. $e->getMessage());
+        }
     }
 }

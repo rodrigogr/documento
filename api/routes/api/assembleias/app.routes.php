@@ -20,4 +20,5 @@ Route::group(['prefix' => '5eec33a37ed64e42575b84f1abc8a27843b1a050/assembleias'
     Route::get('/getdocumento/{id}', 'assembleia\DocumentoController@getDocumento');
     Route::get('/questoesordemvotacoes/assembleia/{id}/pessoa/{idPessoa}', 'assembleia\QuestaoOrdemPerguntaController@listQuestoesOrdensVotacoesPessoa');
     Route::post('/questoesordemvotacoes', 'assembleia\QuestaoOrdemVotacaoController@registrarVoto');
+    Route::get('pauta/{id}/anexos', 'assembleia\PautaAnexoController@index');
 });

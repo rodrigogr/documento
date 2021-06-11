@@ -12,37 +12,38 @@ use Illuminate\Support\Facades\DB;
 
 class PautaAnexoController extends Controller
 {
-    public function index()
+    public function index($id)
     {
-        $pautaAnexos = PautaAnexo::orderBy('id_pauta')->get();
-
-        foreach ($pautaAnexos as $pautaAnexo) {
-            $result[] = [
-                'id' => $pautaAnexo->id,
-                'id_pauta' => $pautaAnexo->id_pauta,
-                'name' => $pautaAnexo->name,
-                'file' => $pautaAnexo->file
-            ];
-        }
-        return response()->success($result);
-    }
-
-    public function store(Request $request)
-    {
-        $data = $request->all();
-
-        DB::beginTransaction();
-        $novoAnexo =  PautaAnexo::create([
-            'name'=> $data['name'],
-            'file'=> $data['file'],
-            'id_pauta'=> $data['id_pauta']
-        ]);
-        DB::commit();
-        return response()->success($novoAnexo);
+        $pautaAnexos = PautaAnexo::where('id_pauta', $id)->get();
+        return response()->success($pautaAnexos);
     }
 
     public function destroy($id)
     {
         PautaAnexo::where('id', $id)->delete();
+    }
+
+    public function show($id)
+    {
+        $anexo = PautaAnexo::find($id);
+        return response()->success($anexo);
+    }
+
+    public function abrirDocumento ($id)
+    {
+        $documento = PautaAnexo::find($id);
+
+        $path = public_path('storage/'. $documento->name);
+
+        $base64 = explode('base64,', $documento->file);
+
+        $contents = base64_decode($base64[1], true);
+
+        //file_put_contents($path, $contents);
+        \Storage::disk('public')->put($documento->name, $contents);
+
+        // var_dump($path); exit();
+        return response()->download($path)->deleteFileAfterSend(true);
+        //return response()->file('storage/'.$documento->name);
     }
 }

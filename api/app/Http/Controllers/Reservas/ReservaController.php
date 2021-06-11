@@ -228,9 +228,9 @@ class ReservaController extends Controller
         return response()->success($reservasHorariosDoDia);
     }
 
-    public function historicoUsuario($idUsuario)
+    public function historicoUsuario($idUsuario, $idImovel)
     {
-        $Data = Reserva::historicoUsuario($idUsuario);
+        $Data = Reserva::historicoUsuario($idUsuario, $idImovel);
         return response()->success($Data);
     }
 

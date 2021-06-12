@@ -20,6 +20,28 @@ use Illuminate\Support\Facades\DB;
 
 class PautaController extends Controller
 {
+    public function store(Request $request, $id)
+    {
+        $data = $request->all();
+        $qtdePautas = AssembleiaPauta::where('id_assembleia', $id)->get()->count();
+
+        try {
+            DB::beginTransaction();
+            $pergunta = AssembleiaPergunta::create(['pergunta' => $data['pergunta']]);
+            $pergunta->assembleiaOpcoes()->createMany($data['alternativas']);
+            $pauta = AssembleiaPauta::create([
+                'numero' => 'Pauta ' . $qtdePautas,
+                'id_assembleia' => $id,
+                'id_pergunta' => $pergunta->id
+            ]);
+            DB::commit();
+
+            return response()->success($pauta);
+        } catch (\Exception $e) {
+            return response()->error($e->getMessage());
+        }
+    }
+
     public function show($id)
     {
         $pauta = AssembleiaPauta::join('assembleia_perguntas', 'assembleia_pautas.id_pergunta', 'assembleia_perguntas.id')

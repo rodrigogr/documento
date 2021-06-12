@@ -18,6 +18,26 @@ function assembleiaPautasCtrl ($scope, $state, $filter, UtilsService, AuthServic
     $scope.ultimaAlternativa = 0;
     $scope.motivoSuspender = '';
     $scope.totalVotos = 8;
+    $scope.pautas = [{
+        id: 'pauta1',
+        pergunta: '',
+        alternativas: [{
+            id: 'alternativa1',
+            opcao: ''
+        }, {
+            id: 'alternativa2',
+            opcao: ''
+        }]
+    }];
+
+    function limpaNovaPauta()
+    {
+        $scope.pautas[0].pergunta = ''
+        for (let i = 0; i < $scope.pautas[0].alternativas.length; i++){
+            $scope.pautas[0].alternativas[i].opcao = ''
+        }
+        $scope.pautas[0].alternativas.length = 2
+    }
 
     function getPautasAssembleia(id = 0)
     {
@@ -47,6 +67,15 @@ function assembleiaPautasCtrl ($scope, $state, $filter, UtilsService, AuthServic
         $('#abrePauta').modal('hide');
     }
 
+    $scope.abreNovaPauta = function (){
+        $('#novaPauta').modal('show');
+    }
+
+    $scope.fechaNovaPauta = function () {
+        limpaNovaPauta()
+        $('#novaPauta').modal('hide');
+    }
+
     $scope.abreSuspenderPauta = function (){
         $('#suspenderPauta').modal('show');
         $('#abrePauta').modal('hide');
@@ -57,9 +86,14 @@ function assembleiaPautasCtrl ($scope, $state, $filter, UtilsService, AuthServic
         $scope.motivoSuspender = '';
     }
 
-    $scope.addNewAlternativa = function(index) {
+    $scope.addNewAlternativa = function() {
         var newItemNo = $scope.pautaSelecao.alternativas.length+1;
         $scope.pautaSelecao.alternativas.push({'id' : 'newOpcao' + newItemNo, 'opcao' : '', 'name' : 'Alternativa'});
+    };
+
+    $scope.addNewAlternativaNewPauta = function(index) {
+        var newItemNo = $scope.pautas[index].alternativas.length+1;
+        $scope.pautas[index].alternativas.push({'id' : 'newOpcao' + newItemNo, 'opcao' : '', 'name' : 'Alternativa'});
     };
 
     $scope.removeAlternativa = function(index, id) {
@@ -71,6 +105,33 @@ function assembleiaPautasCtrl ($scope, $state, $filter, UtilsService, AuthServic
             }, function(error) {
                 UtilsService.openAlert(error.data.message);
             });
+    };
+
+    $scope.removeAlternativasNewPauta = function (indexPauta) {
+        var newItemNo = $scope.pautas[indexPauta].alternativas.length - 1;
+        if (newItemNo !== 0) {
+            $scope.pautas[indexPauta].alternativas.pop();
+        }
+    };
+
+    $scope.salvarPauta = async function () {
+        await UtilsService.confirmAlert('Salvar nova pauta?');
+        $http({
+            method: "POST",
+            url: `${config.apiUrl}api/pautas/`+$state.params.id,
+            data: $scope.pautas[0],
+            headers: {
+                'Authorization': 'Bearer ' + AuthService.getToken()
+            }
+        })
+            .then(function(response) {
+                UtilsService.toastSuccess("Pauta salva com sucesso!");
+                limpaNovaPauta();
+                getPautasAssembleia();
+            }, function(error) {
+                UtilsService.openAlert(error.data.message);
+            }).finally( ()=> {$('#novaPauta').modal('hide')});
+
     };
 
     $scope.salvarAlteracoesPauta = async function(){
@@ -206,7 +267,7 @@ function assembleiaPautasCtrl ($scope, $state, $filter, UtilsService, AuthServic
         });
     }
 
-    $scope.showAddAlternativa = function (alternativa) {
-        return alternativa.id === $scope.pautaSelecao.alternativas[$scope.pautaSelecao.alternativas.length - 1].id;
-    };
+    // $scope.showAddAlternativa = function (alternativa) {
+    //     return alternativa.id === $scope.pautaSelecao.alternativas[$scope.pautaSelecao.alternativas.length - 1].id;
+    // };
 }

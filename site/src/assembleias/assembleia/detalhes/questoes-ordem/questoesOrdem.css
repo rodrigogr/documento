@@ -67,7 +67,7 @@
     background-color: #FFECE5;
 }
 
-.badge-style.badge-recurso-deferido {
+.badge-style.badge-recurso-deferido, .badge-style.badge-deferida {
     color: #219653;
     background-color: #C8F5D7;
 }

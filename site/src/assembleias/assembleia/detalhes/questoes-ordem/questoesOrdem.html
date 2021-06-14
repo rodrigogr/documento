@@ -74,7 +74,7 @@
                             <div class="row">
                                 <div class="col-xs-3">{{questao.data_hora}}</div>
                                 <div class="col-xs-3">
-                                    <span class=" uppercase badge-style {{questao.status.toLowerCase() === 'pendente de decisão' ? 'badge-pendente-decisao' : questao.status.toLowerCase() === 'recurso indeferido' ? 'badge-recurso-indeferido' : questao.status.toLowerCase() === 'indeferida' ? 'badge-indeferida' : questao.status.toLowerCase() === 'recurso deferido' ? 'badge-recurso-deferido' : 'badge-recurso-pendente'}}">
+                                    <span class=" uppercase badge-style {{questao.status.toLowerCase() === 'pendente de decisão' ? 'badge-pendente-decisao' : questao.status.toLowerCase() === 'recurso indeferido' ? 'badge-recurso-indeferido' : questao.status.toLowerCase() === 'indeferida' ? 'badge-indeferida' : questao.status.toLowerCase() === 'recurso deferido' ? 'badge-recurso-deferido' : questao.status.toLowerCase() === 'deferida' ? 'badge-deferida' : 'badge-recurso-pendente'}}">
                                         {{questao.status}}
                                     </span>
                                 </div>

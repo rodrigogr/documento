@@ -198,7 +198,7 @@
 
 
         <div class="modal fade" id="editarAssembleia" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="false">
-            <div class="modal-dialog assembleia-modal" role="document">
+            <div class="modal-dialog assembleia-modal-50pc" role="document">
                 <div class="modal-content assembleia-content">
                     <!-- Header -->
                     <div class="modal-header assembleia-header">
@@ -207,11 +207,6 @@
                                 <i class="icon-ba-building text-center text-primary ba__margin-horizontal-5 icon-modal-title"></i>
                                 <span>{{ assembleia.id ? 'Editar Assembleia' : 'Novo Assembleia'}}</span>
                             </h4>
-                        </div>
-                        <div class="row check-assembleia">
-                            <span class="col-sm-7 col-sm-offset-1"><h4><b ng-class="{'step-selecionado': step == 1}" ng-click="goStep(1)">1</b> Dados Gerais</h4></span>
-                            <span class="col-sm-7 col-sm-offset-1"><h4><b ng-class="{'step-selecionado': step == 2}" ng-click="goStep(2)">2</b> Pautas</h4></span>
-                            <span class="col-sm-6 col-sm-offset-2"><h4><b ng-class="{'step-selecionado': step == 3}" ng-click="goStep(3)">3</b> Participantes</h4></span>
                         </div>
                     </div>
                     <!-- Form Mean -->
@@ -222,7 +217,7 @@
                         <form name="formAssembleia">
                             <div class="row">
                                 <!--STEP 1 DADOS GERAIS-->
-                                <div class="form-group col-xs-14 ba__margin-top-20" id="step1" ng-show="step === 1">
+                                <div class="form-group col-xs-24 ba__margin-top-20" id="step1" ng-show="step === 1">
 
                                     <div class="row ba__margin-bottom-30">
                                         <div class="col-md-24">
@@ -421,26 +416,26 @@
                                     </div>  
                                     
                                     
-                                    <div class="row ba__margin-bottom-30" ng-show="false">
-                                        <div class="col-md-2 ba__margin-right-20" style="padding: 0 15px;">
-                                            <div class="onoffswitch">
-                                                <input type="checkbox" 
-                                                        name="onoffswitch"
-                                                        class="onoffswitch-checkbox"
-                                                        id="capacidade"
-                                                        checked
-                                                        ng-model="assembleia.votacao_secreta">
-                                                <label class="onoffswitch-label" for="capacidade">
-                                                    <span class="onoffswitch-inner"></span>
-                                                    <span class="onoffswitch-switch"></span>
-                                                </label>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-10">
-                                            <h5 class="text-left"
-                                                style="padding: 0; margin: 6px;">Votação secreta</h5>
-                                        </div>  
-                                    </div>
+<!--                                    <div class="row ba__margin-bottom-30" >-->
+<!--                                        <div class="col-md-2 ba__margin-right-20" style="padding: 0 15px;">-->
+<!--                                            <div class="onoffswitch">-->
+<!--                                                <input type="checkbox" -->
+<!--                                                        name="onoffswitch"-->
+<!--                                                        class="onoffswitch-checkbox"-->
+<!--                                                        id="capacidade"-->
+<!--                                                        checked-->
+<!--                                                        ng-model="assembleia.votacao_secreta">-->
+<!--                                                <label class="onoffswitch-label" for="capacidade">-->
+<!--                                                    <span class="onoffswitch-inner"></span>-->
+<!--                                                    <span class="onoffswitch-switch"></span>-->
+<!--                                                </label>-->
+<!--                                            </div>-->
+<!--                                        </div>-->
+<!--                                        <div class="col-md-10">-->
+<!--                                            <h5 class="text-left"-->
+<!--                                                style="padding: 0; margin: 6px;">Votação secreta</h5>-->
+<!--                                        </div>  -->
+<!--                                    </div>-->
 
                                     <div class="row ba__margin-bottom-30">
                                         <p style="margin: 0 0 15px; padding: 0 15px; text-transform: uppercase; font-size: 16px;">
@@ -470,173 +465,16 @@
                                     </div>
                                     
                                 </div>
-
-                                <!--STEP 2 PARAMETRIZAÇÕES-->
-                                <div class="form-group col-xs-24" id="step2" ng-show="step === 2">
-                                    
-                                    <!-- <pre>
-                                        {{ assembleia.pautas | json }}
-                                    </pre> -->
-
-                                    <div ng-repeat="(pautaIndex, pauta) in assembleia.pautas"
-                                        style="border-bottom: solid 2px #d8d8d8; padding: 0 0 20px; margin: 0 0 20px;">
-                                    
-                                        <div class="row ba__margin-bottom-30">
-                                            <div class="col-md-22">
-                                                <div style="padding: 15px;">
-                                                    <div class="control-input">
-                                                        <textarea 
-                                                            name="titulo"
-                                                            ng-model="pauta.pergunta"
-                                                            value="pauta.id"
-                                                            placeholder=" " 
-                                                            class="ng-pristine ng-valid ng-touched"
-                                                            required
-                                                            aria-invalid="false"
-                                                            rows="4"
-                                                            cols="33">
-                                                        </textarea>
-                                                        <span>PAUTA </span><!-- {{pautaIndex}} -->
-                                                    </div>
-                                                </div>   
-                                            </div>
-                                            <div class="col-md-2">
-                                                <div style="display: flex;
-                                                        align-items: center;
-                                                        justify-content: start;
-                                                        font-size: 28px;
-                                                        padding: 15px;
-                                                        min-height: 80px;
-                                                        color: #999;">
-                                                    <i class="fa fa-trash"
-                                                    style="margin-right: 15px;"
-                                                        ng-click="removeNewPauta()"></i>                                                       
-                                                </div>
-                                            </div>                                     
-                                        </div>
-
-                                        <div class="row"
-                                            ng-repeat="alternativa in pauta.alternativas">
-                                            <div class="col-md-22">
-                                                <div style="padding: 15px;">
-                                                    <div class="control-input">
-                                                        <input 
-                                                            type="text" 
-                                                            name="alternativa"
-                                                            ng-model="alternativa.opcao"
-                                                            value="alternativa.id"
-                                                            placeholder=" " 
-                                                            autocomplete="off" 
-                                                            class="ng-pristine ng-valid ng-touched"
-                                                            required
-                                                            aria-invalid="false">
-                                                        <span>Alternativa</span> <!-- {{$index}} -->
-                                                    </div>
-                                                </div>   
-                                            </div> 
-                                            <div class="col-md-2">
-                                                <div style="display: flex;
-                                                        align-items: center;
-                                                        justify-content: start;
-                                                        font-size: 28px;
-                                                        padding: 15px;
-                                                        min-height: 80px;
-                                                        color: #999;">
-                                                    <i class="fa fa-trash"
-                                                    style="margin-right: 15px;"
-                                                        ng-click="removeNewAlternativas(pautaIndex)"></i>
-                                                    <i class="fa fa-plus-circle"
-                                                        ng-show="showAddAlternativa(alternativa, pautaIndex)"
-                                                        ng-click="addNewAlternativa(pautaIndex)"  
-                                                    ></i>
-                                                </div>
-                                            </div>                                        
-                                        </div>  
-                                    
-                                    </div>
-                                    
-                                    <button class="btn col-md-5" 
-                                        style="background-color: transparent;
-                                        color: #ff6633; 
-                                        border: solid 1px #ff6633;
-                                        margin-left: 15px;" 
-                                        type="button"
-                                        ng-click="addNewPauta()">
-                                        NOVA PAUTA
-                                    </button>
-                                </div>
-
-                                <!--STEP 3 PERÍODOS-->
-                                <div class="form-group col-xs-24" id="step3" ng-show="step === 3"
-                                    style="background-color: #F2F2F2; padding: 60px 15px 30px 15px;">
-                                    <div class="row">
-                                        
-                                        <div class="row uppercase titulo-lista"
-                                            style="padding: 10px 20px;">
-                                            <div class="col-xs-2"></div>
-                                            <div class="col-xs-4">
-                                                <b>Unidade</b> 
-                                            </div>
-                                            <div class="col-xs-2">
-                                                <b>PESO</b> 
-                                            </div>
-                                            <div class="col-xs-4">
-                                                <b>STATUS</b> 
-                                            </div>
-                                            <div class="col-xs-8">
-                                                <b>Procurador</b> 
-                                            </div>
-                                            <div class="col-xs-4"></div>
-                                        </div>
-
-                                        <ul class="list-group">
-                                            <li  class="list-group-item"
-                                                ng-repeat="participante in assembleia.participantes">
-                                                
-                                                <h5 class="col-xs-2 list-group-item-heading check-styled">
-                                                    <div class="checkbox">
-                                                        <label>
-                                                          <input type="checkbox"  ng-model="participante.participar">
-                                                        </label>
-                                                    </div>
-                                                </h5>
-                                                <h5 class="col-xs-4 list-group-item-heading">Qd {{participante.quadra}} Lt. {{participante.lote}}</h5>
-                                                <h5 class="col-xs-2 list-group-item-heading">x{{participante.peso_voto}}</h5>
-                                                
-                                                <h5 class="col-xs-4 list-group-item-heading">
-                                                    <span class="badge-style {{participante.participar ? ' badge-participante-ativo' : ' badge-participante-impedido' }}">
-                                                        {{ participante.participar ? 'Participando' : 'Impedido' }}
-                                                    </span>
-                                                </h5>
-                                                <h5 class="col-xs-8 list-group-item-heading">
-                                                    {{ participante.procurador }}
-                                                </h5>
-                                                <h5 class="col-xs-4 list-group-item-heading text-right"></h5>
-                                            </li>
-                                        </ul>
-                                    </div>
-<!--                                    <pre>-->
-<!--                                        {{-->
-<!--                                        assembleia | json-->
-<!--                                        }}-->
-<!--                                    </pre>-->
-                                </div>
                             </div>
                         </form>
                     </div>
                     <!-- Footer -->
                     <div class="modal-footer" style="margin: 20px">
-                        <button ng-if="assembleia.id" type="button" class="btn btn-success col-md-5 pull-right" ng-show="step == 3"
+                        <button ng-if="assembleia.id" type="button" class="btn btn-success col-md-5 pull-right"
                                 ng-disabled="formAssembleia.$invalid"
                                 style="margin-left: 5px"
                                 ng-click="update()">
                             Editar
-                        </button>
-                        <button type="button" ng-click="goStep('+')" class="btn btn-success col-md-5 col-md-offset-1 pull-right" ng-show="step < 3">
-                            Próximo passo
-                        </button>
-                        <button type="button" ng-click="goStep('-')" class="btn btn-default col-md-5 pull-right" ng-show="step > 1">
-                            Voltar
                         </button>
                         <button type="button" class="btn btn-default btn-clear col-md-5 pull-right" ng-click="closeEditarAssembleia()">
                             Cancelar

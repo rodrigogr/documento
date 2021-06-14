@@ -36,3 +36,8 @@ button#abrirVotacaos {
     color: #FF6633;
     text-decoration: underline;
 }
+
+.link-button:hover {
+    color: #FF6633;
+    text-decoration: underline;
+}

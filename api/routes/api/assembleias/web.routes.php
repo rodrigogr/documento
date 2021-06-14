@@ -51,6 +51,8 @@ Route::get( '/assembleias/pauta/get/{id}', 'assembleia\PautaController@show');
 
 Route::get('/pautas/{id}', 'assembleia\PautaController@show');
 
+Route::post('/pautas/{id}', 'assembleia\PautaController@store');
+
 Route::put('/pautas/{id}', 'assembleia\PautaController@update');
 
 Route::put('/pauta/status/{id}', 'assembleia\PautaController@updateStatus');

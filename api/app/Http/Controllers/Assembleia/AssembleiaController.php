@@ -89,38 +89,39 @@ class AssembleiaController extends Controller
                     }
                 }
 
-                foreach ($data['pautas'] as $item)
-                {
-                    if (is_null($item['id']))
-                    {
-                        $pergunta = AssembleiaPergunta::create(['pergunta'=> $item['pergunta']]);
-                        $pergunta->assembleiaOpcoes()->createMany($item['alternativas']);
-                        $assembleia->pautas()->create(['id_pergunta' => $pergunta->id]);
-                    }
-                    else
-                    {
-                        $pauta = AssembleiaPauta::find($item['id']);
-
-                        if($pauta)
-                        {
-                            AssembleiaPergunta::where('id', $pauta->id_pergunta)->update(['pergunta'=> $item['pergunta']]);
-                            // update alternatinas
-                            foreach ($item['alternativas'] as $alternativa)
-                            {
-                                $opcao = AssembleiaOpcao::find($alternativa['id']);
-
-                                if ($opcao)
-                                {
-                                    $opcao->update($alternativa);
-                                }
-                                else
-                                {
-                                    AssembleiaOpcao::create(['opcao'=> $alternativa['opcao'], 'id_pergunta' => $pauta->id_pergunta]);
-                                }
-                            }
-                        }
-                    }
-                }
+//                foreach ($data['pautas'] as $key => $item)
+//                {
+//                    $i = $key +1;
+//
+//                    $nuermoPauta = $i > 9 ? $i : 0 . $i;
+//
+//                    $pauta = AssembleiaPauta::find($item['id']);
+//
+//                    if($pauta)
+//                    {
+//                        AssembleiaPergunta::where('id', $pauta->id_pergunta)->update(['pergunta'=> $item['pergunta']]);
+//                        // update alternatinas
+//                        foreach ($item['alternativas'] as $alternativa)
+//                        {
+//                            $opcao = AssembleiaOpcao::find($alternativa['id']);
+//
+//                            if ($opcao)
+//                            {
+//                                $opcao->update($alternativa);
+//                            }
+//                            else
+//                            {
+//                                AssembleiaOpcao::create(['opcao'=> $alternativa['opcao'], 'id_pergunta' => $pauta->id_pergunta]);
+//                            }
+//                        }
+//                    }
+//                    else
+//                    {
+//                        $pergunta = AssembleiaPergunta::create(['pergunta'=> $item['pergunta']]);
+//                        $pergunta->assembleiaOpcoes()->createMany($item['alternativas']);
+//                        $assembleia->pautas()->create(['id_pergunta' => $pergunta->id, 'numero'=> $nuermoPauta]);
+//                    }
+//                }
 
                 // update participantes
 
@@ -142,27 +143,28 @@ class AssembleiaController extends Controller
     {
         $assembleia = Assembleia::find($id);
 
-        $assembleia['pautas'] = $assembleia->pautas()
-            ->join('assembleia_perguntas', 'assembleia_pautas.id_pergunta', '=', 'assembleia_perguntas.id')
-            ->get();
+//        $assembleia['pautas'] = $assembleia->pautas()
+//            ->join('assembleia_perguntas', 'assembleia_pautas.id_pergunta', '=', 'assembleia_perguntas.id')
+//            ->select('assembleia_pautas.id', 'assembleia_pautas.id_assembleia', 'assembleia_pautas.id_pergunta', 'numero','status','pergunta')
+//            ->get();
 
-        $participantes = AssembleiaParticipante::join('bioacesso_portaria.imovel','assembleia_participantes.id_imovel', '=','imovel.id')
-            ->leftJoin('bioacesso_portaria.pessoa','assembleia_participantes.id_procurador', '=', 'pessoa.id')
-            ->select('imovel.id as id_imovel', 'quadra', 'lote', 'logradouro', 'numero', 'peso_voto', 'pessoa.nome as produrador', 'pessoa.id as id_procurador')
-            ->where('id_assembleia', $id)->get();
+//        $participantes = AssembleiaParticipante::join('bioacesso_portaria.imovel','assembleia_participantes.id_imovel', '=','imovel.id')
+//            ->leftJoin('bioacesso_portaria.pessoa','assembleia_participantes.id_procurador', '=', 'pessoa.id')
+//            ->select('imovel.id as id_imovel', 'quadra', 'lote', 'logradouro', 'numero', 'peso_voto', 'pessoa.nome as produrador', 'pessoa.id as id_procurador')
+//            ->where('id_assembleia', $id)->get();
+//
+//        foreach ($participantes as $participante)
+//        {
+//            $participante['participar'] = true;
+//        }
+//
+//        $assembleia['participantes'] = $participantes;
 
-        foreach ($participantes as $participante)
-        {
-            $participante['participar'] = true;
-        }
-
-        $assembleia['participantes'] = $participantes;
-
-        foreach ($assembleia['pautas'] as $key => $pauta)
-        {
-            $opcoes = AssembleiaOpcao::where('id_pergunta', $pauta['id_pergunta'])->get();
-            $assembleia['pautas'][$key]['alternativas'] = $opcoes;
-        }
+//        foreach ($assembleia['pautas'] as $key => $pauta)
+//        {
+//            $opcoes = AssembleiaOpcao::where('id_pergunta', $pauta['id_pergunta'])->get();
+//            $assembleia['pautas'][$key]['alternativas'] = $opcoes;
+//        }
 
         return response()->success($assembleia);
     }
@@ -427,6 +429,9 @@ class AssembleiaController extends Controller
         $data = $request->all();
 
         $assembleia = Assembleia::find($data['id_assembleia']);
+
+        AssembleiaPauta::where('assembleia_pautas.id_assembleia', $assembleia->id)
+            ->update(['status' => 'aberta para votacao']);
 
         if (!$assembleia)
         {

@@ -1,8 +1,9 @@
 <div class="row">
     <div class="row ba__margin-top-20">
         <h3 class="col-md-20 Roboto-Light">
-            <strong>{{resumoPautas.length}}</strong> resultados</h3>
-        <button type="button" class="btn btn-success col-xs-4 uppercase" style="margin-top: 12px" ng-click="abreNovaPauta()">
+            <strong>{{resumoPautas.length}}</strong> resultados </h3>
+        <button type="button" class="btn btn-success col-xs-4 uppercase" style="margin-top: 12px"
+                ng-show="resumoPautas[0].statusAssembleia.toLowerCase() === 'andamento'" ng-click="abreNovaPauta()">
             Nova Pauta
         </button>
     </div>
@@ -351,7 +352,7 @@
                                     <div class="col-md-2">
                                         <div style=" display: flex; align-items: center; justify-content: start; font-size: 28px; padding: 15px; min-height: 80px; color: #999;">
                                             <i class="fa fa-trash" style="margin-right: 15px" ng-click="removeAlternativasNewPauta(pautaIndex)"></i>
-                                            <i class="fa fa-plus-circle" ng-click="addNewAlternativaNewPauta(pautaIndex)"></i>
+                                            <i class="fa fa-plus-circle" ng-show="showAddAlternativa(alternativa, pautaIndex)" ng-click="addNewAlternativaNewPauta(pautaIndex)"></i>
                                         </div>
                                     </div>
                                 </div>

@@ -273,6 +273,9 @@ class AssembleiaController extends Controller
             ->select('assembleia_pautas.id', 'assembleia_perguntas.pergunta', 'assembleia_pautas.id_pergunta', 'assembleia_pautas.status')
             ->where('id_assembleia', $id)->get();
 
+        $assembleia = Assembleia::find($id);
+        $assembleiaStatus = $assembleia->status;
+
         $result = array();
         foreach ($pautas as $pauta)
         {
@@ -285,7 +288,8 @@ class AssembleiaController extends Controller
                 'status' => $pauta->status,
                 'pauta' => $pauta->pergunta,
                 'alternativas' => $opcoes,
-                'votos' => $votos
+                'votos' => $votos,
+                'statusAssembleia' => $assembleiaStatus
             ];
 
         }

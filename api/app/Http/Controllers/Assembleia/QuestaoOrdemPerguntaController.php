@@ -58,7 +58,7 @@ class QuestaoOrdemPerguntaController
 
         $votacoes = AssembleiaQuestaoOrdemPergunta::
         join('assembleia_perguntas', 'assembleia_questoes_ordens_perguntas.id_pergunta', '=', 'assembleia_perguntas.id')
-            ->select('assembleia_questoes_ordens_perguntas.id', 'assembleia_perguntas.pergunta','votacao_data_fim','votacao_hora_fim')
+            ->select('assembleia_questoes_ordens_perguntas.id_pergunta', 'assembleia_perguntas.pergunta','votacao_data_fim','votacao_hora_fim')
             ->where('id_assembleia',$idAssembleia)->get();
 
 

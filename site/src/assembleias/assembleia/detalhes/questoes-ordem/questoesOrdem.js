@@ -188,8 +188,8 @@ function assembleiaQuestoesOrdemCtrl($scope, $http, $state, $filter, AuthService
             .then(function(response) {
                 UtilsService.toastSuccess("Nova votacão criada com sucesso!");
                 $('#novaVotacao').modal('hide');
-                // $scope.limpar();
-                 $scope.listaVotacoesQuestoesOrdem();
+
+                 listaVotacoesQuestoesOrdem();
             }, function(error) {
                 UtilsService.openAlert(error.data.message);
             }).finally( () => { $("#loading").modal("hide") });

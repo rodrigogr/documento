@@ -85,18 +85,19 @@ class QuestaoOrdemPerguntaController
             ");
 
             $votacoes[$key]['imoveis'] = $imoveis;
+
+            if ($imoveis && count($imoveis) > 0)
+            {
+                $result['pode_participar'] = true;
+            }
+            else
+            {
+                $result['pode_participar'] = false;
+            }
         }
 
         $result['perguntas'] = $votacoes;
 
-        if ($imoveis && count($imoveis) > 0)
-        {
-            $result['pode_participar'] = true;
-        }
-        else
-        {
-            $result['pode_participar'] = false;
-        }
 
         return response()->success($result);
     }

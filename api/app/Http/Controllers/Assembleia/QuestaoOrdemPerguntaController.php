@@ -64,20 +64,18 @@ class QuestaoOrdemPerguntaController
 
         foreach ($votacoes as $key => $votacao)
         {
-            $opcoes = AssembleiaOpcao::where('assembleia_opcoes.id_pergunta', $votacao['id'])
+            $idPergunta =  $votacao['id'];
+            $opcoes = AssembleiaOpcao::where('assembleia_opcoes.id_pergunta', $idPergunta)
                 ->select('assembleia_opcoes.id','opcao')
                 ->get();
             $votacoes[$key]['alternativas'] = $opcoes;
-        }
 
-        $result['perguntas'] = $votacoes;
-
-        $imoveis = DB::select("
+            $imoveis = DB::select("
                 select 
                     ap.id_imovel, 
                     concat('QD ', i.quadra,' / ', 'LT ', i.lote) as imovel,
                     concat('Peso x ', i.peso_voto) as complemnto,
-                    (select count(*) > 0 from assembleia_questoes_ordens_votacoes aqov where aqov.imovel = i.id and id_assembleia  = $idAssembleia ) as voto_realizado,        
+                    (select count(*) > 0 from assembleia_questoes_ordens_votacoes aqov where aqov.imovel = i.id and id_assembleia  = $idAssembleia and id_pergunta = $idPergunta ) as voto_realizado,        
                     i.peso_voto
                 from assembleia_participantes ap
                 inner join bioacesso_portaria.imovel_permanente ip on ap.id_imovel = ip.id_imovel and ip.id_pessoa = $idPessoa
@@ -86,7 +84,10 @@ class QuestaoOrdemPerguntaController
                 where id_assembleia =  $idAssembleia and tp.nome ='associado' and ip.id_pessoa = $idPessoa
             ");
 
-        $result['imoveis'] = $imoveis;
+            $votacoes[$key]['imoveis'] = $imoveis;
+        }
+
+        $result['perguntas'] = $votacoes;
 
         if ($imoveis && count($imoveis) > 0)
         {

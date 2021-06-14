@@ -163,7 +163,7 @@ function assembleiaQuestoesOrdemCtrl($scope, $http, $state, $filter, AuthService
     {
         var promisse = ($http.get(`${config.apiUrl}api/assembleias/questoes-ordem-votacoes/verifica-votacao-aberta/`+ $state.params.id));
         promisse.then(function (retorno) {
-            if (retorno.data)
+            if (retorno.data.data)
             {
                 UtilsService.openAlert("Só é possível uma votação por vez. Necessário encerrar a votação atual.");
                 return;
@@ -210,7 +210,7 @@ function assembleiaQuestoesOrdemCtrl($scope, $http, $state, $filter, AuthService
         var promisse = ($http.get(`${config.apiUrl}api/assembleias/questoes-ordem-votacoes/encerrar-votacoes/`+ $state.params.id));
 
         promisse.then(function (retorno) {
-          
+
         }).finally( () => {
             $(".loader").hide();
         });

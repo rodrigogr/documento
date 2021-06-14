@@ -161,9 +161,19 @@ function assembleiaQuestoesOrdemCtrl($scope, $http, $state, $filter, AuthService
 
     $scope.abreNovaVotacao = function ()
     {
-        $scope.novaVotacao.id_assembleia = $state.params.id;
+        var promisse = ($http.get(`${config.apiUrl}api/assembleias/questoes-ordem-votacoes/verifica-votacao-aberta/`+ $state.params.id));
+        promisse.then(function (retorno) {
+            if (retorno.data)
+            {
+                UtilsService.openAlert("Só é possível uma votação por vez. Necessário encerrar a votação atual.");
+                return;
+            }
+            $scope.novaVotacao.id_assembleia = $state.params.id;
+            $('#novaVotacao').modal('show');
+        }).finally( () => {
+            $(".loader").hide();
+        });
 
-        $('#novaVotacao').modal('show');
     }
 
     $scope.fechaNovaVotacao = function ()
@@ -193,5 +203,17 @@ function assembleiaQuestoesOrdemCtrl($scope, $http, $state, $filter, AuthService
             }, function(error) {
                 UtilsService.openAlert(error.data.message);
             }).finally( () => { $("#loading").modal("hide") });
+    }
+
+    $scope.encerraVotacaoQuestaoOrdem = function ()
+    {
+        var promisse = ($http.get(`${config.apiUrl}api/assembleias/questoes-ordem-votacoes/encerrar-votacoes/`+ $state.params.id));
+
+        promisse.then(function (retorno) {
+          
+        }).finally( () => {
+            $(".loader").hide();
+        });
+
     }
 }

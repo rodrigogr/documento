@@ -91,6 +91,10 @@ Route::get('/assembleias/documento/open/{id}', 'assembleia\DocumentoController@a
 
 Route::get('/assembleias/questoes-ordem-votacoes/{id}', 'assembleia\QuestaoOrdemPerguntaController@index');
 
+Route::get('/assembleias/questoes-ordem-votacoes/verifica-votacao-aberta/{id}', 'assembleia\QuestaoOrdemPerguntaController@verificaVotacaoAberta');
+
+Route::get('/assembleias/questoes-ordem-votacoes/encerrar-votacoes/{id}', 'assembleia\QuestaoOrdemPerguntaController@encerrarVotacaoQuestaoOrdem');
+
 Route::post('/assembleias/questoes-ordem-votacoes/', 'assembleia\QuestaoOrdemPerguntaController@store');
 
 Route::get('/assembleias/pauta/documento/open/{id}', 'assembleia\PautaAnexoController@abrirDocumento');

@@ -59,7 +59,7 @@ class QuestaoOrdemPerguntaController
         $votacoes = AssembleiaQuestaoOrdemPergunta::
         join('assembleia_perguntas', 'assembleia_questoes_ordens_perguntas.id_pergunta', '=', 'assembleia_perguntas.id')
             ->select('assembleia_perguntas.id', 'assembleia_perguntas.pergunta','votacao_data_fim','votacao_hora_fim')
-            ->where('id_assembleia',$idAssembleia)->get();
+            ->where('id_assembleia',$idAssembleia)->whereNull('encerramento_votacao')->get();
 
 
         foreach ($votacoes as $key => $votacao)
@@ -99,4 +99,26 @@ class QuestaoOrdemPerguntaController
 
         return response()->success($result);
     }
+
+    public function verificaVotacaoAberta ($idAssembleia)
+    {
+         $votacoes = AssembleiaQuestaoOrdemPergunta::where('id_assembleia',$idAssembleia)->whereNull('encerramento_votacao')->count();
+         if ($votacoes > 0)
+         {
+             return response()->success(true);
+         }
+
+        return response()->success(false);
+    }
+
+    public function encerrarVotacaoQuestaoOrdem ($idAssembleia)
+    {
+        $votacoes = AssembleiaQuestaoOrdemPergunta::where('id_assembleia',$idAssembleia)->whereNull('encerramento_votacao')->get();
+        foreach ($votacoes as $votacao)
+        {
+            $votacao->encerramento_votacao = date('Y-m-d H:i:s');
+            $votacao->update();
+        }
+    }
+
 }

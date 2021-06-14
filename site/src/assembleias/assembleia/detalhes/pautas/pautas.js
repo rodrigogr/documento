@@ -267,7 +267,7 @@ function assembleiaPautasCtrl ($scope, $state, $filter, UtilsService, AuthServic
         });
     }
 
-    // $scope.showAddAlternativa = function (alternativa) {
-    //     return alternativa.id === $scope.pautaSelecao.alternativas[$scope.pautaSelecao.alternativas.length - 1].id;
-    // };
+    $scope.showAddAlternativa = function (alternativa, indexPauta) {
+        return alternativa.id === $scope.pautas[indexPauta].alternativas[$scope.pautas[indexPauta].alternativas.length - 1].id;
+    };
 }

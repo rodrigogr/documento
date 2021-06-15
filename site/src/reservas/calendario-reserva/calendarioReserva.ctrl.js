@@ -121,6 +121,8 @@ angular.module('ReservasModule').controller('CalendarioReservaCtrl',
         }
 
         $scope.selecionaLocal = function (id_local) {
-            console.log(id_local);
+            $(".list-locaisReservaveis").removeClass("itemSelecionado");
+            $("#subItem"+id_local).addClass("itemSelecionado");
+            montaCalendario(id_local);
         }
     });

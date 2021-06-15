@@ -215,9 +215,13 @@ class Reserva extends Model
             ->where('r.id_local_reservavel', $id_local)
             ->join('bioacesso_portaria.pessoa as p', 'p.id', 'r.id_pessoa')
             ->join('periodo_local_reservavel as plr', 'plr.id', 'r.id_periodo')
-            ->select(DB::raw("concat(date_format(plr.hora_ini,'%H:%i'), ' ', p.nome) as title"),
+            ->select(DB::raw("concat(date_format(plr.hora_ini,'%H:%i'), ' ', p.nome, ' (', r.status,')') as title"),
                 DB::raw('r.data as start'),
-                DB::raw("if (r.status = 'pendente', '#F2C94C' , '') as color")
+                DB::raw("(CASE r.status 
+                            WHEN 'pendente' THEN '#eaa404'
+                            WHEN 'recusada' THEN '#a96464'
+                            WHEN 'aprovado' THEN ''
+                         END) as color")
             )
             ->get();
 

@@ -31,3 +31,5 @@ require_once('api/reservas/app.routes.php');
 
 require_once ('api/assembleias/web.routes.php');
 require_once ('api/assembleias/app.routes.php');
+
+require_once ('api/documentos/web.routes.php');

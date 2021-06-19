@@ -50,6 +50,19 @@ function sidebarCtrl($scope, LoginService, AuthService) {
                 }
             ]
          },
+        {
+            'menu_principal': {
+                'cod': 'documento',
+                'nome': 'Documento Online',
+                'icon': 'fa fa-file-text'
+            },
+            'submenus': [
+                {
+                    'cod': 'documento',
+                    'nome': 'Documento'
+                }
+            ]
+         },
         // {
 	    //     'menu_principal': {
         //         'cod': 'contasPagar',

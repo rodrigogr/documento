@@ -14,7 +14,7 @@ angular.module('DocumentosModule', [
 		$stateProvider
 			.state('documento', {
 				url: "/documento",
-				templateUrl: 'src/documentos/documentos/categorias.ctrl.html',
+				templateUrl: 'src/documentos/documentos/documentos.ctrl.html',
 				controller: 'DocumentosCtrl',
 				resolve: {onEnter: () => window.stop()}
 			})

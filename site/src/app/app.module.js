@@ -3,6 +3,7 @@ angular.module('AppModule', [
         'ContasPagarModule',
         'ReservasModule',
         'AssembleiasModule',
+        'DocumentosModule',
         'ui.router',
         'appServices',
         'appDirectives',

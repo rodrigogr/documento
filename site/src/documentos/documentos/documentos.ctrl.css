@@ -51,6 +51,73 @@
   border-radius: 8px;
 }
 
+.documento-banner {
+  height: 120px;
+  width: 100%;
+  border-top: 1px solid #e8e8e8;
+  border-bottom: 1px solid #c5c5c5;
+  background: #ffffff;
+}
+
+.documento-banner-title {
+  margin: 0 0 20px;
+  height: 30px;
+  border: 1px #e8e8e8 none;
+  border-radius: 50px;
+  color: #8d8d8d;
+  float: left;
+  text-align: center;
+  font-size: 35px;
+  display: flex;
+}
+
+h1{
+  padding: 20px;
+}
+
+.documento-banner-title img{
+  width: 150px;
+  height: 115px;
+}
+
+.btn {
+  padding: 15px 50px;
+  margin: 30px 10px;
+  border-radius: 30px;
+  box-sizing: border-box;
+}
+
+.btn-categories {
+  border: 1px solid #828282;
+  background: none;
+  color: #ff6633;
+}
+
+.btn-categories:hover {
+  color: #ff0000;
+}
+
+.btn-new-document {
+  border: 1px solid #828282;
+  box-sizing: border-box;
+  border-radius: 30px;
+  background: none;
+  color: #ff6633;
+  padding: 15px 50px;
+}
+
+.list-documents {
+  margin: 40px 20px;
+  height: 85%;
+  box-shadow: none;
+}
+
+.list-header{
+  font-size: 20px;
+  height: 85%;
+  font-weight: bold;
+}
+
 .documento-modal {
   width: 60%;
 }

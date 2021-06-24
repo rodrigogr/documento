@@ -14,9 +14,16 @@
             <!--Banner Documentos-->
             <div class="row documento-banner">
                 <div class="col-xs-24 documento-banner-title">
-                    <h1 class="cff6633"><i class="cff6633 fa fa-file-text"></i> Documentos</h1>
-                    <!--<img id="bg-image-document" src="img/bg-banner-document.png">-->
-                    <img id="logo-document" src="img/logo_document.png">
+                    <h1 class="cff6633">
+                        <span style="border-radius: 100%; background-color: #FFE4BF; padding: 15px;
+                            display: inline-flex; vertical-align: middle;">
+                            <i class="fa fa-file-text" style="font-size: 3rem"></i>
+                        </span>
+                        Documentos</h1>
+                    <div style="width: 49%; position: relative; overflow: hidden; display: flex; padding-bottom: 118px">
+                        <img id="bg-image-document" src="img/bg-banner-document.png">
+                        <img id="logo-document" src="img/logo_document.png">
+                    </div>
                     <span>
                         <button class="btn btn-categories ba__font-size-17">Categorias</button>
                         <button class="btn btn-primary ba__font-size-17">+ Novo Documento</button>
@@ -27,35 +34,17 @@
             <!-- Listagem de Documentos-->
             <div class="row">
                 <div class="list-documents">
-                    <div class="row list-header">
+                    <div class="row list-header uppercase">
                         <div class="col-xs-5">Nome</div>
                         <div class="col-xs-5">Categoria</div>
                         <div class="col-xs-5">Envio</div>
                     </div>
                     <div class="ba__admin-table-scroll">
-                        <div class="list-body list-group-item ba__pointer">
+                        <div class="list-body list-group-item ba__pointer" ng-repeat="document in listDocuments">
                             <div class="row ba__font-size-15">
-                                <div class="col-xs-5">Nome 1</div>
-                                <div class="col-xs-5">Categoria 1</div>
-                                <div class="col-xs-5">Envio 1</div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="ba__admin-table-scroll">
-                        <div class="list-body list-group-item ba__pointer">
-                            <div class="row ba__font-size-15">
-                                <div class="col-xs-5">Nome 2</div>
-                                <div class="col-xs-5">Categoria 2</div>
-                                <div class="col-xs-5">Envio 2</div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="ba__admin-table-scroll">
-                        <div class="list-body list-group-item ba__pointer">
-                            <div class="row ba__font-size-15">
-                                <div class="col-xs-5">Nome 3</div>
-                                <div class="col-xs-5">Categoria 3</div>
-                                <div class="col-xs-5">Envio 3</div>
+                                <div class="col-xs-5">{{document.nome}}</div>
+                                <div class="col-xs-5">{{document.categoria}}</div>
+                                <div class="col-xs-5">{{document.data_postagem}}</div>
                             </div>
                         </div>
                     </div>

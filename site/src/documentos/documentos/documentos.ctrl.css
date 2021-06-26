@@ -51,7 +51,7 @@
   border-radius: 8px;
 }
 
-.documento-banner {
+.document-banner {
   height: 120px;
   width: 100%;
   border-top: 1px solid #e8e8e8;
@@ -59,7 +59,7 @@
   background: #ffffff;
 }
 
-.documento-banner-title {
+.document-banner-title {
   margin: 0 0 20px;
   height: 30px;
   border: 1px #e8e8e8 none;
@@ -93,7 +93,7 @@ h1{
 .btn {
   padding: 15px 50px;
   margin: 30px 10px;
-  border-radius: 30px;
+  border-radius: 40px;
   box-sizing: border-box;
 }
 
@@ -127,31 +127,40 @@ h1{
   color: #a09e9a;
 }
 
-.documento-modal {
+.document-modal {
   width: 60%;
 }
 
-.documento-modal-50pc {
+.document-modal-50pc {
   width: 50%;
 }
 
-.documento-modal-40pc {
+.document-modal-40pc {
   width: 40%;
 }
 
-.documento-content,
-.documento-header {
+.document-content,
+.document-header {
   padding: 0px;
 }
 
-.check-documento {
+.ba__modal-body-category {
+  min-height: 425px;
+  overflow-y: auto;
+  background-color: #F2F2F2;
+  padding: 0px;
+  max-height: 70%;
+  height: 570px
+}
+
+.check-document {
   border-top: 1px solid #e2e2e2;
   border-bottom: 1px solid #e2e2e2;
   padding: 30px 20px 30px;
   margin-top: 11px;
 }
 
-.check-documento h4 b {
+.check-document h4 b {
   border: 1px solid #ccc;
   width: 55px;
   height: 55px;
@@ -174,14 +183,15 @@ h1{
   border: 0;
   border-bottom: 2px solid #999999;
   outline: none;
-  width: 100%;
+  width: 65%;
+  height: 80px;
   min-height: 60px;
   font-size: 18px;
   transition: all 0.3s ease-out;
   -webkit-transition: all 0.3s ease-out;
   -moz-transition: all 0.3s ease-out;
   -webkit-appearance: none;
-  background-color: #f3f3f3;
+  background-color: rgba(255, 102, 51, 0.04);
   border-radius: 8px 8px 0px 0px;
   padding: 16px 8px 8px 16px;
   color: #333;
@@ -200,12 +210,12 @@ h1{
   position: absolute;
   top: 0;
   left: 0;
-  margin-top: 20px;
-  margin-left: 16px;
+  margin-top: 15px;
+  margin-left: 5px;
   transition: all 0.3s ease-out;
   -webkit-transition: all 0.3s ease-out;
   -moz-transition: all 0.3s ease-out;
-  font-size: 16px;
+  font-size: 18px;
 }
 
 .control-input textarea:required:invalid + span,
@@ -220,7 +230,7 @@ h1{
 
 .control-input textarea:required:invalid + span:before,
 .control-input input:required:invalid + span:before {
-  content: "*";
+  content: "* ";
 }
 
 .control-input input:focus + span,
@@ -292,8 +302,8 @@ h1{
   margin-top: 0px;
 }
 
-.btn-clear-documento,
-.btn-clear-documento:hover {
+.btn-clear-document,
+.btn-clear-document:hover {
   border-color: #979797;
   color: #999999;
 }

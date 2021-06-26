@@ -12,8 +12,8 @@
         <!-- INICIO TELA CATEGORIA DE USUÁRIOS-->
         <div class="col-xs-24 ba__admin-container-list">
             <!--Banner Documentos-->
-            <div class="row documento-banner">
-                <div class="col-xs-24 documento-banner-title">
+            <div class="row document-banner">
+                <div class="col-xs-24 document-banner-title">
                     <h1 class="cff6633">
                         <span style="border-radius: 100%; background-color: #FFE4BF; padding: 15px;
                             display: inline-flex; vertical-align: middle;">
@@ -25,7 +25,8 @@
                         <img id="logo-document" src="img/logo_document.png">
                     </div>
                     <span>
-                        <button class="btn btn-categories ba__font-size-17">Categorias</button>
+                        <button class="btn btn-categories ba__font-size-17"
+                                ng-click="openCategory()">Categorias</button>
                         <button class="btn btn-primary ba__font-size-17">+ Novo Documento</button>
                     </span>
                 </div>
@@ -46,6 +47,79 @@
                                 <div class="col-xs-5">{{document.categoria}}</div>
                                 <div class="col-xs-5">{{document.data_postagem}}</div>
                             </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Fim Listagem de Documentos-->
+            <!-- Modal Categoria -->
+            <div class="modal fade" id="openCategory" role="dialog" data-backdrop="static" tabindex="-1">
+                <div class="modal-dialog document-modal-50pc" role="document">
+                    <div class="modal-content document-content">
+                        <!-- Header -->
+                        <div class="modal-header document-header">
+                            <div class="row">
+                                <h4 class="modal-title Roboto-Thin ba__font-size-25"
+                                    style="padding: 25px 25px 10px; font-weight: bold;">
+                                    <i class="fa fa-list cff6633"></i>
+                                    <span>Categorias</span>
+                                </h4>
+                            </div>
+                        </div>
+                        <!-- Form Mean -->
+                        <div class="modal-body ba__bg-white ba__modal-body-category">
+                            <div style="padding: 0 0 20px; margin: 0 0 20px;">
+                                <div class="row ba__margin-bottom-30">
+                                    <div class="col-md-22" style="width: 99.5%; margin-left: 10px; margin-top: 20px">
+                                        <div style="padding: 15px">
+                                            <div class="control-input">
+                                                <input type="text" name="nome" ng-model="category.nome" value="category"
+                                                       placeholder=" " autocomplete="off"
+                                                       class="ng-pristine ng-valid ng-touched"
+                                                       required aria-invalid="false" maxlength="40"/>
+                                                <span>Nome da Categoria</span>
+                                                <button type="button"
+                                                        class="btn btn-success col-xs-offset-3 col-xs-6 pull-right bgc-ff6633 ba__font-size-20"
+                                                        ng-click="saveCategory(category.nome)"
+                                                        style="padding: 20px 50px; margin-right: 10px; margin-top: 0px; width: 255px;">
+                                                    Adicionar
+                                                </button>
+                                                <div style="width: 65%; text-align: right; margin-top: 5px">
+                                                    {{category.nome.length == null ? "0" : category.nome.length}} / 40
+                                                </div>
+                                            </div>
+                                            <div class="list-documents">
+                                                <div class="row list-header uppercase">
+                                                    <div class="col-xs-8">Nome
+                                                        <i class="ba__margin-horizontal-5"></i>
+                                                    </div>
+                                                    <div class="col-xs-1 text-right"></div>
+                                                </div>
+                                                <div class="ba__admin-table-scroll">
+                                                    <div class="list-body list-group-item ba__pointer"
+                                                         ng-repeat="category in listCategories">
+                                                        <div class="row ba__font-size-15">
+                                                            <div class="col-xs-8">{{category.nome}}</div>
+                                                            <i class="fa fa-trash cff6633 text-right"
+                                                               style="display: block"
+                                                               ng-click="deleteCategory(category.id)">
+                                                            </i>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer" style="padding-right: 15px !important;">
+                            <button type="button"
+                                    class="btn btn-default btn-clear col-xs-offset-3 col-xs-6 uppercase pull-right"
+                                    ng-click="closeCategory()"
+                                    style="margin-left: 30px; width: 200px;">
+                                Cancelar
+                            </button>
                         </div>
                     </div>
                 </div>

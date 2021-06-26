@@ -13,7 +13,7 @@ class CategoriaController extends Controller
 {
     public function index()
     {
-        $categories = DB::table('documento_categorias')->select('nome')->get();
+        $categories = DB::table('documento_categorias')->select('id', 'nome')->get();
         return response()->success($categories);
     }
 
@@ -29,5 +29,10 @@ class CategoriaController extends Controller
         } catch (\Exception $e) {
             return response()->error($e->getMessage());
         }
+    }
+
+    public function destroy($id)
+    {
+        Categoria::where('id', $id)->delete();
     }
 }

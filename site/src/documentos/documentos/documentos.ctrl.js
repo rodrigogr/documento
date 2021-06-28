@@ -65,9 +65,18 @@ angular.module('DocumentosModule').controller('DocumentosCtrl',
             $('#openCategory').modal('show');
         }
 
+        $scope.openDocument = function () {
+            $('#openDocument').modal('show');
+        }
+
         $scope.closeCategory = function () {
             cleanFieldCategory()
             $('#openCategory').modal('hide');
+
+        }
+
+        $scope.closeDocument = function () {
+            $('#openDocument').modal('hide');
 
         }
 

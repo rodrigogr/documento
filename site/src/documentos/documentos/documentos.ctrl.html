@@ -27,7 +27,8 @@
                     <span>
                         <button class="btn btn-categories ba__font-size-17"
                                 ng-click="openCategory()">Categorias</button>
-                        <button class="btn btn-primary ba__font-size-17">+ Novo Documento</button>
+                        <button class="btn btn-primary ba__font-size-17"
+                                ng-click="openDocument()">+ Novo Documento</button>
                     </span>
                 </div>
             </div>
@@ -67,7 +68,7 @@
                             </div>
                         </div>
                         <!-- Form Mean -->
-                        <div class="modal-body ba__bg-white ba__modal-body-category">
+                        <div class="modal-body ba__bg-white ba__modal-body-document">
                             <div style="padding: 0 0 20px; margin: 0 0 20px;">
                                 <div class="row ba__margin-bottom-30">
                                     <div class="col-md-22" style="width: 99.5%; margin-left: 10px; margin-top: 20px">
@@ -124,6 +125,46 @@
                     </div>
                 </div>
             </div>
+            <!-- Fim Modal  -->
+            <!-- Modal Documento -->
+            <div class="modal fade" id="openDocument" role="dialog" data-backdrop="static" tabindex="-1">
+                <div class="modal-dialog document-modal-50pc" role="document">
+                    <div class="modal-content document-content">
+                        <!-- Header -->
+                        <div class="modal-header document-header">
+                            <div class="row">
+                                <h4 class="modal-title Roboto-Thin ba__font-size-25"
+                                    style="padding: 25px 25px 10px; font-weight: bold;">
+                                    <i class="fa fa-plus cff6633"></i>
+                                    <span>Novo Documento</span>
+                                </h4>
+                            </div>
+                        </div>
+                        <!-- Form Mean -->
+                        <div class="modal-body ba__bg-white ba__modal-body-document">
+                            <div style="padding: 0 0 20px; margin: 0 0 20px;">
+                                <div class="row ba__margin-bottom-30">
+                                    <div class="col-md-22" style="width: 99.5%; margin-left: 10px; margin-top: 20px">
+                                        <div style="padding: 15px; margin-right: 12px">
+                                            <div class="control-input-add-Document">
+                                                <img src="img/doc-upload.png" style="width: 100px; margin-top: 50px">
+                                                <h3>Adicionar Anexo</h3>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer" style="padding-right: 15px !important;">
+                            <button class="btn btn-primary ba__font-size-17 col-xs-offset-3 col-xs-6 uppercase pull-right"
+                                    ng-click="" style="margin-left: 30px; width: 200px;">Publicar</button>
+                            <button class="btn btn-categories ba__font-size-17 col-xs-offset-3 col-xs-6 uppercase pull-right"
+                                    ng-click="closeDocument()" style="margin-left: 30px; width: 200px;">Cancelar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Fim Modal Documento -->
         </div>
     </div>
 </div>

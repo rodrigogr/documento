@@ -8,15 +8,15 @@ use Illuminate\Database\Eloquent\Model;
 
 class Documento extends Model
 {
-    public $timestamp = true;
+    public $timestamp = false;
     protected $table = 'documento';
 
     protected $fillable = [
         'nome',
-        'data_envio',
-        'url',
+        'data_postagem',
+        'url_documento',
         'hash_id',
-        'nome_original',
+        'nome_original_documento',
         'categoria_id',
     ];
 

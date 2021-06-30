@@ -7,14 +7,53 @@ angular.module('DocumentosModule').controller('DocumentosCtrl',
         AuthService.aclPaginaService($state.$current.name, user.id).then(result => $scope.accessPagina = result.data);
 
         $scope.category = {};
+        $scope.document = {};
 
         $scope.listDocument = function () {
             var promisse = ($http.get(`${config.apiUrl}api/documentos`));
             promisse.then(function (result) {
                 $scope.listDocuments = result.data.data;
+                console.log($scope.listDocuments)
+                angular.forEach($scope.listDocuments, function(obj) {
+                    var tipoFile = obj.nome.split('.')[1];
+                    var icon = 'file';
+                    switch (tipoFile) {
+                        case "jpeg":
+                        case "jpg":
+                            icon = 'jpeg';
+                            break;
+                        case "png":
+                            icon = 'png';
+                            break;
+                        case "doc":
+                        case "docx":
+                            icon = 'word';
+                            break;
+                        case "xml":
+                        case "xls":
+                        case "xlsx":
+                            icon = 'excel';
+                            break;
+                        case "pdf":
+                            icon = 'pdf';
+                            break;
+                        case "txt":
+                            icon = 'txt'
+                            break;
+                    }
+
+                    obj.icon = 'img/icons/icon_'+icon+'.png';
+                });
             });
         };
         $scope.listDocument();
+
+        $scope.showDocument = function (id) {
+            var promisse = ($http.get(`${config.apiUrl}api/documentos/` + id));
+            promisse.then(function (result) {
+                $scope.document = result.data;
+            });
+        };
 
         $scope.listCategory = function () {
             var promisse = ($http.get(`${config.apiUrl}api/categorias`));
@@ -61,27 +100,118 @@ angular.module('DocumentosModule').controller('DocumentosCtrl',
             });
         }
 
-        $scope.openCategory = function () {
-            $('#openCategory').modal('show');
+        $scope.deleteDocument = async function(id){
+            await UtilsService.confirmAlert('Excluir Documento?');
+            $http({
+                method: 'DELETE',
+                url: `${config.apiUrl}api/documentos/`+ id,
+                data: $scope.category,
+                headers: {
+                    'Authorization': 'Bearer '+ AuthService.getToken()
+                }
+            }).then(function() {
+                UtilsService.toastSuccess("Excluído excluída com sucesso!");
+                $scope.listDocuments()
+            }, function(error) {
+                UtilsService.openAlert(error.data.message);
+            });
         }
 
-        $scope.openDocument = function () {
-            $('#openDocument').modal('show');
+        $scope.openModalCategory = function () {
+            $('#modalCategory').modal('show');
         }
 
-        $scope.closeCategory = function () {
+        $scope.openModalDocument = function () {
+            $('#modalDocument').modal('show');
+        }
+
+        $scope.closeModalCategory = function () {
             cleanFieldCategory()
-            $('#openCategory').modal('hide');
+            $('#modalCategory').modal('hide');
 
         }
 
-        $scope.closeDocument = function () {
-            $('#openDocument').modal('hide');
+        $scope.closeModalDocument = function () {
+            $('#modalDocument').modal('hide');
 
         }
 
         function cleanFieldCategory()
         {
             $scope.category.nome = ''
+        }
+
+        $scope.openDocument = function (idDoc)
+        {
+            if(idDoc) {
+                window.open(config.apiUrl + 'api/documentos/open/' + idDoc, '_blank');
+            }
+        };
+
+        $scope.changeInputField = function (ele) {
+            var file = ele.files[0];
+            console.log(file)
+            if (ele.files.length > 0) {
+                if (file > 41943040) {
+                    return UtilsService.openAlert('Tamanho máximo de anexos permitido foi atingido: 40MB');
+                }
+
+                $scope.document.documents_rules = URL.createObjectURL(file);
+                iconArquivo(ele.files[0]);
+
+                $scope.getbase64(file, ele.name);
+
+            }
+        }
+
+        $scope.getbase64 = function (file, el) {
+            let f = file;
+            let r = new FileReader();
+
+            r.onloadend = function (e) {
+
+                let infoFile = {
+                    name:  $scope.arquivoNome,
+                    icon: $scope.arquivoIcon,
+                    file: e.target.result
+                }
+
+                $scope.document[el].push(infoFile);
+                $scope.$apply();
+            };
+            $("#inputDocuments").val('');
+            r.readAsDataURL(f);
+        }
+
+        function iconArquivo(file) {
+            console.log(file)
+            var typeFile = file.name.split('.')[1];
+            var icon = 'file';
+            switch (typeFile) {
+                case "jpeg":
+                case "jpg":
+                    icon = 'jpeg';
+                    break;
+                case "png":
+                    icon = 'png';
+                    break;
+                case "doc":
+                case "docx":
+                    icon = 'word';
+                    break;
+                case "xml":
+                case "xls":
+                case "xlsx":
+                    icon = 'excel';
+                    break;
+                case "pdf":
+                    icon = 'pdf';
+                    break;
+                case "txt":
+                    icon = 'txt'
+                    break;
+            }
+            $scope.arquivoIcon = 'img/icons/icon_'+icon+'.png';
+            $scope.arquivoNome = file.name;
         }
     });

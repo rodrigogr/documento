@@ -35,4 +35,25 @@ class DocumentoController extends Controller
             return response()->error($e->getMessage());
         }
     }
+
+    public function show($id)
+    {
+        $document = Documento::find($id);
+        return response()->success($document);
+    }
+
+    public function openDocument ($id)
+    {
+        $document = Documento::find($id);
+
+        $path = public_path('storage/'. $document->name);
+
+        $base64 = explode('base64,', $document->file);
+
+        $contents = base64_decode($base64[1], true);
+
+        \Storage::disk('public')->put($document->name, $contents);
+
+        return response()->download($path)->deleteFileAfterSend(true);
+    }
 }

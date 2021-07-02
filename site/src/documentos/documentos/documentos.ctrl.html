@@ -5,10 +5,6 @@
 </div>
 
 <div class="row container-fluid ba__body-content ba__full-width">
-    <!--CONTAINER MENU-->
-    <div sidebar></div>
-    <!--CONTAINER SISTEMA-->
-    <div class="col-xs-21 ba__admin-container">
         <!-- INICIO TELA CATEGORIA DE USUÁRIOS-->
         <div class="col-xs-24 ba__admin-container-list">
             <!--Banner Documentos-->
@@ -142,45 +138,41 @@
                         </div>
                         <!-- Form Mean -->
                         <div class="modal-body ba__bg-white ba__modal-body-document">
-                            <div style="display: flex; flex-direction: column;">
-                                <div class="col-md-12 show_file"> <!-- ng-repeat="(indexDoc, document) in listDocuments" -->
-                                    <a href="javascript:void(0)" ng-click="openDocument(document.id)">
-                                        <img width="45" height="45" src="{{document.icon}}">
-                                        <span style="font-size: 17px; color: #666666 !important;">{{document.nome}}</span>
-                                        <i ng-click="" class="fa fa fa-trash-o pull-right"
-                                           style="font-size: 24px; margin: 8px; color: #666;"></i>
-                                    </a>
-                                    <div class="control-input">
-                                        <input type="text" name="nome" ng-model="document.nome" value="document"
-                                               placeholder=" " autocomplete="off"
-                                               class="ng-pristine ng-valid ng-touched"
-                                               required aria-invalid="false" maxlength="40"/>
-                                        <span>Nome do Documento</span>
-                                        <select ng-model="category.nome" name="category"
-                                                ng-options="category as category.nome for category in listCategories">
-                                            <option value="">Selecione uma Categoria</option>
-                                        </select>
+                            <div class="col-md-12 show_file" ng-repeat="(indexDoc, doc) in documents.document">
+                                    <div class="bs">
+                                        <a href="javascript:void(0)" ng-click="openDocument(doc.id)">
+                                            <img width="45" height="45" src="{{doc.icon}}">
+                                            <span class="ba__font-size-12 c666666">{{doc.name}}</span>
+                                        </a>
+                                        <i ng-click="deleteFile(doc, indexDoc)" class="fa fa fa-trash-o ba__font-size-20"
+                                        style="margin-left: 23em; vertical-align: middle"></i>
                                     </div>
+                                <div class="control-input">
+                                    <input type="text" name="name" ng-model="document.nome" value="document"
+                                           placeholder=" " autocomplete="off"
+                                           class="ng-pristine ng-valid ng-touched"
+                                           required aria-invalid="false" maxlength="40"/>
+                                    <span class="py-16px">Nome do Documento</span>
+                                    <select ng-model="documents.categoria_id" name="category"
+                                            ng-options="category as category.nome for category in listCategories">
+                                        <option value="">Selecione uma Categoria</option>
+                                    </select>
                                 </div>
                             </div>
-                            <div class="row">
-                                <label class="control-input-add-Document" for="documents" class="ba__font-size-15 ba__margin-top-10"
-                                   data-toggle="modal" type="file" name="documents"
-                                   onchange="angular.element(this).scope().changeInputField(this, 'documents_rules')">
-                                   <input  class="pull-left btn btn-atualizar col-xs-4 uppercase right" style="float: right; display: none;"
-                                        data-toggle="modal" type="file" name="documents" id="documents"
+                            <label class="control-input-add-Document" for="inputDocuments">
+                                <input  class="pull-left btn btn-atualizar col-xs-4 uppercase right" type="file" id="inputDocuments"
+                                        accept="image/*,.pdf,.doc,.docs,.xls,.xlsx,.txt" name="document" style="float: right; display: none;"
                                         onchange="angular.element(this).scope().changeInputField(this, 'documents_rules')">
-                                    <h4 style="padding-top: 150px;">Adicionar Anexo</h4>
-                                    <span class="ba__font-size-12 pull-left" style="width: 100%; color: #9d9d9d; font-weight: normal" >Arquivos com no máximo 25MB</span>
-                                </label>
-                            </div>
+                                <h4 style="padding-top: 150px;">Adicionar Anexo</h4>
+                                <span class="ba__font-size-12 pull-left" style="width: 100%; color: #9d9d9d; font-weight: normal" >Arquivos com no máximo 25MB</span>
+                            </label>
                         </div>
                         <div class="document-footer">
                             <button class="btn btn-primary col-xs-offset-3 col-xs-6 pull-right"
-                                    ng-click="" style="margin-left: 30px;">Publicar</button>
+                                    ng-click="saveDocument()" style="margin-left: 30px;">Publicar</button>
                             <button class="btn btn-categories col-xs-offset-3 col-xs-6 pull-right"
                                     ng-click="closeModalDocument()" style=" margin-left: 30px;">Cancelar</button>
-                            <i class="fa fa-trash-o"><h5>Excluir</h5></i>
+                            <i class="fa fa-trash-o ba__font-size-17"> Excluir</i>
                         </div>
                     </div>
                 </div>

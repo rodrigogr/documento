@@ -24,7 +24,7 @@ class DocumentoController extends Controller
             DB::beginTransaction();
             $newDocument = Documento::create([
                 'nome' => $data['nome'],
-                'data_postagem' => $data['data_postagem'],
+                'data_postagem' => $data['updated_at'],
                 'url_documento' => $data['url_documento'],
                 'nome_original_documento' => $data['nome_original_documento'],
                 'categoria_id' => $data['categoria_id']

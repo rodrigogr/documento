@@ -7,13 +7,20 @@ angular.module('DocumentosModule').controller('DocumentosCtrl',
         AuthService.aclPaginaService($state.$current.name, user.id).then(result => $scope.accessPagina = result.data);
 
         $scope.category = {};
-        $scope.document = {};
+        $scope.documents = {
+            nome: '',
+            data_postagem: '',
+            url_documento: '',
+            hash_id: '',
+            nome_original_documento: '',
+            categoria_id: null,
+            document: []
+        };
 
         $scope.listDocument = function () {
             var promisse = ($http.get(`${config.apiUrl}api/documentos`));
             promisse.then(function (result) {
                 $scope.listDocuments = result.data.data;
-                console.log($scope.listDocuments)
                 angular.forEach($scope.listDocuments, function(obj) {
                     var tipoFile = obj.nome.split('.')[1];
                     var icon = 'file';
@@ -51,7 +58,7 @@ angular.module('DocumentosModule').controller('DocumentosCtrl',
         $scope.showDocument = function (id) {
             var promisse = ($http.get(`${config.apiUrl}api/documentos/` + id));
             promisse.then(function (result) {
-                $scope.document = result.data;
+                $scope.documents = result.data;
             });
         };
 
@@ -80,6 +87,27 @@ angular.module('DocumentosModule').controller('DocumentosCtrl',
                 }).finally( ()=> {
                     $scope.category.nome = ''
                     $scope.listCategory()
+                });
+        };
+
+        $scope.saveDocument = async function () {
+            await UtilsService.confirmAlert('Publicar Novo Documento?');
+            $http({
+                method: "POST",
+                url: `${config.apiUrl}api/documentos`,
+                data: $scope.documents,
+                headers: {
+                    'Authorization': 'Bearer ' + AuthService.getToken()
+                }
+            })
+                .then(function (response) {
+                    UtilsService.toastSuccess("Documento publicado com sucesso!");
+                }, function (error) {
+                    debugger
+                    UtilsService.openAlert(error.data.message);
+                }).finally( ()=> {
+                    cleanFieldsDocument();
+                    $scope.listCategory();
                 });
         };
 
@@ -132,6 +160,7 @@ angular.module('DocumentosModule').controller('DocumentosCtrl',
         }
 
         $scope.closeModalDocument = function () {
+            cleanFieldsDocument();
             $('#modalDocument').modal('hide');
 
         }
@@ -141,26 +170,32 @@ angular.module('DocumentosModule').controller('DocumentosCtrl',
             $scope.category.nome = ''
         }
 
-        $scope.openDocument = function (idDoc)
-        {
-            if(idDoc) {
-                window.open(config.apiUrl + 'api/documentos/open/' + idDoc, '_blank');
-            }
+        function cleanFieldsDocument(){
+            $scope.documents.nome = '';
+            $scope.documents.categoria_id = null;
+            $scope.documents.document = [];
+        }
+
+        $scope.openDocument = function () {
+            let file = $scope.documents.documents_rules ? $scope.documents.documents_rules : $scope.documents;
+            window.open(file, '_blank');
+        };
+
+        $scope.deleteFile = function (file, index) {
+            $scope.documents.document.splice(index, 1);
         };
 
         $scope.changeInputField = function (ele) {
             var file = ele.files[0];
-            console.log(file)
             if (ele.files.length > 0) {
                 if (file > 41943040) {
                     return UtilsService.openAlert('Tamanho máximo de anexos permitido foi atingido: 40MB');
                 }
 
-                $scope.document.documents_rules = URL.createObjectURL(file);
+                $scope.documents.documents_rules = URL.createObjectURL(file);
                 iconArquivo(ele.files[0]);
 
                 $scope.getbase64(file, ele.name);
-
             }
         }
 
@@ -169,14 +204,12 @@ angular.module('DocumentosModule').controller('DocumentosCtrl',
             let r = new FileReader();
 
             r.onloadend = function (e) {
-
                 let infoFile = {
-                    name:  $scope.arquivoNome,
+                    nome_original_documento:  $scope.arquivoNome,
                     icon: $scope.arquivoIcon,
                     file: e.target.result
                 }
-
-                $scope.document[el].push(infoFile);
+                $scope.documents[el].push(infoFile);
                 $scope.$apply();
             };
             $("#inputDocuments").val('');
@@ -184,7 +217,6 @@ angular.module('DocumentosModule').controller('DocumentosCtrl',
         }
 
         function iconArquivo(file) {
-            console.log(file)
             var typeFile = file.name.split('.')[1];
             var icon = 'file';
             switch (typeFile) {

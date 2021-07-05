@@ -7,22 +7,14 @@ angular.module('DocumentosModule').controller('DocumentosCtrl',
         AuthService.aclPaginaService($state.$current.name, user.id).then(result => $scope.accessPagina = result.data);
 
         $scope.category = {};
-        $scope.documents = {
-            nome: '',
-            data_postagem: '',
-            url_documento: '',
-            hash_id: '',
-            nome_original_documento: '',
-            categoria_id: null,
-            document: []
-        };
+        $scope.documents = [];
 
         $scope.listDocument = function () {
             var promisse = ($http.get(`${config.apiUrl}api/documentos`));
             promisse.then(function (result) {
                 $scope.listDocuments = result.data.data;
                 angular.forEach($scope.listDocuments, function(obj) {
-                    var tipoFile = obj.nome.split('.')[1];
+                    var tipoFile = obj.documento_nome.split('.')[1];
                     var icon = 'file';
                     switch (tipoFile) {
                         case "jpeg":
@@ -91,11 +83,15 @@ angular.module('DocumentosModule').controller('DocumentosCtrl',
         };
 
         $scope.saveDocument = async function () {
+            $scope.documents[countDocuments].nome = $scope.documents['nome']
+            $scope.documents[countDocuments].categoria = $scope.documents['categoria'].nome
+            $scope.documents[countDocuments].categoria_id = $scope.documents['categoria'].id
+
             await UtilsService.confirmAlert('Publicar Novo Documento?');
             $http({
                 method: "POST",
                 url: `${config.apiUrl}api/documentos`,
-                data: $scope.documents,
+                data: $scope.documents[countDocuments],
                 headers: {
                     'Authorization': 'Bearer ' + AuthService.getToken()
                 }
@@ -103,10 +99,9 @@ angular.module('DocumentosModule').controller('DocumentosCtrl',
                 .then(function (response) {
                     UtilsService.toastSuccess("Documento publicado com sucesso!");
                 }, function (error) {
-                    debugger
                     UtilsService.openAlert(error.data.message);
                 }).finally( ()=> {
-                    cleanFieldsDocument();
+                    $scope.documents = [];
                     $scope.listCategory();
                 });
         };
@@ -154,26 +149,15 @@ angular.module('DocumentosModule').controller('DocumentosCtrl',
         }
 
         $scope.closeModalCategory = function () {
-            cleanFieldCategory()
+            $scope.category.nome = ''
             $('#modalCategory').modal('hide');
 
         }
 
         $scope.closeModalDocument = function () {
-            cleanFieldsDocument();
+            $scope.documents = [];
             $('#modalDocument').modal('hide');
 
-        }
-
-        function cleanFieldCategory()
-        {
-            $scope.category.nome = ''
-        }
-
-        function cleanFieldsDocument(){
-            $scope.documents.nome = '';
-            $scope.documents.categoria_id = null;
-            $scope.documents.document = [];
         }
 
         $scope.openDocument = function () {
@@ -182,10 +166,13 @@ angular.module('DocumentosModule').controller('DocumentosCtrl',
         };
 
         $scope.deleteFile = function (file, index) {
-            $scope.documents.document.splice(index, 1);
+            $scope.documents.splice(index, 1);
         };
 
+        let countDocuments = -1;
+
         $scope.changeInputField = function (ele) {
+            countDocuments++;
             var file = ele.files[0];
             if (ele.files.length > 0) {
                 if (file > 41943040) {
@@ -195,25 +182,25 @@ angular.module('DocumentosModule').controller('DocumentosCtrl',
                 $scope.documents.documents_rules = URL.createObjectURL(file);
                 iconArquivo(ele.files[0]);
 
-                $scope.getbase64(file, ele.name);
+                $scope.getbase64(file);
             }
         }
 
-        $scope.getbase64 = function (file, el) {
-            let f = file;
+        $scope.getbase64 = function (file) {
             let r = new FileReader();
 
             r.onloadend = function (e) {
-                let infoFile = {
-                    nome_original_documento:  $scope.arquivoNome,
-                    icon: $scope.arquivoIcon,
-                    file: e.target.result
-                }
-                $scope.documents[el].push(infoFile);
+                $scope.documents.push(
+                    {
+                        url_documento: $scope.documents.documents_rules,
+                        nome_original_documento: file.name,
+                        icon: $scope.fileIcon,
+                    }
+                )
                 $scope.$apply();
             };
             $("#inputDocuments").val('');
-            r.readAsDataURL(f);
+            r.readAsDataURL(file);
         }
 
         function iconArquivo(file) {
@@ -243,7 +230,7 @@ angular.module('DocumentosModule').controller('DocumentosCtrl',
                     icon = 'txt'
                     break;
             }
-            $scope.arquivoIcon = 'img/icons/icon_'+icon+'.png';
-            $scope.arquivoNome = file.name;
+            $scope.fileIcon = 'img/icons/icon_'+icon+'.png';
+            $scope.fileName = file.name;
         }
     });

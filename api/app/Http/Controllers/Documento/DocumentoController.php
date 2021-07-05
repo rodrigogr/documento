@@ -13,7 +13,8 @@ class DocumentoController extends Controller
 {
     public function index()
     {
-        $documents = DB::table('documento')->select('nome', 'categoria', 'data_postagem')->get();
+        $documents = Documento::join('documento_categorias', 'documento.categoria_id', 'documento_categorias.id')
+        ->select('documento.nome as documento_nome', 'documento_categorias.nome as categoria_nome', 'data_postagem')->get();
         return response()->success($documents);
     }
 
@@ -24,8 +25,10 @@ class DocumentoController extends Controller
             DB::beginTransaction();
             $newDocument = Documento::create([
                 'nome' => $data['nome'],
-                'data_postagem' => $data['updated_at'],
+                'categoria' => $data['categoria'],
+                'data_postagem' => date('Y-m-d H:i:s'),
                 'url_documento' => $data['url_documento'],
+                'hash_id' => 'js$##%kdfjlkjakjfçkjasl',
                 'nome_original_documento' => $data['nome_original_documento'],
                 'categoria_id' => $data['categoria_id']
             ]);

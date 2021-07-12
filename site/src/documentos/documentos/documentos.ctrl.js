@@ -8,6 +8,7 @@ angular.module('DocumentosModule').controller('DocumentosCtrl',
 
         $scope.category = {};
         $scope.documents = [];
+        $scope.document = {};
 
         $scope.listDocument = function () {
             var promisse = ($http.get(`${config.apiUrl}api/documentos`));
@@ -83,27 +84,27 @@ angular.module('DocumentosModule').controller('DocumentosCtrl',
         };
 
         $scope.saveDocument = async function () {
-            $scope.documents[countDocuments].nome = $scope.documents['nome']
-            $scope.documents[countDocuments].categoria = $scope.documents['categoria'].nome
-            $scope.documents[countDocuments].categoria_id = $scope.documents['categoria'].id
-
-            await UtilsService.confirmAlert('Publicar Novo Documento?');
+            await UtilsService.confirmAlert('Publicar documento(s)?');
+            $scope.index += 1;
+            $scope.documents[$scope.index].nome = $scope.document['nome'];
+            $scope.documents[$scope.index].categoria = $scope.category['nome'].nome;
+            $scope.documents[$scope.index].categoria_id = $scope.category['nome'].id;
             $http({
                 method: "POST",
                 url: `${config.apiUrl}api/documentos`,
-                data: $scope.documents[countDocuments],
+                data: $scope.documents,
                 headers: {
                     'Authorization': 'Bearer ' + AuthService.getToken()
                 }
             })
                 .then(function (response) {
-                    UtilsService.toastSuccess("Documento publicado com sucesso!");
+                    UtilsService.toastSuccess("Documento(s) publicado(s) com sucesso!");
                 }, function (error) {
                     UtilsService.openAlert(error.data.message);
-                }).finally( ()=> {
-                    $scope.documents = [];
-                    $scope.listCategory();
-                });
+                }).finally(() => {
+                    $scope.listDocument()
+                    $scope.closeModalDocument()
+            });
         };
 
         $scope.deleteCategory = async function(id){
@@ -128,13 +129,13 @@ angular.module('DocumentosModule').controller('DocumentosCtrl',
             $http({
                 method: 'DELETE',
                 url: `${config.apiUrl}api/documentos/`+ id,
-                data: $scope.category,
+                data: $scope.document,
                 headers: {
                     'Authorization': 'Bearer '+ AuthService.getToken()
                 }
             }).then(function() {
-                UtilsService.toastSuccess("Excluído excluída com sucesso!");
-                $scope.listDocuments()
+                UtilsService.toastSuccess("Documento Excluído excluído com sucesso!");
+                $scope.listDocument()
             }, function(error) {
                 UtilsService.openAlert(error.data.message);
             });
@@ -155,7 +156,7 @@ angular.module('DocumentosModule').controller('DocumentosCtrl',
         }
 
         $scope.closeModalDocument = function () {
-            $scope.documents = [];
+            $scope.cleanDocuments();
             $('#modalDocument').modal('hide');
 
         }
@@ -169,17 +170,18 @@ angular.module('DocumentosModule').controller('DocumentosCtrl',
             $scope.documents.splice(index, 1);
         };
 
-        let countDocuments = -1;
-
         $scope.changeInputField = function (ele) {
-            countDocuments++;
+            $scope.index = $scope.documents.length - 1
+            if ($scope.documents.length !== 0){
+                $scope.documents[$scope.index].nome = $scope.document['nome'];
+                $scope.documents[$scope.index].categoria = $scope.category['nome'].nome;
+                $scope.documents[$scope.index].categoria_id = $scope.category['nome'].id;
+            }
             var file = ele.files[0];
             if (ele.files.length > 0) {
                 if (file > 41943040) {
                     return UtilsService.openAlert('Tamanho máximo de anexos permitido foi atingido: 40MB');
                 }
-
-                $scope.documents.documents_rules = URL.createObjectURL(file);
                 iconArquivo(ele.files[0]);
 
                 $scope.getbase64(file);
@@ -192,9 +194,12 @@ angular.module('DocumentosModule').controller('DocumentosCtrl',
             r.onloadend = function (e) {
                 $scope.documents.push(
                     {
-                        url_documento: $scope.documents.documents_rules,
-                        nome_original_documento: file.name,
-                        icon: $scope.fileIcon,
+                        "nome": '',
+                        "categoria": '',
+                        "url_documento": URL.createObjectURL(file),
+                        "nome_original_documento": file.name,
+                        "icon": $scope.fileIcon,
+                        "categoria_id": '',
                     }
                 )
                 $scope.$apply();
@@ -232,5 +237,11 @@ angular.module('DocumentosModule').controller('DocumentosCtrl',
             }
             $scope.fileIcon = 'img/icons/icon_'+icon+'.png';
             $scope.fileName = file.name;
+        }
+
+        $scope.cleanDocuments = async function (){
+            await UtilsService.confirmAlert('Excluir anexos?');
+            $scope.documents = [];
+            UtilsService.toastSuccess("Anexos excluídos com sucesso!");
         }
     });

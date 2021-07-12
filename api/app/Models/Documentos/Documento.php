@@ -13,6 +13,7 @@ class Documento extends Model
 
     protected $fillable = [
         'nome',
+        'categoria',
         'data_postagem',
         'url_documento',
         'hash_id',

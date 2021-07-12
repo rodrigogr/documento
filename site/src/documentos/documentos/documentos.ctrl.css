@@ -227,7 +227,7 @@ h1{
   border: 0;
   border-bottom: 2px solid #999999;
   outline: none;
-  width: 45%;
+  width: 47%;
   height: 80px;
   min-height: 60px;
   font-size: 18px;
@@ -246,14 +246,14 @@ h1{
   width: 95%;
   margin: 25px;
   padding: 0 0 20px;
-  border: 2px dashed rgba(0, 0, 0, 0.25);
-  height: 285px;
+  border: medium dashed rgba(0, 0, 0, 0.25);
+  height: 235px;
   border-radius: 16px;
   color: #ff6633;
   text-align: center;
   background: url("/img/doc-upload.png") no-repeat scroll transparent;
   background-size: 100px;
-  background-position-y: 60px;
+  background-position-y: 30px;
   background-position-x: center;
   cursor: pointer;
 }
@@ -271,7 +271,7 @@ h1{
   position: absolute;
   top: 0;
   left: 0;
-  margin-top: 27px;
+  margin-top: 28px;
   margin-left: 35px;
   transition: all 0.3s ease-out;
   -webkit-transition: all 0.3s ease-out;

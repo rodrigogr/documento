@@ -14,26 +14,29 @@ class DocumentoController extends Controller
     public function index()
     {
         $documents = Documento::join('documento_categorias', 'documento.categoria_id', 'documento_categorias.id')
-        ->select('documento.nome as documento_nome', 'documento_categorias.nome as categoria_nome', 'data_postagem')->get();
+        ->select('documento.id', 'documento.nome as documento_nome', 'documento_categorias.nome as categoria_nome', 'data_postagem')->get();
         return response()->success($documents);
     }
 
     public function store(Request $request)
     {
-        $data = $request->all();
+        $dataset = $request->all();
         try {
             DB::beginTransaction();
-            $newDocument = Documento::create([
-                'nome' => $data['nome'],
-                'categoria' => $data['categoria'],
-                'data_postagem' => date('Y-m-d H:i:s'),
-                'url_documento' => $data['url_documento'],
-                'hash_id' => 'js$##%kdfjlkjakjfçkjasl',
-                'nome_original_documento' => $data['nome_original_documento'],
-                'categoria_id' => $data['categoria_id']
-            ]);
-        DB::commit();
-        return response()->success($newDocument);
+            foreach ($dataset as $data)
+            {
+                $newDocument = Documento::create([
+                    'nome' => $data['nome'],
+                    'categoria' => $data['categoria'],
+                    'data_postagem' => date('Y-m-d H:i:s'),
+                    'url_documento' => $data['url_documento'],
+                    'hash_id' => 'js$##%kdfjlkjakjfçkjasl',
+                    'nome_original_documento' => $data['nome_original_documento'],
+                    'categoria_id' => $data['categoria_id']
+                ]);
+            }
+            DB::commit();
+            return response()->success($newDocument);
         } catch (\Exception $e) {
             return response()->error($e->getMessage());
         }
@@ -43,6 +46,11 @@ class DocumentoController extends Controller
     {
         $document = Documento::find($id);
         return response()->success($document);
+    }
+
+    public function destroy($id)
+    {
+        Documento::where('id', $id)->delete();
     }
 
     public function openDocument ($id)

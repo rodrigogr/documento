@@ -85,10 +85,6 @@ angular.module('DocumentosModule').controller('DocumentosCtrl',
 
         $scope.saveDocument = async function () {
             await UtilsService.confirmAlert('Publicar documento(s)?');
-            $scope.index += 1;
-            $scope.documents[$scope.index].nome = $scope.document['nome'];
-            $scope.documents[$scope.index].categoria = $scope.category['nome'].nome;
-            $scope.documents[$scope.index].categoria_id = $scope.category['nome'].id;
             $http({
                 method: "POST",
                 url: `${config.apiUrl}api/documentos`,
@@ -102,6 +98,7 @@ angular.module('DocumentosModule').controller('DocumentosCtrl',
                 }, function (error) {
                     UtilsService.openAlert(error.data.message);
                 }).finally(() => {
+                    $scope.document = {};
                     $scope.listDocument()
                     $scope.closeModalDocument()
             });
@@ -142,10 +139,12 @@ angular.module('DocumentosModule').controller('DocumentosCtrl',
         }
 
         $scope.openModalCategory = function () {
+            $scope.category.nome = ''
             $('#modalCategory').modal('show');
         }
 
         $scope.openModalDocument = function () {
+            $scope.documents = [];
             $('#modalDocument').modal('show');
         }
 
@@ -156,9 +155,8 @@ angular.module('DocumentosModule').controller('DocumentosCtrl',
         }
 
         $scope.closeModalDocument = function () {
-            $scope.cleanDocuments();
+            $scope.documents = [];
             $('#modalDocument').modal('hide');
-
         }
 
         $scope.openDocument = function () {
@@ -171,17 +169,12 @@ angular.module('DocumentosModule').controller('DocumentosCtrl',
         };
 
         $scope.changeInputField = function (ele) {
-            $scope.index = $scope.documents.length - 1
-            if ($scope.documents.length !== 0){
-                $scope.documents[$scope.index].nome = $scope.document['nome'];
-                $scope.documents[$scope.index].categoria = $scope.category['nome'].nome;
-                $scope.documents[$scope.index].categoria_id = $scope.category['nome'].id;
-            }
             var file = ele.files[0];
             if (ele.files.length > 0) {
                 if (file > 41943040) {
                     return UtilsService.openAlert('Tamanho máximo de anexos permitido foi atingido: 40MB');
                 }
+                $scope.documents.documents_rules = URL.createObjectURL(file);
                 iconArquivo(ele.files[0]);
 
                 $scope.getbase64(file);
@@ -196,10 +189,9 @@ angular.module('DocumentosModule').controller('DocumentosCtrl',
                     {
                         "nome": '',
                         "categoria": '',
-                        "url_documento": URL.createObjectURL(file),
+                        "url_documento": $scope.documents.documents_rules,
                         "nome_original_documento": file.name,
                         "icon": $scope.fileIcon,
-                        "categoria_id": '',
                     }
                 )
                 $scope.$apply();

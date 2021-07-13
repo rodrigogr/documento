@@ -147,25 +147,24 @@
                         </div>
                         <!-- Form Mean -->
                         <div class="modal-body ba__bg-white ba__modal-body-document">
-                            <div class="col-md-12 show_file bs" ng-repeat="(indexDoc, document) in documents">
+                            <div class="col-md-12 show_file bs" ng-repeat="(indexDoc, doc) in documents">
                                 <div class="bs">
-                                    <a href="javascript:void(0)" ng-click="openDocument(document.id)" style="position: absolute; top: 2rem;">
-                                        <img width="45" height="45" src="{{document.icon}}">
-                                        <span class="ba__font-size-12 c666666">{{document.nome_original_documento}}</span>
+                                    <a href="javascript:void(0)" ng-click="openDocument(doc.id)" style="position: absolute; top: 2rem;">
+                                        <img width="45" height="45" src="{{doc.icon}}">
+                                        <span class="ba__font-size-12 c666666">{{doc.nome_original_documento}}</span>
                                     </a>
-                                    <i ng-click="deleteFile(document, indexDoc)" class="fa fa fa-trash-o ba__font-size-20"
+                                    <i ng-click="deleteFile(doc, indexDoc)" class="fa fa fa-trash-o ba__font-size-20"
                                     style= "vertical-align: middle; position: relative; margin-left: 97%;"></i>
                                 </div>
-                                {{doc}}
+
                                 <div class="control-input">
                                     <input type="text" name="document"
                                            ng-model="document.nome" placeholder=" " autocomplete="off"
                                            class="ng-pristine ng-valid ng-touched" style="margin: auto"
                                            required aria-invalid="false" maxlength="40"/>
                                     <span class="py-16px">Nome do Documento</span>
-                                    <select ng-model="document.categoria" name="category"
-                                            ng-options="category.nome for category in listCategories"
-                                            style="position: absolute; margin-left: 40px">
+                                    <select ng-model="category.nome" name="category"
+                                            ng-options="category.nome for category in listCategories" style="position: absolute; margin-left: 40px">
                                         <option value="">Selecione uma Categoria</option>
                                     </select>
                                 </div>

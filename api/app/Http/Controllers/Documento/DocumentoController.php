@@ -27,12 +27,12 @@ class DocumentoController extends Controller
             {
                 $newDocument = Documento::create([
                     'nome' => $data['nome'],
-                    'categoria' => $data['categoria']['nome'],
+                    'categoria' => $data['categoria'],
                     'data_postagem' => date('Y-m-d H:i:s'),
                     'url_documento' => $data['url_documento'],
                     'hash_id' => 'js$##%kdfjlkjakjfçkjasl',
                     'nome_original_documento' => $data['nome_original_documento'],
-                    'categoria_id' => $data['categoria']['id']
+                    'categoria_id' => $data['categoria_id']
                 ]);
             }
             DB::commit();
